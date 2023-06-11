@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import { loginUser } from '../../services/AuthService';
+import { AuthContext } from '../../../../context/AuthContext';
+import { loginUser } from '../../../../services/AuthService';
 
 interface SignInRequest {
   email: string;

@@ -15,11 +15,6 @@ interface LoginResponse {
   };
 }
 
-export const loginUser = async (data: LoginRequest): Promise<LoginResponse> => {
-  const response = await api.post<LoginResponse>('/users/login', data);
-  return response.data;
-};
-
 interface SignupRequest {
   displayName: string;
   email: string;
@@ -33,6 +28,11 @@ interface SignupResponse {
   email: string;
   role: string;
 }
+
+export const loginUser = async (data: LoginRequest): Promise<LoginResponse> => {
+  const response = await api.post<LoginResponse>('/users/login', data);
+  return response.data;
+};
 
 export const signupUser = async (
   data: SignupRequest,

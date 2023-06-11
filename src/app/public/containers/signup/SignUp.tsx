@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { signupUser } from '../../services/AuthService';
+import { signupUser } from '../../../../services/AuthService';
 
 interface SignUpRequest {
   displayName: string;
