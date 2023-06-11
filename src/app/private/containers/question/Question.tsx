@@ -1,12 +1,12 @@
 import UnderConstructionSign from '../../../../components/signs/UnderConstructionSign';
 
-const Record: React.FC = () => {
+const Question: React.FC = () => {
   return (
     <>
-      <div>Record</div>
+      <div>Question</div>
       <UnderConstructionSign />
     </>
   );
 };
 
-export default Record;
+export default Question;
