@@ -1,11 +1,11 @@
 import api from './ApiService';
 
-interface LoginRequest {
+interface ILoginRequest {
   email: string;
   password: string;
 }
 
-interface LoginResponse {
+interface ILoginResponse {
   token: string;
   user: {
     id: string;
@@ -15,28 +15,30 @@ interface LoginResponse {
   };
 }
 
-interface SignupRequest {
+interface ISignupRequest {
   displayName: string;
   email: string;
   password: string;
   role: string;
 }
 
-interface SignupResponse {
+interface ISignupResponse {
   id: string;
   displayName: string;
   email: string;
   role: string;
 }
 
-export const loginUser = async (data: LoginRequest): Promise<LoginResponse> => {
-  const response = await api.post<LoginResponse>('/users/login', data);
+export const loginUser = async (
+  data: ILoginRequest,
+): Promise<ILoginResponse> => {
+  const response = await api.post<ILoginResponse>('/users/login', data);
   return response.data;
 };
 
 export const signupUser = async (
-  data: SignupRequest,
-): Promise<SignupResponse> => {
-  const response = await api.post<SignupResponse>('/users', data);
+  data: ISignupRequest,
+): Promise<ISignupResponse> => {
+  const response = await api.post<ISignupResponse>('/users', data);
   return response.data;
 };

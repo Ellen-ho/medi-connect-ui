@@ -1,7 +1,26 @@
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const api = axios.create({
   baseURL: 'http://localhost:10000/api',
 });
+
+api.interceptors.response.use(
+  (response) => {
+    toast.success('Request successful!');
+    return response;
+  },
+  (error) => {
+    console.log(error);
+    if (error.response) {
+      toast.error(`Request failed: ${error.response.data.error}`);
+    } else if (error.request) {
+      toast.error('Request was made but no response was received');
+    } else {
+      toast.error(`Something went wrong: ${error.message}`);
+    }
+    return Promise.reject(error);
+  },
+);
 
 export default api;

@@ -5,6 +5,11 @@ import Layout from './app/layout/Layout';
 import { AuthProvider } from './context/AuthProvider';
 import 'normalize.css';
 import { BrowserRouter } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 ReactDOM.createRoot(document.getElementById('app') as HTMLElement).render(
   <React.StrictMode>
@@ -12,6 +17,7 @@ ReactDOM.createRoot(document.getElementById('app') as HTMLElement).render(
       <BrowserRouter>
         <Layout>
           <App />
+          <Toaster />
         </Layout>
       </BrowserRouter>
     </AuthProvider>

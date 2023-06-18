@@ -7,6 +7,7 @@ import SignIn from './app/public/containers/signin/SignIn';
 import SignUp from './app/public/containers/signup/SignUp';
 import Question from './app/private/containers/question/Question';
 import Appointment from './app/private/containers/appointment/Appointment';
+import CreateQuestion from './app/private/containers/question/pages/CreateQuestion';
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
       <Route element={<PrivateRoutes />}>
         <Route element={<Record />} path="/record" />
         <Route element={<Question />} path="/question" />
+        <Route element={<CreateQuestion />} path="/question/new" />
         <Route element={<Appointment />} path="/appointment" />
       </Route>
       <Route element={<Home />} path="/" />

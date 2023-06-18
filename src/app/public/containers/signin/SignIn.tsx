@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../context/AuthContext';
-import { loginUser } from '../../../../services/AuthService';
+import { loginUser } from '../../../../services/UserService';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -29,34 +29,29 @@ const SignIn: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: ISignInFormInputs) => {
-    console.log(data);
+  const onSignIn = async (data: ISignInFormInputs) => {
     const payload = {
       email: data.email,
       password: data.password,
     };
-    loginUser(payload)
-      .then((response) => {
-        dispatch({
-          type: 'LOG_IN',
-          payload: {
-            token: response.token,
-            currentUser: {
-              id: response.user.id,
-              displayName: response.user.displayName,
-              role: response.user.role,
-            },
-          },
-        });
-        navigate('/');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+    const response = await loginUser(payload);
+    dispatch({
+      type: 'LOG_IN',
+      payload: {
+        token: response.token,
+        currentUser: {
+          id: response.user.id,
+          displayName: response.user.displayName,
+          role: response.user.role,
+        },
+      },
+    });
+    navigate('/');
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSignIn)}>
       <input type="email" placeholder="Email" {...register('email')} />
       <p>{errors.email?.message}</p>
       <input type="password" placeholder="Password" {...register('password')} />
