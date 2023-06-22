@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import { useNavigate } from 'react-router-dom';
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 const pages = [
   { title: 'Question', link: 'question' },
@@ -69,16 +70,19 @@ const ResponsiveAppBar: React.FC = () => {
             </Typography>
           </Box>
 
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex', py: 2 } }}>
             {pages.map((page) => (
               <Button
                 key={page.title}
                 onClick={() => handlePageClick(page.link)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ color: 'white', display: 'block' }}
               >
                 {page.title}
               </Button>
             ))}
+            <IconButton sx={{ color: 'white' }}>
+              <AccountCircleRoundedIcon />
+            </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -109,6 +113,9 @@ const ResponsiveAppBar: React.FC = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
+              <MenuItem key={'Account'}>
+                <Typography textAlign="center">Account</Typography>
+              </MenuItem>
               {pages.map((page) => (
                 <MenuItem
                   key={page.title}

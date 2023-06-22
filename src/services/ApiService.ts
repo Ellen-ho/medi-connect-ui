@@ -2,6 +2,13 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const api = axios.create({
+  headers: {
+    'Content-Type': 'application/json',
+    get Authorization() {
+      const auth = localStorage.getItem('auth');
+      return `Bearer ${auth ? JSON.parse(auth).token : ''}`;
+    },
+  },
   baseURL: 'http://localhost:10000/api',
 });
 

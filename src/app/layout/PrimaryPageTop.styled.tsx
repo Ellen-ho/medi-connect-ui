@@ -6,6 +6,6 @@ export const PrimaryPageTopWrapper = styled.div`
   align-items: center;
 `;
 
-export const PrimaryPageTitle = styled.h2`
+export const PrimaryPageTitle = styled.h3`
   font-size: 30px;
 `;
