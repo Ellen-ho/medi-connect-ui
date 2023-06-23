@@ -6,10 +6,9 @@ import { AuthProvider } from './context/AuthProvider';
 import 'normalize.css';
 import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import '@fontsource/source-code-pro'; // Defaults to weight 400
+import '@fontsource/source-code-pro/400.css'; // Specify weight
+import '@fontsource/source-code-pro/400-italic.css'; // Specify weight and style
 
 ReactDOM.createRoot(document.getElementById('app') as HTMLElement).render(
   <React.StrictMode>
