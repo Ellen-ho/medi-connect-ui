@@ -1,5 +1,5 @@
 export interface IQuestion {
-  id?: string;
+  id: string;
   content: string;
-  createdAt?: string;
+  createdAt: string;
 }
