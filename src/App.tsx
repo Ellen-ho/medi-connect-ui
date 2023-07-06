@@ -7,6 +7,7 @@ import SignUp from './app/public/containers/signup/SignUp';
 import Question from './app/private/containers/question/Index';
 import Record from './app/private/containers/record/Index';
 import Appointment from './app/private/containers/appointment/Index';
+import NotFound from './app/public/containers/not-found/NotFound';
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const App: React.FC = () => {
       <Route element={<Home />} path="/" />
       <Route element={<SignIn />} path="/signin" />
       <Route element={<SignUp />} path="/signup" />
+      <Route element={<NotFound />} path="" />
     </Routes>
   );
 };
