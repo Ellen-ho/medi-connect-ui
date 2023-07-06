@@ -14,7 +14,8 @@ import {
   Typography,
 } from '@mui/material';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import { CreateQuestionWrapper, FromWrapper } from './CreateQuestion.styled';
+import { CreateQuestionWrapper } from './CreateQuestion.styled';
+import { FromWrapper } from '../../../../../components/form/Index.styled';
 
 interface ICreateQuestionFormInputs {
   content: string;
