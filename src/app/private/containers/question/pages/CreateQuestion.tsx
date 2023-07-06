@@ -71,17 +71,6 @@ const CreateQuestion: React.FC = () => {
                   {...register('content')}
                 />
                 <p>{errors.content?.message}</p>
-                {/* <select {...register('medicalSpecialty')}>
-          <option value="">Select Medical Specialty</option>
-          {Object.values(MedicalSpecialtyType).map((value) => (
-            <option key={value} value={value}>
-            {value
-              .replace(/_/g, ' ')
-              .toLowerCase()
-              .replace(/\b(\w)/g, (s) => s.toUpperCase())}
-              </option>
-              ))}
-            </select> */}
 
                 <TextField
                   select
