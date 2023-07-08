@@ -11,13 +11,14 @@ interface IField {
 export interface IRecordCategory {
   urlPath: string;
   name: string;
+  subtitle: string;
   fields: IField[];
 }
-
 export const recordCategories: IRecordCategory[] = [
   {
     urlPath: 'blood-pressure',
     name: 'Blood Pressure',
+    subtitle: 'Promote heart health by tracking BP.',
     fields: [
       {
         id: 'bloodPressureDate',
@@ -59,6 +60,7 @@ export const recordCategories: IRecordCategory[] = [
   {
     urlPath: 'blood-sugar',
     name: 'Blood Sugar',
+    subtitle: 'Manage diabetes with regular glucose checks.',
     fields: [
       {
         id: 'bloodSugarLevel',
@@ -72,6 +74,7 @@ export const recordCategories: IRecordCategory[] = [
   {
     urlPath: 'exercise',
     name: 'Exercise',
+    subtitle: 'Stay fit and motivated with exercise logs.',
     fields: [
       {
         id: 'exerciseDuration',
@@ -85,6 +88,7 @@ export const recordCategories: IRecordCategory[] = [
   {
     urlPath: 'food',
     name: 'Food',
+    subtitle: 'Maintain a balanced diet by recording meals.',
     fields: [
       {
         id: 'foodType',
@@ -98,6 +102,7 @@ export const recordCategories: IRecordCategory[] = [
   {
     urlPath: 'glycated-hemoglobin',
     name: 'Glycated Hemoglobin',
+    subtitle: 'Monitor long-term blood sugar with HbA1c levels.',
     fields: [
       {
         id: 'hemoglobinLevel',
@@ -111,6 +116,7 @@ export const recordCategories: IRecordCategory[] = [
   {
     urlPath: 'sleep',
     name: 'Sleep',
+    subtitle: 'Improve rest and productivity with sleep logs.',
     fields: [
       {
         id: 'sleepDuration',
@@ -124,6 +130,7 @@ export const recordCategories: IRecordCategory[] = [
   {
     urlPath: 'weight',
     name: 'Weight',
+    subtitle: 'Support fitness goals by tracking weight.',
     fields: [
       {
         id: 'bodyWeight',

@@ -8,18 +8,17 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { IRecordCategory, recordCategories } from '../Record.type';
+import { IRecordCategory, recordCategories } from '../types/Record.type';
 import { useState } from 'react';
 import CreateRecordForm from '../components/CreateRecordForm';
 import { FromWrapper } from '../../../../../components/form/Index.styled';
+import { getRecordCategory } from '../helpers/getRecordCategory';
 
 const CreateRecord: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<IRecordCategory>();
 
   const handleCategoryChange = (urlPath: string) => {
-    const categoryMeta = recordCategories.find(
-      (category) => category.urlPath === urlPath,
-    );
+    const categoryMeta = getRecordCategory(urlPath);
     setSelectedCategory(categoryMeta);
   };
 

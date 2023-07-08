@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material';
 import { FromWrapper } from '../../../../../components/form/Index.styled';
-import { IRecordCategory } from '../Record.type';
+import { IRecordCategory } from '../types/Record.type';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
