@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import { useNavigate, useParams } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
@@ -16,7 +16,7 @@ const RecordList: React.FC = () => {
   const navigate = useNavigate();
 
   const handleNewQuestion = () => {
-    navigate('/record/new');
+    navigate(`/record/${recordCategory?.urlPath}/new`);
   };
 
   useEffect(() => {
@@ -48,6 +48,7 @@ const RecordList: React.FC = () => {
           />
           <PrimaryPageContent>
             <RecordListWrapper>
+              {/* TODO: add style and pagination */}
               {records &&
                 records.map((record: unknown) => (
                   <div>{JSON.stringify(record)}</div>
@@ -56,7 +57,14 @@ const RecordList: React.FC = () => {
           </PrimaryPageContent>
         </>
       ) : (
-        <>Invalid record category!</>
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          sx={{ textAlign: 'center' }}
+        >
+          Invalid record category!
+        </Typography>
       )}
     </>
   );

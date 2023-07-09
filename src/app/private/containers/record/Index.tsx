@@ -7,8 +7,8 @@ const Record: React.FC = () => {
   return (
     <Routes>
       <Route element={<RecordHome />} path="/" />
+      <Route element={<CreateRecord />} path="/:typeId/new" />
       <Route element={<RecordList />} path="/:typeId" />
-      <Route element={<CreateRecord />} path="/new" />
     </Routes>
   );
 };

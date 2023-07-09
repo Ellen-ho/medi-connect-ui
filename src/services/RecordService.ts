@@ -48,6 +48,27 @@ interface ICreateBloodPressureRecordResponse {
   updatedAt: Date;
 }
 
+interface ICreateBloodSugarRecordRequest {
+  bloodSugarDate: Date;
+  bloodSugarValue: number;
+  bloodSugarNote: string | null;
+}
+
+export enum BloodSugarType {
+  FAST_PLASMA_GLUCOSE = 'FAST_PLASMA_GLUCOSE',
+  POSTPRANDIAL_PLASMA_GLUCOSE = 'POSTPRANDIAL_PLASMA_GLUCOSE',
+}
+
+interface ICreateBloodSugarRecordResponse {
+  id: string;
+  bloodSugarDate: Date;
+  bloodSugarValue: number;
+  bloodSugarType: BloodSugarType;
+  bloodSugarNote: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export const getRecords = async ({
   urlPath,
   query,
@@ -64,6 +85,16 @@ export const createBloodPressureRecord = async (
 ): Promise<ICreateBloodPressureRecordResponse> => {
   const response = await api.post<ICreateBloodPressureRecordResponse>(
     '/records/blood-pressure',
+    data,
+  );
+  return response.data;
+};
+
+export const createBloodSugarRecord = async (
+  data: ICreateBloodSugarRecordRequest,
+): Promise<ICreateBloodSugarRecordResponse> => {
+  const response = await api.post<ICreateBloodSugarRecordResponse>(
+    '/records/blood-sugar',
     data,
   );
   return response.data;

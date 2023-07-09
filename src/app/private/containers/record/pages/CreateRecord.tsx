@@ -13,14 +13,11 @@ import { useState } from 'react';
 import CreateRecordForm from '../components/CreateRecordForm';
 import { FromWrapper } from '../../../../../components/form/Index.styled';
 import { getRecordCategory } from '../helpers/getRecordCategory';
+import { useParams } from 'react-router-dom';
 
 const CreateRecord: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<IRecordCategory>();
-
-  const handleCategoryChange = (urlPath: string) => {
-    const categoryMeta = getRecordCategory(urlPath);
-    setSelectedCategory(categoryMeta);
-  };
+  const { typeId } = useParams();
+  const currentCategory = getRecordCategory(typeId as string);
 
   // const {
   //   register,
@@ -48,36 +45,12 @@ const CreateRecord: React.FC = () => {
         <CreateRecordWrapper>
           <Card>
             <CardContent>
-              <FromWrapper>
-                <TextField
-                  select
-                  label="Select"
-                  size="small"
-                  helperText="Select Category"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleCategoryChange(e.target.value)
-                  }
-                >
-                  <MenuItem value="" selected>
-                    Select Category
-                  </MenuItem>
-                  {recordCategories.map((category) => (
-                    <MenuItem key={category.urlPath} value={category.urlPath}>
-                      {category.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </FromWrapper>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent>
-              {selectedCategory ? (
+              {currentCategory ? (
                 <>
                   <Typography gutterBottom variant="h5" component="div">
-                    Create {selectedCategory.name} Record
+                    Create {currentCategory.name} Record
                   </Typography>
-                  <CreateRecordForm categoryMeta={selectedCategory} />
+                  <CreateRecordForm categoryMeta={currentCategory} />
                 </>
               ) : (
                 <Typography
@@ -86,7 +59,7 @@ const CreateRecord: React.FC = () => {
                   component="div"
                   sx={{ textAlign: 'center' }}
                 >
-                  No category selected
+                  Invalid record category!
                 </Typography>
               )}
             </CardContent>
