@@ -4,7 +4,7 @@ import {
 } from '../../../../../services/RecordService';
 import * as yup from 'yup';
 
-type FieldType = 'text' | 'number' | 'date';
+type FieldType = 'text' | 'number' | 'date' | 'datetime-local';
 
 interface IField {
   id: string;
@@ -31,9 +31,9 @@ export const recordCategories: IRecordCategory[] = [
     formSchema: yup
       .object({
         bloodPressureDate: yup.date().required(),
-        systolicBloodPressure: yup.number().required(),
-        diastolicBloodPressure: yup.number().required(),
-        heartBeat: yup.string().required(),
+        systolicBloodPressure: yup.number().min(0).required(),
+        diastolicBloodPressure: yup.number().min(0).required(),
+        heartBeat: yup.number().min(0).required(),
         bloodPressureNote: yup.string().max(250).optional(),
       })
       .required(),
