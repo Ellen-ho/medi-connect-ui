@@ -7,6 +7,8 @@ import { getRecordCategory } from '../helpers/getRecordCategory';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import { getRecords } from '../../../../../services/RecordService';
 import { RecordListWrapper } from './RecordList.styled';
+import RecordItem from '../components/RecordItem';
+import NoDataFound from '../../../../../components/signs/NoDataFound';
 
 const RecordList: React.FC = () => {
   const { typeId } = useParams();
@@ -48,11 +50,13 @@ const RecordList: React.FC = () => {
           />
           <PrimaryPageContent>
             <RecordListWrapper>
-              {/* TODO: add style and pagination */}
-              {records &&
+              {records && records.length > 0 ? (
                 records.map((record: unknown) => (
-                  <div>{JSON.stringify(record)}</div>
-                ))}
+                  <RecordItem record={record} recordCategory={recordCategory} />
+                ))
+              ) : (
+                <NoDataFound />
+              )}
             </RecordListWrapper>
           </PrimaryPageContent>
         </>

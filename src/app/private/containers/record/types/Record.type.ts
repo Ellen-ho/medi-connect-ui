@@ -22,9 +22,6 @@ export interface IRecordCategory {
   fields: IField[];
 }
 
-interface RootObject {
-  createRecordService: Function;
-}
 export const recordCategories: IRecordCategory[] = [
   {
     urlPath: 'blood-pressure',
