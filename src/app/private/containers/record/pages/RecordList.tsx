@@ -2,15 +2,17 @@ import { Button, Typography } from '@mui/material';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import { useNavigate, useParams } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getRecordCategory } from '../helpers/getRecordCategory';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import { getRecords } from '../../../../../services/RecordService';
 import { RecordListWrapper } from './RecordList.styled';
 import RecordItem from '../components/RecordItem';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
+import { AuthContext } from '../../../../../context/AuthContext';
 
 const RecordList: React.FC = () => {
+  const { state } = useContext(AuthContext);
   const { typeId } = useParams();
   const recordCategory = getRecordCategory(typeId as string);
   const [records, setRecords] = useState<unknown[]>([]);
@@ -26,7 +28,7 @@ const RecordList: React.FC = () => {
       const { recordsData, pagination } = await getRecords({
         urlPath: typeId as string,
         query: {
-          targetPatientId: '3acb3290-088a-4fe4-8e57-d112522a11b8',
+          targetPatientId: state.currentUser?.id as string,
           page: 1,
           limit: 10,
         },
@@ -35,7 +37,7 @@ const RecordList: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [state]);
 
   return (
     <>

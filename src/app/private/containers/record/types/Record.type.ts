@@ -1,6 +1,15 @@
 import {
+  ExerciseType,
+  FoodCategoryType,
+  IntensityType,
+  SleepQualityType,
   createBloodPressureRecord,
   createBloodSugarRecord,
+  createExerciseRecord,
+  createFoodRecord,
+  createGlycatedHemoglobinRecord,
+  createSleepRecord,
+  createWeightRecord,
 } from '../../../../../services/RecordService';
 import * as yup from 'yup';
 
@@ -77,15 +86,29 @@ export const recordCategories: IRecordCategory[] = [
     createRecordService: () => createBloodSugarRecord,
     formSchema: yup
       .object({
-        // bloodPressureDate: yup.date().required(),
+        bloodSugarDate: yup.date().required(),
+        bloodSugarValue: yup.number().min(0).required(),
+        bloodSugarNote: yup.string().max(250).optional(),
       })
       .required(),
     fields: [
       {
-        id: 'bloodSugarLevel',
-        name: 'Blood Sugar Level',
+        id: 'bloodSugarDate',
+        name: 'Blood Sugar Date',
+        type: 'date',
+        placeholder: 'Please Enter Blood Sugar Date',
+      },
+      {
+        id: 'bloodSugarValue',
+        name: 'Blood Sugar Value',
         type: 'number',
-        placeholder: 'Please Enter Blood Sugar Level',
+        placeholder: 'Please Enter Blood Sugar Value',
+      },
+      {
+        id: 'bloodSugarNote',
+        name: 'Blood Sugar Note',
+        type: 'text',
+        placeholder: 'Please Enter Blood Sugar Note',
       },
     ],
   },
@@ -93,18 +116,52 @@ export const recordCategories: IRecordCategory[] = [
     urlPath: 'exercise',
     name: 'Exercise',
     subtitle: 'Stay fit and motivated with exercise logs.',
-    createRecordService: () => createBloodPressureRecord, // need change
+    createRecordService: () => createExerciseRecord, // need change
     formSchema: yup
       .object({
-        // bloodPressureDate: yup.date().required(),
+        exerciseDate: yup.date().required(),
+        exerciseType: yup
+          .string()
+          .oneOf(Object.values(ExerciseType))
+          .required(),
+        exerciseDurationMinute: yup.number().min(0).required(),
+        exerciseIntensity: yup
+          .string()
+          .oneOf(Object.values(IntensityType))
+          .required(),
+        exerciseNote: yup.string().max(250).optional(),
       })
       .required(),
     fields: [
       {
-        id: 'exerciseDuration',
-        name: 'Exercise Duration',
+        id: 'exerciseDate',
+        name: 'Exercise Date',
+        type: 'date',
+        placeholder: 'Please Enter Exercise Date',
+      },
+      {
+        id: 'exerciseType',
+        name: 'Exercise Type',
+        type: 'text', // TODO change to select
+        placeholder: 'Please Choose Exercise Type',
+      },
+      {
+        id: 'exerciseDurationMinute',
+        name: 'Exercise Duration Minute',
         type: 'number',
-        placeholder: 'Please Enter Exercise Duration',
+        placeholder: 'Please Enter Exercise Duration Minute',
+      },
+      {
+        id: 'exerciseIntensity',
+        name: 'Exercise Intensity',
+        type: 'text', // TODO change to select
+        placeholder: 'Please Enter Exercise Intensity',
+      },
+      {
+        id: 'exerciseNote',
+        name: 'Exercise Note',
+        type: 'text',
+        placeholder: 'Please Enter Exercise Note',
       },
     ],
   },
@@ -112,18 +169,42 @@ export const recordCategories: IRecordCategory[] = [
     urlPath: 'food',
     name: 'Food',
     subtitle: 'Maintain a balanced diet by recording meals.',
-    createRecordService: () => createBloodPressureRecord, // need change
+    createRecordService: () => createFoodRecord,
     formSchema: yup
       .object({
-        // bloodPressureDate: yup.date().required(),
+        foodTime: yup.date().required(),
+        foodCategory: yup
+          .string()
+          .oneOf(Object.values(FoodCategoryType))
+          .required(),
+        foodAmount: yup.number().min(0).required(),
+        foodNote: yup.string().optional(),
       })
       .required(),
     fields: [
       {
-        id: 'foodType',
-        name: 'Type of Food',
+        id: 'foodTime',
+        name: 'The Time Eating Food',
+        type: 'date',
+        placeholder: 'Please Enter the Eating Time',
+      },
+      {
+        id: 'foodCategory',
+        name: 'The Time Eating Food',
+        type: 'text', // TODO change to select
+        placeholder: 'Please Enter the Food Category',
+      },
+      {
+        id: 'foodAmount',
+        name: 'The Amount Of Food',
+        type: 'number',
+        placeholder: 'Please Enter Amount Of Food',
+      },
+      {
+        id: 'foodNote',
+        name: 'Food Note',
         type: 'text',
-        placeholder: 'Please Enter Type of Food',
+        placeholder: 'Please Enter Food Note',
       },
     ],
   },
@@ -131,18 +212,25 @@ export const recordCategories: IRecordCategory[] = [
     urlPath: 'glycated-hemoglobin',
     name: 'Glycated Hemoglobin',
     subtitle: 'Monitor long-term blood sugar with HbA1c levels.',
-    createRecordService: () => createBloodPressureRecord, // need change
+    createRecordService: () => createGlycatedHemoglobinRecord,
     formSchema: yup
       .object({
-        // bloodPressureDate: yup.date().required(),
+        glycatedHemoglobinDate: yup.date().required(),
+        glycatedHemoglobinValuePercent: yup.number().min(0).required(),
       })
       .required(),
     fields: [
       {
-        id: 'hemoglobinLevel',
-        name: 'Hemoglobin Level',
+        id: 'glycatedHemoglobinDate',
+        name: 'Glycated Hemoglobin Date',
+        type: 'date',
+        placeholder: 'Please Enter Glycated Hemoglobin Date',
+      },
+      {
+        id: 'glycatedHemoglobinValuePercent',
+        name: 'Glycated Hemoglobin Value Percent',
         type: 'number',
-        placeholder: 'Please Enter Hemoglobin Level',
+        placeholder: 'Please Enter Glycated Hemoglobin Value Percent',
       },
     ],
   },
@@ -150,18 +238,49 @@ export const recordCategories: IRecordCategory[] = [
     urlPath: 'sleep',
     name: 'Sleep',
     subtitle: 'Improve rest and productivity with sleep logs.',
-    createRecordService: () => createBloodPressureRecord,
+    createRecordService: () => createSleepRecord,
     formSchema: yup
       .object({
-        // bloodPressureDate: yup.date().required(),
+        sleepDate: yup.date().required(),
+        sleepTime: yup.date().required(),
+        wakeUpTime: yup.date().required(),
+        sleepQuality: yup
+          .string()
+          .oneOf(Object.values(SleepQualityType))
+          .required(),
+        sleepNote: yup.string().optional(),
       })
       .required(),
     fields: [
       {
-        id: 'sleepDuration',
-        name: 'Sleep Duration',
-        type: 'number',
-        placeholder: 'Please Enter Sleep Duration',
+        id: 'sleepDate',
+        name: 'Sleep Date',
+        type: 'date',
+        placeholder: 'Please Enter Sleep Date',
+      },
+      {
+        id: 'sleepTime',
+        name: 'Sleep Time',
+        type: 'date',
+        placeholder: 'Please Enter Sleep Time',
+      },
+      {
+        id: 'wakeUpTime',
+        name: 'Wake Up Time',
+        type: 'date',
+        placeholder: 'Please Enter Wake Up Time',
+      },
+      {
+        id: 'sleepQuality',
+        name: 'Sleep Quality',
+        type: 'text', // TODO change to select
+        placeholder: 'Please Choose Sleep Quality',
+      },
+      {
+        id: 'sleepNote',
+        name: 'Sleep Note',
+        type: 'text',
+        placeholder: 'Please Enter Sleep Note',
       },
     ],
   },
@@ -169,18 +288,32 @@ export const recordCategories: IRecordCategory[] = [
     urlPath: 'weight',
     name: 'Weight',
     subtitle: 'Support fitness goals by tracking weight.',
-    createRecordService: () => createBloodPressureRecord,
+    createRecordService: () => createWeightRecord,
     formSchema: yup
       .object({
-        // bloodPressureDate: yup.date().required(),
+        weightDate: yup.date().required(),
+        weightValueKg: yup.number().min(0).required(),
+        weightNote: yup.string().optional(),
       })
       .required(),
     fields: [
       {
-        id: 'bodyWeight',
-        name: 'Body Weight',
+        id: 'weightDate',
+        name: 'Weight Date',
+        type: 'date',
+        placeholder: 'Please Enter Weight Date',
+      },
+      {
+        id: 'weightValueKg',
+        name: 'weight Value Kg',
         type: 'number',
-        placeholder: 'Please Enter Body Weight',
+        placeholder: 'Please Enter Weight Value Kg',
+      },
+      {
+        id: 'weightNote',
+        name: 'Weight Note',
+        type: 'text',
+        placeholder: 'Please Enter Weight Note',
       },
     ],
   },
