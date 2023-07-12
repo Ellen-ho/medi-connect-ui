@@ -85,8 +85,7 @@ export const createMultipleTimeSlots = async (
   data: IActivateHealthGoalRequest,
 ): Promise<IActivateHealthGoalResponse> => {
   const response = await api.patch<IActivateHealthGoalResponse>(
-    '/goals/active/:id',
-    data,
+    `/goals/active/${data.healthGoalId}`,
   );
   return response.data;
 };
@@ -95,8 +94,7 @@ export const rejectHealthGoal = async (
   data: IRejectHealthGoalRequest,
 ): Promise<IRejectHealthGoalResponse> => {
   const response = await api.patch<IRejectHealthGoalResponse>(
-    '/goals/reject/:id',
-    data,
+    `/goals/reject/${data.healthGoalId}`,
   );
   return response.data;
 };
@@ -104,7 +102,9 @@ export const rejectHealthGoal = async (
 export const getHealthGoal = async (
   data: IGetHealthGoalRequest,
 ): Promise<IGetHealthGoalResponse> => {
-  const response = await api.patch<IGetHealthGoalResponse>('/goals/:id', data);
+  const response = await api.patch<IGetHealthGoalResponse>(
+    `/goals/${data.healthGoalId}`,
+  );
   return response.data;
 };
 
