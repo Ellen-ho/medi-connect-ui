@@ -1,5 +1,4 @@
-import { IAddress, IDoctor } from '../types/Doctors';
-import { GenderType, MedicalSpecialtyType } from '../types/Share';
+import { IDoctor } from '../types/Doctors';
 import api from './ApiService';
 
 interface ICreateDoctorProfileRequest extends IDoctor {}
@@ -52,8 +51,7 @@ export const getDoctorStatistic = async (
   data: IGetDoctorStatisticRequest,
 ): Promise<IGetDoctorStatisticResponse> => {
   const response = await api.post<IGetDoctorStatisticResponse>(
-    '/doctors/:id/statistic',
-    data,
+    `/doctors/${data.doctorId}/statistic`,
   );
   return response.data;
 };
