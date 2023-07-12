@@ -7,5 +7,6 @@ export const PrimaryPageTopWrapper = styled.div`
 `;
 
 export const PrimaryPageTitle = styled.h3`
+  margin: 0;
   font-size: 30px;
 `;

@@ -1,12 +1,12 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import QuestionList from './pages/QuestionList';
 import CreateQuestion from './pages/CreateQuestion';
 
 const Question: React.FC = () => {
   return (
     <Routes>
-      <Route element={<QuestionList />} path="/" />
-      <Route element={<CreateQuestion />} path="/new" />
+      <Route index element={<QuestionList />} />
+      <Route path="new" element={<CreateQuestion />} />
     </Routes>
   );
 };

@@ -1,43 +1,77 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import { useEffect, useState } from 'react';
-import { IQuestion } from '../../../../../types/Questions';
+import { useContext, useEffect, useState } from 'react';
+import { getRecordCategory } from '../helpers/getRecordCategory';
+import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
+import { getRecords } from '../../../../../services/RecordService';
+import { RecordListWrapper } from './RecordList.styled';
+import RecordItem from '../components/RecordItem';
+import NoDataFound from '../../../../../components/signs/NoDataFound';
+import { AuthContext } from '../../../../../context/AuthContext';
 
 const RecordList: React.FC = () => {
-  const [questions, setQuestions] = useState<IQuestion[]>([]);
+  const { state } = useContext(AuthContext);
+  const { typeId } = useParams();
+  const recordCategory = getRecordCategory(typeId as string);
+  const [records, setRecords] = useState<unknown[]>([]);
+
   const navigate = useNavigate();
 
   const handleNewQuestion = () => {
-    navigate('/record/new');
+    navigate(`/record/${recordCategory?.urlPath}/new`);
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      // const { data, pagination } = await getQuestions({
-      //   query: {
-      //     page: 1,
-      //     limit: 10,
-      //   },
-      // });
-      // setQuestions(data);
+      const { recordsData, pagination } = await getRecords({
+        urlPath: typeId as string,
+        query: {
+          targetPatientId: state.currentUser?.id as string,
+          page: 1,
+          limit: 10,
+        },
+      });
+      setRecords(recordsData);
     };
 
     fetchData();
-  }, []);
+  }, [state]);
 
   return (
     <>
-      <PrimaryPageTop
-        pageTitle="Record"
-        leftElement={
-          <Button onClick={handleNewQuestion} variant="contained">
-            Add Record
-          </Button>
-        }
-      />
-      <PrimaryPageContent>123321</PrimaryPageContent>
+      {recordCategory ? (
+        <>
+          <SecondaryPageTop
+            leftElement={
+              <Button onClick={handleNewQuestion} variant="contained">
+                Add Record
+              </Button>
+            }
+          />
+          <PrimaryPageContent>
+            <RecordListWrapper>
+              {records && records.length > 0 ? (
+                records.map((record: unknown) => (
+                  <RecordItem record={record} recordCategory={recordCategory} />
+                ))
+              ) : (
+                <NoDataFound />
+              )}
+            </RecordListWrapper>
+          </PrimaryPageContent>
+        </>
+      ) : (
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          sx={{ textAlign: 'center' }}
+        >
+          Invalid record category!
+        </Typography>
+      )}
     </>
   );
 };

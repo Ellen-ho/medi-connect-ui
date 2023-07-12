@@ -20,3 +20,9 @@ export enum MedicalSpecialtyType {
   GASTROENTEROLOGY = 'GASTROENTEROLOGY', // 消化科
   PULMONARY_MEDICINE = 'PULMONARY_MEDICINE', // 胸腔內科
 }
+
+export enum GenderType {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+  NON_BINARY = 'NON_BINARY',
+}

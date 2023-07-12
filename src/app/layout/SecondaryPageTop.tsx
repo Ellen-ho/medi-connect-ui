@@ -1,7 +1,7 @@
-import { Button, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { SecondaryPageTopWrapper } from './SecondaryPageTop.styled';
 import { useNavigate } from 'react-router-dom';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 interface ISecondaryPageTopWrapperProps {
   leftElement?: React.ReactNode;
@@ -16,8 +16,8 @@ const SecondaryPageTop: React.FC<ISecondaryPageTopWrapperProps> = ({
   };
   return (
     <SecondaryPageTopWrapper>
-      <IconButton aria-label="back" onClick={handleBack}>
-        <ArrowBackIosIcon />
+      <IconButton aria-label="back" onClick={handleBack} size="small">
+        <ArrowBackIcon />
       </IconButton>
       {leftElement}
     </SecondaryPageTopWrapper>

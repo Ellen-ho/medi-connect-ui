@@ -12,6 +12,7 @@
     "format": "prettier - write src/**/*.{ts,tsx,} - config .prettierrc.json"
   },
   "devDependencies": {
+    "@types/facepaint": "^1.2.2",
     "@types/react": "^18.2.10",
     "@types/react-dom": "^18.2.4",
     "@vitejs/plugin-react": "^4.0.0",
@@ -28,6 +29,8 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.4",
     "axios": "^1.4.0",
+    "dayjs": "^1.11.9",
+    "facepaint": "^1.2.1",
     "normalize.css": "^8.0.1",
     "query-string": "^8.1.0",
     "react": "^18.2.0",
