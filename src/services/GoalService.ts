@@ -2,7 +2,7 @@ import {
   HealthGoalStatus,
   IHealthGoalResult,
   ITargetHealthGoal,
-} from '../types/Goal';
+} from '../types/Goals';
 import { GenderType } from '../types/Share';
 import api from './ApiService';
 import { BloodSugarType } from './RecordService';
