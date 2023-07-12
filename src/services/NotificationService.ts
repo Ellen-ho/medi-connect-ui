@@ -58,7 +58,7 @@ export const deleteNotification = async (
   data: IDeleteNotificationRequest,
 ): Promise<IDeleteNotificationResponse> => {
   const response = await api.delete<IDeleteNotificationResponse>(
-    '/notifications/:id',
+    `/notifications/${data.notificationId}`,
   );
   return response.data;
 };
@@ -75,8 +75,7 @@ export const getNotificationDetails = async (
   data: IGetNotificationDetailsRequest,
 ): Promise<IGetNotificationDetailsResponse> => {
   const response = await api.patch<IGetNotificationDetailsResponse>(
-    '/notifications/:id',
-    data,
+    `/notifications/${data.notificationId}`,
   );
   return response.data;
 };
