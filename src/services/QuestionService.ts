@@ -134,7 +134,9 @@ interface ICancelAnswerAgreementResponse {
 export const getSingleQuestion = async (
   data: IGetSingleQuestionRequest,
 ): Promise<IGetSingleQuestionResponse> => {
-  const response = await api.get<IGetSingleQuestionResponse>('/questions/:id');
+  const response = await api.get<IGetSingleQuestionResponse>(
+    `/questions/${data.patientQuestionId}`,
+  );
   return response.data;
 };
 
@@ -159,8 +161,10 @@ export const createAppreciation = async (
   data: ICreateAnswerAppreciationRequest,
 ): Promise<ICreateAnswerAppreciationResponse> => {
   const response = await api.post<ICreateAnswerAppreciationResponse>(
-    '/questions/answers/:id/appreciations',
-    data,
+    `/questions/answers/${data.answerId}/appreciations`,
+    {
+      content: data.content,
+    },
   );
   return response.data;
 };
@@ -181,8 +185,10 @@ export const createAnswer = async (
   data: ICreatePatientQuestionAnswerRequest,
 ): Promise<ICreatePatientQuestionAnswerResponse> => {
   const response = await api.post<ICreatePatientQuestionAnswerResponse>(
-    '/questions/:id/answers',
-    data,
+    `/questions/${data.patientQuestionId}/answers`,
+    {
+      content: data.content,
+    },
   );
   return response.data;
 };
@@ -200,7 +206,7 @@ export const cancelAppreciation = async (
   data: ICancelAnswerAppreciationRequest,
 ): Promise<ICancelAnswerAppreciationResponse> => {
   const response = await api.delete<ICancelAnswerAppreciationResponse>(
-    '/questions/answers/appreciations/:id',
+    `/questions/answers/appreciations/${data.answerAppreciationId}`,
   );
   return response.data;
 };
@@ -209,7 +215,7 @@ export const cancelAnswer = async (
   data: ICancelPatientQuestionAnswerRequest,
 ): Promise<ICancelPatientQuestionAnswerResponse> => {
   const response = await api.delete<ICancelPatientQuestionAnswerResponse>(
-    '/questions/answers/:id',
+    `/questions/answers/${data.answerId}`,
   );
   return response.data;
 };
@@ -218,7 +224,7 @@ export const cancelQuestion = async (
   data: ICancelPatientQuestionRequest,
 ): Promise<ICancelPatientQuestionResponse> => {
   const response = await api.delete<ICancelPatientQuestionResponse>(
-    '/questions/:id',
+    `/questions/${data.patientQuestionId}`,
   );
   return response.data;
 };
