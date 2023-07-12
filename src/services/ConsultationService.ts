@@ -143,8 +143,7 @@ export const editDoctorTimeSlot = async (
   data: IEditDoctorTimeSlotRequest,
 ): Promise<IEditDoctorTimeSlotResponse> => {
   const response = await api.patch<IEditDoctorTimeSlotResponse>(
-    '/consultations/time-slot/:id',
-    data,
+    `/consultations/time-slot/${data.id}`,
   );
   return response.data;
 };
@@ -153,7 +152,7 @@ export const cancelConsultAppointment = async (
   data: ICancelConsultAppointmentRequest,
 ): Promise<ICancelConsultAppointmentResponse> => {
   const response = await api.delete<ICancelConsultAppointmentResponse>(
-    '/consultations/:id',
+    `/consultations/${data.consultAppointmentId}`,
   );
   return response.data;
 };
