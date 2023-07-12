@@ -4,8 +4,7 @@ import { MedicalSpecialtyType } from '../types/Share';
 import {
   ConsultAppointmentStatusType,
   IDoctorTimeSlotData,
-} from '../types/Consultation';
-import { extend } from 'dayjs';
+} from '../types/Consultations';
 
 interface ICreateConsultAppointmentRequest {
   doctorTimeSlotId: string;
@@ -98,6 +97,26 @@ interface ICancelConsultAppointmentResponse {
   status: ConsultAppointmentStatusType;
 }
 
+export const createDoctorTimeSlot = async (
+  data: ICreateDoctorTimeSlotRequest,
+): Promise<ICreateDoctorTimeSlotResponse> => {
+  const response = await api.post<ICreateDoctorTimeSlotResponse>(
+    '/consultations/time-slot',
+    data,
+  );
+  return response.data;
+};
+
+export const createMultipleTimeSlots = async (
+  data: ICreateMultipleTimeSlotsRequest,
+): Promise<ICreateMultipleTimeSlotsResponse> => {
+  const response = await api.post<ICreateMultipleTimeSlotsResponse>(
+    '/consultations/multiple-time-slots',
+    data,
+  );
+  return response.data;
+};
+
 export const createConsultAppointmentRecord = async (
   data: ICreateConsultAppointmentRequest,
 ): Promise<ICreateConsultAppointmentResponse> => {
@@ -119,26 +138,6 @@ export const getDoctorConsultAppointments =
     const response = await api.get('/consultations/doctor');
     return response.data;
   };
-
-export const createDoctorTimeSlot = async (
-  data: ICreateDoctorTimeSlotRequest,
-): Promise<ICreateDoctorTimeSlotResponse> => {
-  const response = await api.post<ICreateDoctorTimeSlotResponse>(
-    '/consultations/time-slot',
-    data,
-  );
-  return response.data;
-};
-
-export const createMultipleTimeSlots = async (
-  data: ICreateMultipleTimeSlotsRequest,
-): Promise<ICreateMultipleTimeSlotsResponse> => {
-  const response = await api.post<ICreateMultipleTimeSlotsResponse>(
-    '/consultations/multiple-time-slots',
-    data,
-  );
-  return response.data;
-};
 
 export const editDoctorTimeSlot = async (
   data: IEditDoctorTimeSlotRequest,
