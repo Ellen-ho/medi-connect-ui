@@ -1,3 +1,4 @@
+import * as yup from 'yup';
 import {
   ExerciseType,
   FoodCategoryType,
@@ -11,15 +12,15 @@ import {
   createSleepRecord,
   createWeightRecord,
 } from '../../../../../services/RecordService';
-import * as yup from 'yup';
 
-type FieldType = 'text' | 'number' | 'date' | 'datetime-local';
+type FieldType = 'text' | 'number' | 'date' | 'datetime-local' | 'select';
 
 interface IField {
   id: string;
   name: string;
   type: FieldType;
   placeholder: string;
+  options?: Array<{ label: string; value: string }>;
 }
 
 export interface IRecordCategory {
@@ -142,7 +143,11 @@ export const recordCategories: IRecordCategory[] = [
       {
         id: 'exerciseType',
         name: 'Exercise Type',
-        type: 'text', // TODO change to select
+        type: 'select',
+        options: Object.values(ExerciseType).map((value) => ({
+          label: value,
+          value: value,
+        })),
         placeholder: 'Please Choose Exercise Type',
       },
       {
@@ -154,7 +159,11 @@ export const recordCategories: IRecordCategory[] = [
       {
         id: 'exerciseIntensity',
         name: 'Exercise Intensity',
-        type: 'text', // TODO change to select
+        type: 'select',
+        options: Object.values(IntensityType).map((value) => ({
+          label: value,
+          value: value,
+        })),
         placeholder: 'Please Enter Exercise Intensity',
       },
       {
@@ -185,13 +194,17 @@ export const recordCategories: IRecordCategory[] = [
       {
         id: 'foodTime',
         name: 'The Time Eating Food',
-        type: 'date',
+        type: 'datetime-local',
         placeholder: 'Please Enter the Eating Time',
       },
       {
         id: 'foodCategory',
-        name: 'The Time Eating Food',
-        type: 'text', // TODO change to select
+        name: 'The Food Category',
+        type: 'select',
+        options: Object.values(FoodCategoryType).map((value) => ({
+          label: value,
+          value: value,
+        })),
         placeholder: 'Please Enter the Food Category',
       },
       {
@@ -261,19 +274,23 @@ export const recordCategories: IRecordCategory[] = [
       {
         id: 'sleepTime',
         name: 'Sleep Time',
-        type: 'date',
+        type: 'datetime-local',
         placeholder: 'Please Enter Sleep Time',
       },
       {
         id: 'wakeUpTime',
         name: 'Wake Up Time',
-        type: 'date',
+        type: 'datetime-local',
         placeholder: 'Please Enter Wake Up Time',
       },
       {
         id: 'sleepQuality',
         name: 'Sleep Quality',
-        type: 'text', // TODO change to select
+        type: 'select',
+        options: Object.values(SleepQualityType).map((value) => ({
+          label: value,
+          value: value,
+        })),
         placeholder: 'Please Choose Sleep Quality',
       },
       {
