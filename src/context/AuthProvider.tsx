@@ -8,7 +8,7 @@ import {
 
 const reducer = (state: AuthState, action: AuthAction): AuthState => {
   switch (action.type) {
-    case 'LOG_IN':
+    case 'LOG_IN': {
       const udpatedState = {
         isLoggedIn: true,
         token: action.payload.token,
@@ -20,13 +20,20 @@ const reducer = (state: AuthState, action: AuthAction): AuthState => {
         ...state,
         ...udpatedState,
       };
-    case 'LOG_OUT':
-      return {
+    }
+    case 'LOG_OUT': {
+      const udpatedState = {
         isLoggedIn: false,
         token: null,
         currentUser: null,
         patientId: null,
       };
+      localStorage.setItem('auth', JSON.stringify(udpatedState));
+      return {
+        ...state,
+        ...udpatedState,
+      };
+    }
     default:
       return state;
   }
@@ -37,9 +44,18 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
 
   useEffect(() => {
     const cachedAuth = localStorage.getItem('auth');
-    if (cachedAuth) {
+    const isLogin = cachedAuth && JSON.parse(cachedAuth).isLoggedIn;
+
+    if (isLogin) {
       const { token, currentUser, patientId } = JSON.parse(cachedAuth);
-      dispatch({ type: 'LOG_IN', payload: { token, currentUser, patientId } });
+      dispatch({
+        type: 'LOG_IN',
+        payload: { token, currentUser, patientId },
+      });
+    } else {
+      dispatch({
+        type: 'LOG_OUT',
+      });
     }
   }, []);
 

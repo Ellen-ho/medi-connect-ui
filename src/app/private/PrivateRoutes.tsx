@@ -4,8 +4,12 @@ import { AuthContext } from '../../context/AuthContext';
 
 const PrivateRoutes = () => {
   const { state } = useContext(AuthContext);
-
-  return state.isLoggedIn ? <Outlet /> : <Navigate to="/signin" />;
+  console.log(state.isLoggedIn);
+  return state.isLoggedIn ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/signin" replace={true} />
+  );
 };
 
 export default PrivateRoutes;
