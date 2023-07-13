@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 const pages = [
+  { title: 'Doctors', link: 'doctors' },
   { title: 'Question', link: 'question' },
   { title: 'Appointment', link: 'appointment' },
   { title: 'Record', link: 'record' },
@@ -50,10 +51,12 @@ const ResponsiveAppBar: React.FC = () => {
         >
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <HealthAndSafetyIcon
+              onClick={() => navigate('/')}
               sx={{
                 mr: 1,
               }}
             />
+
             <Typography
               variant="h6"
               noWrap
@@ -113,8 +116,17 @@ const ResponsiveAppBar: React.FC = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <MenuItem key={'Account'}>
+              <MenuItem
+                key={'Account'}
+                onClick={() => handlePageClick('/account')}
+              >
                 <Typography textAlign="center">Account</Typography>
+              </MenuItem>
+              <MenuItem
+                key={'Profile'}
+                onClick={() => handlePageClick('/profile')}
+              >
+                <Typography textAlign="center">Profile</Typography>
               </MenuItem>
               {pages.map((page) => (
                 <MenuItem
