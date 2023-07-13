@@ -5,6 +5,19 @@ import { AuthContext } from '../../../../context/AuthContext';
 import { loginUser } from '../../../../services/UserService';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import PrimaryPageContent from '../../../layout/PrimaryPageContent';
+import { BottomAreaWrapper, SignInWrapper } from './SignIn.styled';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Link,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { FromWrapper } from '../../../../components/form/Index.styled';
+import PersonPinIcon from '@mui/icons-material/PersonPin';
 
 interface ISignInFormInputs {
   email: string;
@@ -52,13 +65,58 @@ const SignIn: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSignIn)}>
-      <input type="email" placeholder="Email" {...register('email')} />
-      <p>{errors.email?.message}</p>
-      <input type="password" placeholder="Password" {...register('password')} />
-      <p>{errors.password?.message}</p>
-      <input type="submit" />
-    </form>
+    <PrimaryPageContent>
+      <SignInWrapper>
+        <Card>
+          <CardContent>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              align="center"
+            >
+              <PersonPinIcon sx={{ fontSize: 50, color: '#777' }} />
+            </Typography>
+            <FromWrapper onSubmit={handleSubmit(onSignIn)}>
+              <TextField
+                label="Email"
+                type="email"
+                size="small"
+                {...register('email')}
+                error={!!errors.email}
+                helperText={<>{errors.email?.message}</>}
+              />
+              <TextField
+                label="Password"
+                type="password"
+                size="small"
+                {...register('password')}
+                error={!!errors.password}
+                helperText={<>{errors.password?.message}</>}
+              />
+
+              <Button type="submit" variant="contained" color="primary">
+                Sign In
+              </Button>
+              <BottomAreaWrapper>
+                <Link href="/signup">Sign Up</Link>
+              </BottomAreaWrapper>
+            </FromWrapper>
+          </CardContent>
+        </Card>
+        {/* <form onSubmit={handleSubmit(onSignIn)}>
+          <input type="email" placeholder="Email" {...register('email')} />
+          <p>{errors.email?.message}</p>
+          <input
+            type="password"
+            placeholder="Password"
+            {...register('password')}
+          />
+          <p>{errors.password?.message}</p>
+          <input type="submit" />
+        </form> */}
+      </SignInWrapper>
+    </PrimaryPageContent>
   );
 };
 
