@@ -8,6 +8,7 @@ export interface AuthState {
     displayName: string;
     role: string;
   } | null;
+  patientId: string | null;
 }
 
 export type AuthAction =
@@ -20,6 +21,7 @@ export type AuthAction =
           displayName: string;
           role: string;
         };
+        patientId: string;
       };
     }
   | { type: 'LOG_OUT' };
@@ -33,6 +35,7 @@ export const initialState = {
   isLoggedIn: false,
   token: null,
   currentUser: null,
+  patientId: null,
 };
 
 export const AuthContext = createContext<AuthContextProps>({

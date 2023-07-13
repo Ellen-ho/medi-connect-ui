@@ -16,7 +16,6 @@ const RecordList: React.FC = () => {
   const { state } = useContext(AuthContext);
   const { typeId } = useParams();
   const recordCategory = getRecordCategory(typeId as string);
-  const [records, setRecords] = useState<unknown[]>([]);
 
   const navigate = useNavigate();
 
@@ -28,7 +27,7 @@ const RecordList: React.FC = () => {
     getRecords({
       urlPath: typeId as string,
       query: {
-        targetPatientId: state.currentUser?.id as string,
+        targetPatientId: state.patientId as string,
         page: 1,
         limit: 10,
       },
