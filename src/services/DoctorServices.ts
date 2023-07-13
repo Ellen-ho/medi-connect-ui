@@ -1,4 +1,5 @@
-import { IDoctor } from '../types/Doctors';
+import { IAddress, IDoctor } from '../types/Doctors';
+import { GenderType, MedicalSpecialtyType } from '../types/Share';
 import api from './ApiService';
 
 interface ICreateDoctorProfileRequest extends IDoctor {}
@@ -27,6 +28,24 @@ interface IGetDoctorStatisticResponse {
   beAgreedCounts: number;
 }
 
+interface IGetDoctorProfileResponse {
+  id: string;
+  avatar: string | null;
+  firstName: string;
+  lastName: string;
+  gender: GenderType;
+  aboutMe: string;
+  languagesSpoken: string[];
+  specialties: MedicalSpecialtyType[];
+  careerStartDate: Date;
+  officePracticalLocation: IAddress;
+  education: string[];
+  awards: string[] | null;
+  affiliations: string[] | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export const createDoctorProfile = async (
   data: ICreateDoctorProfileRequest,
 ): Promise<ICreateDoctorProfileResponse> => {
@@ -46,6 +65,14 @@ export const editDoctorProfile = async (
   );
   return response.data;
 };
+
+export const getDoctorProfile =
+  async (): Promise<IGetDoctorProfileResponse> => {
+    const response = await api.post<IGetDoctorProfileResponse>(
+      '/doctors/profile',
+    );
+    return response.data;
+  };
 
 export const getDoctorStatistic = async (
   data: IGetDoctorStatisticRequest,
