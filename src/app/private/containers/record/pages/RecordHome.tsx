@@ -35,6 +35,7 @@ const RecordHome: React.FC = () => {
         <RecordHomeWrapper>
           {recordCategories.map((category) => (
             <RecordEntrance
+              key={category.urlPath}
               title={category.name}
               subtitle={category.subtitle}
               onClick={() => navigate(`/record/${category.urlPath}`)}
