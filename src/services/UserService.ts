@@ -13,6 +13,7 @@ interface ILoginResponse {
     displayName: string;
     role: string;
   };
+  patientId: string;
 }
 
 interface ISignupRequest {

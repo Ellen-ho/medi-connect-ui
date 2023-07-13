@@ -1,10 +1,9 @@
-import { Button, Select, MenuItem, FormControl, InputLabel, TextField } from '@mui/material';
+import { Button, MenuItem, FormControl, TextField } from '@mui/material';
 import { FromWrapper } from '../../../../../components/form/Index.styled';
 import { IRecordCategory } from '../types/Record.type';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { ExerciseType, IntensityType } from '../../../../../services/RecordService';
 
 interface ICreateRecordFormProps {
   categoryMeta: IRecordCategory;
@@ -32,49 +31,49 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
   };
 
   return (
-  <FromWrapper onSubmit={handleSubmit(onCreateQuestion)}>
-    {categoryMeta.fields.map((field) => (
-      <FormControl key={field.id}>
-        {field.type === 'select' ? (
-          <>
-            <InputLabel>{field.name}</InputLabel>
-            <Select
+    <FromWrapper onSubmit={handleSubmit(onCreateQuestion)}>
+      {categoryMeta.fields.map((field) => (
+        <FormControl key={field.id}>
+          {field.type === 'select' ? (
+            <TextField
+              select
+              label={`Select ${field.name}`}
+              size="small"
+              placeholder={field.placeholder}
+              InputLabelProps={{ shrink: true }}
               {...register(field.id)}
               error={!!errors[field.id]}
-              defaultValue=""
+              helperText={<>{errors[field.id]?.message}</>}
             >
-              <MenuItem value="">
-                <em>{`Select ${field.name}`}</em>
-              </MenuItem>
+              <MenuItem value="">Select {field.name}</MenuItem>
               {field.options?.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
-                  {option.label.replace(/_/g, ' ')
+                  {option.label
+                    .replace(/_/g, ' ')
                     .toLowerCase()
                     .replace(/\b(\w)/g, (s) => s.toUpperCase())}
                 </MenuItem>
               ))}
-            </Select>
-          </>
-        ) : (
-          <TextField
-            key={field.id}
-            label={field.name}
-            placeholder={field.placeholder}
-            type={field.type}
-            size="small"
-            InputLabelProps={{ shrink: true }}
-            {...register(field.id)}
-            error={!!errors[field.id]}
-            helperText={<>{errors[field.id]?.message}</>}
-          />
-        )}
-      </FormControl>
-    ))}
-    <Button type="submit" variant="contained" color="primary">
-      Save
-    </Button>
-  </FromWrapper>
-);
+            </TextField>
+          ) : (
+            <TextField
+              label={field.name}
+              placeholder={field.placeholder}
+              type={field.type}
+              size="small"
+              InputLabelProps={{ shrink: true }}
+              {...register(field.id)}
+              error={!!errors[field.id]}
+              helperText={<>{errors[field.id]?.message}</>}
+            />
+          )}
+        </FormControl>
+      ))}
+      <Button type="submit" variant="contained" color="primary">
+        Save
+      </Button>
+    </FromWrapper>
+  );
 };
 
 export default CreateRecordForm;

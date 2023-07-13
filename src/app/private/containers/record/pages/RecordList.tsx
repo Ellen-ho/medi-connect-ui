@@ -28,16 +28,16 @@ const RecordList: React.FC = () => {
       const { recordsData, pagination } = await getRecords({
         urlPath: typeId as string,
         query: {
-          targetPatientId: state.currentUser?.id as string,
-          page: 1,
-          limit: 10,
+          targetPatientId: state.patientId as string,
+          page: 0,
+          limit: 100,
         },
       });
       setRecords(recordsData);
     };
 
     fetchData();
-  }, [state]);
+  }, []);
 
   return (
     <>
