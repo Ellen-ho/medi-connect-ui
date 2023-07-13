@@ -1,9 +1,10 @@
-import { Button, TextField } from '@mui/material';
+import { Button, Select, MenuItem, FormControl, InputLabel, TextField } from '@mui/material';
 import { FromWrapper } from '../../../../../components/form/Index.styled';
 import { IRecordCategory } from '../types/Record.type';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { ExerciseType, IntensityType } from '../../../../../services/RecordService';
 
 interface ICreateRecordFormProps {
   categoryMeta: IRecordCategory;
@@ -31,29 +32,49 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
   };
 
   return (
-    <FromWrapper onSubmit={handleSubmit(onCreateQuestion)}>
-      {categoryMeta.fields.map((field) => {
-        return (
+  <FromWrapper onSubmit={handleSubmit(onCreateQuestion)}>
+    {categoryMeta.fields.map((field) => (
+      <FormControl key={field.id}>
+        {field.type === 'select' ? (
           <>
-            <TextField
-              key={field.id}
-              label={field.name}
-              placeholder={field.placeholder}
-              type={field.type}
-              size="small"
-              InputLabelProps={{ shrink: true }}
+            <InputLabel>{field.name}</InputLabel>
+            <Select
               {...register(field.id)}
               error={!!errors[field.id]}
-              helperText={<>{errors[field.id]?.message}</>}
-            />
+              defaultValue=""
+            >
+              <MenuItem value="">
+                <em>{`Select ${field.name}`}</em>
+              </MenuItem>
+              {field.options?.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label.replace(/_/g, ' ')
+                    .toLowerCase()
+                    .replace(/\b(\w)/g, (s) => s.toUpperCase())}
+                </MenuItem>
+              ))}
+            </Select>
           </>
-        );
-      })}
-      <Button type="submit" variant="contained" color="primary">
-        Save
-      </Button>
-    </FromWrapper>
-  );
+        ) : (
+          <TextField
+            key={field.id}
+            label={field.name}
+            placeholder={field.placeholder}
+            type={field.type}
+            size="small"
+            InputLabelProps={{ shrink: true }}
+            {...register(field.id)}
+            error={!!errors[field.id]}
+            helperText={<>{errors[field.id]?.message}</>}
+          />
+        )}
+      </FormControl>
+    ))}
+    <Button type="submit" variant="contained" color="primary">
+      Save
+    </Button>
+  </FromWrapper>
+);
 };
 
 export default CreateRecordForm;
