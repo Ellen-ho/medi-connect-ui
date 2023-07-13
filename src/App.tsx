@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import PrivateRoutes from './app/private/PrivateRoutes';
 import Home from './app/public/containers/home/Home';
 import SignIn from './app/public/containers/signin/SignIn';
@@ -32,3 +32,15 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+const DebugRouter = ({ children }: { children: any }) => {
+  const location = useLocation();
+
+  console.log(
+    `Route: ${location.pathname}${location.search}, State: ${JSON.stringify(
+      location.state,
+    )}`,
+  );
+
+  return children;
+};
