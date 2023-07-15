@@ -162,12 +162,12 @@ const ProfileDetail: React.FC = () => {
                   </Typography>
                   {profile.medicalHistory &&
                     profile.medicalHistory.map((history, index) => (
-                      <>
+                      <Box key={index}>
                         <EditableRowItem label={`#${index + 1}`}>
                           {history.diagnosis}, {history.diagnosisDetails}
                         </EditableRowItem>
                         <Divider />
-                      </>
+                      </Box>
                     ))}
                 </CardContent>
               </Card>
@@ -183,7 +183,7 @@ const ProfileDetail: React.FC = () => {
                   </Typography>
                   {profile.familyHistory &&
                     profile.familyHistory.map((familyHistory, index) => (
-                      <>
+                      <Box key={index}>
                         <EditableRowItem label={`#${index + 1}`}>
                           <Box sx={{ textAlign: 'right' }}>
                             {familyHistory.relationship} <br />
@@ -192,7 +192,7 @@ const ProfileDetail: React.FC = () => {
                           </Box>
                         </EditableRowItem>
                         <Divider />
-                      </>
+                      </Box>
                     ))}
                 </CardContent>
               </Card>
@@ -208,7 +208,7 @@ const ProfileDetail: React.FC = () => {
                   </Typography>
                   {profile.medicinceUsage &&
                     profile.medicinceUsage.map((usage, index) => (
-                      <>
+                      <Box key={index}>
                         <EditableRowItem label={`#${index + 1}`}>
                           <Box sx={{ textAlign: 'right' }}>
                             {usage.medicineName} <br />
@@ -217,7 +217,7 @@ const ProfileDetail: React.FC = () => {
                           </Box>
                         </EditableRowItem>
                         <Divider />
-                      </>
+                      </Box>
                     ))}
                 </CardContent>
               </Card>

@@ -52,7 +52,7 @@ const DoctorCard: React.FC<IDoctorCard> = ({ data }) => {
             )}
           </Box>
           <Typography variant="h6" textAlign={'center'} fontWeight={'bold'}>
-            {data.firstName} {data.lastName}
+            Dr. {data.firstName} {data.lastName}
           </Typography>
           <Typography variant="body1" sx={{ textAlign: 'center' }}>
             {data.specialties.map((v) => toSentenceCaseFormat(v)).join(', ')}

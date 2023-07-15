@@ -4,10 +4,10 @@ import {
   IGetDoctorItem,
   IGetDoctorsResponse,
 } from '../../../../../services/DoctorServices';
-import { DoctorListWrapper } from './DoctorListWrapper.styled';
 import { useState } from 'react';
 import { MedicalSpecialtyType } from '../../../../../types/Share';
 import DoctorCard from '../components/DoctorCard';
+import { DoctorListWrapper } from './DoctorList.styled';
 
 /**
  * Get Doctors
@@ -34,10 +34,7 @@ const mockResponse: IGetDoctorsResponse = {
       avatar: 'https://i.pravatar.cc/100?img=6',
       firstName: 'John',
       lastName: 'Doe',
-      specialties: [
-        'INTERNAL_MEDICINE',
-        'PEDIATRICS',
-      ] as MedicalSpecialtyType[],
+      specialties: ['PEDIATRICS'] as MedicalSpecialtyType[],
     },
     {
       id: '2b641762-faa3-493c-bc46-57f290e87be2',
