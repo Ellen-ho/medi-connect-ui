@@ -18,8 +18,9 @@ import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import addressFormatter from '../../../../../utils/addressFormatter';
+import { fromNowFormatter } from '../../../../../utils/fromNowFormatter';
 
-const MAP_API_KEY = '';
+const MAP_API_KEY = 'AIzaSyBEI_3kBwvdfukP1FONBej8ELqWguE3azk';
 
 const mockResponse = {
   id: 'de4d2799-6c93-4e5c-bf31-d15e7637b045',
@@ -86,6 +87,7 @@ const DoctorDetail: React.FC = () => {
                 Dr. {data.firstName} {data.lastName}
               </Typography>
               <Typography variant="body1" color={'text.secondary'}>
+                {`${fromNowFormatter(data.careerStartDate)} experience in`}{' '}
                 {data.specialties.join(', ')} | {data.gender}
               </Typography>
               <Divider sx={{ my: '20px' }} />

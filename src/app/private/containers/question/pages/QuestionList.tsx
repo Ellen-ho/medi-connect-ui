@@ -24,8 +24,12 @@ const QuestionList: React.FC = () => {
     }),
   );
 
-  const handleNewQuestion = () => {
+  const handleClickNewQuestion = () => {
     navigate('/question/new');
+  };
+
+  const handleClickQuestion = (questionId: string) => {
+    navigate(`/question/${questionId}`);
   };
 
   return (
@@ -33,7 +37,7 @@ const QuestionList: React.FC = () => {
       <PrimaryPageTop
         pageTitle="Question"
         leftElement={
-          <Button onClick={handleNewQuestion} variant="contained">
+          <Button onClick={handleClickNewQuestion} variant="contained">
             Ask Question
           </Button>
         }
@@ -41,7 +45,10 @@ const QuestionList: React.FC = () => {
       <PrimaryPageContent>
         <List>
           {data?.data.map((question) => (
-            <ListItemButton key={question.id}>
+            <ListItemButton
+              key={question.id}
+              onClick={() => handleClickQuestion(question.id)}
+            >
               <ListItemIcon>
                 <LiveHelpRoundedIcon />
               </ListItemIcon>
