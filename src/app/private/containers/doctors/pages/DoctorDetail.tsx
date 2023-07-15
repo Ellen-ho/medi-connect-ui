@@ -12,6 +12,8 @@ import {
   Divider,
   Box,
   Avatar,
+  Stack,
+  Chip,
 } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
@@ -49,10 +51,18 @@ const mockResponse = {
   updatedAt: '2023-06-22T12:53:23.432Z',
 };
 
+const mockResponseStatistic = {
+  id: '22f00713-2ce1-49de-a09b-89addb0f69f1',
+  answerCounts: 3,
+  thankedCounts: 1,
+  beAgreedCounts: 2,
+};
+
 const DoctorDetail: React.FC = () => {
   const { doctorId } = useParams();
 
   const data = mockResponse;
+  const doctorStatistic = mockResponseStatistic;
 
   //   const { data, error } = useSWR('getRecords', () =>
 
@@ -130,6 +140,30 @@ const DoctorDetail: React.FC = () => {
                 )}&key=${MAP_API_KEY}`}
               ></iframe>
               <Divider />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent>
+              <Typography
+                gutterBottom
+                variant="h5"
+                sx={{ display: 'flex', alignItems: 'center' }}
+              >
+                Languages spoken
+              </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Stack direction="row" spacing={1}>
+                  {data.languagesSpoken.map((language) => (
+                    <Chip
+                      key={language}
+                      label={language}
+                      color="primary"
+                      variant="outlined"
+                    />
+                  ))}
+                </Stack>
+              </Box>
             </CardContent>
           </Card>
 
@@ -223,6 +257,69 @@ const DoctorDetail: React.FC = () => {
                 ))}
               </Box>
               <Divider />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent>
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
+              >
+                Doctor Q&A
+              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    color={'text.secondary'}
+                    lineHeight={'1rem'}
+                  >
+                    Answers provided
+                  </Typography>
+                  <Typography
+                    variant="h3"
+                    color={'text.primary'}
+                    lineHeight={'3rem'}
+                  >
+                    {doctorStatistic.answerCounts}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    color={'text.secondary'}
+                    lineHeight={'1rem'}
+                  >
+                    Agrees given
+                  </Typography>
+                  <Typography
+                    variant="h3"
+                    color={'text.primary'}
+                    lineHeight={'3rem'}
+                  >
+                    {doctorStatistic.beAgreedCounts}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    color={'text.secondary'}
+                    lineHeight={'1rem'}
+                  >
+                    Thank you notes
+                  </Typography>
+                  <Typography
+                    variant="h3"
+                    color={'text.primary'}
+                    lineHeight={'3rem'}
+                  >
+                    {doctorStatistic.thankedCounts}
+                  </Typography>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         </DoctorDetailWrapper>

@@ -8,7 +8,7 @@ export const DoctorDetailWrapper = styled.div`
     alignItems: 'center',
     gap: '1rem',
     '> *': {
-      width: ['100%', '100%', '70%'],
+      width: ['100%', '100%', '80%'],
     },
   })}
 `;
