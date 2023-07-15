@@ -4,6 +4,7 @@ import { IRecordCategory } from '../types/Record.type';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { toSentenceCaseFormat } from '../../../../../utils/sentenceCaseFormat';
 
 interface ICreateRecordFormProps {
   categoryMeta: IRecordCategory;
@@ -48,10 +49,7 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
               <MenuItem value="">Select {field.name}</MenuItem>
               {field.options?.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
-                  {option.label
-                    .replace(/_/g, ' ')
-                    .toLowerCase()
-                    .replace(/\b(\w)/g, (s) => s.toUpperCase())}
+                  {toSentenceCaseFormat(option.label)}
                 </MenuItem>
               ))}
             </TextField>

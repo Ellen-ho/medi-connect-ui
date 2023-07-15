@@ -1,3 +1,4 @@
+import queryString from 'query-string';
 import { IAddress, IDoctor } from '../types/Doctors';
 import { GenderType, MedicalSpecialtyType } from '../types/Share';
 import api from './ApiService';
@@ -46,6 +47,33 @@ interface IGetDoctorProfileResponse {
   updatedAt: Date;
 }
 
+export interface IGetDoctorItem {
+  id: string;
+  avatar: string | null;
+  firstName: string;
+  lastName: string;
+  specialties: MedicalSpecialtyType[];
+}
+
+interface IGetDoctorsRequest {
+  query: {
+    page: number;
+    limit: number;
+    specialties?: MedicalSpecialtyType;
+  };
+}
+
+export interface IGetDoctorsResponse {
+  data: Array<IGetDoctorItem>;
+  pagination: {
+    pages: number[];
+    totalPage: number;
+    currentPage: number;
+    prev: number;
+    next: number;
+  };
+}
+
 export const createDoctorProfile = async (
   data: ICreateDoctorProfileRequest,
 ): Promise<ICreateDoctorProfileResponse> => {
@@ -68,7 +96,7 @@ export const editDoctorProfile = async (
 
 export const getDoctorProfile =
   async (): Promise<IGetDoctorProfileResponse> => {
-    const response = await api.post<IGetDoctorProfileResponse>(
+    const response = await api.get<IGetDoctorProfileResponse>(
       '/doctors/profile',
     );
     return response.data;
@@ -77,8 +105,17 @@ export const getDoctorProfile =
 export const getDoctorStatistic = async (
   data: IGetDoctorStatisticRequest,
 ): Promise<IGetDoctorStatisticResponse> => {
-  const response = await api.post<IGetDoctorStatisticResponse>(
+  const response = await api.get<IGetDoctorStatisticResponse>(
     `/doctors/${data.doctorId}/statistic`,
   );
+  return response.data;
+};
+
+// BE TODO: new endpoint needed
+export const getDoctors = async (
+  data: IGetDoctorsRequest,
+): Promise<IGetDoctorsResponse> => {
+  const queries = queryString.stringify(data.query);
+  const response = await api.get<IGetDoctorsResponse>('/doctors');
   return response.data;
 };

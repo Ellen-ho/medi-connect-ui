@@ -16,6 +16,7 @@ import {
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { CreateQuestionWrapper } from './CreateQuestion.styled';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
+import { toSentenceCaseFormat } from '../../../../../utils/sentenceCaseFormat';
 
 interface ICreateQuestionFormInputs {
   content: string;
@@ -85,10 +86,7 @@ const CreateQuestion: React.FC = () => {
                   </MenuItem>
                   {Object.values(MedicalSpecialtyType).map((value) => (
                     <MenuItem key={value} value={value}>
-                      {value
-                        .replace(/_/g, ' ')
-                        .toLowerCase()
-                        .replace(/\b(\w)/g, (s) => s.toUpperCase())}
+                      {toSentenceCaseFormat(value)}
                     </MenuItem>
                   ))}
                 </TextField>

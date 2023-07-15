@@ -1,7 +1,5 @@
-import {
-  PrimaryPageTitle,
-  PrimaryPageTopWrapper,
-} from './PrimaryPageTop.styled';
+import { Typography } from '@mui/material';
+import { PrimaryPageTopWrapper } from './PrimaryPageTop.styled';
 
 interface IPrimaryPageTopWrapperProps {
   pageTitle: string;
@@ -13,7 +11,7 @@ const PrimaryPageTop: React.FC<IPrimaryPageTopWrapperProps> = ({
 }) => {
   return (
     <PrimaryPageTopWrapper>
-      <PrimaryPageTitle>{pageTitle}</PrimaryPageTitle>
+      <Typography variant="h5">{pageTitle}</Typography>
       {leftElement}
     </PrimaryPageTopWrapper>
   );
