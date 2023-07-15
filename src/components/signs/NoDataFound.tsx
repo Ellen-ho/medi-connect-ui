@@ -1,15 +1,13 @@
 import React, { ReactNode } from 'react';
-
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
-import styled from '@emotion/styled';
 import { NoDataFoundStyled } from './NoDataFound.styled';
 
-type TNodataFound = {
+interface INoDataFound {
   label?: string;
   children?: ReactNode;
-};
+}
 
-const NoDataFound: React.FC<TNodataFound> = ({ label, children = '' }) => {
+const NoDataFound: React.FC<INoDataFound> = ({ label, children = '' }) => {
   return (
     <NoDataFoundStyled>
       <InfoTwoToneIcon fontSize="small" />{' '}

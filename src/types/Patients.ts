@@ -67,9 +67,9 @@ export interface IPatient {
   lastName: string;
   birthDate: Date;
   gender: GenderType;
-  medicalHistory: IMedicalHistoryItem[] | null;
-  allergy: IAllergy;
-  familyHistory: IFamilyHistoryItem[] | null;
   heightValueCm: number;
+  allergy: IAllergy;
+  medicalHistory: IMedicalHistoryItem[] | null;
+  familyHistory: IFamilyHistoryItem[] | null;
   medicinceUsage: IMedicinceUsageItem[] | null;
 }

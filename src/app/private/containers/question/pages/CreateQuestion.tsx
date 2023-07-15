@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { CreateQuestionWrapper } from './CreateQuestion.styled';
-import { FromWrapper } from '../../../../../components/form/Index.styled';
+import { FormWrapper } from '../../../../../components/form/Index.styled';
 
 interface ICreateQuestionFormInputs {
   content: string;
@@ -61,7 +61,7 @@ const CreateQuestion: React.FC = () => {
               <Typography gutterBottom variant="h5" component="div">
                 What is your question?
               </Typography>
-              <FromWrapper onSubmit={handleSubmit(onCreateQuestion)}>
+              <FormWrapper onSubmit={handleSubmit(onCreateQuestion)}>
                 {/* <input type="text" placeholder="Question" {...register('content')} /> */}
                 <TextField
                   label="Question"
@@ -98,7 +98,7 @@ const CreateQuestion: React.FC = () => {
                   Post question
                 </Button>
                 {/* <input type="submit" value="Post question" /> */}
-              </FromWrapper>
+              </FormWrapper>
             </CardContent>
           </Card>
         </CreateQuestionWrapper>

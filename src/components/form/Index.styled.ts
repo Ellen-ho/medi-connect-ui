@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const FromWrapper = styled.form`
+export const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
