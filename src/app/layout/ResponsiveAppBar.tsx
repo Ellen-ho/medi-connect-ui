@@ -152,10 +152,10 @@ const ResponsiveAppBar: React.FC = () => {
                         <Typography textAlign="center">{page.title}</Typography>
                       </MenuItem>
                     ))}
-                    <MenuItem onClick={handleSignOut}>
-                      <Typography textAlign="center">Sign Out</Typography>
-                    </MenuItem>
                   </Box>
+                  <MenuItem onClick={handleSignOut}>
+                    <Typography textAlign="center">Sign Out</Typography>
+                  </MenuItem>
                 </Menu>
               </>
             ) : (

@@ -1,17 +1,22 @@
 import {
+  Avatar,
   Button,
+  Card,
+  CardContent,
+  Divider,
   List,
-  ListItem,
+  ListItemAvatar,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
 } from '@mui/material';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import { useNavigate } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { getQuestions } from '../../../../../services/QuestionService';
-import LiveHelpRoundedIcon from '@mui/icons-material/LiveHelpRounded';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import useSWR from 'swr';
+import { dateFormatter } from '../../../../../utils/dateFormatter';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 const QuestionList: React.FC = () => {
   const navigate = useNavigate();
@@ -43,22 +48,39 @@ const QuestionList: React.FC = () => {
         }
       />
       <PrimaryPageContent>
-        <List>
-          {data?.data.map((question) => (
-            <ListItemButton
-              key={question.id}
-              onClick={() => handleClickQuestion(question.id)}
-            >
-              <ListItemIcon>
-                <LiveHelpRoundedIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary={question.content}
-                secondary={question.createdAt}
-              />
-            </ListItemButton>
-          ))}
-        </List>
+        <CommonWrapper>
+          <Card>
+            <CardContent>
+              <List
+                sx={{
+                  width: '100%',
+                  bgcolor: 'background.paper',
+                }}
+              >
+                {data?.data.map((question) => (
+                  <>
+                    <ListItemButton
+                      onClick={() => handleClickQuestion(question.id)}
+                    >
+                      <ListItemAvatar>
+                        <Avatar>
+                          <QuestionAnswerIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={question.content}
+                        secondary={`Created at ${dateFormatter(
+                          question.createdAt,
+                        )}`}
+                      />
+                    </ListItemButton>
+                    <Divider />
+                  </>
+                ))}
+              </List>
+            </CardContent>
+          </Card>
+        </CommonWrapper>
       </PrimaryPageContent>
     </>
   );

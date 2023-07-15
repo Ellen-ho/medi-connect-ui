@@ -40,9 +40,8 @@ const mockResponse = {
       thankCounts: '0',
       isThanked: false,
       doctorAvatars: [
-        'https://i.pravatar.cc/200?img=2',
+        'https://i.pravatar.cc/200?img=16',
         'https://i.pravatar.cc/200?img=7',
-        null,
         null,
         null,
       ],
@@ -61,10 +60,8 @@ const mockResponse = {
       thankCounts: '0',
       isThanked: false,
       doctorAvatars: [
-        'https://i.pravatar.cc/200?img=2',
-        'https://i.pravatar.cc/200?img=7',
-        null,
-        null,
+        'https://i.pravatar.cc/200?img=4',
+        'https://i.pravatar.cc/200?img=8',
         null,
       ],
     },
