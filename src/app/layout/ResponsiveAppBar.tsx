@@ -15,7 +15,7 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import { AuthContext } from '../../context/AuthContext';
 
 const topPages = [
-  { title: 'Doctors', link: 'doctors' },
+  { title: 'Doctors', link: 'doctor' },
   { title: 'Question', link: 'question' },
   { title: 'Appointment', link: 'appointment' },
   { title: 'Record', link: 'record' },
@@ -152,10 +152,10 @@ const ResponsiveAppBar: React.FC = () => {
                         <Typography textAlign="center">{page.title}</Typography>
                       </MenuItem>
                     ))}
-                    <MenuItem onClick={handleSignOut}>
-                      <Typography textAlign="center">Sign Out</Typography>
-                    </MenuItem>
                   </Box>
+                  <MenuItem onClick={handleSignOut}>
+                    <Typography textAlign="center">Sign Out</Typography>
+                  </MenuItem>
                 </Menu>
               </>
             ) : (

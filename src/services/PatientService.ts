@@ -8,7 +8,7 @@ interface ICreatePatientProfileResponse {
   createdAt: Date;
 }
 
-interface IEditPatientProfileRequest extends IPatient {}
+export interface IEditPatientProfileRequest extends IPatient {}
 
 interface IEditPatientProfileResponse extends IPatient {
   id: string;
@@ -44,7 +44,7 @@ export const editPatientProfile = async (
 
 export const getPatientProfile =
   async (): Promise<IGetPatientProfileResponse> => {
-    const response = await api.patch<IGetPatientProfileResponse>(
+    const response = await api.get<IGetPatientProfileResponse>(
       '/patients/profile',
     );
     return response.data;

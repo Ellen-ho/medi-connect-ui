@@ -15,7 +15,8 @@ import {
 } from '@mui/material';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { CreateQuestionWrapper } from './CreateQuestion.styled';
-import { FromWrapper } from '../../../../../components/form/Index.styled';
+import { FormWrapper } from '../../../../../components/form/Index.styled';
+import { toSentenceCaseFormat } from '../../../../../utils/sentenceCaseFormat';
 
 interface ICreateQuestionFormInputs {
   content: string;
@@ -61,7 +62,7 @@ const CreateQuestion: React.FC = () => {
               <Typography gutterBottom variant="h5" component="div">
                 What is your question?
               </Typography>
-              <FromWrapper onSubmit={handleSubmit(onCreateQuestion)}>
+              <FormWrapper onSubmit={handleSubmit(onCreateQuestion)}>
                 {/* <input type="text" placeholder="Question" {...register('content')} /> */}
                 <TextField
                   label="Question"
@@ -85,10 +86,7 @@ const CreateQuestion: React.FC = () => {
                   </MenuItem>
                   {Object.values(MedicalSpecialtyType).map((value) => (
                     <MenuItem key={value} value={value}>
-                      {value
-                        .replace(/_/g, ' ')
-                        .toLowerCase()
-                        .replace(/\b(\w)/g, (s) => s.toUpperCase())}
+                      {toSentenceCaseFormat(value)}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -98,7 +96,7 @@ const CreateQuestion: React.FC = () => {
                   Post question
                 </Button>
                 {/* <input type="submit" value="Post question" /> */}
-              </FromWrapper>
+              </FormWrapper>
             </CardContent>
           </Card>
         </CreateQuestionWrapper>

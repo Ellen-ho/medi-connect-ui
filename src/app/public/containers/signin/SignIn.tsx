@@ -16,7 +16,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { FromWrapper } from '../../../../components/form/Index.styled';
+import { FormWrapper } from '../../../../components/form/Index.styled';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
 
 interface ISignInFormInputs {
@@ -77,7 +77,7 @@ const SignIn: React.FC = () => {
             >
               <PersonPinIcon sx={{ fontSize: 50, color: '#777' }} />
             </Typography>
-            <FromWrapper onSubmit={handleSubmit(onSignIn)}>
+            <FormWrapper onSubmit={handleSubmit(onSignIn)}>
               <TextField
                 label="Email"
                 type="email"
@@ -101,7 +101,7 @@ const SignIn: React.FC = () => {
               <BottomAreaWrapper>
                 <Link href="/signup">Sign Up</Link>
               </BottomAreaWrapper>
-            </FromWrapper>
+            </FormWrapper>
           </CardContent>
         </Card>
         {/* <form onSubmit={handleSubmit(onSignIn)}>
