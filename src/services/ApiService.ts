@@ -18,9 +18,8 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log(error);
     if (error.response) {
-      toast.error(`Request failed: ${error.response.data.error}`);
+      toast.error(`${error.response.data.message}`);
     } else if (error.request) {
       toast.error('Request was made but no response was received');
     } else {

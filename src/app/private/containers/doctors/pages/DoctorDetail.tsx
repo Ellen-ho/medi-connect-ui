@@ -12,10 +12,11 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import addressFormatter from '../../../../../utils/addressFormatter';
 import { fromNowFormatter } from '../../../../../utils/fromNowFormatter';
-import Calendar from '../../../../../components/calendar/calendar';
 import BasicCard from '../../../../../components/card/BasicCard';
+import DoctorAppointmentCalendar from '../components/DoctorAppointmentCalendar';
+import { createConsultAppointmentRecord } from '../../../../../services/ConsultationService';
 
-const MAP_API_KEY = '';
+const MAP_API_KEY = 'AIzaSyBEI_3kBwvdfukP1FONBej8ELqWguE3azk';
 
 const mockResponse = {
   id: 'de4d2799-6c93-4e5c-bf31-d15e7637b045',
@@ -51,16 +52,61 @@ const mockResponseStatistic = {
   beAgreedCounts: 2,
 };
 
+const mockDoctorTimeSlot = [
+  {
+    id: 'e452935e-8f2a-4b04-9c15-29ba628d1287',
+    startAt: '2023-07-18T03:00:00.000Z',
+    endAt: '2023-07-18T03:30:00.000Z',
+    isAvailable: true,
+  },
+  {
+    id: '0b760e80-e15a-4683-970f-7d714029a2f8',
+    startAt: '2023-07-19T06:30:00.000Z',
+    endAt: '2023-07-19T07:00:00.000Z',
+    isAvailable: true,
+  },
+  {
+    id: 'ec52544b-e417-410e-8aa0-25ac3b7d3b8e',
+    startAt: '2023-07-20T00:00:00.000Z',
+    endAt: '2023-07-20T00:30:00.000Z',
+    isAvailable: true,
+  },
+  {
+    id: '21b2ad19-45aa-4f75-ac8c-2dc0a74a852e',
+    startAt: '2023-07-21T08:30:00.000Z',
+    endAt: '2023-07-21T09:00:00.000Z',
+    isAvailable: true,
+  },
+  {
+    id: '17ffbd9c-b2f2-4d23-abad-dbd8d1332251',
+    startAt: '2023-07-22T05:00:00.000Z',
+    endAt: '2023-07-22T05:30:00.000Z',
+    isAvailable: true,
+  },
+  {
+    id: '39513d82-a492-455d-841a-44ce00190ca7',
+    startAt: '2023-07-18T01:30:00.000Z',
+    endAt: '2023-07-18T02:00:00.000Z',
+    isAvailable: false,
+  },
+];
+
 const DoctorDetail: React.FC = () => {
   const { doctorId } = useParams();
 
   const data = mockResponse;
   const doctorStatistic = mockResponseStatistic;
+  const doctorTimeSlot = mockDoctorTimeSlot;
 
   //   const { data, error } = useSWR('getRecords', () =>
 
   //   }),
   // );
+
+  const handleBookDoctorTimeSlot = (doctorTimeSlotId: string) => {
+    createConsultAppointmentRecord({ doctorTimeSlotId });
+  };
+
   return (
     <>
       <SecondaryPageTop />
@@ -255,7 +301,11 @@ const DoctorDetail: React.FC = () => {
             ></iframe>
           </BasicCard>
           <BasicCard title={'Appointment Time Slot'}>
-            <Calendar />
+            <DoctorAppointmentCalendar
+              events={doctorTimeSlot}
+              doctorName={`${data.firstName} ${data.lastName}`}
+              eventClickCallback={handleBookDoctorTimeSlot}
+            />
           </BasicCard>
         </DoctorDetailWrapper>
       </PrimaryPageContent>
