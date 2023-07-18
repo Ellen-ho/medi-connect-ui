@@ -1,8 +1,7 @@
 import { Button, Typography } from '@mui/material';
-import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import { useNavigate, useParams } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { getRecordCategory } from '../helpers/getRecordCategory';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import { getRecords } from '../../../../../services/RecordService';

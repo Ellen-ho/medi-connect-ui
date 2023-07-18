@@ -22,11 +22,12 @@ import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import FmdBadOutlinedIcon from '@mui/icons-material/FmdBadOutlined';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { IPatient } from '../../../../../types/Patients';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import DataLoading from '../../../../../components/signs/DataLoading';
 import { useForm } from 'react-hook-form';
+import { AuthContext } from '../../../../../context/AuthContext';
 
 // const schema = yup
 //   .object({
@@ -36,6 +37,7 @@ import { useForm } from 'react-hook-form';
 //   .required();
 
 const ProfileDetail: React.FC = () => {
+  const { state } = useContext(AuthContext);
   const [profile, setProfile] = useState<IPatient | null>();
 
   const generateFallbackAvatar = (alt: string) => {
@@ -58,11 +60,20 @@ const ProfileDetail: React.FC = () => {
     await editPatientProfile(data);
   };
 
-  const { isLoading } = useSWR('getPatientProfile', () => getPatientProfile(), {
-    onSuccess: (data) => {
-      setProfile(data);
+  const { isLoading } = useSWR(
+    'getPatientProfile',
+    () =>
+      getPatientProfile({
+        query: {
+          targetPatientId: state.patientId as string,
+        },
+      }),
+    {
+      onSuccess: (data) => {
+        setProfile(data);
+      },
     },
-  });
+  );
   return (
     <>
       <PrimaryPageTop pageTitle="Profile" />
