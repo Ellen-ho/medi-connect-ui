@@ -42,7 +42,6 @@ interface IGetUserAccountResponse {
 
 interface IEditUserAccountRequest {
   displayName: string;
-  email: string;
   password: string;
 }
 
