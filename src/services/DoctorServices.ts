@@ -94,28 +94,28 @@ export const editDoctorProfile = async (
   return response.data;
 };
 
-export const getDoctorProfile =
-  async (): Promise<IGetDoctorProfileResponse> => {
-    const response = await api.get<IGetDoctorProfileResponse>(
-      '/doctors/profile',
-    );
-    return response.data;
-  };
-
-export const getDoctorStatistic = async (
-  data: IGetDoctorStatisticRequest,
-): Promise<IGetDoctorStatisticResponse> => {
-  const response = await api.get<IGetDoctorStatisticResponse>(
-    `/doctors/${data.doctorId}/statistic`,
+export const getDoctorProfile = async (
+  id: string,
+): Promise<IGetDoctorProfileResponse> => {
+  const response = await api.get<IGetDoctorProfileResponse>(
+    `/doctors/${id}/profile`,
   );
   return response.data;
 };
 
-// BE TODO: new endpoint needed
+export const getDoctorStatistic = async (
+  id: string,
+): Promise<IGetDoctorStatisticResponse> => {
+  const response = await api.get<IGetDoctorStatisticResponse>(
+    `/doctors/${id}/statistic`,
+  );
+  return response.data;
+};
+
 export const getDoctors = async (
   data: IGetDoctorsRequest,
 ): Promise<IGetDoctorsResponse> => {
   const queries = queryString.stringify(data.query);
-  const response = await api.get<IGetDoctorsResponse>('/doctors');
+  const response = await api.get<IGetDoctorsResponse>(`/doctors?${queries}`);
   return response.data;
 };

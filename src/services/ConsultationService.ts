@@ -31,7 +31,7 @@ export interface IPatientConsultAppointmentDatas {
   doctorTimeSlot: IDoctorTimeSlotData;
   doctor: IDoctorData;
   meetingLink: string | null;
-  cacelAvailability: boolean;
+  cancelAvailability: boolean;
 }
 
 interface IDoctorConsultAppointmentDatas {
@@ -98,6 +98,25 @@ interface ICancelConsultAppointmentResponse {
   status: ConsultAppointmentStatusType;
 }
 
+export interface IGetDoctorTimeSlotsvRequest {
+  doctorId: string;
+  query: {
+    startTime: string;
+    endTime: string;
+  };
+}
+
+export interface IGetDoctorTimeSlotsvResponse {
+  doctorId: string;
+  timeSlots: IDoctorTimeSlot[];
+}
+export interface IDoctorTimeSlot {
+  id: string;
+  startAt: string;
+  endAt: string;
+  isAvailable: boolean;
+}
+
 export const createDoctorTimeSlot = async (
   data: ICreateDoctorTimeSlotRequest,
 ): Promise<ICreateDoctorTimeSlotResponse> => {
@@ -154,6 +173,17 @@ export const cancelConsultAppointment = async (
 ): Promise<ICancelConsultAppointmentResponse> => {
   const response = await api.delete<ICancelConsultAppointmentResponse>(
     `/consultations/${data.consultAppointmentId}`,
+  );
+  return response.data;
+};
+
+export const getDoctorTimeSlots = async ({
+  doctorId,
+  query,
+}: IGetDoctorTimeSlotsvRequest): Promise<IGetDoctorTimeSlotsvResponse> => {
+  const queries = queryString.stringify(query);
+  const response = await api.get(
+    `/consultations/time-slots/doctors/${doctorId}?${queries}`,
   );
   return response.data;
 };

@@ -1,82 +1,3 @@
-// import { Avatar, Button, Card, CardContent, Divider, List, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material';
-// import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
-// import { useNavigate } from 'react-router-dom';
-// import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-// import { useEffect, useState } from 'react';
-// import { IQuestion } from '../../../../../types/Questions';
-// import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-// import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
-// import { dateFormatter } from '../../../../../utils/dateFormatter';
-
-// const AppointmentList: React.FC = () => {
-//   const [appointments, setAppointments] = useState<IAppointment[]>([]);
-//   const navigate = useNavigate();
-
-//   const handleClickNewAppointment = () => {
-//     navigate('/appointment/new');
-//   };
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       const { data, pagination } = await getAppointments({
-//       });
-//       setQuestions(data);
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   return (
-//     <>
-//       <PrimaryPageTop
-//         pageTitle="Appointment"
-//         rightElement={
-//           <Button onClick={handleClickNewAppointment} variant="contained">
-//             Make Appointment
-//           </Button>
-//         }
-//       />
-//       <PrimaryPageContent>
-//         <CommonWrapper>
-//           <Card>
-//             <CardContent>
-//               <List
-//                 sx={{
-//                   width: '100%',
-//                   bgcolor: 'background.paper',
-//                 }}
-//               >
-//                  {data?.data.map((appointment) => (
-//                   <>
-//                     <ListItemButton
-//                       onClick={() => handleClickAppointment(appointment.id)}
-//                     >
-//                       <ListItemAvatar>
-//                         <Avatar>
-//                            <CalendarMonthIcon/>
-//                         </Avatar>
-//                      </ListItemAvatar>
-//                       <ListItemText
-//                         primary={appointment.status}
-//                         secondary={`Created at ${dateFormatter(
-//                           appointment.createdAt,
-//                         )}`}
-//                       />
-//               </ListItemButton>
-//                     <Divider />
-//                   </>
-//                 ))}
-//               </List>
-//             </CardContent>
-//           </Card>
-//         </CommonWrapper>
-//       </PrimaryPageContent>
-//     </>
-//   );
-// };
-
-// export default AppointmentList;
-
 import {
   Avatar,
   Button,
@@ -91,12 +12,6 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -107,7 +22,6 @@ import {
   IGetPatientConsultAppointmentsResponse,
   IPatientConsultAppointmentDatas,
 } from '../../../../../services/ConsultationService';
-import { ConsultAppointmentDatas } from '../../../../../types/Consultations';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 import BasicCard from '../../../../../components/card/BasicCard';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
@@ -324,7 +238,7 @@ const AppointmentList: React.FC = () => {
           <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button
               variant="contained"
-              disabled={!selectedDetail.cacelAvailability}
+              disabled={!selectedDetail.cancelAvailability}
               onClick={() =>
                 handleCancelAppointment(selectedDetail.appointmentId)
               }
