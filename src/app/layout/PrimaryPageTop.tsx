@@ -3,16 +3,16 @@ import { PrimaryPageTopWrapper } from './PrimaryPageTop.styled';
 
 interface IPrimaryPageTopWrapperProps {
   pageTitle: string;
-  leftElement?: React.ReactNode;
+  rightElement?: React.ReactNode;
 }
 const PrimaryPageTop: React.FC<IPrimaryPageTopWrapperProps> = ({
   pageTitle,
-  leftElement,
+  rightElement,
 }) => {
   return (
     <PrimaryPageTopWrapper>
       <Typography variant="h5">{pageTitle}</Typography>
-      {leftElement}
+      {rightElement}
     </PrimaryPageTopWrapper>
   );
 };

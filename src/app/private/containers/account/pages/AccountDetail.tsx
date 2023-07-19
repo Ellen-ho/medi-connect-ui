@@ -6,7 +6,6 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useSWR from 'swr';
 import {
-  Box,
   Button,
   Card,
   CardContent,
@@ -22,6 +21,7 @@ import {
   getUserAccount,
 } from '../../../../../services/UserService';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import RowItem from '../../../../../components/form/RowItem';
 
 interface IAccountForm {
   displayName: string;
@@ -130,29 +130,3 @@ const AccountDetail: React.FC = () => {
 };
 
 export default AccountDetail;
-
-interface IEditableRowItemProps {
-  label: string;
-  children?: React.ReactNode;
-}
-const RowItem: React.FC<IEditableRowItemProps> = ({ label, children }) => {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        minHeight: '3rem',
-        padding: '.5rem 0',
-      }}
-    >
-      <Box color="text.primary">{label}</Box>
-      <Box
-        color="text.secondary"
-        sx={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}
-      >
-        {children}
-      </Box>
-    </Box>
-  );
-};

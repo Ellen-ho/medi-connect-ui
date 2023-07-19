@@ -8,7 +8,6 @@
 // import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 // import { dateFormatter } from '../../../../../utils/dateFormatter';
 
-
 // const AppointmentList: React.FC = () => {
 //   const [appointments, setAppointments] = useState<IAppointment[]>([]);
 //   const navigate = useNavigate();
@@ -31,7 +30,7 @@
 //     <>
 //       <PrimaryPageTop
 //         pageTitle="Appointment"
-//         leftElement={
+//         rightElement={
 //           <Button onClick={handleClickNewAppointment} variant="contained">
 //             Make Appointment
 //           </Button>
@@ -78,36 +77,65 @@
 
 // export default AppointmentList;
 
-
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import PrimaryPageTop from "../../../../layout/PrimaryPageTop";
-import PrimaryPageContent from "../../../../layout/PrimaryPageContent";
-import { getPatientConsultAppointments, IGetPatientConsultAppointmentsResponse } from "../../../../../services/ConsultationService";
-import { ConsultAppointmentDatas } from "../../../../../types/Consultations";
+import {
+  Avatar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
+  Link,
+  List,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
+import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
+import {
+  getPatientConsultAppointments,
+  IGetPatientConsultAppointmentsResponse,
+  IPatientConsultAppointmentDatas,
+} from '../../../../../services/ConsultationService';
+import { ConsultAppointmentDatas } from '../../../../../types/Consultations';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import BasicCard from '../../../../../components/card/BasicCard';
+import { dateFormatter } from '../../../../../utils/dateFormatter';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import RowItem from '../../../../../components/form/RowItem';
+import NoDataFound from '../../../../../components/signs/NoDataFound';
 
 const AppointmentList: React.FC = () => {
   const navigate = useNavigate();
-  const [appointments, setAppointments] = useState<ConsultAppointmentDatas[]>([]);
+  const [detailDialogOpen, setDetailDialogOpen] = useState<boolean>(false);
+  const [selectedDetail, setSelectedDetail] =
+    useState<IPatientConsultAppointmentDatas | null>(null);
+  const [appointments, setAppointments] =
+    useState<IGetPatientConsultAppointmentsResponse>({
+      upcomingAppointments: [],
+      completedAppointments: [],
+      canceledAppointments: [],
+    });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response: IGetPatientConsultAppointmentsResponse = await getPatientConsultAppointments();
-        const allAppointments = [
-          ...response.upcomingAppointments,
-          ...response.completedAppointments,
-          ...response.canceledAppointments
-        ];
-        setAppointments(allAppointments);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const handleOpenDetailDialog = (detail: IPatientConsultAppointmentDatas) => {
+    setSelectedDetail(detail);
+    setDetailDialogOpen(true);
+  };
 
-    fetchData();
-  }, []);
+  const handleCloseDetailDialog = () => {
+    setDetailDialogOpen(false);
+    setSelectedDetail(null);
+  };
 
   const handleClickNewAppointment = () => {
     navigate('/appointment/new');
@@ -121,50 +149,193 @@ const AppointmentList: React.FC = () => {
     console.log(`Cancel appointment with ID: ${appointmentId}`);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response: IGetPatientConsultAppointmentsResponse =
+          await getPatientConsultAppointments();
+
+        setAppointments(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <PrimaryPageTop
         pageTitle="Appointment"
-        leftElement={
-          <Button onClick={handleClickNewAppointment} variant="contained">
-            Create Appointment
-          </Button>
-        }
+        // rightElement={
+        //   <Button onClick={handleClickNewAppointment} variant="contained">
+        //     Create Appointment
+        //   </Button>
+        // }
       />
       <PrimaryPageContent>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Appointment Status</TableCell>
-                <TableCell>Appointment Time Slot</TableCell>
-                <TableCell>Appointed Doctor</TableCell>
-                <TableCell>Meeting Link</TableCell>
-                <TableCell>Cancel Availability</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {appointments.map((appointment) => (
-                <TableRow key={appointment.patientId}>
-                  <TableCell>{appointment.status}</TableCell>
-                  <TableCell>{`${appointment.doctorTimeSlot.startAt} - ${appointment.doctorTimeSlot.endAt}`}</TableCell>
-                  <TableCell>{`${appointment.doctor.firstName} ${appointment.doctor.lastName}`}</TableCell>
-                  <TableCell>{appointment.meetingLink}</TableCell>
-                  <TableCell>
-                    {appointment.cacelAvailability ? (
-                      <Button onClick={() => handleCancelAppointment(appointment.patientId)} variant="contained">
-                        I Want to Cancel
-                      </Button>
-                    ) : null}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <CommonWrapper>
+          <BasicCard title={'Upcoming'}>
+            <List
+              sx={{
+                width: '100%',
+                bgcolor: 'background.paper',
+              }}
+            >
+              {appointments.upcomingAppointments.length > 0 ? (
+                appointments.upcomingAppointments.map((item) => (
+                  <>
+                    <ListItemButton
+                      onClick={() => handleOpenDetailDialog(item)}
+                    >
+                      <ListItemAvatar>
+                        <Avatar>
+                          <CalendarMonthIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`Dr. ${item.doctor.firstName} ${item.doctor.lastName}`}
+                        secondary={`Datetime: ${dateFormatter(
+                          item.doctorTimeSlot.startAt.toString(),
+                        )} ~ ${dateFormatter(
+                          item.doctorTimeSlot.endAt.toString(),
+                        )}`}
+                      />
+                    </ListItemButton>
+                    <Divider />
+                  </>
+                ))
+              ) : (
+                <NoDataFound />
+              )}
+            </List>
+          </BasicCard>
+          <BasicCard title={'Completed'}>
+            <List
+              sx={{
+                width: '100%',
+                bgcolor: 'background.paper',
+              }}
+            >
+              {appointments.completedAppointments.length > 0 ? (
+                appointments.completedAppointments.map((item) => (
+                  <>
+                    <ListItemButton
+                      onClick={() => handleOpenDetailDialog(item)}
+                    >
+                      <ListItemAvatar>
+                        <Avatar>
+                          <CalendarMonthIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`Dr. ${item.doctor.firstName} ${item.doctor.lastName}`}
+                        secondary={`Datetime: ${dateFormatter(
+                          item.doctorTimeSlot.startAt.toString(),
+                        )} ~ ${dateFormatter(
+                          item.doctorTimeSlot.endAt.toString(),
+                        )}`}
+                      />
+                    </ListItemButton>
+                    <Divider />
+                  </>
+                ))
+              ) : (
+                <NoDataFound />
+              )}
+            </List>
+          </BasicCard>
+          <BasicCard title={'Cancel'}>
+            <List
+              sx={{
+                width: '100%',
+                bgcolor: 'background.paper',
+              }}
+            >
+              {appointments.canceledAppointments.length > 0 ? (
+                appointments.canceledAppointments.map((item) => (
+                  <>
+                    <ListItemButton
+                      onClick={() => handleOpenDetailDialog(item)}
+                    >
+                      <ListItemAvatar>
+                        <Avatar>
+                          <CalendarMonthIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`Dr. ${item.doctor.firstName} ${item.doctor.lastName}`}
+                        secondary={`Datetime: ${dateFormatter(
+                          item.doctorTimeSlot.startAt.toString(),
+                        )} ~ ${dateFormatter(
+                          item.doctorTimeSlot.endAt.toString(),
+                        )}`}
+                      />
+                    </ListItemButton>
+                    <Divider />
+                  </>
+                ))
+              ) : (
+                <NoDataFound />
+              )}
+            </List>
+          </BasicCard>
+        </CommonWrapper>
       </PrimaryPageContent>
+      {selectedDetail !== null && (
+        <Dialog
+          open={detailDialogOpen}
+          onClose={handleCloseDetailDialog}
+          fullWidth={true}
+          maxWidth={'md'}
+        >
+          <DialogTitle>{'Appointment Details'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              <RowItem label={'Appointment No.'}>
+                {selectedDetail.appointmentId}
+              </RowItem>
+              <Divider />
+              <RowItem
+                label={'Doctor Name'}
+              >{`Dr. ${selectedDetail.doctor.firstName} ${selectedDetail.doctor.lastName}`}</RowItem>
+              <Divider />
+              <RowItem label={'Datetime'}>{`${dateFormatter(
+                selectedDetail.doctorTimeSlot.startAt.toString(),
+              )} ~ ${dateFormatter(
+                selectedDetail.doctorTimeSlot.endAt.toString(),
+              )}`}</RowItem>
+              <Divider />
+              <RowItem label={'Status'}>{selectedDetail.status}</RowItem>
+              <Divider />
+              <RowItem label={'Meeting Link'}>
+                {selectedDetail.meetingLink ? (
+                  <Link href={selectedDetail.meetingLink}>
+                    {selectedDetail.meetingLink}
+                  </Link>
+                ) : (
+                  '--'
+                )}
+              </RowItem>
+              <Divider />
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              variant="contained"
+              disabled={!selectedDetail.cacelAvailability}
+              onClick={() =>
+                handleCancelAppointment(selectedDetail.appointmentId)
+              }
+            >
+              Cancel This Appointment
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </>
   );
-}
+};
 
 export default AppointmentList;

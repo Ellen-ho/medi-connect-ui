@@ -38,7 +38,7 @@ const RecordList: React.FC = () => {
       {recordCategory ? (
         <>
           <SecondaryPageTop
-            leftElement={
+            rightElement={
               <Button onClick={handleNewQuestion} variant="contained">
                 Add Record
               </Button>

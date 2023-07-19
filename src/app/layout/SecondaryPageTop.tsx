@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 interface ISecondaryPageTopWrapperProps {
-  leftElement?: React.ReactNode;
+  rightElement?: React.ReactNode;
 }
 const SecondaryPageTop: React.FC<ISecondaryPageTopWrapperProps> = ({
-  leftElement,
+  rightElement,
 }) => {
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ const SecondaryPageTop: React.FC<ISecondaryPageTopWrapperProps> = ({
       <IconButton aria-label="back" onClick={handleBack} size="small">
         <ArrowBackIcon />
       </IconButton>
-      {leftElement}
+      {rightElement}
     </SecondaryPageTopWrapper>
   );
 };

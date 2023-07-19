@@ -24,8 +24,8 @@ interface IDoctorData {
   lastName: string;
   specialties: MedicalSpecialtyType[];
 }
-
-interface patientConsultAppointmentDatas {
+export interface IPatientConsultAppointmentDatas {
+  appointmentId: string;
   patientId: string;
   status: ConsultAppointmentStatusType;
   doctorTimeSlot: IDoctorTimeSlotData;
@@ -34,7 +34,7 @@ interface patientConsultAppointmentDatas {
   cacelAvailability: boolean;
 }
 
-interface doctorConsultAppointmentDatas {
+interface IDoctorConsultAppointmentDatas {
   status: ConsultAppointmentStatusType;
   doctorTimeSlot: IDoctorTimeSlotData;
   patient: IPatientData;
@@ -42,15 +42,15 @@ interface doctorConsultAppointmentDatas {
 }
 
 export interface IGetPatientConsultAppointmentsResponse {
-  upcomingAppointments: patientConsultAppointmentDatas[];
-  completedAppointments: patientConsultAppointmentDatas[];
-  canceledAppointments: patientConsultAppointmentDatas[];
+  upcomingAppointments: IPatientConsultAppointmentDatas[];
+  completedAppointments: IPatientConsultAppointmentDatas[];
+  canceledAppointments: IPatientConsultAppointmentDatas[];
 }
 
 interface IGetDoctorConsultAppointmentsResponse {
-  upcomingAppointments: doctorConsultAppointmentDatas[];
-  completedAppointments: doctorConsultAppointmentDatas[];
-  canceledAppointments: doctorConsultAppointmentDatas[];
+  upcomingAppointments: IDoctorConsultAppointmentDatas[];
+  completedAppointments: IDoctorConsultAppointmentDatas[];
+  canceledAppointments: IDoctorConsultAppointmentDatas[];
 }
 
 interface ICreateDoctorTimeSlotRequest {

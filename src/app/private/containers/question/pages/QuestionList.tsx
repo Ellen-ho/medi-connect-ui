@@ -41,7 +41,7 @@ const QuestionList: React.FC = () => {
     <>
       <PrimaryPageTop
         pageTitle="Question"
-        leftElement={
+        rightElement={
           <Button onClick={handleClickNewQuestion} variant="contained">
             Ask Question
           </Button>
