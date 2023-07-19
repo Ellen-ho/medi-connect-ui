@@ -31,6 +31,7 @@ interface patientConsultAppointmentDatas {
   doctorTimeSlot: IDoctorTimeSlotData;
   doctor: IDoctorData;
   meetingLink: string | null;
+  cacelAvailability: boolean;
 }
 
 interface doctorConsultAppointmentDatas {
@@ -40,7 +41,7 @@ interface doctorConsultAppointmentDatas {
   meetingLink: string | null;
 }
 
-interface IGetPatientConsultAppointmentsResponse {
+export interface IGetPatientConsultAppointmentsResponse {
   upcomingAppointments: patientConsultAppointmentDatas[];
   completedAppointments: patientConsultAppointmentDatas[];
   canceledAppointments: patientConsultAppointmentDatas[];
