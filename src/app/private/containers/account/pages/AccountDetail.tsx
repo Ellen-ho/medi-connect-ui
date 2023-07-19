@@ -1,39 +1,60 @@
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { IAccount } from '../../../../../types/Users';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import useSWR from 'swr';
-import { Box, Button, Card, CardContent, Divider, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Divider,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { AccountDetailWrapper } from './AccountDetail.styled';
 import DataLoading from '../../../../../components/signs/DataLoading';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
-import { editUserAccount, getUserAccount } from '../../../../../services/UserService';
+import {
+  editUserAccount,
+  getUserAccount,
+} from '../../../../../services/UserService';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const AccountDetail: React.FC = () => {
-   const [account, setAccount] = useState<IAccount | null>();
+interface IAccountForm {
+  displayName: string;
+  password: string;
+  confirmPassword: string;
+}
 
-   const {
+// const accountSchema = yup.object({
+//   displayName: yup.string().required(),
+//   password: yup.string().required(),
+//   confirmPassword: yup.string().when('password', {
+//     is: (val: string) => val && val.length > 0,
+//   }),
+// });
+
+const AccountDetail: React.FC = () => {
+  const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<IAccount>();
+    formState: { errors, isDirty },
+  } = useForm<IAccount>({
+    // resolver: yupResolver(accountSchema),
+  });
 
-  const onEditAccount = async (data: IAccount) => {
-    await editUserAccount(data);
+  const onEditAccount = async (data: IAccountForm) => {
+    const payload = {
+      displayName: data.displayName,
+      password: data.password,
+    };
+    await editUserAccount(payload);
   };
 
-  const { isLoading } = useSWR('getUserAccount', () => getUserAccount(), {
-    onSuccess: (data) => {
-      setAccount({
-      displayName: data.displayName,
-      email: data.email,
-      password: '', 
-      confirmPassword: '', 
-    });
-  },
-});
+  const { data, isLoading } = useSWR('getUserAccount', () => getUserAccount());
 
   return (
     <>
@@ -42,7 +63,7 @@ const AccountDetail: React.FC = () => {
         <AccountDetailWrapper>
           {isLoading ? (
             <DataLoading />
-          ) : account == null ? (
+          ) : data == null ? (
             <Typography variant="h5" component="div">
               No Account found
             </Typography>
@@ -55,44 +76,54 @@ const AccountDetail: React.FC = () => {
                     variant="h5"
                     component="div"
                     sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
-                  ><AccountCircleIcon /> Personal
+                  >
+                    <AccountCircleIcon /> Personal
                   </Typography>
-                  <EditableRowItem label={'Display Name'}>
+                  <RowItem label={'Email'}>{data.email}</RowItem>
+                  <RowItem label={'Display Name'}>
                     <TextField
                       size="small"
                       variant="outlined"
-                      value={account.displayName ?? '--'}
+                      value={data.displayName}
+                      error={!!errors.displayName}
+                      helperText={<>{errors.displayName?.message}</>}
                       {...register('displayName')}
                     />
-                  </EditableRowItem>
+                  </RowItem>
                   <Divider />
-                  <EditableRowItem label={'Email'}>
+
+                  <Divider />
+                  <RowItem label={'Password'}>
                     <TextField
                       size="small"
                       variant="outlined"
-                      value={account.email ?? '--'}
-                      {...register('email')}
-                    />
-                  </EditableRowItem>
-                  <Divider />
-                  <EditableRowItem label={'PassWord'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      value={account.password ?? '--'}
+                      placeholder="Enter new password"
+                      type="password"
                       {...register('password')}
                     />
-                  </EditableRowItem>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      placeholder="Confirm new password"
+                      type="password"
+                      {...register('confirmPassword')}
+                    />
+                  </RowItem>
                   <Divider />
-                  </CardContent>
+                </CardContent>
               </Card>
 
-              <Button type="submit" variant="contained" color="primary">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={!isDirty}
+              >
                 Save
               </Button>
             </FormWrapper>
           )}
-           </AccountDetailWrapper>
+        </AccountDetailWrapper>
       </PrimaryPageContent>
     </>
   );
@@ -104,21 +135,24 @@ interface IEditableRowItemProps {
   label: string;
   children?: React.ReactNode;
 }
-const EditableRowItem: React.FC<IEditableRowItemProps> = ({
-  label,
-  children,
-}) => {
+const RowItem: React.FC<IEditableRowItemProps> = ({ label, children }) => {
   return (
     <Box
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        height: '3.5rem',
+        minHeight: '3rem',
+        padding: '.5rem 0',
       }}
     >
       <Box color="text.primary">{label}</Box>
-      <Box color="text.secondary">{children}</Box>
+      <Box
+        color="text.secondary"
+        sx={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}
+      >
+        {children}
+      </Box>
     </Box>
   );
 };
