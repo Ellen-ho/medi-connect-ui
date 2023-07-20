@@ -13,6 +13,9 @@ import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import { useNavigate } from 'react-router-dom';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import { AuthContext } from '../../context/AuthContext';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { getNotificationList } from '../../services/NotificationService';
+
 
 const topPages = [
   { title: 'Doctors', link: 'doctor' },
@@ -52,6 +55,20 @@ const ResponsiveAppBar: React.FC = () => {
     navigate(link);
     handleCloseNavMenu();
   };
+
+const handleNotificationClick = async () => {
+    const notificationList = await getNotificationList({
+      query: {
+        page: 1, 
+        limit: 10, 
+      },
+      });
+      navigate('/notification', {
+        state: {
+          notificationList: notificationList,
+        },
+      });
+    } 
 
   return (
     <AppBar position="static">
@@ -97,6 +114,12 @@ const ResponsiveAppBar: React.FC = () => {
                       {page.title}
                     </Button>
                   ))}
+                   <IconButton
+                  sx={{ color: 'white' }}
+                  onClick={handleNotificationClick}
+                >
+                  <NotificationsIcon />
+                </IconButton>
                   <IconButton
                     sx={{ color: 'white' }}
                     onClick={handleOpenNavMenu}
