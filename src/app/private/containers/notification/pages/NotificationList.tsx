@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Card,
   CardContent,
   Divider,
@@ -19,19 +18,19 @@ import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import useSWR from 'swr';
-import { useNavigate } from 'react-router-dom';
 import {
   deleteAllNotifications,
   getNotificationDetails,
   getNotificationList,
   readAllNotifications,
 } from '../../../../../services/NotificationService';
-import React from 'react';
+import React, { useContext } from 'react';
 import NotificationIcons from '../components/NotificationIcons';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { NotificationContext } from '../../../../../context/NotificationContext';
 
 const NotificationList: React.FC = () => {
-  const navigate = useNavigate();
+  const { state, dispatch } = useContext(NotificationContext);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null,
   );
@@ -52,16 +51,29 @@ const NotificationList: React.FC = () => {
     }),
   );
 
+  const resetUnreadNotification = () => {
+    dispatch({
+      type: 'UPDATE_NOTIFICATION',
+      payload: {
+        hasUnread: false,
+      },
+    });
+  };
+
   const handleReadAll = async () => {
     handleCloseMenu();
     await readAllNotifications();
     mutate();
+
+    resetUnreadNotification();
   };
 
   const handleDeleteAll = async () => {
     handleCloseMenu();
     await deleteAllNotifications();
     mutate();
+
+    resetUnreadNotification();
   };
 
   const handleClickNotification = async (notificationId: string) => {

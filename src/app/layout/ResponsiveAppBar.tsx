@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,6 +17,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import useSWR from 'swr';
 import { getNotificationHints } from '../../services/NotificationService';
 import { Badge } from '@mui/material';
+import { NotificationContext } from '../../context/NotificationContext';
 
 const topPages = [
   { title: 'Doctors', link: 'doctor' },
@@ -32,10 +33,12 @@ const dropMenuePages = [
 
 const ResponsiveAppBar: React.FC = () => {
   const { state, dispatch } = useContext(AuthContext);
+  const { state: notificationState, dispatch: notificationDispatch } =
+    useContext(NotificationContext);
   const navigate = useNavigate();
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null,
-  );
+  // const [hasUnreadNotification, setHasUnreadNotification] =
+  //   useState<boolean>(false);
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -58,14 +61,28 @@ const ResponsiveAppBar: React.FC = () => {
   };
 
   const handleNotificationClick = async () => {
+    notificationDispatch({
+      type: 'UPDATE_NOTIFICATION',
+      payload: {
+        hasUnread: false,
+      },
+    });
     navigate('/notification');
   };
 
-  const { data: notificationHints } = useSWR(
+  useSWR(
     state.isLoggedIn ? 'getNotificationHints' : null,
     () => getNotificationHints(),
     {
-      refreshInterval: 6 * 1000, // every 10 minutes
+      onSuccess: (data) => {
+        notificationDispatch({
+          type: 'UPDATE_NOTIFICATION',
+          payload: {
+            hasUnread: data.hasUnReadNotification,
+          },
+        });
+      },
+      refreshInterval: 5 * 60 * 1000, // every 10 minutes
     },
   );
 
@@ -122,7 +139,7 @@ const ResponsiveAppBar: React.FC = () => {
                     color="warning"
                     variant="dot"
                     overlap="circular"
-                    invisible={!notificationHints?.hasUnReadNotification}
+                    invisible={!notificationState.hasUnread}
                   >
                     <NotificationsIcon />
                   </Badge>
