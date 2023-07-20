@@ -14,8 +14,9 @@ import { useNavigate } from 'react-router-dom';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import { AuthContext } from '../../context/AuthContext';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { getNotificationList } from '../../services/NotificationService';
-
+import useSWR from 'swr';
+import { getNotificationHints } from '../../services/NotificationService';
+import { Badge } from '@mui/material';
 
 const topPages = [
   { title: 'Doctors', link: 'doctor' },
@@ -56,19 +57,17 @@ const ResponsiveAppBar: React.FC = () => {
     handleCloseNavMenu();
   };
 
-const handleNotificationClick = async () => {
-    const notificationList = await getNotificationList({
-      query: {
-        page: 1, 
-        limit: 10, 
-      },
-      });
-      navigate('/notification', {
-        state: {
-          notificationList: notificationList,
-        },
-      });
-    } 
+  const handleNotificationClick = async () => {
+    navigate('/notification');
+  };
+
+  const { data: notificationHints } = useSWR(
+    state.isLoggedIn ? 'getNotificationHints' : null,
+    () => getNotificationHints(),
+    {
+      refreshInterval: 6 * 1000, // every 10 minutes
+    },
+  );
 
   return (
     <AppBar position="static">
@@ -103,7 +102,7 @@ const handleNotificationClick = async () => {
 
           <Box sx={{ display: { py: 2 } }}>
             {state.isLoggedIn ? (
-              <>
+              <Box sx={{ display: 'flex' }}>
                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                   {topPages.map((page) => (
                     <Button
@@ -114,31 +113,26 @@ const handleNotificationClick = async () => {
                       {page.title}
                     </Button>
                   ))}
-                   <IconButton
+                </Box>
+                <IconButton
                   sx={{ color: 'white' }}
                   onClick={handleNotificationClick}
                 >
-                  <NotificationsIcon />
+                  <Badge
+                    color="warning"
+                    variant="dot"
+                    overlap="circular"
+                    invisible={!notificationHints?.hasUnReadNotification}
+                  >
+                    <NotificationsIcon />
+                  </Badge>
                 </IconButton>
-                  <IconButton
-                    sx={{ color: 'white' }}
-                    onClick={handleOpenNavMenu}
-                  >
-                    <AccountCircleRoundedIcon />
-                  </IconButton>
-                </Box>
-                <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                  <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleOpenNavMenu}
-                    color="inherit"
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                </Box>
+                <IconButton sx={{ color: 'white' }} onClick={handleOpenNavMenu}>
+                  <AccountCircleRoundedIcon
+                    sx={{ display: { xs: 'none', md: 'flex' } }}
+                  />
+                  <MenuIcon sx={{ display: { xs: 'flex', md: 'none' } }} />
+                </IconButton>
                 <Menu
                   id="menu-appbar"
                   anchorEl={anchorElNav}
@@ -154,7 +148,7 @@ const handleNotificationClick = async () => {
                   open={Boolean(anchorElNav)}
                   onClose={handleCloseNavMenu}
                 >
-                  {dropMenuePages.map((page) => (
+                  {dropMenuePages.map((page, index) => (
                     <MenuItem
                       key={page.title}
                       onClick={() => handlePageClick(page.link)}
@@ -180,7 +174,7 @@ const handleNotificationClick = async () => {
                     <Typography textAlign="center">Sign Out</Typography>
                   </MenuItem>
                 </Menu>
-              </>
+              </Box>
             ) : (
               <Button
                 variant="outlined"

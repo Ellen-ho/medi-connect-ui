@@ -1,17 +1,49 @@
-import { Avatar, Button, Card, CardContent, Divider, List, ListItemAvatar, ListItemButton, ListItemText } from "@mui/material";
-import PrimaryPageTop from "../../../../layout/PrimaryPageTop";
-import PrimaryPageContent from "../../../../layout/PrimaryPageContent";
-import { CommonWrapper } from "../../../../layout/CommonWrapper.styled";
-import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
-import { dateFormatter } from "../../../../../utils/dateFormatter";
-import useSWR from "swr";
-import { useNavigate } from "react-router-dom";
-import { getNotificationList } from "../../../../../services/NotificationService";
-import React from "react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Divider,
+  IconButton,
+  List,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Typography,
+} from '@mui/material';
+import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
+import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import { dateFormatter } from '../../../../../utils/dateFormatter';
+import useSWR from 'swr';
+import { useNavigate } from 'react-router-dom';
+import {
+  deleteAllNotifications,
+  getNotificationDetails,
+  getNotificationList,
+  readAllNotifications,
+} from '../../../../../services/NotificationService';
+import React from 'react';
+import NotificationIcons from '../components/NotificationIcons';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const NotificationList: React.FC = () => {
   const navigate = useNavigate();
-  const { data, error } = useSWR('getNotifications', () =>
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null,
+  );
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorElNav(null);
+  };
+  const { data, mutate } = useSWR('getNotifications', () =>
     getNotificationList({
       query: {
         limit: 10,
@@ -20,50 +52,96 @@ const NotificationList: React.FC = () => {
     }),
   );
 
-  const handleClickReadNotification = () => {
-    navigate('/notification/read-all');
+  const handleReadAll = async () => {
+    handleCloseMenu();
+    await readAllNotifications();
+    mutate();
   };
 
-  const handleClickNotification = (notificationId: string) => {
-    navigate(`/notification/${notificationId}`);
+  const handleDeleteAll = async () => {
+    handleCloseMenu();
+    await deleteAllNotifications();
+    mutate();
+  };
+
+  const handleClickNotification = async (notificationId: string) => {
+    await getNotificationDetails({ notificationId });
+    mutate();
   };
 
   return (
     <>
+      <PrimaryPageTop pageTitle={'Notification'} />
       <PrimaryPageContent>
         <CommonWrapper>
           <Card>
             <CardContent>
-             <List
-  sx={{
-    width: '100%',
-    bgcolor: 'background.paper',
-  }}
->
-  {data?.data ? (
-    data?.data.map((notification) => (
-      <>
-        <ListItemButton
-        key={notification.id}
-          onClick={() => handleClickNotification(notification.id)}
-        >
-          <ListItemAvatar>
-            <Avatar>
-              <CircleNotificationsIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary={notification.content}
-            // secondary={`Created at ${dateFormatter(notification.createdAt)}`}
-          />
-        </ListItemButton>
-        <Divider />
-      </>
-    ))
-  ) : (
-    <p>No notification</p>
-  )}
-</List>
+              <Box textAlign={'right'}>
+                <IconButton onClick={handleOpenMenu}>
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseMenu}
+                >
+                  <MenuItem onClick={handleReadAll}>
+                    <Typography textAlign="center">Read All</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={handleDeleteAll}>
+                    <Typography textAlign="center">Delete All</Typography>
+                  </MenuItem>
+                </Menu>
+              </Box>
+              <List
+                sx={{
+                  width: '100%',
+                  bgcolor: 'background.paper',
+                }}
+              >
+                {data?.data ? (
+                  data?.data.map((notification) => (
+                    <>
+                      <ListItemButton
+                        key={notification.id}
+                        onClick={() => handleClickNotification(notification.id)}
+                        sx={{
+                          backgroundColor: notification.isRead
+                            ? '#fff'
+                            : '#e0f5ff',
+                        }}
+                      >
+                        <ListItemAvatar>
+                          <Avatar>
+                            <NotificationIcons
+                              notificationType={notification.notificationType}
+                            />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={notification.title}
+                          secondary={`${dateFormatter(
+                            notification.createdAt.toString(),
+                          )}`}
+                        />
+                      </ListItemButton>
+                      <Divider />
+                    </>
+                  ))
+                ) : (
+                  <p>No notification</p>
+                )}
+              </List>
             </CardContent>
           </Card>
         </CommonWrapper>
