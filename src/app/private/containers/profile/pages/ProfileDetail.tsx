@@ -40,14 +40,14 @@ const ProfileDetail: React.FC = () => {
   const { state } = useContext(AuthContext);
   const [profile, setProfile] = useState<IPatient | null>();
 
-  const generateFallbackAvatar = (alt: string) => {
+  function generateFallbackAvatar(alt: string) {
     const initials = alt.substring(0, 1).toUpperCase();
     return (
       <Avatar sx={{ bgcolor: deepOrange[500] }} alt={alt}>
         {initials}
       </Avatar>
     );
-  };
+  }
 
   const {
     register,

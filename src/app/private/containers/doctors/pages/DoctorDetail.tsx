@@ -22,7 +22,7 @@ import {
 } from '../../../../../services/ConsultationService';
 import useSWR from 'swr';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
-import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 // TODO: remove this to env
 const MAP_API_KEY = 'AIzaSyBEI_3kBwvdfukP1FONBej8ELqWguE3azk';
@@ -66,13 +66,15 @@ const DoctorDetail: React.FC = () => {
                   mb: '20px',
                 }}
               >
-                <Avatar
-                  alt={doctorDetail.firstName}
-                  src={doctorDetail.avatar || ''}
-                  sx={{ width: 180, height: 180 }}
-                >
-                  {doctorDetail.avatar || <AccountCircleTwoToneIcon />}
-                </Avatar>
+                 {doctorDetail.avatar ? (
+                  <Avatar
+                    alt={doctorDetail.firstName}
+                    src={doctorDetail.avatar}
+                    sx={{ width: 180, height: 180 }}
+                  />
+                ) : (
+                  <AccountCircleIcon/>
+                )}
                 <Box
                   sx={{
                     display: 'flex',
