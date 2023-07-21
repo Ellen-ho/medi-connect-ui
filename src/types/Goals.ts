@@ -1,5 +1,7 @@
+import { Interface } from 'readline';
 import { IBloodPressureValue } from '../services/GoalService';
 import { BloodSugarType } from '../services/RecordService';
+import { GenderType } from './Share';
 
 export enum HealthGoalStatus {
   IN_PROGRESS = 'IN_PROGRESS',
@@ -42,4 +44,48 @@ export interface ITargetHealthGoal {
   status: HealthGoalStatus;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface IHealthGoalDetail {
+  id: string;
+  bloodPressureCurrentValue: IBloodPressureValue | null;
+  bloodPressureTargetValue: IBloodPressureValue;
+  bloodSugarCurrentValue: number | null;
+  bloodSugarCurrentType: BloodSugarType | null;
+  bloodSugarTargetValue: number;
+  bloodSugarTargetType: BloodSugarType;
+  glycatedHemonglobinCurrentValue: number | null;
+  glycatedHemonglobinTargetValue: number;
+  weightCurrentValue: number | null;
+  weightTargetValue: number;
+  bodyMassIndexCurrentValue: number | null;
+  bodyMassIndexTargetValue: number;
+  startAt: Date;
+  endAt: Date;
+  status: HealthGoalStatus;
+  result: IHealthGoalResult | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IGoalList {
+  patientData: {
+    firstName: string;
+    lastName: string;
+    birthDate: Date;
+    gender: GenderType;
+  };
+  goalsData: Array<{
+    startAt: Date;
+    endAt: Date;
+    status: HealthGoalStatus;
+    result: IHealthGoalResult | null;
+  }>;
+  pagination: {
+    pages: number[];
+    totalPage: number;
+    currentPage: number;
+    prev: number;
+    next: number;
+  };
 }

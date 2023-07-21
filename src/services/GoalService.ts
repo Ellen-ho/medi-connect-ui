@@ -33,7 +33,7 @@ interface IGetHealthGoalListRequest {
   };
 }
 
-interface IGetHealthGoalListResponse {
+export interface IGetHealthGoalListResponse {
   patientData: {
     firstName: string;
     lastName: string;
