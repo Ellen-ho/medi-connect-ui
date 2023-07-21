@@ -24,6 +24,7 @@ const topPages = [
   { title: 'Question', link: 'question' },
   { title: 'Appointment', link: 'appointment' },
   { title: 'Record', link: 'record' },
+  { title: 'Goal', link: 'health-goal' },
 ];
 
 const dropMenuePages = [

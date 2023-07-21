@@ -12,6 +12,7 @@ import Profile from './app/private/containers/profile/Index';
 import Account from './app/private/containers/account/Index';
 import Doctors from './app/private/containers/doctors/Index';
 import Notification from './app/private/containers/notification/Index';
+import HealthGoal from './app/private/containers/goal/Index';
 
 const App: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const App: React.FC = () => {
         <Route element={<Profile />} path="/profile/*" />
         <Route element={<Doctors />} path="/doctor/*" />
         <Route element={<Notification />} path="/notification/*" />
+        <Route element={<HealthGoal />} path="/health-goal/*" />
       </Route>
       <Route element={<Home />} path="/" />
       <Route element={<SignIn />} path="/signin" />

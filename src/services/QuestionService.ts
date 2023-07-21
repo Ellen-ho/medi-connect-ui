@@ -35,13 +35,21 @@ interface ICreateQuestionResponse {
 }
 
 export interface IAnswer {
-  doctorAvatars: Array<string | null>;
+  answerId: string;
+  doctorId: string;
+  agreedDoctors: Array<{
+    doctorId: string;
+    avatar: string | null;
+    firstName: string;
+    lastName: string;
+  }>;
   content: string;
   avatar: string | null;
   firstName: string;
   lastName: string;
   specialties: MedicalSpecialtyType[];
   careerStartDate: Date;
+  answerCreatedAt: Date;
   agreeCounts: number;
   thankCounts: number;
   isThanked: boolean;

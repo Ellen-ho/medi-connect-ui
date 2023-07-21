@@ -20,14 +20,6 @@ import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 const QuestionList: React.FC = () => {
   const navigate = useNavigate();
-  const { data, error } = useSWR('getQuestions', () =>
-    getQuestions({
-      query: {
-        limit: 10,
-        page: 1,
-      },
-    }),
-  );
 
   const handleClickNewQuestion = () => {
     navigate('/question/new');
@@ -36,6 +28,15 @@ const QuestionList: React.FC = () => {
   const handleClickQuestion = (questionId: string) => {
     navigate(`/question/${questionId}`);
   };
+
+  const { data, error } = useSWR('getQuestions', () =>
+    getQuestions({
+      query: {
+        limit: 10,
+        page: 1,
+      },
+    }),
+  );
 
   return (
     <>

@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -206,18 +207,20 @@ const AppointmentList: React.FC = () => {
           fullWidth={true}
           maxWidth={'md'}
         >
-          <DialogTitle>{'Appointment Details'}
-            <IconButton
-            edge="end"
-            color="inherit"
-            onClick={handleCloseDetailDialog}
-            aria-label="close"
+          <DialogTitle
             sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
             }}
           >
+            <Box>{'Appointment Details'}</Box>
+            <IconButton
+              edge="end"
+              color="inherit"
+              onClick={handleCloseDetailDialog}
+              aria-label="close"
+            >
               <ClearIcon />
             </IconButton>
           </DialogTitle>
