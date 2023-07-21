@@ -28,6 +28,7 @@ import React, { useContext } from 'react';
 import NotificationIcons from '../components/NotificationIcons';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { NotificationContext } from '../../../../../context/NotificationContext';
+import NoDataFound from '../../../../../components/signs/NoDataFound';
 
 const NotificationList: React.FC = () => {
   const { state, dispatch } = useContext(NotificationContext);
@@ -150,9 +151,7 @@ const NotificationList: React.FC = () => {
                       <Divider />
                     </>
                   ))
-                ) : (
-                  <p>No notification</p>
-                )}
+                ) : (<NoDataFound />)}
               </List>
             </CardContent>
           </Card>
