@@ -7,6 +7,7 @@ import {
   DialogContentText,
   DialogTitle,
   Divider,
+  IconButton,
   Link,
   List,
   ListItemAvatar,
@@ -28,6 +29,7 @@ import { dateFormatter } from '../../../../../utils/dateFormatter';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import RowItem from '../../../../../components/form/RowItem';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const AppointmentList: React.FC = () => {
   const navigate = useNavigate();
@@ -204,7 +206,21 @@ const AppointmentList: React.FC = () => {
           fullWidth={true}
           maxWidth={'md'}
         >
-          <DialogTitle>{'Appointment Details'}</DialogTitle>
+          <DialogTitle>{'Appointment Details'}
+            <IconButton
+            edge="end"
+            color="inherit"
+            onClick={handleCloseDetailDialog}
+            aria-label="close"
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+            }}
+          >
+              <ClearIcon />
+            </IconButton>
+          </DialogTitle>
           <DialogContent>
             <DialogContentText>
               <RowItem label={'Appointment No.'}>
