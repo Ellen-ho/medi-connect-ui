@@ -24,32 +24,33 @@ interface IDoctorData {
   lastName: string;
   specialties: MedicalSpecialtyType[];
 }
-
-interface patientConsultAppointmentDatas {
+export interface IPatientConsultAppointmentDatas {
+  appointmentId: string;
   patientId: string;
   status: ConsultAppointmentStatusType;
   doctorTimeSlot: IDoctorTimeSlotData;
   doctor: IDoctorData;
   meetingLink: string | null;
+  cancelAvailability: boolean;
 }
 
-interface doctorConsultAppointmentDatas {
+interface IDoctorConsultAppointmentDatas {
   status: ConsultAppointmentStatusType;
   doctorTimeSlot: IDoctorTimeSlotData;
   patient: IPatientData;
   meetingLink: string | null;
 }
 
-interface IGetPatientConsultAppointmentsResponse {
-  upcomingAppointments: patientConsultAppointmentDatas[];
-  completedAppointments: patientConsultAppointmentDatas[];
-  canceledAppointments: patientConsultAppointmentDatas[];
+export interface IGetPatientConsultAppointmentsResponse {
+  upcomingAppointments: IPatientConsultAppointmentDatas[];
+  completedAppointments: IPatientConsultAppointmentDatas[];
+  canceledAppointments: IPatientConsultAppointmentDatas[];
 }
 
 interface IGetDoctorConsultAppointmentsResponse {
-  upcomingAppointments: doctorConsultAppointmentDatas[];
-  completedAppointments: doctorConsultAppointmentDatas[];
-  canceledAppointments: doctorConsultAppointmentDatas[];
+  upcomingAppointments: IDoctorConsultAppointmentDatas[];
+  completedAppointments: IDoctorConsultAppointmentDatas[];
+  canceledAppointments: IDoctorConsultAppointmentDatas[];
 }
 
 interface ICreateDoctorTimeSlotRequest {
@@ -95,6 +96,25 @@ interface ICancelConsultAppointmentRequest {
 interface ICancelConsultAppointmentResponse {
   consultAppointmentId: string;
   status: ConsultAppointmentStatusType;
+}
+
+export interface IGetDoctorTimeSlotsvRequest {
+  doctorId: string;
+  query: {
+    startTime: string;
+    endTime: string;
+  };
+}
+
+export interface IGetDoctorTimeSlotsvResponse {
+  doctorId: string;
+  timeSlots: IDoctorTimeSlot[];
+}
+export interface IDoctorTimeSlot {
+  id: string;
+  startAt: string;
+  endAt: string;
+  isAvailable: boolean;
 }
 
 export const createDoctorTimeSlot = async (
@@ -153,6 +173,17 @@ export const cancelConsultAppointment = async (
 ): Promise<ICancelConsultAppointmentResponse> => {
   const response = await api.delete<ICancelConsultAppointmentResponse>(
     `/consultations/${data.consultAppointmentId}`,
+  );
+  return response.data;
+};
+
+export const getDoctorTimeSlots = async ({
+  doctorId,
+  query,
+}: IGetDoctorTimeSlotsvRequest): Promise<IGetDoctorTimeSlotsvResponse> => {
+  const queries = queryString.stringify(query);
+  const response = await api.get(
+    `/consultations/time-slots/doctors/${doctorId}?${queries}`,
   );
   return response.data;
 };

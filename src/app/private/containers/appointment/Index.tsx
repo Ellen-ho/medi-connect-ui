@@ -5,8 +5,8 @@ import CreateAppointment from './pages/CreateAppointment';
 const Appointment: React.FC = () => {
   return (
     <Routes>
-      <Route element={<AppointmentList />} path="/" />
       <Route element={<CreateAppointment />} path="/:doctorId" />
+      <Route element={<AppointmentList />} path="/" />
     </Routes>
   );
 };

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import { mq } from '../../styles/media-query';
+import { mq } from '../../../../../styles/media-query';
 
-export const CommonWrapper = styled.div`
+export const AccountDetailWrapper = styled.div`
   ${mq({
     display: 'flex',
     flexDirection: 'column',

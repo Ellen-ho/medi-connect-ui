@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,6 +13,11 @@ import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import { useNavigate } from 'react-router-dom';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import { AuthContext } from '../../context/AuthContext';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import useSWR from 'swr';
+import { getNotificationHints } from '../../services/NotificationService';
+import { Badge } from '@mui/material';
+import { NotificationContext } from '../../context/NotificationContext';
 
 const topPages = [
   { title: 'Doctors', link: 'doctor' },
@@ -28,10 +33,12 @@ const dropMenuePages = [
 
 const ResponsiveAppBar: React.FC = () => {
   const { state, dispatch } = useContext(AuthContext);
+  const { state: notificationState, dispatch: notificationDispatch } =
+    useContext(NotificationContext);
   const navigate = useNavigate();
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null,
-  );
+  // const [hasUnreadNotification, setHasUnreadNotification] =
+  //   useState<boolean>(false);
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -52,6 +59,32 @@ const ResponsiveAppBar: React.FC = () => {
     navigate(link);
     handleCloseNavMenu();
   };
+
+  const handleNotificationClick = async () => {
+    notificationDispatch({
+      type: 'UPDATE_NOTIFICATION',
+      payload: {
+        hasUnread: false,
+      },
+    });
+    navigate('/notification');
+  };
+
+  useSWR(
+    state.isLoggedIn ? 'getNotificationHints' : null,
+    () => getNotificationHints(),
+    {
+      onSuccess: (data) => {
+        notificationDispatch({
+          type: 'UPDATE_NOTIFICATION',
+          payload: {
+            hasUnread: data.hasUnReadNotification,
+          },
+        });
+      },
+      refreshInterval: 5 * 60 * 1000, // every 10 minutes
+    },
+  );
 
   return (
     <AppBar position="static">
@@ -86,7 +119,7 @@ const ResponsiveAppBar: React.FC = () => {
 
           <Box sx={{ display: { py: 2 } }}>
             {state.isLoggedIn ? (
-              <>
+              <Box sx={{ display: 'flex' }}>
                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                   {topPages.map((page) => (
                     <Button
@@ -97,25 +130,26 @@ const ResponsiveAppBar: React.FC = () => {
                       {page.title}
                     </Button>
                   ))}
-                  <IconButton
-                    sx={{ color: 'white' }}
-                    onClick={handleOpenNavMenu}
-                  >
-                    <AccountCircleRoundedIcon />
-                  </IconButton>
                 </Box>
-                <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                  <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleOpenNavMenu}
-                    color="inherit"
+                <IconButton
+                  sx={{ color: 'white' }}
+                  onClick={handleNotificationClick}
+                >
+                  <Badge
+                    color="warning"
+                    variant="dot"
+                    overlap="circular"
+                    invisible={!notificationState.hasUnread}
                   >
-                    <MenuIcon />
-                  </IconButton>
-                </Box>
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton sx={{ color: 'white' }} onClick={handleOpenNavMenu}>
+                  <AccountCircleRoundedIcon
+                    sx={{ display: { xs: 'none', md: 'flex' } }}
+                  />
+                  <MenuIcon sx={{ display: { xs: 'flex', md: 'none' } }} />
+                </IconButton>
                 <Menu
                   id="menu-appbar"
                   anchorEl={anchorElNav}
@@ -131,7 +165,7 @@ const ResponsiveAppBar: React.FC = () => {
                   open={Boolean(anchorElNav)}
                   onClose={handleCloseNavMenu}
                 >
-                  {dropMenuePages.map((page) => (
+                  {dropMenuePages.map((page, index) => (
                     <MenuItem
                       key={page.title}
                       onClick={() => handlePageClick(page.link)}
@@ -157,7 +191,7 @@ const ResponsiveAppBar: React.FC = () => {
                     <Typography textAlign="center">Sign Out</Typography>
                   </MenuItem>
                 </Menu>
-              </>
+              </Box>
             ) : (
               <Button
                 variant="outlined"

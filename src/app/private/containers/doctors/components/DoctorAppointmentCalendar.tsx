@@ -15,13 +15,7 @@ import {
 import { EventImpl } from '@fullcalendar/core/internal';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
-
-interface IInputEvent {
-  id: string;
-  startAt: string;
-  endAt: string;
-  isAvailable: boolean;
-}
+import { IDoctorTimeSlot } from '../../../../../services/ConsultationService';
 
 interface IFullCalendarEvent {
   id: string;
@@ -32,7 +26,9 @@ interface IFullCalendarEvent {
   color: string;
 }
 
-const getCalendarEventFormat = (input: IInputEvent[]): IFullCalendarEvent[] => {
+const getCalendarEventFormat = (
+  input: IDoctorTimeSlot[],
+): IFullCalendarEvent[] => {
   return input.map((item) => {
     return {
       id: item.id,
@@ -49,7 +45,7 @@ const getCalendarEventFormat = (input: IInputEvent[]): IFullCalendarEvent[] => {
 };
 
 interface IDoctorAppointmentCalendarProps {
-  events: IInputEvent[];
+  events: IDoctorTimeSlot[];
   doctorName: string;
   eventClickCallback: (eventId: string) => void;
 }
