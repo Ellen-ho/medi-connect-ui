@@ -124,7 +124,7 @@ const NotificationList: React.FC = () => {
                   bgcolor: 'background.paper',
                 }}
               >
-                {data?.data ? (
+                {data?.data && data?.data.length > 0 ? (
                   data?.data.map((notification) => (
                     <>
                       <ListItemButton
