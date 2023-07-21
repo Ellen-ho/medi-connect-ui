@@ -25,10 +25,12 @@ import {
   readAllNotifications,
 } from '../../../../../services/NotificationService';
 import React, { useContext } from 'react';
-import NotificationIcons from '../components/NotificationIcons';
+
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { NotificationContext } from '../../../../../context/NotificationContext';
+
 import NoDataFound from '../../../../../components/signs/NoDataFound';
+import { NotificationContext } from '../../../../../context/NotificationContext';
+import NotificationIcons from '../components/NotificationIcons';
 
 const NotificationList: React.FC = () => {
   const { state, dispatch } = useContext(NotificationContext);
