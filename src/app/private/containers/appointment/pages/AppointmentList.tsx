@@ -16,12 +16,11 @@ import {
   ListItemText,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import {
   getPatientConsultAppointments,
-  IGetPatientConsultAppointmentsResponse,
   IPatientConsultAppointmentDatas,
 } from '../../../../../services/ConsultationService';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
@@ -31,18 +30,13 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import RowItem from '../../../../../components/form/RowItem';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
 import ClearIcon from '@mui/icons-material/Clear';
+import useSWR from 'swr';
 
 const AppointmentList: React.FC = () => {
   const navigate = useNavigate();
   const [detailDialogOpen, setDetailDialogOpen] = useState<boolean>(false);
   const [selectedDetail, setSelectedDetail] =
     useState<IPatientConsultAppointmentDatas | null>(null);
-  const [appointments, setAppointments] =
-    useState<IGetPatientConsultAppointmentsResponse>({
-      upcomingAppointments: [],
-      completedAppointments: [],
-      canceledAppointments: [],
-    });
 
   const handleOpenDetailDialog = (detail: IPatientConsultAppointmentDatas) => {
     setSelectedDetail(detail);
@@ -66,20 +60,9 @@ const AppointmentList: React.FC = () => {
     console.log(`Cancel appointment with ID: ${appointmentId}`);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response: IGetPatientConsultAppointmentsResponse =
-          await getPatientConsultAppointments();
-
-        setAppointments(response);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { data } = useSWR('getPatientConsultAppointments', () =>
+    getPatientConsultAppointments(),
+  );
 
   return (
     <>
@@ -100,8 +83,9 @@ const AppointmentList: React.FC = () => {
                 bgcolor: 'background.paper',
               }}
             >
-              {appointments.upcomingAppointments.length > 0 ? (
-                appointments.upcomingAppointments.map((item) => (
+              {data?.upcomingAppointments &&
+              data?.upcomingAppointments.length > 0 ? (
+                data.upcomingAppointments.map((item) => (
                   <>
                     <ListItemButton
                       onClick={() => handleOpenDetailDialog(item)}
@@ -135,8 +119,9 @@ const AppointmentList: React.FC = () => {
                 bgcolor: 'background.paper',
               }}
             >
-              {appointments.completedAppointments.length > 0 ? (
-                appointments.completedAppointments.map((item) => (
+              {data?.completedAppointments &&
+              data?.completedAppointments.length > 0 ? (
+                data.completedAppointments.map((item) => (
                   <>
                     <ListItemButton
                       onClick={() => handleOpenDetailDialog(item)}
@@ -170,8 +155,9 @@ const AppointmentList: React.FC = () => {
                 bgcolor: 'background.paper',
               }}
             >
-              {appointments.canceledAppointments.length > 0 ? (
-                appointments.canceledAppointments.map((item) => (
+              {data?.canceledAppointments &&
+              data?.canceledAppointments.length > 0 ? (
+                data.canceledAppointments.map((item) => (
                   <>
                     <ListItemButton
                       onClick={() => handleOpenDetailDialog(item)}
