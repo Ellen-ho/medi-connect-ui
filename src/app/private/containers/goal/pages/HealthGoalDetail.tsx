@@ -13,7 +13,6 @@ import NoDataFound from '../../../../../components/signs/NoDataFound';
 import GoalCompareItem from '../components/GoalCompareItem';
 import RowItem from '../../../../../components/form/RowItem';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
-import { toSentenceCaseFormat } from '../../../../../utils/sentenceCaseFormat';
 import { Alert, AlertTitle, Box, Button } from '@mui/material';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { HealthGoalStatus } from '../../../../../types/Goals';

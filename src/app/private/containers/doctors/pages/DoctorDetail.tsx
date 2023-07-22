@@ -47,8 +47,8 @@ const DoctorDetail: React.FC = () => {
     }),
   );
 
-  const handleBookDoctorTimeSlot = (doctorTimeSlotId: string) => {
-    createConsultAppointmentRecord({ doctorTimeSlotId });
+  const handleBookDoctorTimeSlot = async (doctorTimeSlotId: string) => {
+    await createConsultAppointmentRecord({ doctorTimeSlotId });
   };
 
   return (
@@ -66,14 +66,14 @@ const DoctorDetail: React.FC = () => {
                   mb: '20px',
                 }}
               >
-                 {doctorDetail.avatar ? (
+                {doctorDetail.avatar ? (
                   <Avatar
                     alt={doctorDetail.firstName}
                     src={doctorDetail.avatar}
                     sx={{ width: 180, height: 180 }}
                   />
                 ) : (
-                  <AccountCircleIcon/>
+                  <AccountCircleIcon />
                 )}
                 <Box
                   sx={{

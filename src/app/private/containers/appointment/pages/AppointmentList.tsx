@@ -20,6 +20,7 @@ import { useState } from 'react';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import {
+  cancelConsultAppointment,
   getPatientConsultAppointments,
   IPatientConsultAppointmentDatas,
 } from '../../../../../services/ConsultationService';
@@ -31,6 +32,7 @@ import RowItem from '../../../../../components/form/RowItem';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
 import ClearIcon from '@mui/icons-material/Clear';
 import useSWR from 'swr';
+import toast from 'react-hot-toast';
 
 const AppointmentList: React.FC = () => {
   const navigate = useNavigate();
@@ -48,16 +50,9 @@ const AppointmentList: React.FC = () => {
     setSelectedDetail(null);
   };
 
-  const handleClickNewAppointment = () => {
-    navigate('/appointment/new');
-  };
-
-  const handleClickAppointment = (appointmentId: string) => {
-    navigate(`/appointment/${appointmentId}`);
-  };
-
-  const handleCancelAppointment = (appointmentId: string) => {
-    console.log(`Cancel appointment with ID: ${appointmentId}`);
+  const handleCancelAppointment = async (consultAppointmentId: string) => {
+    await cancelConsultAppointment({ consultAppointmentId });
+    toast.success('Cancel appointment successfully');
   };
 
   const { data } = useSWR('getPatientConsultAppointments', () =>

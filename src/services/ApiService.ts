@@ -14,7 +14,7 @@ const api = axios.create({
 
 api.interceptors.response.use(
   (response) => {
-    toast.success('Request successful!');
+    // toast.success('Request successful!');
     return response;
   },
   (error) => {
