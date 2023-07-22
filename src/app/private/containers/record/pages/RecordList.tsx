@@ -38,6 +38,7 @@ const RecordList: React.FC = () => {
       {recordCategory ? (
         <>
           <SecondaryPageTop
+            onBack={() => navigate(`/record`)}
             rightElement={
               <Button onClick={handleNewQuestion} variant="contained">
                 Add Record

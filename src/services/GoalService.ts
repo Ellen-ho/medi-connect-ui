@@ -104,7 +104,7 @@ export const rejectHealthGoal = async (
 export const getHealthGoal = async (
   data: IGetHealthGoalRequest,
 ): Promise<IGetHealthGoalResponse> => {
-  const response = await api.patch<IGetHealthGoalResponse>(
+  const response = await api.get<IGetHealthGoalResponse>(
     `/health-goals/${data.healthGoalId}`,
   );
   return response.data;

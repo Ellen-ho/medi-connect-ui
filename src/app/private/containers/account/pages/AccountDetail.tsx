@@ -90,9 +90,6 @@ const AccountDetail: React.FC = () => {
                       {...register('displayName')}
                     />
                   </RowItem>
-                  <Divider />
-
-                  <Divider />
                   <RowItem label={'Password'}>
                     <TextField
                       size="small"
@@ -109,7 +106,6 @@ const AccountDetail: React.FC = () => {
                       {...register('confirmPassword')}
                     />
                   </RowItem>
-                  <Divider />
                 </CardContent>
               </Card>
 

@@ -5,11 +5,12 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 interface IStatusStyle {
   status: HealthGoalStatus;
   text: string;
-  color: 'primary' | 'warning' | 'success' | 'error';
+  color: 'primary' | 'warning' | 'success' | 'error' | 'secondary';
   icon: JSX.Element;
 }
 
@@ -19,6 +20,12 @@ interface IGoalStatusProps {
 const GoalStatus: React.FC<IGoalStatusProps> = ({ status }) => {
   const getCorrespondingStyle = (status: HealthGoalStatus): IStatusStyle => {
     const statusStyleMapping: IStatusStyle[] = [
+      {
+        status: HealthGoalStatus.PENDING,
+        text: toSentenceCaseFormat(HealthGoalStatus.PENDING),
+        color: 'secondary',
+        icon: <AccessTimeIcon />,
+      },
       {
         status: HealthGoalStatus.IN_PROGRESS,
         text: toSentenceCaseFormat(HealthGoalStatus.IN_PROGRESS),

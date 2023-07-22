@@ -29,7 +29,7 @@ const HealthGoalList: React.FC = () => {
   const navigate = useNavigate();
 
   const handleClickGoal = (id: string) => {
-    navigate(`health-goal/${id}`);
+    navigate(`/health-goal/${id}`);
   };
 
   const { data } = useSWR('getHealthGoalList', () =>

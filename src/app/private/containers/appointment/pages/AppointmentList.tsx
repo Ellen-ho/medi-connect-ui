@@ -229,19 +229,19 @@ const AppointmentList: React.FC = () => {
               <RowItem label={'Appointment No.'}>
                 {selectedDetail.appointmentId}
               </RowItem>
-              <Divider />
+
               <RowItem
                 label={'Doctor Name'}
               >{`Dr. ${selectedDetail.doctor.firstName} ${selectedDetail.doctor.lastName}`}</RowItem>
-              <Divider />
+
               <RowItem label={'Datetime'}>{`${dateFormatter(
                 selectedDetail.doctorTimeSlot.startAt.toString(),
               )} ~ ${dateFormatter(
                 selectedDetail.doctorTimeSlot.endAt.toString(),
               )}`}</RowItem>
-              <Divider />
+
               <RowItem label={'Status'}>{selectedDetail.status}</RowItem>
-              <Divider />
+
               <RowItem label={'Meeting Link'}>
                 {selectedDetail.meetingLink ? (
                   <Link href={selectedDetail.meetingLink}>
@@ -251,7 +251,6 @@ const AppointmentList: React.FC = () => {
                   '--'
                 )}
               </RowItem>
-              <Divider />
             </DialogContentText>
           </DialogContent>
           <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>

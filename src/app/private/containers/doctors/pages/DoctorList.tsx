@@ -14,7 +14,7 @@ const DoctorList: React.FC = () => {
     getDoctors({
       query: {
         page: 1,
-        limit: 3,
+        limit: 10,
       },
     }),
   );
