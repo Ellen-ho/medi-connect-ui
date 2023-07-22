@@ -6,11 +6,9 @@ import {
   Typography,
   IconButton,
   Button,
-  CardActions,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { MedicalSpecialtyType } from '../../../../../types/Share';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { toSentenceCaseFormat } from '../../../../../utils/sentenceCaseFormat';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 

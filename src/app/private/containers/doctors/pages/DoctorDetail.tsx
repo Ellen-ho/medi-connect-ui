@@ -22,7 +22,6 @@ import {
 } from '../../../../../services/ConsultationService';
 import useSWR from 'swr';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 
 // TODO: remove this to env
