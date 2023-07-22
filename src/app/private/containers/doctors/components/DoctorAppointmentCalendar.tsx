@@ -16,6 +16,7 @@ import { EventImpl } from '@fullcalendar/core/internal';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
 import { IDoctorTimeSlot } from '../../../../../services/ConsultationService';
+import RowItem from '../../../../../components/form/RowItem';
 
 interface IFullCalendarEvent {
   id: string;
@@ -98,14 +99,21 @@ const DoctorAppointmentCalendar: React.FC<IDoctorAppointmentCalendarProps> = ({
           handleClickOpen();
         }}
       />
-      <Dialog open={isConfirmDialogOpen} onClose={handleClose}>
+      <Dialog
+        fullWidth
+        maxWidth={'md'}
+        open={isConfirmDialogOpen}
+        onClose={handleClose}
+      >
         <DialogTitle>{'Make Appointment Confirmation'}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure to book appointment of this time slot? <br />- Doctor:
-            Dr. {doctorName} <br />- Date time:{' '}
-            {dateFormatter(currentEvent?.startStr as string)} ~{' '}
-            {dateFormatter(currentEvent?.endStr as string)}
+            Are you sure to book appointment of this time slot?
+            <RowItem label={'Doctor'}>Dr. {doctorName}</RowItem>
+            <RowItem label={'Date time'}>
+              {dateFormatter(currentEvent?.startStr as string)} ~{' '}
+              {dateFormatter(currentEvent?.endStr as string)}
+            </RowItem>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

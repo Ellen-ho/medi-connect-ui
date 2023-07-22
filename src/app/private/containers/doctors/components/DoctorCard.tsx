@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { MedicalSpecialtyType } from '../../../../../types/Share';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { toSentenceCaseFormat } from '../../../../../utils/sentenceCaseFormat';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 
 interface IDoctorCard {
   data: {
@@ -41,15 +42,17 @@ const DoctorCard: React.FC<IDoctorCard> = ({ data }) => {
           }}
         >
           <Box>
-            {data.avatar ? (
-              <Avatar
-                alt={data.firstName}
-                src={data.avatar}
-                sx={{ width: 56, height: 56 }}
-              />
-            ) : (
-              <AccountCircleIcon />
-            )}
+            <Avatar
+              alt={data.firstName}
+              src={data.avatar}
+              sx={{ width: 56, height: 56 }}
+            >
+              {data.avatar ? (
+                ''
+              ) : (
+                <PersonRoundedIcon sx={{ width: '75%', height: '75%' }} />
+              )}
+            </Avatar>
           </Box>
           <Typography variant="h6" textAlign={'center'} fontWeight={'bold'}>
             Dr. {data.firstName} {data.lastName}
