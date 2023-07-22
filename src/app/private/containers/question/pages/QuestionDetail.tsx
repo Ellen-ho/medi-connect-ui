@@ -20,7 +20,12 @@ import Face6Icon from '@mui/icons-material/Face6';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import useSWR from 'swr';
-import { getSingleQuestion } from '../../../../../services/QuestionService';
+import {
+  IAnswer,
+  cancelAppreciation,
+  createAppreciation,
+  getSingleQuestion,
+} from '../../../../../services/QuestionService';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
 import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
 
@@ -94,11 +99,16 @@ const QuestionDetail: React.FC = () => {
     navigate(`/doctor/${doctorId}`);
   };
 
-  const handleToggleThankDoctorAnswer = (answer: any) => {
+  const handleToggleThankDoctorAnswer = async (answer: IAnswer) => {
     if (answer.isThanked) {
-      // unthank
+      await cancelAppreciation({
+        answerAppreciationId: answer.answerId,
+      });
     } else {
-      // thank
+      await createAppreciation({
+        content: '',
+        answerId: answer.answerId,
+      });
     }
   };
 
@@ -242,9 +252,7 @@ const QuestionDetail: React.FC = () => {
                                       variant="outlined"
                                       sx={{ px: '.2rem' }}
                                       onClick={() =>
-                                        handleToggleThankDoctorAnswer(
-                                          answer.answerId,
-                                        )
+                                        handleToggleThankDoctorAnswer(answer)
                                       }
                                     />
                                   </Tooltip>

@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Button,
   Card,
   CardContent,
@@ -8,6 +9,7 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  Tooltip,
 } from '@mui/material';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +19,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import useSWR from 'swr';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import { grey } from '@mui/material/colors';
 
 const QuestionList: React.FC = () => {
   const navigate = useNavigate();
@@ -64,9 +67,31 @@ const QuestionList: React.FC = () => {
                       onClick={() => handleClickQuestion(question.id)}
                     >
                       <ListItemAvatar>
-                        <Avatar>
-                          <QuestionAnswerIcon />
-                        </Avatar>
+                        <Tooltip
+                          title={
+                            question.answerCounts > 0
+                              ? 'This question had been answered'
+                              : 'No answer yet'
+                          }
+                          placement="top"
+                        >
+                          <Badge
+                            badgeContent={question.answerCounts}
+                            color="error"
+                            overlap="circular"
+                          >
+                            <Avatar
+                              sx={{
+                                bgcolor:
+                                  question.answerCounts > 0
+                                    ? (theme) => theme.palette.success.light
+                                    : (theme) => theme.palette.grey[500],
+                              }}
+                            >
+                              <QuestionAnswerIcon />
+                            </Avatar>
+                          </Badge>
+                        </Tooltip>
                       </ListItemAvatar>
                       <ListItemText
                         primary={question.content}
