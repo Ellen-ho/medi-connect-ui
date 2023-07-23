@@ -19,7 +19,6 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import useSWR from 'swr';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
-import { grey } from '@mui/material/colors';
 
 const QuestionList: React.FC = () => {
   const navigate = useNavigate();

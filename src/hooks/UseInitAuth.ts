@@ -8,7 +8,6 @@ const useInitAuth = () => {
   useEffect(() => {
     const cachedAuth = getAuthFromCache();
     const isLogin = cachedAuth != null && cachedAuth.isLoggedIn;
-    console.table({ isLogin_useInitAuth: isLogin });
 
     if (isLogin) {
       dispatch({

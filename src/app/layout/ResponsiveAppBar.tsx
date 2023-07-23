@@ -16,15 +16,24 @@ import { AuthContext } from '../../context/AuthContext';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import useSWR from 'swr';
 import { getNotificationHints } from '../../services/NotificationService';
-import { Badge } from '@mui/material';
+import { Badge, Chip } from '@mui/material';
 import { NotificationContext } from '../../context/NotificationContext';
+import { UserRoleType } from '../../types/Users';
 
 const topPages = [
-  { title: 'Doctors', link: 'doctor' },
-  { title: 'Question', link: 'question' },
-  { title: 'Appointment', link: 'appointment' },
-  { title: 'Record', link: 'record' },
-  { title: 'Goal', link: 'health-goal' },
+  { title: 'Doctors', link: 'doctor', permission: [UserRoleType.PATIENT] },
+  {
+    title: 'Question',
+    link: 'question',
+    permission: [UserRoleType.PATIENT, UserRoleType.DOCTOR],
+  },
+  {
+    title: 'Appointment',
+    link: 'appointment',
+    permission: [UserRoleType.PATIENT, UserRoleType.DOCTOR],
+  },
+  { title: 'Record', link: 'record', permission: [UserRoleType.PATIENT] },
+  { title: 'Goal', link: 'health-goal', permission: [UserRoleType.PATIENT] },
 ];
 
 const dropMenuePages = [
@@ -34,6 +43,7 @@ const dropMenuePages = [
 
 const ResponsiveAppBar: React.FC = () => {
   const { state, dispatch } = useContext(AuthContext);
+  const currentUserRole = state.currentUser?.role as UserRoleType;
   const { state: notificationState, dispatch: notificationDispatch } =
     useContext(NotificationContext);
   const navigate = useNavigate();
@@ -114,23 +124,35 @@ const ResponsiveAppBar: React.FC = () => {
                 textDecoration: 'none',
               }}
             >
-              MEDI CONNECT
+              Medi Connect
             </Typography>
+            {currentUserRole === UserRoleType.DOCTOR && (
+              <Chip
+                label="Doctor"
+                variant="outlined"
+                size="small"
+                sx={{ color: '#fff' }}
+              />
+            )}
           </Box>
 
           <Box sx={{ display: { py: 2 } }}>
             {state.isLoggedIn ? (
               <Box sx={{ display: 'flex' }}>
                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                  {topPages.map((page) => (
-                    <Button
-                      key={page.title}
-                      onClick={() => handlePageClick(page.link)}
-                      sx={{ color: 'white', display: 'block' }}
-                    >
-                      {page.title}
-                    </Button>
-                  ))}
+                  {topPages.map((page) => {
+                    if (page.permission.includes(currentUserRole)) {
+                      return (
+                        <Button
+                          key={page.title}
+                          onClick={() => handlePageClick(page.link)}
+                          sx={{ color: 'white' }}
+                        >
+                          {page.title}
+                        </Button>
+                      );
+                    }
+                  })}
                 </Box>
                 <IconButton
                   sx={{ color: 'white' }}
