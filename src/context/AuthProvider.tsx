@@ -14,6 +14,7 @@ const reducer = (state: AuthState, action: AuthAction): AuthState => {
         token: action.payload.token,
         currentUser: action.payload.currentUser,
         patientId: action.payload.patientId,
+        doctorId: action.payload.doctorId,
       };
       localStorage.setItem('auth', JSON.stringify(udpatedState));
       return {
@@ -27,6 +28,7 @@ const reducer = (state: AuthState, action: AuthAction): AuthState => {
         token: null,
         currentUser: null,
         patientId: null,
+        doctorId: null,
       };
       localStorage.setItem('auth', JSON.stringify(udpatedState));
       return {
@@ -47,10 +49,11 @@ export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
     const isLogin = cachedAuth && JSON.parse(cachedAuth).isLoggedIn;
 
     if (isLogin) {
-      const { token, currentUser, patientId } = JSON.parse(cachedAuth);
+      const { token, currentUser, patientId, doctorId } =
+        JSON.parse(cachedAuth);
       dispatch({
         type: 'LOG_IN',
-        payload: { token, currentUser, patientId },
+        payload: { token, currentUser, patientId, doctorId },
       });
     } else {
       dispatch({

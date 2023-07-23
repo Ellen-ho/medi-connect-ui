@@ -59,6 +59,7 @@ const SignIn: React.FC = () => {
           role: response.user.role,
         },
         patientId: response.patientId,
+        doctorId: response.doctorId,
       },
     });
     navigate('/');

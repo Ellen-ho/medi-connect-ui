@@ -4,6 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 
 const PrivateRoutes = () => {
   const { state } = useContext(AuthContext);
+  console.table({ isLoggedIn: state.isLoggedIn });
 
   return state.isLoggedIn ? (
     <Outlet />
