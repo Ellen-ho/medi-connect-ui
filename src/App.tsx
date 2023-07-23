@@ -13,8 +13,11 @@ import Account from './app/private/containers/account/Index';
 import Doctors from './app/private/containers/doctors/Index';
 import Notification from './app/private/containers/notification/Index';
 import HealthGoal from './app/private/containers/goal/Index';
+import useInitAuth from './hooks/UseInitAuth';
 
 const App: React.FC = () => {
+  useInitAuth();
+
   return (
     <Routes>
       <Route element={<PrivateRoutes />}>

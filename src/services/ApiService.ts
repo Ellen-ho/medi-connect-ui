@@ -1,15 +1,21 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { getAuthFromCache } from '../utils/getAuthFromCache';
 
 const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
-    get Authorization() {
-      const auth = localStorage.getItem('auth');
-      return `Bearer ${auth ? JSON.parse(auth).token : ''}`;
-    },
   },
   baseURL: 'http://localhost:10000/api',
+});
+
+// append auth token here rather than in initialization of axios
+// or we can't get the token without refresh page after signing in
+api.interceptors.request.use((config) => {
+  const auth = getAuthFromCache();
+  config.headers.Authorization = `Bearer ${auth ? auth.token : ''}`;
+
+  return config;
 });
 
 api.interceptors.response.use(
