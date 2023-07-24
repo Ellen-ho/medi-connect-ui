@@ -53,6 +53,7 @@ export interface IAnswer {
   agreeCounts: number;
   thankCounts: number;
   isThanked: boolean;
+  isAgreed: boolean;
 }
 interface IGetSingleQuestionRequest {
   patientQuestionId: string;

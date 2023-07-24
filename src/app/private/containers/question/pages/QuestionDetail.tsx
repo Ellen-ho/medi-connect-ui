@@ -52,24 +52,25 @@ const QuestionDetail: React.FC = () => {
       });
     } else {
       await createAppreciation({
-        content: '',
+        content: 'mock content',
         answerId: answer.answerId,
       });
     }
+    mutate();
   };
 
   const handleToggleAgreeDoctorAnswer = async (answer: IAnswer) => {
-    alert('not yet implemented handleToggleAgreeDoctorAnswer');
-    // if (answer.isDoctorAgreed) {
-    //   await cancelAgreement({
-    //     answerAgreementId: '',
-    //   });
-    // } else {
-    //   await createAgreemewnt({
-    //     answerId: '',
-    //     comment: '',
-    //   });
-    // }
+    if (answer.isAgreed) {
+      await cancelAgreement({
+        answerAgreementId: '',
+      });
+    } else {
+      await createAgreemewnt({
+        answerId: answer.answerId,
+        comment: 'mock comment',
+      });
+    }
+    mutate();
   };
 
   const { data, mutate } = useSWR('getSingleQuestion', () =>
@@ -92,6 +93,9 @@ const QuestionDetail: React.FC = () => {
                   marginBottom={'.5rem'}
                 >
                   {data.question.content}
+                </Typography>
+                <Typography variant="subtitle2">
+                  by a {data.question.askerAge} years old user
                 </Typography>
                 <Divider sx={{ my: '1rem' }} />
                 <Typography gutterBottom variant="h6" marginBottom={'.5rem'}>
@@ -196,21 +200,22 @@ const QuestionDetail: React.FC = () => {
                                   {answer.agreedDoctors.length} doctor agreed
                                 </Typography>
                                 {/* Doctor Agree button */}
-                                <Tooltip title="Agree with this answer">
-                                  <IconButton
-                                    color="primary"
-                                    onClick={() => {
-                                      handleToggleAgreeDoctorAnswer(answer);
-                                    }}
-                                  >
-                                    {/* TODO answer.isDoctorAgreed */}
-                                    {false ? (
-                                      <ThumbUpIcon />
-                                    ) : (
-                                      <ThumbUpOffAltIcon />
-                                    )}
-                                  </IconButton>
-                                </Tooltip>
+                                {isDoctor && (
+                                  <Tooltip title="Agree with this answer">
+                                    <IconButton
+                                      color="primary"
+                                      onClick={() => {
+                                        handleToggleAgreeDoctorAnswer(answer);
+                                      }}
+                                    >
+                                      {answer.isAgreed ? (
+                                        <ThumbUpIcon />
+                                      ) : (
+                                        <ThumbUpOffAltIcon />
+                                      )}
+                                    </IconButton>
+                                  </Tooltip>
+                                )}
                               </Box>
                               {/* Patient Thank button */}
                               <Box sx={{ display: 'flex', gap: '.3rem' }}>
@@ -254,11 +259,16 @@ const QuestionDetail: React.FC = () => {
             )}
           </BasicCard>
 
-          <BasicCard title={'Provide Your Answer'}>
-            {questionId && (
-              <CreateAnswer questionId={questionId} onCreateCallback={mutate} />
-            )}
-          </BasicCard>
+          {isDoctor && (
+            <BasicCard title={'Provide Your Answer'}>
+              {questionId && (
+                <CreateAnswer
+                  questionId={questionId}
+                  onCreateCallback={mutate}
+                />
+              )}
+            </BasicCard>
+          )}
         </QuestionDetailWrapper>
       </PrimaryPageContent>
     </>
