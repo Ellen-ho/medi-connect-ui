@@ -34,6 +34,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 
 const QuestionDetail: React.FC = () => {
   const navigate = useNavigate();
@@ -115,7 +116,9 @@ const QuestionDetail: React.FC = () => {
                         >
                           <Avatar
                             alt={answer.firstName}
-                            src={answer.avatar}
+                           {...answer.avatar !== null ? (
+                <img src={answer.avatar} alt={answer.firstName} />
+              ) :(<PersonRoundedIcon/>) }
                             sx={{
                               width: 50,
                               height: 50,
@@ -176,14 +179,12 @@ const QuestionDetail: React.FC = () => {
                                   {answer.agreedDoctors.length > 0 ? (
                                     answer.agreedDoctors.map((agreedDoctor) => (
                                       <Avatar
-                                        src={agreedDoctor.avatar}
                                         key={agreedDoctor.doctorId}
                                       >
-                                        {agreedDoctor.avatar == null ? (
+                                        {agreedDoctor.avatar !== null ?  (
+                <img src={agreedDoctor.avatar} alt={agreedDoctor.firstName} />) : (
                                           <Face6Icon />
-                                        ) : (
-                                          ''
-                                        )}
+                                        )} 
                                       </Avatar>
                                     ))
                                   ) : (
