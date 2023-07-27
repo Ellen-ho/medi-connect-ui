@@ -1,7 +1,7 @@
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { IAccount } from '../../../../../types/Users';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useSWR from 'swr';
@@ -22,6 +22,8 @@ import {
 } from '../../../../../services/UserService';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import RowItem from '../../../../../components/form/RowItem';
+import { useEffect, useState } from 'react';
+
 
 interface IAccountForm {
   displayName: string;
@@ -42,9 +44,20 @@ const AccountDetail: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors, isDirty },
+    control,
+    setValue,
   } = useForm<IAccount>({
     // resolver: yupResolver(accountSchema),
   });
+
+  const { data, isLoading } = useSWR('getUserAccount', () => getUserAccount());
+
+
+  useEffect(() => {
+    if (data) {
+      setValue('displayName',data.displayName || ''); 
+    }
+  }, [data]);
 
   const onEditAccount = async (data: IAccountForm) => {
     const payload = {
@@ -53,8 +66,6 @@ const AccountDetail: React.FC = () => {
     };
     await editUserAccount(payload);
   };
-
-  const { data, isLoading } = useSWR('getUserAccount', () => getUserAccount());
 
   return (
     <>
@@ -81,31 +92,38 @@ const AccountDetail: React.FC = () => {
                   </Typography>
                   <RowItem label={'Email'}>{data.email}</RowItem>
                   <RowItem label={'Display Name'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      value={data.displayName}
-                      error={!!errors.displayName}
-                      helperText={<>{errors.displayName?.message}</>}
-                      {...register('displayName')}
-                    />
-                  </RowItem>
-                  <RowItem label={'Password'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      placeholder="Enter new password"
-                      type="password"
-                      {...register('password')}
-                    />
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      placeholder="Confirm new password"
-                      type="password"
-                      {...register('confirmPassword')}
-                    />
-                  </RowItem>
+            <Controller
+              name="displayName"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextField
+                  size="small"
+                  variant="outlined"
+                  value={field.value}
+                  error={!!errors.displayName}
+                  helperText={<>{errors.displayName?.message}</>}
+                  onChange={(e) => field.onChange(e.target.value)} 
+                />
+              )}
+            />
+          </RowItem>
+          <RowItem label={'Password'}>
+            <TextField
+              size="small"
+              variant="outlined"
+              placeholder="Enter new password"
+              type="password"
+              {...register('password')}
+            /> 
+            <TextField
+              size="small"
+              variant="outlined"
+              placeholder="Confirm new password"
+              type="password"
+              {...register('confirmPassword')}
+            />
+          </RowItem>
                 </CardContent>
               </Card>
 
