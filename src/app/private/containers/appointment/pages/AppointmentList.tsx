@@ -16,7 +16,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import {
@@ -33,8 +33,11 @@ import NoDataFound from '../../../../../components/signs/NoDataFound';
 import ClearIcon from '@mui/icons-material/Clear';
 import useSWR from 'swr';
 import toast from 'react-hot-toast';
+import { AuthContext } from '../../../../../context/AuthContext';
 
 const AppointmentList: React.FC = () => {
+  const { state } = useContext(AuthContext);
+  const isDoctor = state.doctorId != null;
   const navigate = useNavigate();
   const [detailDialogOpen, setDetailDialogOpen] = useState<boolean>(false);
   const [selectedDetail, setSelectedDetail] =
@@ -55,6 +58,10 @@ const AppointmentList: React.FC = () => {
     toast.success('Cancel appointment successfully');
   };
 
+  const handleClickEditTimeSlot = () => {
+    navigate('/appointment/time-slot');
+  };
+
   const { data } = useSWR('getPatientConsultAppointments', () =>
     getPatientConsultAppointments(),
   );
@@ -63,11 +70,13 @@ const AppointmentList: React.FC = () => {
     <>
       <PrimaryPageTop
         pageTitle="Appointment"
-        // rightElement={
-        //   <Button onClick={handleClickNewAppointment} variant="contained">
-        //     Create Appointment
-        //   </Button>
-        // }
+        rightElement={
+          isDoctor && (
+            <Button onClick={handleClickEditTimeSlot} variant="contained">
+              Edit Time Slot
+            </Button>
+          )
+        }
       />
       <PrimaryPageContent>
         <CommonWrapper>

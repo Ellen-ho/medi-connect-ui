@@ -1,11 +1,11 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import AppointmentList from './pages/AppointmentList';
-import CreateAppointment from './pages/CreateAppointment';
+import EditDoctorTimeSlot from './pages/EditDoctorTimeSlot';
 
 const Appointment: React.FC = () => {
   return (
     <Routes>
-      <Route element={<CreateAppointment />} path="/:doctorId" />
+      <Route element={<EditDoctorTimeSlot />} path="/time-slot" />
       <Route element={<AppointmentList />} path="/" />
     </Routes>
   );

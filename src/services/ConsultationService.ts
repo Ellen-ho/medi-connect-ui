@@ -53,7 +53,7 @@ interface IGetDoctorConsultAppointmentsResponse {
   canceledAppointments: IDoctorConsultAppointmentDatas[];
 }
 
-interface ICreateDoctorTimeSlotRequest {
+export interface ICreateDoctorTimeSlotRequest {
   startAt: Date;
   endAt: Date;
 }
