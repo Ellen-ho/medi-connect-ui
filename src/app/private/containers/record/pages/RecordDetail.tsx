@@ -1,39 +1,42 @@
-import { Button, Typography } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { useContext } from 'react';
-import { getRecordCategory } from '../helpers/getRecordCategory';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
-import { getRecords } from '../../../../../services/RecordService';
-import { RecordListWrapper } from './RecordList.styled';
-import RecordItem from '../components/RecordItem';
-import NoDataFound from '../../../../../components/signs/NoDataFound';
+import { getRecord } from '../../../../../services/RecordService';
 import { AuthContext } from '../../../../../context/AuthContext';
 import useSWR from 'swr';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import BasicCard from '../../../../../components/card/BasicCard';
+import RowItem from '../../../../../components/form/RowItem';
 
 const RecordDetail: React.FC = () => {
   const { state } = useContext(AuthContext);
-  const { typeId } = useParams();
+  const { typeId, recordId } = useParams();
 
   // const navigate = useNavigate();
 
-  // const { data, error } = useSWR('getRecords', () =>
-  //   getRecords({
-  //     urlPath: typeId as string,
-  //     query: {
-  //       targetPatientId: state.patientId as string,
-  //       page: 1,
-  //       limit: 10,
-  //     },
-  //   }),
-  // );
+  const { data, error } = useSWR('getRecord', () =>
+    getRecord({
+      urlPath: typeId as string,
+      recordId: recordId as string,
+      query: {
+        targetPatientId: state.patientId as string,
+      },
+    }),
+  );
 
   return (
     <>
       <SecondaryPageTop />
       <PrimaryPageContent>
-        <CommonWrapper>Record Details</CommonWrapper>
+        <CommonWrapper>
+          <BasicCard title={'Record Detail'}>
+            {data?.data &&
+              Object.entries(data.data).map(([key, value]) => (
+                <RowItem label={key}>{value}</RowItem>
+              ))}
+          </BasicCard>
+        </CommonWrapper>
       </PrimaryPageContent>
     </>
   );

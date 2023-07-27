@@ -16,6 +16,10 @@ interface IGetRecordRequest {
   };
 }
 
+interface IGetRecordResponse {
+  data: Record<string, any>;
+}
+
 interface IGetRecordsRequest {
   urlPath: string;
   query: {
@@ -222,9 +226,9 @@ export const getRecord = async ({
   urlPath,
   recordId,
   query,
-}: IGetRecordRequest): Promise<IGetRecordsResponse<unknown>> => {
+}: IGetRecordRequest): Promise<IGetRecordResponse> => {
   const queries = queryString.stringify(query);
-  const response = await api.get<IGetRecordsResponse<unknown>>(
+  const response = await api.get<IGetRecordResponse>(
     `/records/${urlPath}/${recordId}?${queries}`,
   );
   return response.data;
