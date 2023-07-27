@@ -40,9 +40,14 @@ const DoctorCard: React.FC<IDoctorCard> = ({ data }) => {
           }}
         >
           <Box>
-            <Avatar  sx={{ width: 56, height: 56 }}>
+            <Avatar sx={{ width: 56, height: 56 }}>
               {data.avatar != null ? (
-                <img src={data.avatar} alt={data.firstName} />
+                <img
+                  src={data.avatar}
+                  alt={data.firstName}
+                  width="100%"
+                  height="100%"
+                />
               ) : (
                 <PersonRoundedIcon sx={{ width: '75%', height: '75%' }} />
               )}

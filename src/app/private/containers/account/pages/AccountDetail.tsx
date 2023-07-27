@@ -23,7 +23,7 @@ import {
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import RowItem from '../../../../../components/form/RowItem';
 import { useEffect, useState } from 'react';
-
+import toast from 'react-hot-toast';
 
 interface IAccountForm {
   displayName: string;
@@ -52,10 +52,9 @@ const AccountDetail: React.FC = () => {
 
   const { data, isLoading } = useSWR('getUserAccount', () => getUserAccount());
 
-
   useEffect(() => {
     if (data) {
-      setValue('displayName',data.displayName || ''); 
+      setValue('displayName', data.displayName || '');
     }
   }, [data]);
 
@@ -64,7 +63,10 @@ const AccountDetail: React.FC = () => {
       displayName: data.displayName,
       password: data.password,
     };
-    await editUserAccount(payload);
+    const response = await editUserAccount(payload);
+    if (response) {
+      toast.success('Account updated successfully!');
+    }
   };
 
   return (
@@ -92,38 +94,38 @@ const AccountDetail: React.FC = () => {
                   </Typography>
                   <RowItem label={'Email'}>{data.email}</RowItem>
                   <RowItem label={'Display Name'}>
-            <Controller
-              name="displayName"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <TextField
-                  size="small"
-                  variant="outlined"
-                  value={field.value}
-                  error={!!errors.displayName}
-                  helperText={<>{errors.displayName?.message}</>}
-                  onChange={(e) => field.onChange(e.target.value)} 
-                />
-              )}
-            />
-          </RowItem>
-          <RowItem label={'Password'}>
-            <TextField
-              size="small"
-              variant="outlined"
-              placeholder="Enter new password"
-              type="password"
-              {...register('password')}
-            /> 
-            <TextField
-              size="small"
-              variant="outlined"
-              placeholder="Confirm new password"
-              type="password"
-              {...register('confirmPassword')}
-            />
-          </RowItem>
+                    <Controller
+                      name="displayName"
+                      control={control}
+                      defaultValue=""
+                      render={({ field }) => (
+                        <TextField
+                          size="small"
+                          variant="outlined"
+                          value={field.value}
+                          error={!!errors.displayName}
+                          helperText={<>{errors.displayName?.message}</>}
+                          onChange={(e) => field.onChange(e.target.value)}
+                        />
+                      )}
+                    />
+                  </RowItem>
+                  <RowItem label={'Password'}>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      placeholder="Enter new password"
+                      type="password"
+                      {...register('password')}
+                    />
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      placeholder="Confirm new password"
+                      type="password"
+                      {...register('confirmPassword')}
+                    />
+                  </RowItem>
                 </CardContent>
               </Card>
 
