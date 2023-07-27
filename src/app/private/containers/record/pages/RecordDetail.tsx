@@ -8,6 +8,8 @@ import useSWR from 'swr';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 import BasicCard from '../../../../../components/card/BasicCard';
 import RowItem from '../../../../../components/form/RowItem';
+import { camelToTitleCase } from '../../../../../utils/camelToTitleCase';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const RecordDetail: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -33,7 +35,7 @@ const RecordDetail: React.FC = () => {
           <BasicCard title={'Record Detail'}>
             {data?.data &&
               Object.entries(data.data).map(([key, value]) => (
-                <RowItem label={key}>{value}</RowItem>
+                <RowItem label={camelToTitleCase(key)}>{value}</RowItem>
               ))}
           </BasicCard>
         </CommonWrapper>
