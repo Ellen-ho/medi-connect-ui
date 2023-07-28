@@ -146,6 +146,16 @@ const HealthGoalDetail = () => {
                   }
                 />
                 <GoalCompareItem
+                  label={'Diastolic Blood Pressure'}
+                  leftItem={
+                    data.bloodPressureCurrentValue?.diastolicBloodPressure ||
+                    '--'
+                  }
+                  rightItem={
+                    data.bloodPressureTargetValue?.diastolicBloodPressure || '--'
+                  }
+                />
+                <GoalCompareItem
                   label={'Blood Sugar'}
                   leftItem={data.bloodSugarCurrentValue || '--'}
                   rightItem={data.bloodSugarTargetValue || '--'}
