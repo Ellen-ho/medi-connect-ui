@@ -132,7 +132,7 @@ interface ICancelAnswerAppreciationResponse {
 }
 
 interface ICancelAnswerAgreementRequest {
-  answerAgreementId: string;
+  answerId: string;
 }
 
 interface ICancelAnswerAgreementResponse {
@@ -206,7 +206,7 @@ export const cancelAgreement = async (
   data: ICancelAnswerAgreementRequest,
 ): Promise<ICancelAnswerAgreementResponse> => {
   const response = await api.delete<ICancelAnswerAgreementResponse>(
-    `/questions/answers/agreements/${data.answerAgreementId}`,
+    `/questions/answers/agreements/${data.answerId}`,
   );
   return response.data;
 };

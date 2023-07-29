@@ -63,7 +63,7 @@ const QuestionDetail: React.FC = () => {
   const handleToggleAgreeDoctorAnswer = async (answer: IAnswer) => {
     if (answer.isAgreed) {
       await cancelAgreement({
-        answerAgreementId: '',
+        answerId: answer.answerId,
       });
     } else {
       await createAgreemewnt({
@@ -116,9 +116,11 @@ const QuestionDetail: React.FC = () => {
                         >
                           <Avatar
                             alt={answer.firstName}
-                           {...answer.avatar !== null ? (
-                <img src={answer.avatar} alt={answer.firstName} />
-              ) :(<PersonRoundedIcon/>) }
+                            {...(answer.avatar !== null ? (
+                              <img src={answer.avatar} alt={answer.firstName} />
+                            ) : (
+                              <PersonRoundedIcon />
+                            ))}
                             sx={{
                               width: 50,
                               height: 50,
@@ -178,13 +180,15 @@ const QuestionDetail: React.FC = () => {
                                 <AvatarGroup max={3}>
                                   {answer.agreedDoctors.length > 0 ? (
                                     answer.agreedDoctors.map((agreedDoctor) => (
-                                      <Avatar
-                                        key={agreedDoctor.doctorId}
-                                      >
-                                        {agreedDoctor.avatar !== null ?  (
-                <img src={agreedDoctor.avatar} alt={agreedDoctor.firstName} />) : (
+                                      <Avatar key={agreedDoctor.doctorId}>
+                                        {agreedDoctor.avatar !== null ? (
+                                          <img
+                                            src={agreedDoctor.avatar}
+                                            alt={agreedDoctor.firstName}
+                                          />
+                                        ) : (
                                           <Face6Icon />
-                                        )} 
+                                        )}
                                       </Avatar>
                                     ))
                                   ) : (

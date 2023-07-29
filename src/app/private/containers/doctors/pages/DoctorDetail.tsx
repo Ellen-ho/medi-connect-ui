@@ -66,12 +66,15 @@ const DoctorDetail: React.FC = () => {
                   mb: '20px',
                 }}
               >
-                <Avatar  sx={{ width: 180, height: 180 }}>
-                 {doctorDetail.avatar !== null ? (
-                <img src={doctorDetail.avatar} alt={doctorDetail.firstName} />
-              ) : (
-                 <PersonRoundedIcon sx={{ width: '75%', height: '75%' }} /> 
-              )}
+                <Avatar sx={{ width: 180, height: 180 }}>
+                  {doctorDetail.avatar !== null ? (
+                    <img
+                      src={doctorDetail.avatar}
+                      alt={doctorDetail.firstName}
+                    />
+                  ) : (
+                    <PersonRoundedIcon sx={{ width: '75%', height: '75%' }} />
+                  )}
                 </Avatar>
                 <Box
                   sx={{
