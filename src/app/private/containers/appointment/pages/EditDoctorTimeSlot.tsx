@@ -19,7 +19,7 @@ const EditDoctorTimeSlot: React.FC = () => {
   // default date range can be edited 28th of the month to 28th of next month
   const startTime = dayjs().date(28).format('YYYY-MM-DD');
   const endTime = dayjs()
-    .month(dayjs().month() + 1)
+    .month(dayjs().month() + 3)
     .date(28)
     .format('YYYY-MM-DD');
 
@@ -29,14 +29,17 @@ const EditDoctorTimeSlot: React.FC = () => {
     endAt: string,
   ) => {
     await editDoctorTimeSlot({ id: timeSlotId, startAt, endAt });
+    await mutate();
   };
 
   const handleCreateTimeSlot = async (startAt: string, endAt: string) => {
     await createDoctorTimeSlot({ startAt, endAt });
+    await mutate();
   };
 
   const handleCancelTimeSlot = async (id: string) => {
     await cancelDoctorTimeSlot({ id });
+    await mutate();
   };
 
   const { data, mutate } = useSWR('getDoctorTimeSlots', () => {
@@ -57,7 +60,6 @@ const EditDoctorTimeSlot: React.FC = () => {
             eventEditCallback={handleEditTimeSlot}
             eventCreateCallback={handleCreateTimeSlot}
             eventCancelCallback={handleCancelTimeSlot}
-            refresh={mutate}
           />
         </BasicCard>
       </PrimaryPageContent>

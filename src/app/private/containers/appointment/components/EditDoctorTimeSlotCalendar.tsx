@@ -17,14 +17,13 @@ import {
   Tooltip,
 } from '@mui/material';
 import { EventImpl } from '@fullcalendar/core/internal';
-import { dateFormatter } from '../../../../../utils/dateFormatter';
 import { IDoctorTimeSlot } from '../../../../../services/ConsultationService';
 import RowItem from '../../../../../components/form/RowItem';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface IEditDoctorTimeSlotInputs {
@@ -63,7 +62,6 @@ interface IEditDoctorTimeSlotCalendarProps {
   eventEditCallback: (eventId: string, startAt: string, endAt: string) => void;
   eventCreateCallback: (startAt: string, endAt: string) => void;
   eventCancelCallback: (eventId: string) => void;
-  refresh: () => void;
 }
 
 const EditDoctorTimeSlotCalendar: React.FC<
@@ -73,11 +71,9 @@ const EditDoctorTimeSlotCalendar: React.FC<
   eventEditCallback,
   eventCreateCallback,
   eventCancelCallback,
-  refresh,
 }) => {
   const fullCalendarEvents: EventSourceInput = getCalendarEventFormat(events);
   const [isEditDialogOpen, setEditDialogOpen] = useState(false);
-  const [isCreateDialogOpen, setCreateDialogOpen] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<IEditDoctorTimeSlotInputs>({
     id: '',
     startAt: '',
@@ -92,20 +88,25 @@ const EditDoctorTimeSlotCalendar: React.FC<
     setEditDialogOpen(false);
   };
 
-  const handleEditDialogSave = (data: IEditDoctorTimeSlotInputs) => {
+  const handleEditDialogSave = async (data: IEditDoctorTimeSlotInputs) => {
     if (isCreateEvent(currentEvent.id)) {
-      eventCreateCallback(data.startAt, data.endAt);
+      await eventCreateCallback(
+        dayjs(data.startAt).toISOString(),
+        dayjs(data.endAt).toISOString(),
+      );
     } else {
-      eventEditCallback(currentEvent.id as string, data.startAt, data.endAt);
+      await eventEditCallback(
+        currentEvent.id as string,
+        data.startAt,
+        data.endAt,
+      );
     }
     handleEditDialogClose();
-    refresh();
   };
 
-  const handleCancel = () => {
-    eventCancelCallback(currentEvent.id);
+  const handleCancel = async () => {
+    await eventCancelCallback(currentEvent.id);
     handleEditDialogClose();
-    refresh();
   };
 
   const {
@@ -129,16 +130,20 @@ const EditDoctorTimeSlotCalendar: React.FC<
   });
 
   /**
-   * Add new event and store it to DB
-   * Click on existing event and can edit it and store it to DB
-   * Delete event and remove it from DB
+   * TODO: fix the validation
+   * - any slot must me 30 minutes
+   * - utc time zone conert
+   * - refresh when any changes happen
+   * - fetch data based on the calendar display date range
    */
+
   return (
     <>
       <FullCalendar
         plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
         editable={true}
         initialView="dayGridMonth"
+        timeZone="local"
         headerToolbar={{
           left: 'prev,next',
           center: 'title',
@@ -176,11 +181,13 @@ const EditDoctorTimeSlotCalendar: React.FC<
             sx={{ display: 'flex', justifyContent: 'space-between' }}
           >
             <>{isCreateEvent(currentEvent.id) ? 'Create' : 'Edit'} Time Slot</>
-            <Tooltip title={'Delete'}>
-              <IconButton color="error" onClick={handleCancel}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+            {!isCreateEvent(currentEvent.id) && (
+              <Tooltip title={'Delete'}>
+                <IconButton color="error" onClick={handleCancel}>
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            )}
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -209,7 +216,10 @@ const EditDoctorTimeSlotCalendar: React.FC<
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button type="submit" disabled={!isDirty}>
+            <Button
+              type="submit"
+              disabled={!isCreateEvent(currentEvent.id) && !isDirty}
+            >
               Save
             </Button>
           </DialogActions>
