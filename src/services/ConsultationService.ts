@@ -54,17 +54,17 @@ interface IGetDoctorConsultAppointmentsResponse {
 }
 
 export interface ICreateDoctorTimeSlotRequest {
-  startAt: Date;
-  endAt: Date;
+  startAt: string;
+  endAt: string;
 }
 
 interface ICreateDoctorTimeSlotResponse {
   id: string;
   doctorId: string;
-  startAt: Date;
-  endAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  startAt: string;
+  endAt: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface ICreateMultipleTimeSlotsRequest {

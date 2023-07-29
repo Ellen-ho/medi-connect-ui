@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { EventSourceInput } from '@fullcalendar/core';
+import interactionPlugin from '@fullcalendar/interaction';
 import {
   Button,
   Dialog,
@@ -51,10 +52,12 @@ const getCalendarEventFormat = (
   });
 };
 
+const isCreateEvent = (id: string) => id === 'CREATE_TIME_SLOT';
+
 interface IEditDoctorTimeSlotCalendarProps {
   events: IDoctorTimeSlot[];
   eventEditCallback: (eventId: string, startAt: string, endAt: string) => void;
-  eventCreateCallback?: (startAt: string, endAt: string) => void;
+  eventCreateCallback: (startAt: string, endAt: string) => void;
   eventCancelCallback?: (eventId: string) => void;
   refresh: () => void;
 }
@@ -86,7 +89,11 @@ const EditDoctorTimeSlotCalendar: React.FC<
   };
 
   const handleEditDialogSave = (data: IEditDoctorTimeSlotInputs) => {
-    eventEditCallback(currentEvent?.id as string, data.startAt, data.endAt);
+    if (isCreateEvent(currentEvent.id)) {
+      eventCreateCallback(data.startAt, data.endAt);
+    } else {
+      eventEditCallback(currentEvent?.id as string, data.startAt, data.endAt);
+    }
     handleEditDialogClose();
     refresh();
   };
@@ -119,7 +126,7 @@ const EditDoctorTimeSlotCalendar: React.FC<
   return (
     <>
       <FullCalendar
-        plugins={[timeGridPlugin, dayGridPlugin]}
+        plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
         editable={true}
         initialView="dayGridMonth"
         headerToolbar={{
@@ -136,6 +143,17 @@ const EditDoctorTimeSlotCalendar: React.FC<
           });
           handleClickOpen();
         }}
+        // when click on a date of calendar, create a new event
+        dateClick={(info) => {
+          setCurrentEvent({
+            id: 'CREATE_TIME_SLOT',
+            startAt: dayjs(info.dateStr).format('YYYY-MM-DDTHH:mm'),
+            endAt: dayjs(info.dateStr)
+              .add(30, 'minute')
+              .format('YYYY-MM-DDTHH:mm'),
+          });
+          handleClickOpen();
+        }}
       />
       <Dialog
         fullWidth
@@ -144,7 +162,9 @@ const EditDoctorTimeSlotCalendar: React.FC<
         onClose={handleEditDialogClose}
       >
         <FormWrapper onSubmit={handleSubmit(handleEditDialogSave)}>
-          <DialogTitle>{'Edit Time Slot'}</DialogTitle>
+          <DialogTitle>
+            {isCreateEvent(currentEvent.id) ? 'Create' : 'Edit'} Time Slot
+          </DialogTitle>
           <DialogContent>
             <DialogContentText>
               <RowItem label={'Start At'}>

@@ -3,6 +3,7 @@ import { AuthContext } from '../../../../../context/AuthContext';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 import {
+  createDoctorTimeSlot,
   editDoctorTimeSlot,
   getDoctorTimeSlots,
 } from '../../../../../services/ConsultationService';
@@ -29,6 +30,10 @@ const EditDoctorTimeSlot: React.FC = () => {
     await editDoctorTimeSlot({ id: timeSlotId, startAt, endAt });
   };
 
+  const handleCreateTimeSlot = async (startAt: string, endAt: string) => {
+    await createDoctorTimeSlot({ startAt, endAt });
+  };
+
   const { data, mutate } = useSWR('getDoctorTimeSlots', () => {
     const query = {
       startTime,
@@ -45,6 +50,7 @@ const EditDoctorTimeSlot: React.FC = () => {
           <EditDoctorTimeSlotCalendar
             events={data?.timeSlots || []}
             eventEditCallback={handleEditTimeSlot}
+            eventCreateCallback={handleCreateTimeSlot}
             refresh={mutate}
           />
         </BasicCard>
