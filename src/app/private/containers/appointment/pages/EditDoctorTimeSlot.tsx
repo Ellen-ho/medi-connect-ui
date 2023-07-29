@@ -12,16 +12,33 @@ import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import BasicCard from '../../../../../components/card/BasicCard';
 import EditDoctorTimeSlotCalendar from '../components/EditDoctorTimeSlotCalendar';
+import { Alert } from '@mui/material';
+
+const getValidDateRange = () => {
+  // default date range can be edited 28th of the month to 28th of next month
+  const today = dayjs();
+  let start = today.add(1, 'month').startOf('month');
+  let end = today.add(1, 'month').endOf('month');
+
+  if (today.date() > 28) {
+    start = today.add(2, 'month').startOf('month');
+    end = today.add(2, 'month').endOf('month');
+  }
+
+  const validStartDate = start.format('YYYY-MM-DD');
+  const validEndDate = end.format('YYYY-MM-DD');
+
+  return {
+    validStartDate,
+    validEndDate,
+  };
+};
 
 const EditDoctorTimeSlot: React.FC = () => {
   const { state } = useContext(AuthContext);
   const doctorId = state.doctorId!;
-  // default date range can be edited 28th of the month to 28th of next month
-  const startTime = dayjs().date(28).format('YYYY-MM-DD');
-  const endTime = dayjs()
-    .month(dayjs().month() + 3)
-    .date(28)
-    .format('YYYY-MM-DD');
+
+  const { validStartDate, validEndDate } = getValidDateRange();
 
   const handleEditTimeSlot = async (
     timeSlotId: string,
@@ -44,8 +61,8 @@ const EditDoctorTimeSlot: React.FC = () => {
 
   const { data, mutate } = useSWR('getDoctorTimeSlots', () => {
     const query = {
-      startTime,
-      endTime,
+      startTime: dayjs(validStartDate).toISOString(),
+      endTime: dayjs(validEndDate).toISOString(),
     };
     return getDoctorTimeSlots({ doctorId, query });
   });
@@ -55,7 +72,17 @@ const EditDoctorTimeSlot: React.FC = () => {
       <SecondaryPageTop />
       <PrimaryPageContent>
         <BasicCard title={'Appointment Time Slot Management'}>
+          <Alert severity="info" sx={{ marginBottom: '1rem' }}>
+            The valid start and end dates for scheduling appointments based on
+            the current date. If today is before the 28th of the month, the
+            valid start date is the 1st day of the next month, and the valid end
+            date is the end of the next month. If today is after the 28th of the
+            month, the valid start date is the 1st day of the next next month,
+            and the valid end date is the end of the next next month.
+          </Alert>
           <EditDoctorTimeSlotCalendar
+            validStartDate={validStartDate}
+            validEndDate={validEndDate}
             events={data?.timeSlots || []}
             eventEditCallback={handleEditTimeSlot}
             eventCreateCallback={handleCreateTimeSlot}

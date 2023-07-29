@@ -58,6 +58,8 @@ const getCalendarEventFormat = (
 const isCreateEvent = (id: string) => id === 'CREATE_TIME_SLOT';
 
 interface IEditDoctorTimeSlotCalendarProps {
+  validStartDate: string;
+  validEndDate: string;
   events: IDoctorTimeSlot[];
   eventEditCallback: (eventId: string, startAt: string, endAt: string) => void;
   eventCreateCallback: (startAt: string, endAt: string) => void;
@@ -67,6 +69,8 @@ interface IEditDoctorTimeSlotCalendarProps {
 const EditDoctorTimeSlotCalendar: React.FC<
   IEditDoctorTimeSlotCalendarProps
 > = ({
+  validStartDate,
+  validEndDate,
   events = [],
   eventEditCallback,
   eventCreateCallback,
@@ -89,17 +93,13 @@ const EditDoctorTimeSlotCalendar: React.FC<
   };
 
   const handleEditDialogSave = async (data: IEditDoctorTimeSlotInputs) => {
+    const startAtUTC = dayjs(data.startAt).toISOString();
+    const endAtUTC = dayjs(data.endAt).toISOString();
+
     if (isCreateEvent(currentEvent.id)) {
-      await eventCreateCallback(
-        dayjs(data.startAt).toISOString(),
-        dayjs(data.endAt).toISOString(),
-      );
+      await eventCreateCallback(startAtUTC, endAtUTC);
     } else {
-      await eventEditCallback(
-        currentEvent.id as string,
-        data.startAt,
-        data.endAt,
-      );
+      await eventEditCallback(currentEvent.id as string, startAtUTC, endAtUTC);
     }
     handleEditDialogClose();
   };
@@ -132,14 +132,18 @@ const EditDoctorTimeSlotCalendar: React.FC<
   /**
    * TODO: fix the validation
    * - any slot must me 30 minutes
-   * - utc time zone conert
-   * - refresh when any changes happen
-   * - fetch data based on the calendar display date range
+   * - start time must be earlier than end time
+   * - start time be on half or full hour
    */
 
   return (
     <>
       <FullCalendar
+        initialDate={validStartDate}
+        validRange={{
+          start: validStartDate,
+          end: validEndDate,
+        }}
         plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
         editable={true}
         initialView="dayGridMonth"
