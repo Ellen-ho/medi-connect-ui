@@ -8,7 +8,8 @@ import {
 } from '../../../../../services/ConsultationService';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import BasicCard from '../../../../../components/card/BasicCard';
+import EditDoctorTimeSlotCalendar from '../components/EditDoctorTimeSlotCalendar';
 
 const EditDoctorTimeSlot: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -22,8 +23,8 @@ const EditDoctorTimeSlot: React.FC = () => {
 
   const handleEditTimeSlot = async (
     timeSlotId: string,
-    startAt: Date,
-    endAt: Date,
+    startAt: string,
+    endAt: string,
   ) => {
     await editDoctorTimeSlot({ id: timeSlotId, startAt, endAt });
   };
@@ -39,7 +40,15 @@ const EditDoctorTimeSlot: React.FC = () => {
   return (
     <>
       <SecondaryPageTop />
-      <PrimaryPageContent>{JSON.stringify(data)}</PrimaryPageContent>
+      <PrimaryPageContent>
+        <BasicCard title={'Appointment Time Slot Management'}>
+          <EditDoctorTimeSlotCalendar
+            events={data?.timeSlots || []}
+            eventEditCallback={handleEditTimeSlot}
+            refresh={mutate}
+          />
+        </BasicCard>
+      </PrimaryPageContent>
     </>
   );
 };
