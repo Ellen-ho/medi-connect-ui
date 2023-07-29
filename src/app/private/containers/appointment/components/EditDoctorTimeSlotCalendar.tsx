@@ -5,13 +5,16 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { EventSourceInput } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
   TextField,
+  Tooltip,
 } from '@mui/material';
 import { EventImpl } from '@fullcalendar/core/internal';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
@@ -22,6 +25,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import dayjs from 'dayjs';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface IEditDoctorTimeSlotInputs {
   id: string;
@@ -58,7 +62,7 @@ interface IEditDoctorTimeSlotCalendarProps {
   events: IDoctorTimeSlot[];
   eventEditCallback: (eventId: string, startAt: string, endAt: string) => void;
   eventCreateCallback: (startAt: string, endAt: string) => void;
-  eventCancelCallback?: (eventId: string) => void;
+  eventCancelCallback: (eventId: string) => void;
   refresh: () => void;
 }
 
@@ -92,8 +96,14 @@ const EditDoctorTimeSlotCalendar: React.FC<
     if (isCreateEvent(currentEvent.id)) {
       eventCreateCallback(data.startAt, data.endAt);
     } else {
-      eventEditCallback(currentEvent?.id as string, data.startAt, data.endAt);
+      eventEditCallback(currentEvent.id as string, data.startAt, data.endAt);
     }
+    handleEditDialogClose();
+    refresh();
+  };
+
+  const handleCancel = () => {
+    eventCancelCallback(currentEvent.id);
     handleEditDialogClose();
     refresh();
   };
@@ -101,7 +111,7 @@ const EditDoctorTimeSlotCalendar: React.FC<
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<IEditDoctorTimeSlotInputs>({
     // resolver: yupResolver(
     //   yup
@@ -162,8 +172,15 @@ const EditDoctorTimeSlotCalendar: React.FC<
         onClose={handleEditDialogClose}
       >
         <FormWrapper onSubmit={handleSubmit(handleEditDialogSave)}>
-          <DialogTitle>
-            {isCreateEvent(currentEvent.id) ? 'Create' : 'Edit'} Time Slot
+          <DialogTitle
+            sx={{ display: 'flex', justifyContent: 'space-between' }}
+          >
+            <>{isCreateEvent(currentEvent.id) ? 'Create' : 'Edit'} Time Slot</>
+            <Tooltip title={'Delete'}>
+              <IconButton color="error" onClick={handleCancel}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -192,7 +209,9 @@ const EditDoctorTimeSlotCalendar: React.FC<
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button type="submit">Save</Button>
+            <Button type="submit" disabled={!isDirty}>
+              Save
+            </Button>
           </DialogActions>
         </FormWrapper>
       </Dialog>

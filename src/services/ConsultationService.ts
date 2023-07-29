@@ -117,6 +117,10 @@ export interface IDoctorTimeSlot {
   isAvailable: boolean;
 }
 
+interface ICancelDoctorTimeSlotRequest {
+  id: string;
+}
+
 export const createDoctorTimeSlot = async (
   data: ICreateDoctorTimeSlotRequest,
 ): Promise<ICreateDoctorTimeSlotResponse> => {
@@ -166,6 +170,15 @@ export const editDoctorTimeSlot = async (
   const response = await api.patch<IEditDoctorTimeSlotResponse>(
     `/consultations/time-slot/${data.id}`,
     { startAt, endAt}
+  );
+  return response.data;
+};
+
+export const cancelDoctorTimeSlot = async (
+  data: ICancelDoctorTimeSlotRequest,
+): Promise<void> => {
+  const response = await api.delete<void>(
+    `/consultations/time-slot/${data.id}`,
   );
   return response.data;
 };
