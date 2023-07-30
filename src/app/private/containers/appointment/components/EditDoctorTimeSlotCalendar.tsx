@@ -185,7 +185,7 @@ const EditDoctorTimeSlotCalendar: React.FC<
           >
             <>{isCreateEvent(currentEvent.id) ? 'Create' : 'Edit'} Time Slot</>
             {!isCreateEvent(currentEvent.id) && (
-              <Tooltip title={'Delete'}>
+              <Tooltip title={'Delete'} placement="top">
                 <IconButton color="error" onClick={handleCancel}>
                   <DeleteIcon />
                 </IconButton>

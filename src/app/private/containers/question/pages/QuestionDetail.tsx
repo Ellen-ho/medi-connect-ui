@@ -35,6 +35,7 @@ import { AuthContext } from '../../../../../context/AuthContext';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import toast from 'react-hot-toast';
 
 const QuestionDetail: React.FC = () => {
   const navigate = useNavigate();
@@ -51,11 +52,13 @@ const QuestionDetail: React.FC = () => {
       await cancelAppreciation({
         answerAppreciationId: answer.answerId,
       });
+      toast.success('Unsent the appreciation successfully');
     } else {
       await createAppreciation({
         content: 'mock content',
         answerId: answer.answerId,
       });
+      toast.success('Thank you for your appreciation!');
     }
     mutate();
   };
@@ -65,11 +68,13 @@ const QuestionDetail: React.FC = () => {
       await cancelAgreement({
         answerId: answer.answerId,
       });
+      toast.success('Canceled the agreement successfully');
     } else {
       await createAgreemewnt({
         answerId: answer.answerId,
         comment: 'mock comment',
       });
+      toast.success('Agreed with the anwser successfully');
     }
     mutate();
   };
@@ -78,6 +83,10 @@ const QuestionDetail: React.FC = () => {
     getSingleQuestion({
       patientQuestionId: questionId as string,
     }),
+  );
+
+  const isAnsweredByCurrecntDoctor = data?.answers.some(
+    (answer) => answer.isAnswerByMe,
   );
 
   return (
@@ -116,18 +125,24 @@ const QuestionDetail: React.FC = () => {
                         >
                           <Avatar
                             alt={answer.firstName}
-                            {...(answer.avatar !== null ? (
-                              <img src={answer.avatar} alt={answer.firstName} />
-                            ) : (
-                              <PersonRoundedIcon />
-                            ))}
                             sx={{
                               width: 50,
                               height: 50,
                               cursor: 'pointer',
                             }}
                             onClick={() => handleClickDoctor(answer.doctorId)}
-                          />
+                          >
+                            {answer.avatar !== null ? (
+                              <img
+                                src={answer.avatar}
+                                alt={answer.firstName}
+                                width={'100%'}
+                                height={'100%'}
+                              />
+                            ) : (
+                              <PersonRoundedIcon />
+                            )}
+                          </Avatar>
                           <Box
                             sx={{
                               display: 'flex',
@@ -185,6 +200,8 @@ const QuestionDetail: React.FC = () => {
                                           <img
                                             src={agreedDoctor.avatar}
                                             alt={agreedDoctor.firstName}
+                                            width={'100%'}
+                                            height={'100%'}
                                           />
                                         ) : (
                                           <Face6Icon />
@@ -205,8 +222,11 @@ const QuestionDetail: React.FC = () => {
                                   {answer.agreedDoctors.length} doctor agreed
                                 </Typography>
                                 {/* Doctor Agree button */}
-                                {isDoctor && (
-                                  <Tooltip title="Agree with this answer">
+                                {isDoctor && !answer.isAnswerByMe && (
+                                  <Tooltip
+                                    title="Agree with this answer"
+                                    placement="top"
+                                  >
                                     <IconButton
                                       color="primary"
                                       onClick={() => {
@@ -224,7 +244,14 @@ const QuestionDetail: React.FC = () => {
                               </Box>
                               {/* Patient Thank button */}
                               <Box sx={{ display: 'flex', gap: '.3rem' }}>
-                                <Tooltip title="Send thanks to the doctor">
+                                <Tooltip
+                                  title={
+                                    answer.isThanked
+                                      ? 'Unsend thanks to the doctor'
+                                      : 'Send thanks to the doctor'
+                                  }
+                                  placement="top"
+                                >
                                   <Chip
                                     icon={
                                       answer.isThanked ? (
@@ -266,11 +293,20 @@ const QuestionDetail: React.FC = () => {
 
           {isDoctor && (
             <BasicCard title={'Provide Your Answer'}>
-              {questionId && (
-                <CreateAnswer
-                  questionId={questionId}
-                  onCreateCallback={mutate}
+              {isAnsweredByCurrecntDoctor ? (
+                <NoDataFound
+                  icon={<QuestionAnswerOutlinedIcon fontSize="small" />}
+                  label={'You have already answered this question'}
                 />
+              ) : (
+                <>
+                  {questionId && (
+                    <CreateAnswer
+                      questionId={questionId}
+                      onCreateCallback={mutate}
+                    />
+                  )}
+                </>
               )}
             </BasicCard>
           )}

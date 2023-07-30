@@ -54,6 +54,7 @@ export interface IAnswer {
   thankCounts: number;
   isThanked: boolean;
   isAgreed: boolean;
+  isAnswerByMe: boolean;
 }
 interface IGetSingleQuestionRequest {
   patientQuestionId: string;
@@ -182,7 +183,7 @@ export const createAgreemewnt = async (
   data: ICreateAnswerAgreementRequest,
 ): Promise<ICreateAnswerAgreementResponse> => {
   const response = await api.post<ICreateAnswerAgreementResponse>(
-    `/questions/answers/${data.answerId}/agreemewnts`,
+    `/questions/answers/${data.answerId}/agreements`,
     {
       comment: data.comment,
     },

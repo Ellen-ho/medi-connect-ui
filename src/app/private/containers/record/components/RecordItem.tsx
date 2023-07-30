@@ -60,7 +60,7 @@ const RecordItem: React.FC<IRecordItemProps> = ({
         </Box>
       </CardActionArea>
       {/* <CardActions>
-        <Tooltip title="Edit">
+        <Tooltip title="Edit" placement="top">
           <IconButton size="small" color="primary">
             <EditIcon />
           </IconButton>
