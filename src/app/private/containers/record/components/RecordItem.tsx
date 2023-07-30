@@ -2,14 +2,10 @@ import {
   Box,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   Grid,
-  IconButton,
-  Tooltip,
   Typography,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 import { IRecordCategory } from '../types/Record.type';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 
