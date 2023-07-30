@@ -47,8 +47,6 @@ const ResponsiveAppBar: React.FC = () => {
   const { state: notificationState, dispatch: notificationDispatch } =
     useContext(NotificationContext);
   const navigate = useNavigate();
-  // const [hasUnreadNotification, setHasUnreadNotification] =
-  //   useState<boolean>(false);
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -188,7 +186,7 @@ const ResponsiveAppBar: React.FC = () => {
                   open={Boolean(anchorElNav)}
                   onClose={handleCloseNavMenu}
                 >
-                  {dropMenuePages.map((page, index) => (
+                  {dropMenuePages.map((page) => (
                     <MenuItem
                       key={page.title}
                       onClick={() => handlePageClick(page.link)}
@@ -201,14 +199,20 @@ const ResponsiveAppBar: React.FC = () => {
                       display: { xs: 'block', md: 'none' },
                     }}
                   >
-                    {topPages.map((page) => (
-                      <MenuItem
-                        key={page.title}
-                        onClick={() => handlePageClick(page.link)}
-                      >
-                        <Typography textAlign="center">{page.title}</Typography>
-                      </MenuItem>
-                    ))}
+                    {topPages.map((page) => {
+                      if (page.permission.includes(currentUserRole)) {
+                        return (
+                          <MenuItem
+                            key={page.title}
+                            onClick={() => handlePageClick(page.link)}
+                          >
+                            <Typography textAlign="center">
+                              {page.title}
+                            </Typography>
+                          </MenuItem>
+                        );
+                      }
+                    })}
                   </Box>
                   <MenuItem onClick={handleSignOut}>
                     <Typography textAlign="center">Sign Out</Typography>
