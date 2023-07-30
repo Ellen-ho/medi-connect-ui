@@ -16,6 +16,8 @@ import { EventImpl } from '@fullcalendar/core/internal';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
 import { IDoctorTimeSlot } from '../../../../../services/ConsultationService';
+import RowItem from '../../../../../components/form/RowItem';
+import { start } from 'repl';
 
 interface IFullCalendarEvent {
   id: string;
@@ -45,12 +47,16 @@ const getCalendarEventFormat = (
 };
 
 interface IDoctorAppointmentCalendarProps {
+  validStartDate: string;
+  validEndDate: string;
   events: IDoctorTimeSlot[];
   doctorName: string;
   eventClickCallback: (eventId: string) => void;
 }
 
 const DoctorAppointmentCalendar: React.FC<IDoctorAppointmentCalendarProps> = ({
+  validStartDate,
+  validEndDate,
   events = [],
   doctorName,
   eventClickCallback,
@@ -86,6 +92,11 @@ const DoctorAppointmentCalendar: React.FC<IDoctorAppointmentCalendarProps> = ({
       <FullCalendar
         plugins={[timeGridPlugin, dayGridPlugin]}
         initialView="timeGridWeek"
+        initialDate={validStartDate}
+        validRange={{
+          start: validStartDate,
+          end: validEndDate,
+        }}
         headerToolbar={{
           left: 'prev,next',
           center: 'title',
@@ -98,14 +109,21 @@ const DoctorAppointmentCalendar: React.FC<IDoctorAppointmentCalendarProps> = ({
           handleClickOpen();
         }}
       />
-      <Dialog open={isConfirmDialogOpen} onClose={handleClose}>
+      <Dialog
+        fullWidth
+        maxWidth={'md'}
+        open={isConfirmDialogOpen}
+        onClose={handleClose}
+      >
         <DialogTitle>{'Make Appointment Confirmation'}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure to book appointment of this time slot? <br />- Doctor:
-            Dr. {doctorName} <br />- Date time:{' '}
-            {dateFormatter(currentEvent?.startStr as string)} ~{' '}
-            {dateFormatter(currentEvent?.endStr as string)}
+            Are you sure to book appointment of this time slot?
+            <RowItem label={'Doctor'}>Dr. {doctorName}</RowItem>
+            <RowItem label={'Date time'}>
+              {dateFormatter(currentEvent?.startStr as string)} ~{' '}
+              {dateFormatter(currentEvent?.endStr as string)}
+            </RowItem>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -7,6 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
   Divider,
+  IconButton,
   Link,
   List,
   ListItemAvatar,
@@ -14,12 +16,12 @@ import {
   ListItemText,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import {
+  cancelConsultAppointment,
   getPatientConsultAppointments,
-  IGetPatientConsultAppointmentsResponse,
   IPatientConsultAppointmentDatas,
 } from '../../../../../services/ConsultationService';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
@@ -28,18 +30,18 @@ import { dateFormatter } from '../../../../../utils/dateFormatter';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import RowItem from '../../../../../components/form/RowItem';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
+import ClearIcon from '@mui/icons-material/Clear';
+import useSWR from 'swr';
+import toast from 'react-hot-toast';
+import { AuthContext } from '../../../../../context/AuthContext';
 
 const AppointmentList: React.FC = () => {
+  const { state } = useContext(AuthContext);
+  const isDoctor = state.doctorId != null;
   const navigate = useNavigate();
   const [detailDialogOpen, setDetailDialogOpen] = useState<boolean>(false);
   const [selectedDetail, setSelectedDetail] =
     useState<IPatientConsultAppointmentDatas | null>(null);
-  const [appointments, setAppointments] =
-    useState<IGetPatientConsultAppointmentsResponse>({
-      upcomingAppointments: [],
-      completedAppointments: [],
-      canceledAppointments: [],
-    });
 
   const handleOpenDetailDialog = (detail: IPatientConsultAppointmentDatas) => {
     setSelectedDetail(detail);
@@ -51,42 +53,30 @@ const AppointmentList: React.FC = () => {
     setSelectedDetail(null);
   };
 
-  const handleClickNewAppointment = () => {
-    navigate('/appointment/new');
+  const handleCancelAppointment = async (consultAppointmentId: string) => {
+    await cancelConsultAppointment({ consultAppointmentId });
+    toast.success('Cancel appointment successfully');
   };
 
-  const handleClickAppointment = (appointmentId: string) => {
-    navigate(`/appointment/${appointmentId}`);
+  const handleClickEditTimeSlot = () => {
+    navigate('/appointment/time-slot');
   };
 
-  const handleCancelAppointment = (appointmentId: string) => {
-    console.log(`Cancel appointment with ID: ${appointmentId}`);
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response: IGetPatientConsultAppointmentsResponse =
-          await getPatientConsultAppointments();
-
-        setAppointments(response);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { data } = useSWR('getPatientConsultAppointments', () =>
+    getPatientConsultAppointments(),
+  );
 
   return (
     <>
       <PrimaryPageTop
         pageTitle="Appointment"
-        // rightElement={
-        //   <Button onClick={handleClickNewAppointment} variant="contained">
-        //     Create Appointment
-        //   </Button>
-        // }
+        rightElement={
+          isDoctor && (
+            <Button onClick={handleClickEditTimeSlot} variant="contained">
+              Edit Time Slot
+            </Button>
+          )
+        }
       />
       <PrimaryPageContent>
         <CommonWrapper>
@@ -97,8 +87,9 @@ const AppointmentList: React.FC = () => {
                 bgcolor: 'background.paper',
               }}
             >
-              {appointments.upcomingAppointments.length > 0 ? (
-                appointments.upcomingAppointments.map((item) => (
+              {data?.upcomingAppointments &&
+              data?.upcomingAppointments.length > 0 ? (
+                data.upcomingAppointments.map((item) => (
                   <>
                     <ListItemButton
                       onClick={() => handleOpenDetailDialog(item)}
@@ -132,8 +123,9 @@ const AppointmentList: React.FC = () => {
                 bgcolor: 'background.paper',
               }}
             >
-              {appointments.completedAppointments.length > 0 ? (
-                appointments.completedAppointments.map((item) => (
+              {data?.completedAppointments &&
+              data?.completedAppointments.length > 0 ? (
+                data.completedAppointments.map((item) => (
                   <>
                     <ListItemButton
                       onClick={() => handleOpenDetailDialog(item)}
@@ -167,8 +159,9 @@ const AppointmentList: React.FC = () => {
                 bgcolor: 'background.paper',
               }}
             >
-              {appointments.canceledAppointments.length > 0 ? (
-                appointments.canceledAppointments.map((item) => (
+              {data?.canceledAppointments &&
+              data?.canceledAppointments.length > 0 ? (
+                data.canceledAppointments.map((item) => (
                   <>
                     <ListItemButton
                       onClick={() => handleOpenDetailDialog(item)}
@@ -204,25 +197,41 @@ const AppointmentList: React.FC = () => {
           fullWidth={true}
           maxWidth={'md'}
         >
-          <DialogTitle>{'Appointment Details'}</DialogTitle>
+          <DialogTitle
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Box>{'Appointment Details'}</Box>
+            <IconButton
+              edge="end"
+              color="inherit"
+              onClick={handleCloseDetailDialog}
+              aria-label="close"
+            >
+              <ClearIcon />
+            </IconButton>
+          </DialogTitle>
           <DialogContent>
             <DialogContentText>
               <RowItem label={'Appointment No.'}>
                 {selectedDetail.appointmentId}
               </RowItem>
-              <Divider />
+
               <RowItem
                 label={'Doctor Name'}
               >{`Dr. ${selectedDetail.doctor.firstName} ${selectedDetail.doctor.lastName}`}</RowItem>
-              <Divider />
+
               <RowItem label={'Datetime'}>{`${dateFormatter(
                 selectedDetail.doctorTimeSlot.startAt.toString(),
               )} ~ ${dateFormatter(
                 selectedDetail.doctorTimeSlot.endAt.toString(),
               )}`}</RowItem>
-              <Divider />
+
               <RowItem label={'Status'}>{selectedDetail.status}</RowItem>
-              <Divider />
+
               <RowItem label={'Meeting Link'}>
                 {selectedDetail.meetingLink ? (
                   <Link href={selectedDetail.meetingLink}>
@@ -232,7 +241,6 @@ const AppointmentList: React.FC = () => {
                   '--'
                 )}
               </RowItem>
-              <Divider />
             </DialogContentText>
           </DialogContent>
           <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>

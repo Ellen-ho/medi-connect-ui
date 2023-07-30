@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Button,
   Card,
   CardContent,
@@ -8,6 +9,7 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  Tooltip,
 } from '@mui/material';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import { useNavigate } from 'react-router-dom';
@@ -20,14 +22,6 @@ import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 const QuestionList: React.FC = () => {
   const navigate = useNavigate();
-  const { data, error } = useSWR('getQuestions', () =>
-    getQuestions({
-      query: {
-        limit: 10,
-        page: 1,
-      },
-    }),
-  );
 
   const handleClickNewQuestion = () => {
     navigate('/question/new');
@@ -36,6 +30,15 @@ const QuestionList: React.FC = () => {
   const handleClickQuestion = (questionId: string) => {
     navigate(`/question/${questionId}`);
   };
+
+  const { data, error } = useSWR('getQuestions', () =>
+    getQuestions({
+      query: {
+        limit: 10,
+        page: 1,
+      },
+    }),
+  );
 
   return (
     <>
@@ -63,9 +66,31 @@ const QuestionList: React.FC = () => {
                       onClick={() => handleClickQuestion(question.id)}
                     >
                       <ListItemAvatar>
-                        <Avatar>
-                          <QuestionAnswerIcon />
-                        </Avatar>
+                        <Tooltip
+                          title={
+                            question.answerCounts > 0
+                              ? 'This question had been answered'
+                              : 'No answer yet'
+                          }
+                          placement="top"
+                        >
+                          <Badge
+                            badgeContent={question.answerCounts}
+                            color="error"
+                            overlap="circular"
+                          >
+                            <Avatar
+                              sx={{
+                                bgcolor:
+                                  question.answerCounts > 0
+                                    ? (theme) => theme.palette.success.light
+                                    : (theme) => theme.palette.grey[500],
+                              }}
+                            >
+                              <QuestionAnswerIcon />
+                            </Avatar>
+                          </Badge>
+                        </Tooltip>
                       </ListItemAvatar>
                       <ListItemText
                         primary={question.content}

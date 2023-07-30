@@ -35,16 +35,26 @@ interface ICreateQuestionResponse {
 }
 
 export interface IAnswer {
-  doctorAvatars: Array<string | null>;
+  answerId: string;
+  doctorId: string;
+  agreedDoctors: Array<{
+    doctorId: string;
+    avatar: string | null;
+    firstName: string;
+    lastName: string;
+  }>;
   content: string;
   avatar: string | null;
   firstName: string;
   lastName: string;
   specialties: MedicalSpecialtyType[];
   careerStartDate: Date;
+  answerCreatedAt: Date;
   agreeCounts: number;
   thankCounts: number;
   isThanked: boolean;
+  isAgreed: boolean;
+  isAnswerByMe: boolean;
 }
 interface IGetSingleQuestionRequest {
   patientQuestionId: string;
@@ -115,7 +125,7 @@ interface ICancelPatientQuestionAnswerResponse {
 }
 
 interface ICancelAnswerAppreciationRequest {
-  answerAppreciationId: string;
+  answerId: string;
 }
 
 interface ICancelAnswerAppreciationResponse {
@@ -123,7 +133,7 @@ interface ICancelAnswerAppreciationResponse {
 }
 
 interface ICancelAnswerAgreementRequest {
-  answerAgreementId: string;
+  answerId: string;
 }
 
 interface ICancelAnswerAgreementResponse {
@@ -173,7 +183,7 @@ export const createAgreemewnt = async (
   data: ICreateAnswerAgreementRequest,
 ): Promise<ICreateAnswerAgreementResponse> => {
   const response = await api.post<ICreateAnswerAgreementResponse>(
-    `/questions/answers/${data.answerId}/agreemewnts`,
+    `/questions/answers/${data.answerId}/agreements`,
     {
       comment: data.comment,
     },
@@ -197,7 +207,7 @@ export const cancelAgreement = async (
   data: ICancelAnswerAgreementRequest,
 ): Promise<ICancelAnswerAgreementResponse> => {
   const response = await api.delete<ICancelAnswerAgreementResponse>(
-    `/questions/answers/agreements/${data.answerAgreementId}`,
+    `/questions/answers/${data.answerId}/agreements`,
   );
   return response.data;
 };
@@ -206,7 +216,7 @@ export const cancelAppreciation = async (
   data: ICancelAnswerAppreciationRequest,
 ): Promise<ICancelAnswerAppreciationResponse> => {
   const response = await api.delete<ICancelAnswerAppreciationResponse>(
-    `/questions/answers/appreciations/${data.answerAppreciationId}`,
+    `/questions/answers/${data.answerId}/appreciations`,
   );
   return response.data;
 };

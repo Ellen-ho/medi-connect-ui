@@ -8,6 +8,18 @@ interface IPatientData {
   gender: string;
 }
 
+interface IGetRecordRequest {
+  urlPath: string;
+  recordId: string;
+  query: {
+    targetPatientId: string;
+  };
+}
+
+interface IGetRecordResponse {
+  data: Record<string, any>;
+}
+
 interface IGetRecordsRequest {
   urlPath: string;
   query: {
@@ -209,6 +221,18 @@ interface ICreateWeightRecordResponse {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export const getRecord = async ({
+  urlPath,
+  recordId,
+  query,
+}: IGetRecordRequest): Promise<IGetRecordResponse> => {
+  const queries = queryString.stringify(query);
+  const response = await api.get<IGetRecordResponse>(
+    `/records/${urlPath}/${recordId}?${queries}`,
+  );
+  return response.data;
+};
 
 export const getRecords = async ({
   urlPath,

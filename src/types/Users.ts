@@ -4,6 +4,7 @@ export enum UserRoleType {
 }
 
 export interface IAccount {
+  id: string;
   displayName: string;
   email: string;
   password: string;

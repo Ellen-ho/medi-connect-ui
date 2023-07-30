@@ -22,6 +22,10 @@ const RecordList: React.FC = () => {
     navigate(`/record/${recordCategory?.urlPath}/new`);
   };
 
+  const handleClickRecord = (recordId: string) => {
+    navigate(`/record/${recordCategory?.urlPath}/${recordId}`);
+  };
+
   const { data, error } = useSWR('getRecords', () =>
     getRecords({
       urlPath: typeId as string,
@@ -38,6 +42,7 @@ const RecordList: React.FC = () => {
       {recordCategory ? (
         <>
           <SecondaryPageTop
+            onBack={() => navigate(`/record`)}
             rightElement={
               <Button onClick={handleNewQuestion} variant="contained">
                 Add Record
@@ -48,7 +53,11 @@ const RecordList: React.FC = () => {
             <RecordListWrapper>
               {data?.recordsData && data.recordsData.length > 0 ? (
                 data.recordsData.map((record: unknown) => (
-                  <RecordItem record={record} recordCategory={recordCategory} />
+                  <RecordItem
+                    record={record}
+                    recordCategory={recordCategory}
+                    onClick={handleClickRecord}
+                  />
                 ))
               ) : (
                 <NoDataFound />

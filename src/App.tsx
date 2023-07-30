@@ -12,8 +12,12 @@ import Profile from './app/private/containers/profile/Index';
 import Account from './app/private/containers/account/Index';
 import Doctors from './app/private/containers/doctors/Index';
 import Notification from './app/private/containers/notification/Index';
+import HealthGoal from './app/private/containers/goal/Index';
+import useInitAuth from './hooks/UseInitAuth';
 
 const App: React.FC = () => {
+  useInitAuth();
+
   return (
     <Routes>
       <Route element={<PrivateRoutes />}>
@@ -24,6 +28,7 @@ const App: React.FC = () => {
         <Route element={<Profile />} path="/profile/*" />
         <Route element={<Doctors />} path="/doctor/*" />
         <Route element={<Notification />} path="/notification/*" />
+        <Route element={<HealthGoal />} path="/health-goal/*" />
       </Route>
       <Route element={<Home />} path="/" />
       <Route element={<SignIn />} path="/signin" />

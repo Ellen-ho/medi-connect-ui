@@ -22,13 +22,37 @@ import {
 } from '../../../../../services/ConsultationService';
 import useSWR from 'swr';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import toast from 'react-hot-toast';
+import dayjs from 'dayjs';
 
 // TODO: remove this to env
 const MAP_API_KEY = 'AIzaSyBEI_3kBwvdfukP1FONBej8ELqWguE3azk';
 
+const getValidDateRange = () => {
+  // default date range can be edited 28th of the month to 28th of next month
+  const today = dayjs();
+  let start = today.startOf('month');
+  let end = today.endOf('month');
+
+  if (today.date() > 28) {
+    start = today.add(1, 'month').startOf('month');
+    end = today.add(1, 'month').endOf('month');
+  }
+
+  const validStartDate = start.format('YYYY-MM-DD');
+  const validEndDate = end.format('YYYY-MM-DD');
+
+  return {
+    validStartDate,
+    validEndDate,
+  };
+};
+
 const DoctorDetail: React.FC = () => {
   const { doctorId } = useParams();
+  const { validStartDate, validEndDate } = getValidDateRange();
+
   const { data: doctorDetail } = useSWR('getDoctorProfile', () =>
     getDoctorProfile(doctorId as string),
   );
@@ -37,18 +61,20 @@ const DoctorDetail: React.FC = () => {
     getDoctorStatistic(doctorId as string),
   );
 
-  const { data: doctorTimeSlot } = useSWR('getDoctorTimeSlots', () =>
+  const { data: doctorTimeSlot, mutate } = useSWR('getDoctorTimeSlots', () =>
     getDoctorTimeSlots({
       doctorId: doctorId as string,
       query: {
-        startTime: '2023-08-01',
-        endTime: '2023-08-31',
+        startTime: validStartDate,
+        endTime: validEndDate,
       },
     }),
   );
 
-  const handleBookDoctorTimeSlot = (doctorTimeSlotId: string) => {
-    createConsultAppointmentRecord({ doctorTimeSlotId });
+  const handleBookDoctorTimeSlot = async (doctorTimeSlotId: string) => {
+    await createConsultAppointmentRecord({ doctorTimeSlotId });
+    await mutate();
+    toast.success('Booked the time slot successfully');
   };
 
   return (
@@ -66,15 +92,16 @@ const DoctorDetail: React.FC = () => {
                   mb: '20px',
                 }}
               >
-                 {doctorDetail.avatar ? (
-                  <Avatar
-                    alt={doctorDetail.firstName}
-                    src={doctorDetail.avatar}
-                    sx={{ width: 180, height: 180 }}
-                  />
-                ) : (
-                  <AccountCircleIcon/>
-                )}
+                <Avatar sx={{ width: 180, height: 180 }}>
+                  {doctorDetail.avatar !== null ? (
+                    <img
+                      src={doctorDetail.avatar}
+                      alt={doctorDetail.firstName}
+                    />
+                  ) : (
+                    <PersonRoundedIcon sx={{ width: '75%', height: '75%' }} />
+                  )}
+                </Avatar>
                 <Box
                   sx={{
                     display: 'flex',
@@ -271,6 +298,8 @@ const DoctorDetail: React.FC = () => {
               </BasicCard>
               <BasicCard title={'Appointment Time Slot'}>
                 <DoctorAppointmentCalendar
+                  validStartDate={validStartDate}
+                  validEndDate={validEndDate}
                   events={doctorTimeSlot?.timeSlots || []}
                   doctorName={`${doctorDetail.firstName} ${doctorDetail.lastName}`}
                   eventClickCallback={handleBookDoctorTimeSlot}

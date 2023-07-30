@@ -53,18 +53,18 @@ interface IGetDoctorConsultAppointmentsResponse {
   canceledAppointments: IDoctorConsultAppointmentDatas[];
 }
 
-interface ICreateDoctorTimeSlotRequest {
-  startAt: Date;
-  endAt: Date;
+export interface ICreateDoctorTimeSlotRequest {
+  startAt: string;
+  endAt: string;
 }
 
 interface ICreateDoctorTimeSlotResponse {
   id: string;
   doctorId: string;
-  startAt: Date;
-  endAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  startAt: string;
+  endAt: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface ICreateMultipleTimeSlotsRequest {
@@ -75,8 +75,8 @@ interface ICreateMultipleTimeSlotsResponse {
   doctorId: string;
   timeSlots: Array<{
     id: string;
-    startAt: Date;
-    endAt: Date;
+    startAt: string;
+    endAt: string;
   }>;
 }
 
@@ -86,7 +86,7 @@ interface IEditDoctorTimeSlotRequest extends IDoctorTimeSlotData {
 
 interface IEditDoctorTimeSlotResponse extends IDoctorTimeSlotData {
   id: string;
-  updatedAt: Date;
+  updatedAt: string;
 }
 
 interface ICancelConsultAppointmentRequest {
@@ -115,6 +115,10 @@ export interface IDoctorTimeSlot {
   startAt: string;
   endAt: string;
   isAvailable: boolean;
+}
+
+interface ICancelDoctorTimeSlotRequest {
+  id: string;
 }
 
 export const createDoctorTimeSlot = async (
@@ -162,7 +166,18 @@ export const getDoctorConsultAppointments =
 export const editDoctorTimeSlot = async (
   data: IEditDoctorTimeSlotRequest,
 ): Promise<IEditDoctorTimeSlotResponse> => {
+  const {startAt, endAt} = data;
   const response = await api.patch<IEditDoctorTimeSlotResponse>(
+    `/consultations/time-slot/${data.id}`,
+    { startAt, endAt}
+  );
+  return response.data;
+};
+
+export const cancelDoctorTimeSlot = async (
+  data: ICancelDoctorTimeSlotRequest,
+): Promise<void> => {
+  const response = await api.delete<void>(
     `/consultations/time-slot/${data.id}`,
   );
   return response.data;

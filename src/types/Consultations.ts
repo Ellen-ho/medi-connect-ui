@@ -1,8 +1,8 @@
 import { MedicalSpecialtyType } from './Share';
 
 export interface IDoctorTimeSlotData {
-  startAt: Date;
-  endAt: Date;
+  startAt: string;
+  endAt: string;
 }
 
 export enum ConsultAppointmentStatusType {
@@ -15,8 +15,8 @@ export interface ConsultAppointmentDatas {
   patientId: string;
   status: ConsultAppointmentStatusType;
   doctorTimeSlot: {
-    startAt: Date;
-    endAt: Date;
+    startAt: string;
+    endAt: string;
   };
   doctor: {
     firstName: string;

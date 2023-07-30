@@ -5,6 +5,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import InfoIcon from '@mui/icons-material/Info';
+import React from 'react';
 
 interface INotificationIconsProps {
   notificationType: NotificationType;

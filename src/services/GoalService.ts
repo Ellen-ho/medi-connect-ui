@@ -33,7 +33,7 @@ interface IGetHealthGoalListRequest {
   };
 }
 
-interface IGetHealthGoalListResponse {
+export interface IGetHealthGoalListResponse {
   patientData: {
     firstName: string;
     lastName: string;
@@ -41,8 +41,10 @@ interface IGetHealthGoalListResponse {
     gender: GenderType;
   };
   goalsData: Array<{
+    id: string;
     startAt: Date;
     endAt: Date;
+    createdAt: Date;
     status: HealthGoalStatus;
     result: IHealthGoalResult | null;
   }>;
@@ -81,11 +83,11 @@ interface IGetHealthGoalResponse {
   updatedAt: Date;
 }
 
-export const createMultipleTimeSlots = async (
+export const activateHealthGoal = async (
   data: IActivateHealthGoalRequest,
 ): Promise<IActivateHealthGoalResponse> => {
   const response = await api.patch<IActivateHealthGoalResponse>(
-    `/goals/active/${data.healthGoalId}`,
+    `/health-goals/active/${data.healthGoalId}`,
   );
   return response.data;
 };
@@ -94,7 +96,7 @@ export const rejectHealthGoal = async (
   data: IRejectHealthGoalRequest,
 ): Promise<IRejectHealthGoalResponse> => {
   const response = await api.patch<IRejectHealthGoalResponse>(
-    `/goals/reject/${data.healthGoalId}`,
+    `/health-goals/reject/${data.healthGoalId}`,
   );
   return response.data;
 };
@@ -102,8 +104,8 @@ export const rejectHealthGoal = async (
 export const getHealthGoal = async (
   data: IGetHealthGoalRequest,
 ): Promise<IGetHealthGoalResponse> => {
-  const response = await api.patch<IGetHealthGoalResponse>(
-    `/goals/${data.healthGoalId}`,
+  const response = await api.get<IGetHealthGoalResponse>(
+    `/health-goals/${data.healthGoalId}`,
   );
   return response.data;
 };
@@ -113,7 +115,7 @@ export const getHealthGoalList = async (
 ): Promise<IGetHealthGoalListResponse> => {
   const queries = queryString.stringify(data.query);
   const response = await api.get<IGetHealthGoalListResponse>(
-    `/goals?${queries}`,
+    `/health-goals?${queries}`,
   );
   return response.data;
 };
