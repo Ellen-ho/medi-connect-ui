@@ -50,7 +50,7 @@ const QuestionDetail: React.FC = () => {
   const handleToggleThankDoctorAnswer = async (answer: IAnswer) => {
     if (answer.isThanked) {
       await cancelAppreciation({
-        answerAppreciationId: answer.answerId,
+        answerId: answer.answerId,
       });
       toast.success('Unsent the appreciation successfully');
     } else {
@@ -224,7 +224,11 @@ const QuestionDetail: React.FC = () => {
                                 {/* Doctor Agree button */}
                                 {isDoctor && !answer.isAnswerByMe && (
                                   <Tooltip
-                                    title="Agree with this answer"
+                                    title={
+                                      answer.isAgreed
+                                        ? 'Cancel the agreement'
+                                        : 'Agree with this answer'
+                                    }
                                     placement="top"
                                   >
                                     <IconButton

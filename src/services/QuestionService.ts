@@ -125,7 +125,7 @@ interface ICancelPatientQuestionAnswerResponse {
 }
 
 interface ICancelAnswerAppreciationRequest {
-  answerAppreciationId: string;
+  answerId: string;
 }
 
 interface ICancelAnswerAppreciationResponse {
@@ -207,7 +207,7 @@ export const cancelAgreement = async (
   data: ICancelAnswerAgreementRequest,
 ): Promise<ICancelAnswerAgreementResponse> => {
   const response = await api.delete<ICancelAnswerAgreementResponse>(
-    `/questions/answers/agreements/${data.answerId}`,
+    `/questions/answers/${data.answerId}/agreements`,
   );
   return response.data;
 };
@@ -216,7 +216,7 @@ export const cancelAppreciation = async (
   data: ICancelAnswerAppreciationRequest,
 ): Promise<ICancelAnswerAppreciationResponse> => {
   const response = await api.delete<ICancelAnswerAppreciationResponse>(
-    `/questions/answers/appreciations/${data.answerAppreciationId}`,
+    `/questions/answers/${data.answerId}/appreciations`,
   );
   return response.data;
 };

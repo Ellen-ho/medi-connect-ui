@@ -10,6 +10,7 @@ import BasicCard from '../../../../../components/card/BasicCard';
 import RowItem from '../../../../../components/form/RowItem';
 import { camelToTitleCase } from '../../../../../utils/camelToTitleCase';
 import ClearIcon from '@mui/icons-material/Clear';
+import { dateFormatter } from '../../../../../utils/dateFormatter';
 
 const RecordDetail: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -34,9 +35,17 @@ const RecordDetail: React.FC = () => {
         <CommonWrapper>
           <BasicCard title={'Record Detail'}>
             {data?.data &&
-              Object.entries(data.data).map(([key, value]) => (
-                <RowItem label={camelToTitleCase(key)}>{value}</RowItem>
-              ))}
+              Object.entries(data.data).map(([key, value]) => {
+                const dateRelatedFields = ['createdAt', 'updatedAt', 'Date'];
+                const isDateRelatedField = dateRelatedFields.some((field) =>
+                  key.includes(field),
+                );
+                return (
+                  <RowItem label={camelToTitleCase(key)}>
+                    {isDateRelatedField ? dateFormatter(value) : value}
+                  </RowItem>
+                );
+              })}
           </BasicCard>
         </CommonWrapper>
       </PrimaryPageContent>
