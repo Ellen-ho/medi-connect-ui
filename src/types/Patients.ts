@@ -65,7 +65,7 @@ export interface IPatient {
   avatar: string | null;
   firstName: string;
   lastName: string;
-  birthDate: Date;
+  birthDate: string;
   gender: GenderType;
   heightValueCm: number;
   allergy: IAllergy;

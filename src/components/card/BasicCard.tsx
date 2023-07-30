@@ -1,22 +1,45 @@
 import React from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 
 interface IBasicCardProps {
+  startTitleAdornment?: React.ReactNode;
   title: string;
+  titleLeftElement?: React.ReactNode;
   children: React.ReactNode;
 }
 
-const BasicCard: React.FC<IBasicCardProps> = ({ title, children }) => {
+interface IBasicCardProps {
+  startTitleAdornment?: React.ReactNode;
+  title: string;
+  titleLeftElement?: React.ReactNode;
+  children: React.ReactNode;
+}
+
+const BasicCard: React.FC<IBasicCardProps> = ({
+  startTitleAdornment,
+  title,
+  titleLeftElement,
+  children,
+}) => {
   return (
     <Card>
       <CardContent>
-        <Typography
-          gutterBottom
-          variant="h5"
-          sx={{ display: 'flex', alignItems: 'center', mb: '1rem' }}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
         >
-          {title}
-        </Typography>
+          <Typography
+            gutterBottom
+            variant="h5"
+            sx={{ display: 'flex', alignItems: 'center', mb: '1rem' }}
+          >
+            {startTitleAdornment} {title}
+          </Typography>
+          {titleLeftElement}
+        </Box>
         {children}
       </CardContent>
     </Card>
