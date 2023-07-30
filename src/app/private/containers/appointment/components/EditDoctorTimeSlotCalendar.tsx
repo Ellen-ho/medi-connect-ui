@@ -16,7 +16,6 @@ import {
   TextField,
   Tooltip,
 } from '@mui/material';
-import { EventImpl } from '@fullcalendar/core/internal';
 import { IDoctorTimeSlot } from '../../../../../services/ConsultationService';
 import RowItem from '../../../../../components/form/RowItem';
 import { useForm } from 'react-hook-form';
