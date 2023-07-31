@@ -34,7 +34,7 @@ export interface IAllergy {
   other: string | null;
 }
 
-export interface IMedicinceUsageItem {
+export interface IMedicineUsageItem {
   medicineName: string;
   medicineDosage: number;
   medicineUnit: MedicineUnitType;
@@ -71,5 +71,5 @@ export interface IPatient {
   allergy: IAllergy;
   medicalHistory: IMedicalHistoryItem[] | null;
   familyHistory: IFamilyHistoryItem[] | null;
-  medicinceUsage: IMedicinceUsageItem[] | null;
+  medicineUsage: IMedicineUsageItem[] | null;
 }

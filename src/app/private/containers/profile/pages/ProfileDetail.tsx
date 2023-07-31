@@ -28,7 +28,14 @@ import VaccinesIcon from '@mui/icons-material/Vaccines';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import FmdBadOutlinedIcon from '@mui/icons-material/FmdBadOutlined';
 import { useContext, useState } from 'react';
-import { IPatient, PersonalDiagnosisType } from '../../../../../types/Patients';
+import {
+  FamilyDiagnosisType,
+  IPatient,
+  MedicineFrequencyType,
+  MedicineTimeType,
+  MedicineUnitType,
+  PersonalDiagnosisType,
+} from '../../../../../types/Patients';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import DataLoading from '../../../../../components/signs/DataLoading';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -67,7 +74,7 @@ const defautPatient: IPatient = {
   },
   familyHistory: null,
   medicalHistory: null,
-  medicinceUsage: null,
+  medicineUsage: null,
 };
 
 const ProfileDetail: React.FC = () => {
@@ -112,12 +119,12 @@ const ProfileDetail: React.FC = () => {
   });
 
   const {
-    fields: medicinceUsageyFields,
-    append: medicinceUsageAppend,
-    remove: medicinceUsageRemove,
+    fields: medicineUsageFields,
+    append: medicineUsageAppend,
+    remove: medicineUsageRemove,
   } = useFieldArray({
     control, // control props comes from useForm (optional: if you are using FormContext)
-    name: 'medicinceUsage', // unique name for your Field Array
+    name: 'medicineUsage', // unique name for your Field Array
   });
 
   const onEditProfile = async (data: IPatient) => {
@@ -376,56 +383,201 @@ const ProfileDetail: React.FC = () => {
                 </>
               </BasicCard>
 
-              <Card>
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div"
-                    sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
-                  >
-                    <GroupOutlinedIcon /> Family History
-                  </Typography>
-                  {profile.familyHistory &&
-                    profile.familyHistory.map((familyHistory, index) => (
-                      <Box key={index}>
-                        <EditableRowItem label={`#${index + 1}`}>
-                          <Box sx={{ textAlign: 'right' }}>
-                            {familyHistory.relationship} <br />
-                            {familyHistory.diagnosis},{' '}
-                            {familyHistory.diagnosisDetails}
-                          </Box>
-                        </EditableRowItem>
-                        <Divider />
-                      </Box>
+              <BasicCard
+                startTitleAdornment={
+                  <GroupOutlinedIcon sx={{ marginRight: '.5rem' }} />
+                }
+                title={'Family History'}
+                titleLeftElement={
+                  <Tooltip title={'Add new item'} placement="top">
+                    <IconButton>
+                      <AddCircleOutlineIcon
+                        onClick={() =>
+                          familyHistoryAppend({
+                            diagnosis: FamilyDiagnosisType.OTHER,
+                            diagnosisDetails: '',
+                            relationship: '',
+                          })
+                        }
+                      />
+                    </IconButton>
+                  </Tooltip>
+                }
+              >
+                <>
+                  {familyHistoryFields &&
+                    familyHistoryFields.map((history, index) => (
+                      <EditableRowItem label={`#${index + 1}`}>
+                        <Box
+                          key={index}
+                          sx={{
+                            display: 'flex',
+                            gap: '.5rem',
+                            flexDirection: 'row',
+                            alignItems: 'top',
+                            py: '1rem',
+                          }}
+                        >
+                          <TextField
+                            select
+                            label={'Diagnosis'}
+                            size="small"
+                            InputLabelProps={{ shrink: true }}
+                            error={!!errors.gender}
+                            helperText={<>{errors.gender?.message}</>}
+                            value={history.diagnosis}
+                            {...register(`familyHistory.${index}.diagnosis`)}
+                          >
+                            {Object.values(FamilyDiagnosisType).map(
+                              (diagnosis) => (
+                                <MenuItem key={diagnosis} value={diagnosis}>
+                                  {diagnosis}
+                                </MenuItem>
+                              ),
+                            )}
+                          </TextField>
+                          <TextField
+                            label={'Details'}
+                            size="small"
+                            variant="outlined"
+                            {...register(
+                              `familyHistory.${index}.diagnosisDetails`,
+                            )}
+                          />
+                          <TextField
+                            label={'Relationship'}
+                            size="small"
+                            variant="outlined"
+                            {...register(`familyHistory.${index}.relationship`)}
+                          />
+                          <Tooltip title={'Delete the item'} placement="top">
+                            <IconButton color={'error'}>
+                              <DeleteForeverIcon
+                                onClick={() => familyHistoryRemove(index)}
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        </Box>
+                      </EditableRowItem>
                     ))}
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div"
-                    sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
-                  >
-                    <VaccinesIcon /> Medicine Usage
-                  </Typography>
-                  {profile.medicinceUsage &&
-                    profile.medicinceUsage.map((usage, index) => (
-                      <Box key={index}>
-                        <EditableRowItem label={`#${index + 1}`}>
-                          <Box sx={{ textAlign: 'right' }}>
-                            {usage.medicineName} <br />
-                            {usage.medicineTime}, {usage.medicineUnit},{' '}
-                            {usage.medicineDosage}, {usage.medicineFrequency}
-                          </Box>
-                        </EditableRowItem>
-                        <Divider />
-                      </Box>
+                </>
+              </BasicCard>
+
+              <BasicCard
+                startTitleAdornment={
+                  <VaccinesIcon sx={{ marginRight: '.5rem' }} />
+                }
+                title={'Medicince Usage'}
+                titleLeftElement={
+                  <Tooltip title={'Add new item'} placement="top">
+                    <IconButton>
+                      <AddCircleOutlineIcon
+                        onClick={() =>
+                          medicineUsageAppend({
+                            medicineName: '',
+                            medicineDosage: 0,
+                            medicineUnit: MedicineUnitType.MILLIGRAM,
+                            medicineTime: MedicineTimeType.OTHER,
+                            medicineFrequency: MedicineFrequencyType.OTHER,
+                          })
+                        }
+                      />
+                    </IconButton>
+                  </Tooltip>
+                }
+              >
+                <>
+                  {medicineUsageFields &&
+                    medicineUsageFields.map((usage, index) => (
+                      <EditableRowItem label={`#${index + 1}`}>
+                        <Box
+                          key={index}
+                          sx={{
+                            display: 'flex',
+                            gap: '.5rem',
+                            flexDirection: 'row',
+                            alignItems: 'top',
+                            py: '1rem',
+                          }}
+                        >
+                          <TextField
+                            label={'Medicine Name'}
+                            size="small"
+                            variant="outlined"
+                            {...register(`medicineUsage.${index}.medicineName`)}
+                          />
+                          <TextField
+                            label={'Medicine Dosage'}
+                            size="small"
+                            variant="outlined"
+                            {...register(
+                              `medicineUsage.${index}.medicineDosage`,
+                            )}
+                          />
+                          <TextField
+                            select
+                            label={'Medicine Unit'}
+                            size="small"
+                            InputLabelProps={{ shrink: true }}
+                            error={!!errors.gender}
+                            helperText={<>{errors.gender?.message}</>}
+                            value={usage.medicineUnit}
+                            {...register(`medicineUsage.${index}.medicineUnit`)}
+                          >
+                            {Object.values(MedicineUnitType).map((usage) => (
+                              <MenuItem key={usage} value={usage}>
+                                {usage}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                          <TextField
+                            select
+                            label={'Medicine Time'}
+                            size="small"
+                            InputLabelProps={{ shrink: true }}
+                            error={!!errors.gender}
+                            helperText={<>{errors.gender?.message}</>}
+                            value={usage.medicineTime}
+                            {...register(`medicineUsage.${index}.medicineTime`)}
+                          >
+                            {Object.values(MedicineTimeType).map((usage) => (
+                              <MenuItem key={usage} value={usage}>
+                                {usage}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                          <TextField
+                            select
+                            label={'Medicine Frequency'}
+                            size="small"
+                            InputLabelProps={{ shrink: true }}
+                            error={!!errors.gender}
+                            helperText={<>{errors.gender?.message}</>}
+                            value={usage.medicineFrequency}
+                            {...register(
+                              `medicineUsage.${index}.medicineFrequency`,
+                            )}
+                          >
+                            {Object.values(MedicineFrequencyType).map(
+                              (usage) => (
+                                <MenuItem key={usage} value={usage}>
+                                  {usage}
+                                </MenuItem>
+                              ),
+                            )}
+                          </TextField>
+                          <Tooltip title={'Delete the item'} placement="top">
+                            <IconButton color={'error'}>
+                              <DeleteForeverIcon
+                                onClick={() => medicineUsageRemove(index)}
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        </Box>
+                      </EditableRowItem>
                     ))}
-                </CardContent>
-              </Card>
+                </>
+              </BasicCard>
 
               <Button type="submit" variant="contained" color="primary">
                 Save
