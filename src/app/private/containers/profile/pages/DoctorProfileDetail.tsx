@@ -26,10 +26,11 @@ import {
 } from '../../../../../services/DoctorServices';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import { ProfileDetailWrapper } from '../../profile/pages/ProfileDetail.styled';
+import { ProfileDetailWrapper } from './ProfileDetail.styled';
 import DataLoading from '../../../../../components/signs/DataLoading';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MultipleSelectChip from '../../../../../components/form/MultipleSelectChip';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -79,15 +80,6 @@ const DoctorProfileDetail: React.FC = () => {
     values: profile,
   });
 
-  // const {
-  //   fields: specialtiesFields,
-  //   append: specialtiesAppend,
-  //   remove: specialtiesRemove,
-  // } = useFieldArray({
-  //   control,
-  //   name: 'specialties',
-  // });
-
   const onEditProfile = async (data: IDoctor) => {
     console.log(data);
     const payload = {
@@ -96,11 +88,11 @@ const DoctorProfileDetail: React.FC = () => {
       avatar: 'https://i.pravatar.cc/200',
     };
     await editDoctorProfile(payload);
-    await mutate('getDoctorProfile');
+    await mutate();
     toast.success('Profile updated successfully!');
   };
 
-  const { isLoading } = useSWR(
+  const { isLoading, mutate } = useSWR(
     'getDoctorProfile',
     () => getDoctorProfile(state.doctorId as string),
     {
@@ -181,20 +173,109 @@ const DoctorProfileDetail: React.FC = () => {
                       </MenuItem>
                     </TextField>
                   </EditableRowItem>
-                  <EditableRowItem label={'About Me'}>
-                    <Typography
-                      variant="body1"
-                      color={'text.secondary'}
-                      marginY={'.5rem'}
-                    >
-                      {profile.aboutMe}
-                    </Typography>
+                  <EditableRowItem label={'About Me'} height={'9rem'}>
+                    <TextField
+                      multiline
+                      rows={4}
+                      variant="filled"
+                      {...register('aboutMe')}
+                    />
                   </EditableRowItem>
-                  <EditableRowItem label={'languagesSpoken'}>
+                  <EditableRowItem label={'Languages Spoken'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('languagesSpoken')}
+                    />
+                  </EditableRowItem>
+                  <EditableRowItem label={'Specialties'}>
+                    <MultipleSelectChip
+                      names={Object.values(MedicalSpecialtyType)}
+                      {...register('specialties')}
+                    />
+                  </EditableRowItem>
+                  <EditableRowItem label={'Career Start Date'}>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      type="date"
+                      {...register('careerStartDate')}
+                    />
+                  </EditableRowItem>
+                  <EditableRowItem label={'Office Practical Location Line 1'}>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      {...register('officePracticalLocation.line1')}
+                    />
+                  </EditableRowItem>
+
+                  <EditableRowItem label={'Office Practical Location Line 2'}>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      {...register('officePracticalLocation.line2')}
+                    />
+                  </EditableRowItem>
+
+                  <EditableRowItem label={'City'}>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      {...register('officePracticalLocation.city')}
+                    />
+                  </EditableRowItem>
+
+                  <EditableRowItem label={'State / Province'}>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      {...register('officePracticalLocation.stateProvince')}
+                    />
+                  </EditableRowItem>
+
+                  <EditableRowItem label={'Postal Code'}>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      {...register('officePracticalLocation.postalCode')}
+                    />
+                  </EditableRowItem>
+
+                  <EditableRowItem label={'Country'}>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      {...register('officePracticalLocation.country')}
+                    />
+                  </EditableRowItem>
+
+                  <EditableRowItem label={'Country Code'}>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      {...register('officePracticalLocation.countryCode')}
+                    />
+                  </EditableRowItem>
+                  <EditableRowItem label={'Education'}>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      {...register('education')}
+                    />
+                  </EditableRowItem>
+                  <EditableRowItem label={'Awards'}>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      {...register('awards')}
+                    />
+                  </EditableRowItem>
+                  <EditableRowItem label={'Affiliations'}>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      {...register('affiliations')}
                     />
                   </EditableRowItem>
                 </CardContent>
@@ -216,10 +297,12 @@ export default DoctorProfileDetail;
 interface IEditableRowItemProps {
   label: string;
   children?: React.ReactNode;
+  height?: string;
 }
 const EditableRowItem: React.FC<IEditableRowItemProps> = ({
   label,
   children,
+  height = '3.5rem',
 }) => {
   return (
     <>
@@ -228,7 +311,7 @@ const EditableRowItem: React.FC<IEditableRowItemProps> = ({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          height: '3.5rem',
+          height,
         }}
       >
         <Box color="text.primary">{label}</Box>
