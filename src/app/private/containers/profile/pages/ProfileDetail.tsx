@@ -60,7 +60,7 @@ dayjs.extend(timezone);
 //   })
 //   .required();
 
-const defautPatient: IPatient = {
+const defaultPatient: IPatient = {
   avatar: null,
   firstName: '',
   lastName: '',
@@ -79,7 +79,7 @@ const defautPatient: IPatient = {
 
 const ProfileDetail: React.FC = () => {
   const { state } = useContext(AuthContext);
-  const [profile, setProfile] = useState<IPatient>(defautPatient);
+  const [profile, setProfile] = useState<IPatient>(defaultPatient);
 
   function generateFallbackAvatar(alt: string) {
     const initials = alt.substring(0, 1).toUpperCase();

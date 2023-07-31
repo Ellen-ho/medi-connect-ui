@@ -18,7 +18,7 @@ export interface IDoctor {
   aboutMe: string;
   languagesSpoken: string[];
   specialties: MedicalSpecialtyType[];
-  careerStartDate: Date;
+  careerStartDate: string;
   officePracticalLocation: IAddress;
   education: string[];
   awards: string[] | null;
