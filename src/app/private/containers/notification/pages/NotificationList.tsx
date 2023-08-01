@@ -84,7 +84,11 @@ const NotificationList: React.FC = () => {
   const handleClickNotification = async (
     notificationId: string,
     notificationType: NotificationType,
+    referenceId: string | null,
   ) => {
+    if (!referenceId) {
+      return;
+    }
     await getNotificationDetails({ notificationId });
     mutate();
     switch (notificationType) {
@@ -92,15 +96,18 @@ const NotificationList: React.FC = () => {
       case NotificationType.CANCEL_APPOINTMENT:
       case NotificationType.CREATE_APPOINTMENT:
       case NotificationType.CANCEL_OVERTIME_PENDING_GOAL:
-        navigate('/appointment');
+        navigate(`/appointment/${referenceId}`);
         break;
       case NotificationType.HEALTH_GOAL_NOTIFICATION:
-        navigate('/health-goal');
+        navigate(`/health-goal/${referenceId}`);
         break;
       case NotificationType.GET_ANSWER_NOTIFICATION:
+        navigate(`/question/${referenceId}`);
+        break;
       case NotificationType.THANK_YOU_NOTIFICATION:
       case NotificationType.AGREED_NOTIFICATION:
-        navigate('/question/questionId');
+        // navigate(`/question/${referenceId}`);
+        alert('Not implemented');
         break;
     }
   };
@@ -154,6 +161,7 @@ const NotificationList: React.FC = () => {
                           handleClickNotification(
                             notification.id,
                             notification.notificationType,
+                            notification.referenceId,
                           )
                         }
                         sx={{
