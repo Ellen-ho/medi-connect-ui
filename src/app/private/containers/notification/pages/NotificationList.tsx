@@ -31,13 +31,15 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
 import { NotificationContext } from '../../../../../context/NotificationContext';
 import NotificationIcons from '../components/NotificationIcons';
+import { useNavigate } from 'react-router-dom';
+import { NotificationType } from '../../../../../types/Notifications';
 
 const NotificationList: React.FC = () => {
   const { state, dispatch } = useContext(NotificationContext);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null,
   );
-
+  const navigate = useNavigate();
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -79,9 +81,28 @@ const NotificationList: React.FC = () => {
     resetUnreadNotification();
   };
 
-  const handleClickNotification = async (notificationId: string) => {
+  const handleClickNotification = async (
+    notificationId: string,
+    notificationType: NotificationType,
+  ) => {
     await getNotificationDetails({ notificationId });
     mutate();
+    switch (notificationType) {
+      case NotificationType.UPCOMING_APPOINTMENT:
+      case NotificationType.CANCEL_APPOINTMENT:
+      case NotificationType.CREATE_APPOINTMENT:
+      case NotificationType.CANCEL_OVERTIME_PENDING_GOAL:
+        navigate('/appointment');
+        break;
+      case NotificationType.HEALTH_GOAL_NOTIFICATION:
+        navigate('/health-goal');
+        break;
+      case NotificationType.GET_ANSWER_NOTIFICATION:
+      case NotificationType.THANK_YOU_NOTIFICATION:
+      case NotificationType.AGREED_NOTIFICATION:
+        navigate('/question/questionId');
+        break;
+    }
   };
 
   return (
@@ -129,7 +150,12 @@ const NotificationList: React.FC = () => {
                     <>
                       <ListItemButton
                         key={notification.id}
-                        onClick={() => handleClickNotification(notification.id)}
+                        onClick={() =>
+                          handleClickNotification(
+                            notification.id,
+                            notification.notificationType,
+                          )
+                        }
                         sx={{
                           backgroundColor: notification.isRead
                             ? '#fff'
@@ -153,7 +179,9 @@ const NotificationList: React.FC = () => {
                       <Divider />
                     </>
                   ))
-                ) : (<NoDataFound />)}
+                ) : (
+                  <NoDataFound />
+                )}
               </List>
             </CardContent>
           </Card>
