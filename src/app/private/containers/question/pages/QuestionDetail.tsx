@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { QuestionDetailWrapper } from './QuestionDetail.styled';
@@ -7,8 +8,13 @@ import {
   AvatarGroup,
   Box,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
   IconButton,
+  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -42,6 +48,9 @@ const QuestionDetail: React.FC = () => {
   const { questionId } = useParams();
   const { state } = useContext(AuthContext);
   const isDoctor = state.doctorId != null;
+  const [isThankDialogOpen, setIsThankDialogOpen] = useState(false);
+  const [selectedAnswerId, setSelectedAnswerId] = useState<string | null>(null);
+  const [thankContent, setThankContent] = useState('');
 
   const handleClickDoctor = (doctorId: string) => {
     navigate(`/doctor/${doctorId}`);
@@ -54,13 +63,23 @@ const QuestionDetail: React.FC = () => {
       });
       toast.success('Unsent the appreciation successfully');
     } else {
-      await createAppreciation({
-        content: 'mock content',
-        answerId: answer.answerId,
-      });
-      toast.success('Thank you for your appreciation!');
+      setSelectedAnswerId(answer.answerId);
+      setIsThankDialogOpen(true);
+      setThankContent('');
     }
     mutate();
+  };
+
+  const handleSubmitThankContent = async () => {
+    if (thankContent && selectedAnswerId) {
+      await createAppreciation({
+        content: thankContent,
+        answerId: selectedAnswerId,
+      });
+      setIsThankDialogOpen(false);
+      toast.success('Thank you for your appreciation!');
+      mutate();
+    }
   };
 
   const handleToggleAgreeDoctorAnswer = async (answer: IAnswer) => {
@@ -316,6 +335,29 @@ const QuestionDetail: React.FC = () => {
           )}
         </QuestionDetailWrapper>
       </PrimaryPageContent>
+
+      <Dialog
+        open={isThankDialogOpen}
+        onClose={() => setIsThankDialogOpen(false)}
+      >
+        <DialogTitle>Enter Thank Content</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Thank Content"
+            fullWidth
+            value={thankContent}
+            onChange={(e) => setThankContent(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsThankDialogOpen(false)}>Cancel</Button>
+          <Button onClick={handleSubmitThankContent} color="primary">
+            Send Thanks
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
