@@ -199,7 +199,7 @@ const NotificationList: React.FC = () => {
                         </ListItemButton>
                         <Tooltip title={'Delete'} placement="top">
                           <IconButton
-                            color="error"
+                            color={'warning'}
                             onClick={() =>
                               handleDeleteNotification(notification.id)
                             }
