@@ -7,6 +7,7 @@ import {
   Avatar,
   AvatarGroup,
   Box,
+  Button,
   Chip,
   Dialog,
   DialogActions,
@@ -61,13 +62,12 @@ const QuestionDetail: React.FC = () => {
       await cancelAppreciation({
         answerId: answer.answerId,
       });
+      mutate();
       toast.success('Unsent the appreciation successfully');
     } else {
       setSelectedAnswerId(answer.answerId);
-      setIsThankDialogOpen(true);
-      setThankContent('');
+      setIsThankDialogOpen(true); // open dialog
     }
-    mutate();
   };
 
   const handleSubmitThankContent = async () => {
@@ -77,8 +77,9 @@ const QuestionDetail: React.FC = () => {
         answerId: selectedAnswerId,
       });
       setIsThankDialogOpen(false);
-      toast.success('Thank you for your appreciation!');
+      setThankContent('');
       mutate();
+      toast.success('Thank you for your appreciation!');
     }
   };
 
@@ -337,24 +338,24 @@ const QuestionDetail: React.FC = () => {
       </PrimaryPageContent>
 
       <Dialog
+        fullWidth
+        maxWidth="sm"
         open={isThankDialogOpen}
         onClose={() => setIsThankDialogOpen(false)}
       >
         <DialogTitle>Enter Thank Content</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
-            margin="dense"
-            label="Thank Content"
+            multiline
+            rows={4}
             fullWidth
-            value={thankContent}
             onChange={(e) => setThankContent(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsThankDialogOpen(false)}>Cancel</Button>
           <Button onClick={handleSubmitThankContent} color="primary">
-            Send Thanks
+            Send
           </Button>
         </DialogActions>
       </Dialog>
