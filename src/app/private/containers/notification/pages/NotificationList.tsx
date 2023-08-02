@@ -11,6 +11,7 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
@@ -20,6 +21,7 @@ import { dateFormatter } from '../../../../../utils/dateFormatter';
 import useSWR from 'swr';
 import {
   deleteAllNotifications,
+  deleteNotification,
   getNotificationDetails,
   getNotificationList,
   readAllNotifications,
@@ -33,6 +35,7 @@ import { NotificationContext } from '../../../../../context/NotificationContext'
 import NotificationIcons from '../components/NotificationIcons';
 import { useNavigate } from 'react-router-dom';
 import { NotificationType } from '../../../../../types/Notifications';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const NotificationList: React.FC = () => {
   const { state, dispatch } = useContext(NotificationContext);
@@ -79,6 +82,11 @@ const NotificationList: React.FC = () => {
     mutate();
 
     resetUnreadNotification();
+  };
+
+  const handleDeleteNotification = async (notificationId: string) => {
+    await deleteNotification({ notificationId });
+    await mutate();
   };
 
   const handleClickNotification = async (
@@ -155,36 +163,52 @@ const NotificationList: React.FC = () => {
                 {data?.data && data?.data.length > 0 ? (
                   data?.data.map((notification) => (
                     <>
-                      <ListItemButton
+                      <Box
                         key={notification.id}
-                        onClick={() =>
-                          handleClickNotification(
-                            notification.id,
-                            notification.notificationType,
-                            notification.referenceId,
-                          )
-                        }
-                        sx={{
-                          backgroundColor: notification.isRead
-                            ? '#fff'
-                            : '#e0f5ff',
-                        }}
+                        display="flex"
+                        alignItems="center"
                       >
-                        <ListItemAvatar>
-                          <Avatar>
-                            <NotificationIcons
-                              notificationType={notification.notificationType}
-                            />
-                          </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={notification.title}
-                          secondary={`${dateFormatter(
-                            notification.createdAt.toString(),
-                          )}`}
-                        />
-                      </ListItemButton>
-                      <Divider />
+                        <ListItemButton
+                          key={notification.id}
+                          onClick={() =>
+                            handleClickNotification(
+                              notification.id,
+                              notification.notificationType,
+                              notification.referenceId,
+                            )
+                          }
+                          sx={{
+                            backgroundColor: notification.isRead
+                              ? '#fff'
+                              : '#e0f5ff',
+                          }}
+                        >
+                          <ListItemAvatar>
+                            <Avatar>
+                              <NotificationIcons
+                                notificationType={notification.notificationType}
+                              />
+                            </Avatar>
+                          </ListItemAvatar>
+                          <ListItemText
+                            primary={notification.title}
+                            secondary={`${dateFormatter(
+                              notification.createdAt.toString(),
+                            )}`}
+                          />
+                        </ListItemButton>
+                        <Tooltip title={'Delete'} placement="top">
+                          <IconButton
+                            color="error"
+                            onClick={() =>
+                              handleDeleteNotification(notification.id)
+                            }
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Divider />
+                      </Box>
                     </>
                   ))
                 ) : (
