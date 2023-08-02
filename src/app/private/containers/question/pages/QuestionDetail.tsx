@@ -50,8 +50,14 @@ const QuestionDetail: React.FC = () => {
   const { state } = useContext(AuthContext);
   const isDoctor = state.doctorId != null;
   const [isThankDialogOpen, setIsThankDialogOpen] = useState(false);
-  const [selectedAnswerId, setSelectedAnswerId] = useState<string | null>(null);
+  const [isAgreeDialogOpen, setIsAgreeDialogOpen] = useState(false);
+  const [selectedAppreciationAnswerId, setSelectedAppreciationAnswerId] =
+    useState<string | null>(null);
+  const [selectedAgreeAnswerId, setSelectedAgreeAnswerId] = useState<
+    string | null
+  >(null);
   const [thankContent, setThankContent] = useState('');
+  const [agreeContent, setAgreeContent] = useState('');
 
   const handleClickDoctor = (doctorId: string) => {
     navigate(`/doctor/${doctorId}`);
@@ -65,16 +71,16 @@ const QuestionDetail: React.FC = () => {
       mutate();
       toast.success('Unsent the appreciation successfully');
     } else {
-      setSelectedAnswerId(answer.answerId);
+      setSelectedAppreciationAnswerId(answer.answerId);
       setIsThankDialogOpen(true); // open dialog
     }
   };
 
   const handleSubmitThankContent = async () => {
-    if (thankContent && selectedAnswerId) {
+    if (thankContent && selectedAppreciationAnswerId) {
       await createAppreciation({
         content: thankContent,
-        answerId: selectedAnswerId,
+        answerId: selectedAppreciationAnswerId,
       });
       setIsThankDialogOpen(false);
       setThankContent('');
@@ -88,15 +94,25 @@ const QuestionDetail: React.FC = () => {
       await cancelAgreement({
         answerId: answer.answerId,
       });
+      mutate();
       toast.success('Canceled the agreement successfully');
     } else {
-      await createAgreemewnt({
-        answerId: answer.answerId,
-        comment: 'mock comment',
-      });
-      toast.success('Agreed with the anwser successfully');
+      setSelectedAgreeAnswerId(answer.answerId);
+      setIsAgreeDialogOpen(true);
     }
-    mutate();
+  };
+
+  const handleSubmitAgreeContent = async () => {
+    if (agreeContent && selectedAgreeAnswerId) {
+      await createAgreemewnt({
+        answerId: selectedAgreeAnswerId,
+        comment: agreeContent,
+      });
+      setIsAgreeDialogOpen(false);
+      setAgreeContent('');
+      mutate();
+      toast.success('Agreed with the answer successfully');
+    }
   };
 
   const { data, mutate } = useSWR('getSingleQuestion', () =>
@@ -355,6 +371,28 @@ const QuestionDetail: React.FC = () => {
         <DialogActions>
           <Button onClick={() => setIsThankDialogOpen(false)}>Cancel</Button>
           <Button onClick={handleSubmitThankContent} color="primary">
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        fullWidth
+        maxWidth="sm"
+        open={isAgreeDialogOpen}
+        onClose={() => setIsAgreeDialogOpen(false)}
+      >
+        <DialogTitle>Enter Agree Comment</DialogTitle>
+        <DialogContent>
+          <TextField
+            multiline
+            rows={4}
+            fullWidth
+            onChange={(e) => setAgreeContent(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsAgreeDialogOpen(false)}>Cancel</Button>
+          <Button onClick={handleSubmitAgreeContent} color="primary">
             Send
           </Button>
         </DialogActions>
