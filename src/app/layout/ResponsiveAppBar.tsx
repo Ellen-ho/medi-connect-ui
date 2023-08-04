@@ -23,6 +23,11 @@ import { UserRoleType } from '../../types/Users';
 const topPages = [
   { title: 'Doctors', link: 'doctor', permission: [UserRoleType.PATIENT] },
   {
+    title: 'Answer',
+    link: '/question/answer',
+    permission: [UserRoleType.DOCTOR],
+  },
+  {
     title: 'Question',
     link: 'question',
     permission: [UserRoleType.PATIENT, UserRoleType.DOCTOR],
