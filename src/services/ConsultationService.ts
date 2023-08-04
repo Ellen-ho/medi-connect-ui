@@ -34,7 +34,7 @@ export interface IPatientConsultAppointmentDatas {
   cancelAvailability: boolean;
 }
 
-interface IDoctorConsultAppointmentDatas {
+export interface IDoctorConsultAppointmentDatas {
   status: ConsultAppointmentStatusType;
   doctorTimeSlot: IDoctorTimeSlotData;
   patient: IPatientData;
@@ -47,7 +47,7 @@ export interface IGetPatientConsultAppointmentsResponse {
   canceledAppointments: IPatientConsultAppointmentDatas[];
 }
 
-interface IGetDoctorConsultAppointmentsResponse {
+export interface IGetDoctorConsultAppointmentsResponse {
   upcomingAppointments: IDoctorConsultAppointmentDatas[];
   completedAppointments: IDoctorConsultAppointmentDatas[];
   canceledAppointments: IDoctorConsultAppointmentDatas[];
@@ -166,10 +166,10 @@ export const getDoctorConsultAppointments =
 export const editDoctorTimeSlot = async (
   data: IEditDoctorTimeSlotRequest,
 ): Promise<IEditDoctorTimeSlotResponse> => {
-  const {startAt, endAt} = data;
+  const { startAt, endAt } = data;
   const response = await api.patch<IEditDoctorTimeSlotResponse>(
     `/consultations/time-slot/${data.id}`,
-    { startAt, endAt}
+    { startAt, endAt },
   );
   return response.data;
 };
