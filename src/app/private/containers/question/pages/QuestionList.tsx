@@ -19,8 +19,12 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import useSWR from 'swr';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import { useContext } from 'react';
+import { AuthContext } from '../../../../../context/AuthContext';
 
 const QuestionList: React.FC = () => {
+  const { state } = useContext(AuthContext);
+  const isDoctor = state.doctorId != null;
   const navigate = useNavigate();
 
   const handleClickNewQuestion = () => {
@@ -30,6 +34,8 @@ const QuestionList: React.FC = () => {
   const handleClickQuestion = (questionId: string) => {
     navigate(`/question/${questionId}`);
   };
+
+  const handleClickViewAnswer = () => navigate('question/answer');
 
   const { data, error } = useSWR('getQuestions', () =>
     getQuestions({
