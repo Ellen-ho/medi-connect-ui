@@ -14,6 +14,7 @@ import useSWR from 'swr';
 const RecordList: React.FC = () => {
   const { state } = useContext(AuthContext);
   const { typeId } = useParams();
+  const isDoctor = state.doctorId != null;
   const recordCategory = getRecordCategory(typeId as string);
   const [searchParams] = useSearchParams();
   const targetPatientId = searchParams.get('targetPatientId');
@@ -44,11 +45,20 @@ const RecordList: React.FC = () => {
       {recordCategory ? (
         <>
           <SecondaryPageTop
-            onBack={() => navigate(`/record`)}
+            onBack={() =>
+              navigate({
+                pathname: '/record',
+                search: targetPatientId
+                  ? `?targetPatientId=${targetPatientId}`
+                  : '',
+              })
+            }
             rightElement={
-              <Button onClick={handleNewQuestion} variant="contained">
-                Add Record
-              </Button>
+              !isDoctor && (
+                <Button onClick={handleNewQuestion} variant="contained">
+                  Add Record
+                </Button>
+              )
             }
           />
           <PrimaryPageContent>
