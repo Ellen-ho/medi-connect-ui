@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { useEffect, useState } from 'react';
 import RecordEntrance from '../components/RecordEntrance';
@@ -10,6 +10,8 @@ import { RecordHomeWrapper } from './RecordHome.styled';
 const RecordHome: React.FC = () => {
   const { patientId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const targetPatientId = searchParams.get('targetPatientId');
 
   const handleNewQuestion = () => {
     navigate('/record/new');
@@ -39,7 +41,12 @@ const RecordHome: React.FC = () => {
               key={category.urlPath}
               title={category.name}
               subtitle={category.subtitle}
-              onClick={() => navigate(`/record/${category.urlPath}`)}
+              onClick={() =>
+                navigate({
+                  pathname: `/record/${category.urlPath}`,
+                  search: `?targetPatientId=${targetPatientId}`,
+                })
+              }
             />
           ))}
         </RecordHomeWrapper>
