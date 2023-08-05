@@ -49,6 +49,7 @@ import * as timezone from 'dayjs/plugin/timezone';
 import { GenderType } from '../../../../../types/Share';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -80,6 +81,8 @@ const defaultPatient: IPatient = {
 const ProfileDetail: React.FC = () => {
   const { state } = useContext(AuthContext);
   const [profile, setProfile] = useState<IPatient>(defaultPatient);
+  const [searchParams] = useSearchParams();
+  const targetPatientId = searchParams.get('targetPatientId');
 
   function generateFallbackAvatar(alt: string) {
     const initials = alt.substring(0, 1).toUpperCase();
@@ -144,7 +147,7 @@ const ProfileDetail: React.FC = () => {
     () =>
       getPatientProfile({
         query: {
-          targetPatientId: state.patientId as string,
+          targetPatientId: (targetPatientId || state.patientId) as string,
         },
       }),
     {
