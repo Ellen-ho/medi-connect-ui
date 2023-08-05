@@ -35,7 +35,7 @@ const QuestionList: React.FC = () => {
     navigate(`/question/${questionId}`);
   };
 
-  const handleClickViewAnswer = () => navigate('question/answer');
+  const handleClickViewAnswer = () => navigate('/question/answer');
 
   const { data, error } = useSWR('getQuestions', () =>
     getQuestions({
@@ -51,9 +51,15 @@ const QuestionList: React.FC = () => {
       <PrimaryPageTop
         pageTitle="Question"
         rightElement={
-          <Button onClick={handleClickNewQuestion} variant="contained">
-            Ask Question
-          </Button>
+          isDoctor ? (
+            <Button onClick={handleClickViewAnswer} variant="contained">
+              View Your Answers
+            </Button>
+          ) : (
+            <Button onClick={handleClickNewQuestion} variant="contained">
+              Ask Question
+            </Button>
+          )
         }
       />
       <PrimaryPageContent>

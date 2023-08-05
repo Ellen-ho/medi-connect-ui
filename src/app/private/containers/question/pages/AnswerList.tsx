@@ -20,11 +20,14 @@ import {
   ListItemButton,
   ListItemText,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
 const AnswerList: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -46,7 +49,7 @@ const AnswerList: React.FC = () => {
 
   return (
     <>
-      <PrimaryPageTop pageTitle="Answer" />
+      <PrimaryPageTop pageTitle="Your Answer" />
       <PrimaryPageContent>
         <CommonWrapper>
           <Card>
@@ -71,31 +74,59 @@ const AnswerList: React.FC = () => {
                         <Grid item>
                           <ListItemText
                             primary={answer.content}
-                            secondary={`Created at ${dateFormatter(
+                            secondary={`Answered at ${dateFormatter(
                               answer.createdAt,
                             )}`}
                           />
                         </Grid>
-                        <Grid container justifyContent="space-between">
-                          <Grid item>
-                            <ListItemText
-                              primary={answer.thankCounts}
-                              secondary={
-                                answer.thankCounts > 0
-                                  ? `This answer had been appreciated ${answer.thankCounts} times`
-                                  : 'No appreciation yet'
-                              }
-                            />
+                        <Grid container gap={'2rem'}>
+                          <Grid
+                            item
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '.3rem',
+                            }}
+                          >
+                            {answer.thankCounts > 0 ? (
+                              <>
+                                <CheckCircleIcon color={'success'} />
+                                <Typography variant="subtitle2">
+                                  {`Appreciated ${answer.thankCounts} times`}
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <RadioButtonUncheckedIcon color={'disabled'} />
+                                <Typography variant="subtitle2">
+                                  No appreciation yet
+                                </Typography>
+                              </>
+                            )}
                           </Grid>
-                          <Grid item>
-                            <ListItemText
-                              primary={answer.agreeCounts}
-                              secondary={
-                                answer.agreeCounts > 0
-                                  ? `This answer had been agreed ${answer.agreeCounts} times`
-                                  : 'No agreement yet'
-                              }
-                            />
+                          <Grid
+                            item
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '.3rem',
+                            }}
+                          >
+                            {answer.agreeCounts > 0 ? (
+                              <>
+                                <CheckCircleIcon color={'success'} />
+                                <Typography variant="subtitle2">
+                                  {`Agreed ${answer.agreeCounts} times`}
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <RadioButtonUncheckedIcon color={'disabled'} />
+                                <Typography variant="subtitle2">
+                                  No agreement yet
+                                </Typography>
+                              </>
+                            )}
                           </Grid>
                         </Grid>
                       </Grid>

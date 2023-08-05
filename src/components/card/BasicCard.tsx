@@ -4,21 +4,21 @@ import { Box, Card, CardContent, Typography } from '@mui/material';
 interface IBasicCardProps {
   startTitleAdornment?: React.ReactNode;
   title: string;
-  titleLeftElement?: React.ReactNode;
+  titleRightElement?: React.ReactNode;
   children: React.ReactNode;
 }
 
 interface IBasicCardProps {
   startTitleAdornment?: React.ReactNode;
   title: string;
-  titleLeftElement?: React.ReactNode;
+  titleRightElement?: React.ReactNode;
   children: React.ReactNode;
 }
 
 const BasicCard: React.FC<IBasicCardProps> = ({
   startTitleAdornment,
   title,
-  titleLeftElement,
+  titleRightElement,
   children,
 }) => {
   return (
@@ -38,7 +38,7 @@ const BasicCard: React.FC<IBasicCardProps> = ({
           >
             {startTitleAdornment} {title}
           </Typography>
-          {titleLeftElement}
+          {titleRightElement}
         </Box>
         {children}
       </CardContent>

@@ -4,28 +4,84 @@ import { AuthContext } from '../../../../../context/AuthContext';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import BasicCard from '../../../../../components/card/BasicCard';
-import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import useSWR from 'swr';
 import { getAnswerDetails } from '../../../../../services/QuestionService';
 import { AnswerDetailWrapper } from './AnswerDetail.styled';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import { dateFormatter } from '../../../../../utils/dateFormatter';
+import NoDataFound from '../../../../../components/signs/NoDataFound';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 
 const AnswerDetail: React.FC = () => {
   const { answerId } = useParams();
+  const navigate = useNavigate();
 
-  const { data, mutate } = useSWR('getAnswerDetails', () =>
+  const handleClickAnswer = (questionId: string) => {
+    navigate(`/question/${questionId}`);
+  };
+
+  const { data, mutate, isLoading } = useSWR('getAnswerDetails', () =>
     getAnswerDetails({
       answerId: answerId as string,
     }),
   );
+
+  /**
+   * interface IGetAnswerDetailsResponse {
+        questionId: string;
+        answerId: string;
+        answerContent: string;
+        appreciationData: Array<{
+          content: string | null;
+          patientId: string;
+          patientAge: number;
+          createdAt: string;
+        }>;
+        agreementData: Array<{
+          comment: string | null;
+          agreedDoctorId: string;
+          agreedDoctorFirstName: string;
+          agreedDoctorLastName: string;
+          createdAt: string;
+  }>;
+}
+   */
 
   return (
     <>
       <SecondaryPageTop />
       <PrimaryPageContent>
         <AnswerDetailWrapper>
-          <BasicCard title={'Answer'}>
-            {data ? (
-              <>
+          {isLoading || !data ? (
+            <>Loading</>
+          ) : (
+            <>
+              <BasicCard
+                title={'Answer'}
+                titleRightElement={
+                  <Tooltip title="See the question" placement={'top'}>
+                    <IconButton
+                      aria-label="See the question"
+                      onClick={() => handleClickAnswer(data.questionId)}
+                    >
+                      <QuestionAnswerIcon />
+                    </IconButton>
+                  </Tooltip>
+                }
+              >
                 <Typography
                   variant="body1"
                   color={'text.secondary'}
@@ -33,35 +89,136 @@ const AnswerDetail: React.FC = () => {
                 >
                   {data.answerContent}
                 </Typography>
-                <List>
-                  {data.appreciationData.map((appreciation) => (
-                    <div key={appreciation.createdAt.toString()}>
-                      <List>
-                        <ListItem>
-                          <ListItemText
-                            primary={`Appreciation Content: ${appreciation.content}`}
-                            secondary={`Appreciated by a ${appreciation.patientAge} years old user, Appreciation Created At: ${appreciation.createdAt}`}
-                          />
-                        </ListItem>
-                      </List>
-                    </div>
-                  ))}
-                </List>
-                <List>
-                  {data.agreementData.map((agreement) => (
-                    <ListItem key={agreement.createdAt.toString()}>
-                      <ListItemText
-                        primary={`Agreement Comment: ${agreement.comment}`}
-                        secondary={`Agreed Doctor: ${agreement.agreedDoctorFirstName} ${agreement.agreedDoctorLastName}, Agreement Created At: ${agreement.createdAt}`}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              </>
-            ) : (
-              <Typography variant="body1">Loading...</Typography>
-            )}
-          </BasicCard>
+              </BasicCard>
+              <BasicCard
+                startTitleAdornment={
+                  <VolunteerActivismIcon sx={{ marginRight: '.5rem' }} />
+                }
+                title={'Appreciation from Patients'}
+              >
+                {/* Answers */}
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  {data.appreciationData.length > 0 ? (
+                    data.appreciationData.map((appreciation) => (
+                      <>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'top',
+                          }}
+                        >
+                          <Avatar
+                            sx={{
+                              width: 35,
+                              height: 35,
+                            }}
+                          >
+                            <PersonRoundedIcon />
+                          </Avatar>
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              paddingLeft: '15px',
+                            }}
+                          >
+                            <Typography
+                              variant="subtitle1"
+                              sx={{ cursor: 'pointer' }}
+                            >
+                              From a {appreciation.patientAge} old patient
+                            </Typography>{' '}
+                            <Typography
+                              variant="body1"
+                              color={'text.secondary'}
+                              marginY={'.5rem'}
+                            >
+                              {appreciation.content}
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              color={'text.secondary'}
+                            >
+                              Said thank you on{' '}
+                              {dateFormatter(appreciation.createdAt.toString())}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Divider sx={{ my: '1rem' }} />
+                      </>
+                    ))
+                  ) : (
+                    <NoDataFound label={'No appreciation for now'} />
+                  )}
+                </Box>
+              </BasicCard>
+              <BasicCard
+                startTitleAdornment={
+                  <ThumbUpAltIcon sx={{ marginRight: '.5rem' }} />
+                }
+                title={'Apreement from Doctors'}
+              >
+                {/* Answers */}
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  {data.agreementData.length > 0 ? (
+                    data.agreementData.map((agreement) => (
+                      <>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'top',
+                          }}
+                        >
+                          <Avatar
+                            sx={{
+                              width: 35,
+                              height: 35,
+                            }}
+                          >
+                            <PersonRoundedIcon />
+                          </Avatar>
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              paddingLeft: '15px',
+                            }}
+                          >
+                            <Typography
+                              variant="subtitle1"
+                              sx={{ cursor: 'pointer' }}
+                            >
+                              From Dr. {agreement.agreedDoctorFirstName}{' '}
+                              {agreement.agreedDoctorLastName}
+                            </Typography>{' '}
+                            <Typography
+                              variant="body1"
+                              color={'text.secondary'}
+                              marginY={'.5rem'}
+                            >
+                              {agreement.comment}
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              color={'text.secondary'}
+                            >
+                              Said thank you on{' '}
+                              {dateFormatter(agreement.createdAt.toString())}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Divider sx={{ my: '1rem' }} />
+                      </>
+                    ))
+                  ) : (
+                    <NoDataFound label={'No Agreement for now'} />
+                  )}
+                </Box>
+              </BasicCard>
+            </>
+          )}
         </AnswerDetailWrapper>
       </PrimaryPageContent>
     </>

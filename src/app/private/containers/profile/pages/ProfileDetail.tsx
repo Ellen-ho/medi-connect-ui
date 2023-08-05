@@ -315,7 +315,7 @@ const ProfileDetail: React.FC = () => {
                   <MedicalInformationIcon sx={{ marginRight: '.5rem' }} />
                 }
                 title={'Medical History'}
-                titleLeftElement={
+                titleRightElement={
                   <Tooltip title={'Add new item'} placement="top">
                     <IconButton>
                       <AddCircleOutlineIcon
@@ -388,7 +388,7 @@ const ProfileDetail: React.FC = () => {
                   <GroupOutlinedIcon sx={{ marginRight: '.5rem' }} />
                 }
                 title={'Family History'}
-                titleLeftElement={
+                titleRightElement={
                   <Tooltip title={'Add new item'} placement="top">
                     <IconButton>
                       <AddCircleOutlineIcon
@@ -468,7 +468,7 @@ const ProfileDetail: React.FC = () => {
                   <VaccinesIcon sx={{ marginRight: '.5rem' }} />
                 }
                 title={'Medicince Usage'}
-                titleLeftElement={
+                titleRightElement={
                   <Tooltip title={'Add new item'} placement="top">
                     <IconButton>
                       <AddCircleOutlineIcon
