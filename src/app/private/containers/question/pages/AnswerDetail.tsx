@@ -157,7 +157,7 @@ const AnswerDetail: React.FC = () => {
                 startTitleAdornment={
                   <ThumbUpAltIcon sx={{ marginRight: '.5rem' }} />
                 }
-                title={'Apreement from Doctors'}
+                title={'Agreement from Doctors'}
               >
                 {/* Answers */}
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -204,7 +204,7 @@ const AnswerDetail: React.FC = () => {
                               variant="subtitle2"
                               color={'text.secondary'}
                             >
-                              Said thank you on{' '}
+                              Agree you on{' '}
                               {dateFormatter(agreement.createdAt.toString())}
                             </Typography>
                           </Box>
