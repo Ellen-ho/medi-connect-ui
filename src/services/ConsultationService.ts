@@ -15,6 +15,7 @@ interface ICreateConsultAppointmentResponse {
 }
 
 interface IPatientData {
+  id: string;
   firstName: string;
   lastName: string;
 }
@@ -35,6 +36,7 @@ export interface IPatientConsultAppointmentDatas {
 }
 
 export interface IDoctorConsultAppointmentDatas {
+  appointmentId: string;
   status: ConsultAppointmentStatusType;
   doctorTimeSlot: IDoctorTimeSlotData;
   patient: IPatientData;

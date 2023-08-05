@@ -28,10 +28,13 @@ import RowItem from '../../../../../components/form/RowItem';
 import useSWR from 'swr';
 import ClearIcon from '@mui/icons-material/Clear';
 import toast from 'react-hot-toast';
+import { getPatientProfile } from '../../../../../services/PatientService';
+import { useNavigate } from 'react-router-dom';
 
 interface IDoctorAppointmentListProps {}
 
 const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
+  const navigate = useNavigate();
   const [detailDialogOpen, setDetailDialogOpen] = useState<boolean>(false);
   const [selectedDetail, setSelectedDetail] =
     useState<IDoctorConsultAppointmentDatas | null>(null);
@@ -44,6 +47,14 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
   const handleCloseDetailDialog = () => {
     setDetailDialogOpen(false);
     setSelectedDetail(null);
+  };
+
+  const handleViewPatientProfile = async (targetPatientId: string) => {
+    navigate(`/profile?targetPatientId=${targetPatientId}`);
+  };
+
+  const handleViewPatientRecords = async (patientId: string) => {
+    navigate(`/record?targetPatientId=${patientId}`);
   };
 
   const { data } = useSWR('getDoctorConsultAppointments', () =>
@@ -181,9 +192,9 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
 
           <DialogContent>
             <DialogContentText>
-              {/* <RowItem label={'Appointment No.'}>
-                {selectedDetail.appointmentNo}
-              </RowItem> */}
+              <RowItem label={'Appointment No.'}>
+                {selectedDetail.appointmentId}
+              </RowItem>
 
               <RowItem
                 label={'Patient Name'}
@@ -209,15 +220,24 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
-            {/* <Button
+            <Button
               variant="contained"
-              disabled={!selectedDetail.cancelAvailability}
+              disabled={!selectedDetail}
               onClick={() =>
-                handleCancelAppointment(selectedDetail.appointmentId)
+                handleViewPatientProfile(selectedDetail?.patient?.id)
               }
             >
-              Cancel This Appointment
-            </Button> */}
+              View Patient Profile
+            </Button>
+            <Button
+              variant="contained"
+              disabled={!selectedDetail}
+              onClick={() =>
+                handleViewPatientRecords(selectedDetail?.patient?.id)
+              }
+            >
+              View Patient Records
+            </Button>
           </DialogActions>
         </Dialog>
       )}

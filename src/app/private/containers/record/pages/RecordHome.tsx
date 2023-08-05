@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { useEffect, useState } from 'react';
 import RecordEntrance from '../components/RecordEntrance';
@@ -8,6 +8,7 @@ import { recordCategories } from '../types/Record.type';
 import { RecordHomeWrapper } from './RecordHome.styled';
 
 const RecordHome: React.FC = () => {
+  const { patientId } = useParams();
   const navigate = useNavigate();
 
   const handleNewQuestion = () => {
