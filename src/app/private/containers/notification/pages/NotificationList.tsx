@@ -114,8 +114,7 @@ const NotificationList: React.FC = () => {
         break;
       case NotificationType.THANK_YOU_NOTIFICATION:
       case NotificationType.AGREED_NOTIFICATION:
-        // navigate(`/question/${referenceId}`);
-        alert('Not implemented');
+        navigate(`/question/answer/${referenceId}`);
         break;
     }
   };
