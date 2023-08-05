@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import RecordEntrance from '../components/RecordEntrance';
 import { recordCategories } from '../types/Record.type';
 import { RecordHomeWrapper } from './RecordHome.styled';
+import useSWR from 'swr';
+import { getRecord, getRecords } from '../../../../../services/RecordService';
 
 const RecordHome: React.FC = () => {
   const { patientId } = useParams();
@@ -16,20 +18,6 @@ const RecordHome: React.FC = () => {
   const handleNewQuestion = () => {
     navigate('/record/new');
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      // const { data, pagination } = await getQuestions({
-      //   query: {
-      //     page: 1,
-      //     limit: 10,
-      //   },
-      // });
-      // setQuestions(data);
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <>

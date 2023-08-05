@@ -1,5 +1,5 @@
 import { Button, Typography } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { useContext } from 'react';
 import { getRecordCategory } from '../helpers/getRecordCategory';
@@ -15,6 +15,8 @@ const RecordList: React.FC = () => {
   const { state } = useContext(AuthContext);
   const { typeId } = useParams();
   const recordCategory = getRecordCategory(typeId as string);
+  const [searchParams] = useSearchParams();
+  const targetPatientId = searchParams.get('targetPatientId');
 
   const navigate = useNavigate();
 
@@ -30,7 +32,7 @@ const RecordList: React.FC = () => {
     getRecords({
       urlPath: typeId as string,
       query: {
-        targetPatientId: state.patientId as string,
+        targetPatientId: (targetPatientId || state.patientId) as string,
         page: 1,
         limit: 10,
       },
