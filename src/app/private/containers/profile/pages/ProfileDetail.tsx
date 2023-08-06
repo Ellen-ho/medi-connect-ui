@@ -147,7 +147,7 @@ const ProfileDetail: React.FC = () => {
     () =>
       getPatientProfile({
         query: {
-          targetPatientId: (targetPatientId || state.patientId) as string,
+          targetPatientId: state.patientId as string,
         },
       }),
     {

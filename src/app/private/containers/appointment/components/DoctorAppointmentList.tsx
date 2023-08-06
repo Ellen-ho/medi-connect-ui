@@ -50,7 +50,7 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
   };
 
   const handleViewPatientProfile = async (targetPatientId: string) => {
-    navigate(`/profile?targetPatientId=${targetPatientId}`);
+    navigate(`/profile/view?targetPatientId=${targetPatientId}`);
   };
 
   const handleViewPatientRecords = async (patientId: string) => {
