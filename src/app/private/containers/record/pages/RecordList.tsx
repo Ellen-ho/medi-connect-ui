@@ -26,7 +26,10 @@ const RecordList: React.FC = () => {
   };
 
   const handleClickRecord = (recordId: string) => {
-    navigate(`/record/${recordCategory?.urlPath}/${recordId}`);
+    navigate({
+      pathname: `/record/${recordCategory?.urlPath}/${recordId}`,
+      search: isDoctor ? `?targetPatientId=${targetPatientId}` : '',
+    });
   };
 
   const { data, error } = useSWR('getRecords', () =>

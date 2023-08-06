@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { useContext } from 'react';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
@@ -15,6 +15,8 @@ import { dateFormatter } from '../../../../../utils/dateFormatter';
 const RecordDetail: React.FC = () => {
   const { state } = useContext(AuthContext);
   const { typeId, recordId } = useParams();
+  const [searchParams] = useSearchParams();
+  const targetPatientId = searchParams.get('targetPatientId');
 
   // const navigate = useNavigate();
 
@@ -23,7 +25,7 @@ const RecordDetail: React.FC = () => {
       urlPath: typeId as string,
       recordId: recordId as string,
       query: {
-        targetPatientId: state.patientId as string,
+        targetPatientId: (targetPatientId || state.patientId) as string,
       },
     }),
   );
