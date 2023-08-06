@@ -1,6 +1,4 @@
-import { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AuthContext } from '../../../../../context/AuthContext';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import BasicCard from '../../../../../components/card/BasicCard';
@@ -9,9 +7,6 @@ import {
   Box,
   Divider,
   IconButton,
-  List,
-  ListItem,
-  ListItemText,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -33,32 +28,11 @@ const AnswerDetail: React.FC = () => {
     navigate(`/question/${questionId}`);
   };
 
-  const { data, mutate, isLoading } = useSWR('getAnswerDetails', () =>
+  const { data, isLoading } = useSWR('getAnswerDetails', () =>
     getAnswerDetails({
       answerId: answerId as string,
     }),
   );
-
-  /**
-   * interface IGetAnswerDetailsResponse {
-        questionId: string;
-        answerId: string;
-        answerContent: string;
-        appreciationData: Array<{
-          content: string | null;
-          patientId: string;
-          patientAge: number;
-          createdAt: string;
-        }>;
-        agreementData: Array<{
-          comment: string | null;
-          agreedDoctorId: string;
-          agreedDoctorFirstName: string;
-          agreedDoctorLastName: string;
-          createdAt: string;
-  }>;
-}
-   */
 
   return (
     <>
@@ -107,6 +81,7 @@ const AnswerDetail: React.FC = () => {
                             flexDirection: 'row',
                             alignItems: 'top',
                           }}
+                          key={appreciation.patientId}
                         >
                           <Avatar
                             sx={{
@@ -170,6 +145,7 @@ const AnswerDetail: React.FC = () => {
                             flexDirection: 'row',
                             alignItems: 'top',
                           }}
+                          key={agreement.agreedDoctorId}
                         >
                           <Avatar
                             sx={{
