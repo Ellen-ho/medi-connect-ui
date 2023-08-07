@@ -104,7 +104,7 @@ const NotificationList: React.FC = () => {
       case NotificationType.CANCEL_APPOINTMENT:
       case NotificationType.CREATE_APPOINTMENT:
       case NotificationType.CANCEL_OVERTIME_PENDING_GOAL:
-        navigate(`/appointment/${referenceId}`);
+        navigate('/appointment');
         break;
       case NotificationType.HEALTH_GOAL_NOTIFICATION:
         navigate(`/health-goal/${referenceId}`);
