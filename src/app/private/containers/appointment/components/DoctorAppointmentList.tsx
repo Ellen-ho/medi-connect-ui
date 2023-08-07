@@ -15,6 +15,7 @@ import {
   IconButton,
   Link,
   List,
+  Tooltip,
 } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import {
@@ -30,6 +31,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import toast from 'react-hot-toast';
 import { getPatientProfile } from '../../../../../services/PatientService';
 import { useNavigate } from 'react-router-dom';
+import { ConsultAppointmentStatusType } from '../../../../../types/Consultations';
 
 interface IDoctorAppointmentListProps {}
 
@@ -220,24 +222,42 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Button
-              variant="contained"
-              disabled={!selectedDetail}
-              onClick={() =>
-                handleViewPatientProfile(selectedDetail?.patient?.id)
-              }
-            >
-              View Patient Profile
-            </Button>
-            <Button
-              variant="contained"
-              disabled={!selectedDetail}
-              onClick={() =>
-                handleViewPatientRecords(selectedDetail?.patient?.id)
-              }
-            >
-              View Patient Records
-            </Button>
+            {selectedDetail.status === ConsultAppointmentStatusType.UPCOMING ? (
+              <Button
+                variant="contained"
+                onClick={() =>
+                  handleViewPatientProfile(selectedDetail?.patient?.id)
+                }
+              >
+                View Patient Profile
+              </Button>
+            ) : (
+              <Tooltip title="Cannot view patient profile">
+                <span>
+                  <Button variant="contained" disabled>
+                    View Patient Profile
+                  </Button>
+                </span>
+              </Tooltip>
+            )}
+            {selectedDetail.status === ConsultAppointmentStatusType.UPCOMING ? (
+              <Button
+                variant="contained"
+                onClick={() =>
+                  handleViewPatientRecords(selectedDetail?.patient?.id)
+                }
+              >
+                View Patient Records
+              </Button>
+            ) : (
+              <Tooltip title="Cannot view patient records">
+                <span>
+                  <Button variant="contained" disabled>
+                    View Patient Records
+                  </Button>
+                </span>
+              </Tooltip>
+            )}
           </DialogActions>
         </Dialog>
       )}
