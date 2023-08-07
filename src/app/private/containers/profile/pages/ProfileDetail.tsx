@@ -50,6 +50,8 @@ import { GenderType } from '../../../../../types/Share';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useParams, useSearchParams } from 'react-router-dom';
+import AvatarUploader from '../components/AvatarUploader';
+import RowItem from '../../account/components/RowItem';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -135,7 +137,7 @@ const ProfileDetail: React.FC = () => {
     const payload = {
       ...data,
       birthDate: dayjs(data.birthDate).tz('Asia/Taipei').format(),
-      avatar: 'https://i.pravatar.cc/200',
+      avatar: profile.avatar,
     };
     await editPatientProfile(payload);
     await mutate();
@@ -217,11 +219,11 @@ const ProfileDetail: React.FC = () => {
                   >
                     <AccountCircleIcon /> Personal
                   </Typography>
-                  <EditableRowItem label={'Avatar'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      {...register('avatar')}
+                  <EditableRowItem label="Avatar">
+                    <AvatarUploader
+                      onImageUpload={(imageUrl) =>
+                        setProfile({ ...profile, avatar: imageUrl })
+                      }
                     />
                   </EditableRowItem>
                   <EditableRowItem label={'First Name'}>
