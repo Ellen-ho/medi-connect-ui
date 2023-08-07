@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../context/AuthContext';
@@ -65,6 +65,29 @@ const SignIn: React.FC = () => {
     navigate('/');
   };
 
+  const handleFacebookLogin = async () => {
+    try {
+      const response = await fetch('http://localhost:10000/api/auth/facebook', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url; // Redirect to the URL from the response
+      } else {
+        console.error('No URL provided in the response.');
+      }
+    } catch (error) {
+      console.error('Error fetching Facebook login URL:', error);
+    }
+  };
+
   return (
     <PrimaryPageContent>
       <SignInWrapper>
@@ -98,6 +121,13 @@ const SignIn: React.FC = () => {
 
               <Button type="submit" variant="contained" color="primary">
                 Sign In
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleFacebookLogin}
+              >
+                Sign In with Facebook
               </Button>
               <BottomAreaWrapper>
                 <Link href="/signup">Sign Up</Link>
