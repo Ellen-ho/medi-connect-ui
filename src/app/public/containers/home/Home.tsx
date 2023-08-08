@@ -144,7 +144,7 @@ const Home: React.FC = () => {
         >
           <Container>
             <Typography variant="body2" color="textSecondary">
-              Copyright © {currentYear} Medi Connect
+              Copyright ©{currentYear} Medi Connect
             </Typography>
           </Container>
         </footer>
