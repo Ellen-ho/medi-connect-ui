@@ -20,7 +20,7 @@ const getValidDateRange = () => {
   let start = today.add(1, 'month').startOf('month');
   let end = today.add(1, 'month').endOf('month');
 
-  if (today.date() > 28) {
+  if (today.date() >= 28) {
     start = today.add(2, 'month').startOf('month');
     end = today.add(2, 'month').endOf('month');
   }

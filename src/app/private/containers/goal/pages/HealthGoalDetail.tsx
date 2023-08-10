@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
@@ -17,6 +17,8 @@ import { Alert, AlertTitle, Box, Button } from '@mui/material';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { HealthGoalStatus } from '../../../../../types/Goals';
 import GoalStatus from '../components/GoalStatus';
+import { useContext } from 'react';
+import { AuthContext } from '../../../../../context/AuthContext';
 
 const mockResponse = {
   id: '0b417e61-65b0-49a8-aedf-9e141dd7346a',
@@ -32,8 +34,8 @@ const mockResponse = {
   bloodSugarCurrentType: 'FAST_PLASMA_GLUCOSE',
   bloodSugarTargetValue: '200.00',
   bloodSugarTargetType: 'FAST_PLASMA_GLUCOSE',
-  glycatedHemonglobinCurrentValue: '3.00',
-  glycatedHemonglobinTargetValue: '50.00',
+  glycatedHemoglobinCurrentValue: '3.00',
+  glycatedHemoglobinTargetValue: '50.00',
   weightCurrentValue: '80.00',
   weightTargetValue: '10.00',
   bodyMassIndexTargetValue: '20.00',
@@ -45,8 +47,11 @@ const mockResponse = {
   updatedAt: '2023-07-21T05:59:55.797Z',
 };
 
-const HealthGoalDetail = () => {
-  const { id } = useParams<{ id: string }>();
+const HealthGoalDetail: React.FC = () => {
+  const { id } = useParams();
+  const { state } = useContext(AuthContext);
+  const [searchParams] = useSearchParams();
+  const targetPatientId = searchParams.get('targetPatientId');
   const navigate = useNavigate();
 
   // const data = mockResponse;
@@ -68,6 +73,9 @@ const HealthGoalDetail = () => {
   const { data } = useSWR('getHealthGoal', () =>
     getHealthGoal({
       healthGoalId: id as string,
+      query: {
+        targetPatientId: (targetPatientId || state.patientId) as string,
+      },
     }),
   );
 
@@ -152,7 +160,8 @@ const HealthGoalDetail = () => {
                     '--'
                   }
                   rightItem={
-                    data.bloodPressureTargetValue?.diastolicBloodPressure || '--'
+                    data.bloodPressureTargetValue?.diastolicBloodPressure ||
+                    '--'
                   }
                 />
                 <GoalCompareItem
@@ -162,8 +171,8 @@ const HealthGoalDetail = () => {
                 />
                 <GoalCompareItem
                   label={'Glycated Hemonglobin'}
-                  leftItem={data.glycatedHemonglobinCurrentValue || '--'}
-                  rightItem={data.glycatedHemonglobinTargetValue || '--'}
+                  leftItem={data.glycatedHemoglobinCurrentValue || '--'}
+                  rightItem={data.glycatedHemoglobinTargetValue || '--'}
                 />
                 <GoalCompareItem
                   label={'Weight'}

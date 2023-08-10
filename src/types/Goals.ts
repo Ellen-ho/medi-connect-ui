@@ -15,7 +15,7 @@ export enum HealthGoalStatus {
 export interface IHealthGoalResult {
   bloodPressure: IHealthGoalBloodPressureResultItem;
   bloodSugar: IHealthGoalResultItem;
-  glycatedHemonglobin: IHealthGoalResultItem;
+  glycatedHemoglobin: IHealthGoalResultItem;
   weight: IHealthGoalResultItem;
 }
 
@@ -36,7 +36,7 @@ export interface ITargetHealthGoal {
   bloodPressureTargetValue: IBloodPressureValue;
   bloodSugarTargetValue: number;
   bloodSugarTargetType: BloodSugarType;
-  glycatedHemonglobinTargetValue: number;
+  glycatedHemoglobinTargetValue: number;
   weightTargetValue: number;
   bodyMassIndexTargetValue: number;
   startAt: Date;
@@ -54,8 +54,8 @@ export interface IHealthGoalDetail {
   bloodSugarCurrentType: BloodSugarType | null;
   bloodSugarTargetValue: number;
   bloodSugarTargetType: BloodSugarType;
-  glycatedHemonglobinCurrentValue: number | null;
-  glycatedHemonglobinTargetValue: number;
+  glycatedHemoglobinCurrentValue: number | null;
+  glycatedHemoglobinTargetValue: number;
   weightCurrentValue: number | null;
   weightTargetValue: number;
   bodyMassIndexCurrentValue: number | null;

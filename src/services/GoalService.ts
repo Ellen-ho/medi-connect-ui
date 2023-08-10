@@ -59,6 +59,9 @@ export interface IGetHealthGoalListResponse {
 
 interface IGetHealthGoalRequest {
   healthGoalId: string;
+  query: {
+    targetPatientId: string;
+  };
 }
 
 interface IGetHealthGoalResponse {
@@ -69,8 +72,8 @@ interface IGetHealthGoalResponse {
   bloodSugarCurrentType: BloodSugarType | null;
   bloodSugarTargetValue: number;
   bloodSugarTargetType: BloodSugarType;
-  glycatedHemonglobinCurrentValue: number | null;
-  glycatedHemonglobinTargetValue: number;
+  glycatedHemoglobinCurrentValue: number | null;
+  glycatedHemoglobinTargetValue: number;
   weightCurrentValue: number | null;
   weightTargetValue: number;
   bodyMassIndexCurrentValue: number | null;
@@ -101,11 +104,13 @@ export const rejectHealthGoal = async (
   return response.data;
 };
 
-export const getHealthGoal = async (
-  data: IGetHealthGoalRequest,
-): Promise<IGetHealthGoalResponse> => {
+export const getHealthGoal = async ({
+  healthGoalId,
+  query,
+}: IGetHealthGoalRequest): Promise<IGetHealthGoalResponse> => {
+  const queries = queryString.stringify(query);
   const response = await api.get<IGetHealthGoalResponse>(
-    `/health-goals/${data.healthGoalId}`,
+    `/health-goals/${healthGoalId}?${queries}`,
   );
   return response.data;
 };

@@ -82,3 +82,10 @@ export const editUserAccount = async (
   );
   return response.data;
 };
+
+export const getOAuthAccessToken = async (): Promise<ILoginResponse> => {
+  const response = await api.get<ILoginResponse>('/auth/success', {
+    withCredentials: true,
+  });
+  return response.data;
+};

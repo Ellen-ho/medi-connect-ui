@@ -9,6 +9,7 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  Pagination,
   Tooltip,
 } from '@mui/material';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
@@ -16,11 +17,15 @@ import { useNavigate } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { getQuestions } from '../../../../../services/QuestionService';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import { useContext } from 'react';
+import { AuthContext } from '../../../../../context/AuthContext';
 
 const QuestionList: React.FC = () => {
+  const { state } = useContext(AuthContext);
+  const isDoctor = state.doctorId != null;
   const navigate = useNavigate();
 
   const handleClickNewQuestion = () => {
@@ -30,6 +35,8 @@ const QuestionList: React.FC = () => {
   const handleClickQuestion = (questionId: string) => {
     navigate(`/question/${questionId}`);
   };
+
+  const handleClickViewAnswer = () => navigate('/question/answer');
 
   const { data, error } = useSWR('getQuestions', () =>
     getQuestions({
@@ -45,9 +52,15 @@ const QuestionList: React.FC = () => {
       <PrimaryPageTop
         pageTitle="Question"
         rightElement={
-          <Button onClick={handleClickNewQuestion} variant="contained">
-            Ask Question
-          </Button>
+          isDoctor ? (
+            <Button onClick={handleClickViewAnswer} variant="contained">
+              View Your Answers
+            </Button>
+          ) : (
+            <Button onClick={handleClickNewQuestion} variant="contained">
+              Ask Question
+            </Button>
+          )
         }
       />
       <PrimaryPageContent>
@@ -105,6 +118,30 @@ const QuestionList: React.FC = () => {
               </List>
             </CardContent>
           </Card>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '20px',
+            }}
+          >
+            <Pagination
+              count={data?.pagination.totalPage || 1}
+              page={data?.pagination.currentPage || 1}
+              onChange={(event, page) => {
+                const newPage = page;
+                mutate('getQuestions', async () => {
+                  const newData = await getQuestions({
+                    query: {
+                      limit: 10,
+                      page: newPage,
+                    },
+                  });
+                  return newData;
+                });
+              }}
+            />
+          </div>
         </CommonWrapper>
       </PrimaryPageContent>
     </>

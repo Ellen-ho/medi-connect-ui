@@ -15,6 +15,7 @@ export interface INotification {
   isRead: boolean;
   content: string;
   notificationType: NotificationType;
+  referenceId: string | null;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -3,6 +3,53 @@ import queryString from 'query-string';
 import api from './ApiService';
 import { IQuestion } from '../types/Questions';
 
+interface IGetAnswerListRequest {
+  query: {
+    page: number;
+    limit: number;
+  };
+}
+interface IGetAnswerListResponse {
+  totalAnswerCounts: number;
+  data: Array<{
+    id: string;
+    content: string;
+    createdAt: string;
+    thankCounts: number;
+    agreeCounts: number;
+  }>;
+  pagination: {
+    pages: number[];
+    totalPage: number;
+    currentPage: number;
+    prev: number;
+    next: number;
+  };
+}
+
+interface IGetAnswerDetailsRequest {
+  answerId: string;
+}
+
+interface IGetAnswerDetailsResponse {
+  questionId: string;
+  answerId: string;
+  answerContent: string;
+  appreciationData: Array<{
+    content: string | null;
+    patientId: string;
+    patientAge: number;
+    createdAt: string;
+  }>;
+  agreementData: Array<{
+    comment: string | null;
+    agreedDoctorId: string;
+    agreedDoctorFirstName: string;
+    agreedDoctorLastName: string;
+    createdAt: string;
+  }>;
+}
+
 interface IGetQuestionsRequest {
   query: {
     page: number;
@@ -140,6 +187,25 @@ interface ICancelAnswerAgreementResponse {
   totalAgreedDoctorCounts: number;
   agreedDoctorAvatars: Array<string | null>;
 }
+
+export const getAnswerList = async (
+  data: IGetAnswerListRequest,
+): Promise<IGetAnswerListResponse> => {
+  const queries = queryString.stringify(data.query);
+  const response = await api.get<IGetAnswerListResponse>(
+    `/questions/answers?${queries}`,
+  );
+  return response.data;
+};
+
+export const getAnswerDetails = async (
+  data: IGetAnswerDetailsRequest,
+): Promise<IGetAnswerDetailsResponse> => {
+  const response = await api.get<IGetAnswerDetailsResponse>(
+    `/questions/answers/${data.answerId}`,
+  );
+  return response.data;
+};
 
 export const getSingleQuestion = async (
   data: IGetSingleQuestionRequest,

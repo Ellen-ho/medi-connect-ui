@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { QuestionDetailWrapper } from './QuestionDetail.styled';
@@ -6,9 +7,15 @@ import {
   Avatar,
   AvatarGroup,
   Box,
+  Button,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
   IconButton,
+  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -42,6 +49,15 @@ const QuestionDetail: React.FC = () => {
   const { questionId } = useParams();
   const { state } = useContext(AuthContext);
   const isDoctor = state.doctorId != null;
+  const [isThankDialogOpen, setIsThankDialogOpen] = useState(false);
+  const [isAgreeDialogOpen, setIsAgreeDialogOpen] = useState(false);
+  const [selectedAppreciationAnswerId, setSelectedAppreciationAnswerId] =
+    useState<string | null>(null);
+  const [selectedAgreeAnswerId, setSelectedAgreeAnswerId] = useState<
+    string | null
+  >(null);
+  const [thankContent, setThankContent] = useState('');
+  const [agreeContent, setAgreeContent] = useState('');
 
   const handleClickDoctor = (doctorId: string) => {
     navigate(`/doctor/${doctorId}`);
@@ -52,15 +68,25 @@ const QuestionDetail: React.FC = () => {
       await cancelAppreciation({
         answerId: answer.answerId,
       });
+      mutate();
       toast.success('Unsent the appreciation successfully');
     } else {
+      setSelectedAppreciationAnswerId(answer.answerId);
+      setIsThankDialogOpen(true); // open dialog
+    }
+  };
+
+  const handleSubmitThankContent = async () => {
+    if (thankContent && selectedAppreciationAnswerId) {
       await createAppreciation({
-        content: 'mock content',
-        answerId: answer.answerId,
+        content: thankContent,
+        answerId: selectedAppreciationAnswerId,
       });
+      setIsThankDialogOpen(false);
+      setThankContent('');
+      mutate();
       toast.success('Thank you for your appreciation!');
     }
-    mutate();
   };
 
   const handleToggleAgreeDoctorAnswer = async (answer: IAnswer) => {
@@ -68,15 +94,25 @@ const QuestionDetail: React.FC = () => {
       await cancelAgreement({
         answerId: answer.answerId,
       });
+      mutate();
       toast.success('Canceled the agreement successfully');
     } else {
-      await createAgreemewnt({
-        answerId: answer.answerId,
-        comment: 'mock comment',
-      });
-      toast.success('Agreed with the anwser successfully');
+      setSelectedAgreeAnswerId(answer.answerId);
+      setIsAgreeDialogOpen(true);
     }
-    mutate();
+  };
+
+  const handleSubmitAgreeContent = async () => {
+    if (agreeContent && selectedAgreeAnswerId) {
+      await createAgreemewnt({
+        answerId: selectedAgreeAnswerId,
+        comment: agreeContent,
+      });
+      setIsAgreeDialogOpen(false);
+      setAgreeContent('');
+      mutate();
+      toast.success('Agreed with the answer successfully');
+    }
   };
 
   const { data, mutate } = useSWR('getSingleQuestion', () =>
@@ -316,6 +352,51 @@ const QuestionDetail: React.FC = () => {
           )}
         </QuestionDetailWrapper>
       </PrimaryPageContent>
+
+      <Dialog
+        fullWidth
+        maxWidth="sm"
+        open={isThankDialogOpen}
+        onClose={() => setIsThankDialogOpen(false)}
+      >
+        <DialogTitle>Enter Thank Content</DialogTitle>
+        <DialogContent>
+          <TextField
+            multiline
+            rows={4}
+            fullWidth
+            onChange={(e) => setThankContent(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsThankDialogOpen(false)}>Cancel</Button>
+          <Button onClick={handleSubmitThankContent} color="primary">
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        fullWidth
+        maxWidth="sm"
+        open={isAgreeDialogOpen}
+        onClose={() => setIsAgreeDialogOpen(false)}
+      >
+        <DialogTitle>Enter Agree Comment</DialogTitle>
+        <DialogContent>
+          <TextField
+            multiline
+            rows={4}
+            fullWidth
+            onChange={(e) => setAgreeContent(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsAgreeDialogOpen(false)}>Cancel</Button>
+          <Button onClick={handleSubmitAgreeContent} color="primary">
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

@@ -23,6 +23,11 @@ import { UserRoleType } from '../../types/Users';
 const topPages = [
   { title: 'Doctors', link: 'doctor', permission: [UserRoleType.PATIENT] },
   {
+    title: 'Answer',
+    link: '/question/answer',
+    permission: [UserRoleType.DOCTOR],
+  },
+  {
     title: 'Question',
     link: 'question',
     permission: [UserRoleType.PATIENT, UserRoleType.DOCTOR],
@@ -37,8 +42,17 @@ const topPages = [
 ];
 
 const dropMenuePages = [
-  { title: 'Account', link: 'account' },
-  { title: 'Profile', link: 'profile' },
+  {
+    title: 'Account',
+    link: 'account',
+    permission: [UserRoleType.PATIENT, UserRoleType.DOCTOR],
+  },
+  { title: 'Profile', link: 'profile', permission: [UserRoleType.PATIENT] },
+  {
+    title: 'Profile',
+    link: 'profile/doctor',
+    permission: [UserRoleType.DOCTOR],
+  },
 ];
 
 const ResponsiveAppBar: React.FC = () => {
@@ -186,14 +200,20 @@ const ResponsiveAppBar: React.FC = () => {
                   open={Boolean(anchorElNav)}
                   onClose={handleCloseNavMenu}
                 >
-                  {dropMenuePages.map((page) => (
-                    <MenuItem
-                      key={page.title}
-                      onClick={() => handlePageClick(page.link)}
-                    >
-                      <Typography textAlign="center">{page.title}</Typography>
-                    </MenuItem>
-                  ))}
+                  {dropMenuePages.map((page) => {
+                    if (page.permission.includes(currentUserRole)) {
+                      return (
+                        <MenuItem
+                          key={page.title}
+                          onClick={() => handlePageClick(page.link)}
+                        >
+                          <Typography textAlign="center">
+                            {page.title}
+                          </Typography>
+                        </MenuItem>
+                      );
+                    }
+                  })}
                   <Box
                     sx={{
                       display: { xs: 'block', md: 'none' },

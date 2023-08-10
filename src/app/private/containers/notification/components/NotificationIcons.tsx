@@ -6,6 +6,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import InfoIcon from '@mui/icons-material/Info';
 import React from 'react';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 
 interface INotificationIconsProps {
   notificationType: NotificationType;
@@ -28,6 +29,8 @@ const NotificationIcons: React.FC<INotificationIconsProps> = ({
         return <QuestionAnswerIcon />;
       case NotificationType.THANK_YOU_NOTIFICATION:
         return <VolunteerActivismIcon />;
+      case NotificationType.AGREED_NOTIFICATION:
+        return <ThumbUpAltIcon />;
       default:
         return <InfoIcon />;
     }

@@ -7,6 +7,7 @@ import {
   Button,
   Card,
   CardActionArea,
+  Container,
   Divider,
   Grid,
   Typography,
@@ -24,9 +25,18 @@ const Home: React.FC = () => {
     navigate(path);
   };
 
+  const currentYear = new Date().getFullYear();
+
   return (
     <>
-      <Box sx={{ m: 4 }}>
+      <Box
+        sx={{
+          m: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+        }}
+      >
         <header>
           <Typography variant="h3" gutterBottom>
             Welcome to Medi-Connect!
@@ -124,6 +134,20 @@ const Home: React.FC = () => {
             </Card>
           </Grid>
         </Grid>
+        <footer
+          style={{
+            marginTop: 'auto',
+            padding: '1rem 0',
+            backgroundColor: '#f5f5f5',
+            textAlign: 'center',
+          }}
+        >
+          <Container>
+            <Typography variant="body2" color="textSecondary">
+              Copyright ©{currentYear} Medi Connect
+            </Typography>
+          </Container>
+        </footer>
       </Box>
     </>
   );

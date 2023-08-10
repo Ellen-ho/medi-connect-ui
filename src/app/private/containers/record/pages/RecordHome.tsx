@@ -1,32 +1,25 @@
 import { Button } from '@mui/material';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import RecordEntrance from '../components/RecordEntrance';
 import { recordCategories } from '../types/Record.type';
 import { RecordHomeWrapper } from './RecordHome.styled';
+import { getRecord, getRecords } from '../../../../../services/RecordService';
+import { AuthContext } from '../../../../../context/AuthContext';
 
 const RecordHome: React.FC = () => {
+  const { state } = useContext(AuthContext);
+  const isDoctor = state.doctorId != null;
+  const { patientId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const targetPatientId = searchParams.get('targetPatientId');
 
   const handleNewQuestion = () => {
     navigate('/record/new');
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      // const { data, pagination } = await getQuestions({
-      //   query: {
-      //     page: 1,
-      //     limit: 10,
-      //   },
-      // });
-      // setQuestions(data);
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <>
@@ -38,7 +31,12 @@ const RecordHome: React.FC = () => {
               key={category.urlPath}
               title={category.name}
               subtitle={category.subtitle}
-              onClick={() => navigate(`/record/${category.urlPath}`)}
+              onClick={() =>
+                navigate({
+                  pathname: `/record/${category.urlPath}`,
+                  search: isDoctor ? `?targetPatientId=${targetPatientId}` : '',
+                })
+              }
             />
           ))}
         </RecordHomeWrapper>

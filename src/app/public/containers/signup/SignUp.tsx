@@ -6,7 +6,14 @@ import * as yup from 'yup';
 import { UserRoleType } from '../../../../types/Users';
 import PrimaryPageContent from '../../../layout/PrimaryPageContent';
 import { BottomAreaWrapper, SignUpWrapper } from './SignUp.styled';
-import { Button, Card, CardContent, Link, TextField, Typography } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardContent,
+  Link,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { FormWrapper } from '../../../../components/form/Index.styled';
 
 interface ISignUpFormInputs {
@@ -46,11 +53,11 @@ const SignUp: React.FC = () => {
       role: UserRoleType.PATIENT,
     };
 
-    const response = await signupUser(payload)
+    const response = await signupUser(payload);
     navigate('/signin');
   };
 
-return (
+  return (
     <PrimaryPageContent>
       <SignUpWrapper>
         <Card>
@@ -88,7 +95,7 @@ return (
               />
               <TextField
                 label="Confirm Password"
-                type="confirmPassword"
+                type="password"
                 size="small"
                 {...register('confirmPassword')}
                 error={!!errors.confirmPassword}
@@ -100,10 +107,10 @@ return (
               <BottomAreaWrapper>
                 <Link href={'/signin'}>Sign In</Link>
               </BottomAreaWrapper>
-              </FormWrapper>
+            </FormWrapper>
           </CardContent>
         </Card>
-         </SignUpWrapper>
+      </SignUpWrapper>
     </PrimaryPageContent>
   );
 };
