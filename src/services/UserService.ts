@@ -54,6 +54,10 @@ interface IEditUserAccountResponse {
   updatedAt: Date;
 }
 
+interface IUploadAvatarImageResponse {
+  imageUrl: string;
+}
+
 export const loginUser = async (
   data: ILoginRequest,
 ): Promise<ILoginResponse> => {
@@ -87,5 +91,23 @@ export const getOAuthAccessToken = async (): Promise<ILoginResponse> => {
   const response = await api.get<ILoginResponse>('/auth/success', {
     withCredentials: true,
   });
+  return response.data;
+};
+
+export const uploadAvatar = async (
+  imageFile: File,
+): Promise<IUploadAvatarImageResponse> => {
+  const formData = new FormData();
+  formData.append('avatar', imageFile);
+
+  const response = await api.post<IUploadAvatarImageResponse>(
+    '/users/upload-avatar',
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
   return response.data;
 };

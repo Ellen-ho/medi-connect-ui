@@ -51,7 +51,9 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useParams, useSearchParams } from 'react-router-dom';
 import AvatarUploader from '../components/AvatarUploader';
-import RowItem from '../../account/components/RowItem';
+
+import ImageUploadComponent from '../../../../../components/form/ImageUploadComponent';
+import RowItem from '../../../../../components/form/RowItem';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -100,6 +102,7 @@ const ProfileDetail: React.FC = () => {
     handleSubmit,
     control,
     formState: { errors },
+    setValue,
   } = useForm<IPatient>({
     values: profile,
   });
@@ -133,15 +136,17 @@ const ProfileDetail: React.FC = () => {
   });
 
   const onEditProfile = async (data: IPatient) => {
-    console.log(data);
     const payload = {
       ...data,
       birthDate: dayjs(data.birthDate).tz('Asia/Taipei').format(),
-      avatar: profile.avatar,
     };
     await editPatientProfile(payload);
     await mutate();
     toast.success('Profile updated successfully!');
+  };
+
+  const handleImageUpload = (imageUrl: string) => {
+    setProfile((prev) => ({ ...prev, avatar: imageUrl }));
   };
 
   const { isLoading, mutate } = useSWR(
@@ -219,13 +224,11 @@ const ProfileDetail: React.FC = () => {
                   >
                     <AccountCircleIcon /> Personal
                   </Typography>
-                  <EditableRowItem label="Avatar">
-                    <AvatarUploader
-                      onImageUpload={(imageUrl) =>
-                        setProfile({ ...profile, avatar: imageUrl })
-                      }
-                    />
-                  </EditableRowItem>
+                  <RowItem label="Avatar">
+                    <input type="hidden" {...register('avatar')} />{' '}
+                    {/* Hidden input to hold the imageUrl */}
+                    <ImageUploadComponent onImageUpload={handleImageUpload} />
+                  </RowItem>
                   <EditableRowItem label={'First Name'}>
                     <TextField
                       size="small"
