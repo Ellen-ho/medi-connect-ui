@@ -31,6 +31,7 @@ const HealthGoalList: React.FC = () => {
   const isDoctor = state.doctorId != null;
   const [searchParams] = useSearchParams();
   const targetPatientId = searchParams.get('targetPatientId');
+  const [page, setPage] = useState<number>(1);
 
   const handleClickGoal = (id: string) => {
     navigate({
@@ -39,11 +40,11 @@ const HealthGoalList: React.FC = () => {
     });
   };
 
-  const { data } = useSWR('getHealthGoalList', () =>
+  const { data } = useSWR(`getHealthGoalList?q=${page}`, () =>
     getHealthGoalList({
       query: {
-        page: 1,
         limit: 10,
+        page: page,
         targetPatientId: (targetPatientId || state.patientId) as string,
       },
     }),
@@ -101,20 +102,9 @@ const HealthGoalList: React.FC = () => {
           >
             <Pagination
               count={data?.pagination.totalPage || 1}
-              page={data?.pagination.currentPage || 1}
+              page={page}
               onChange={(event, page) => {
-                const newPage = page;
-                mutate('getHealthGoalList', async () => {
-                  const newData = await getHealthGoalList({
-                    query: {
-                      targetPatientId: (targetPatientId ||
-                        state.patientId) as string,
-                      page: newPage,
-                      limit: 10,
-                    },
-                  });
-                  return newData;
-                });
+                setPage(page);
               }}
             />
           </div>
