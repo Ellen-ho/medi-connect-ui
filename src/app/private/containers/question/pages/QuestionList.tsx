@@ -1,6 +1,7 @@
 import {
   Avatar,
   Badge,
+  Box,
   Button,
   Card,
   CardContent,
@@ -20,13 +21,14 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import useSWR, { mutate } from 'swr';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
 
 const QuestionList: React.FC = () => {
   const { state } = useContext(AuthContext);
   const isDoctor = state.doctorId != null;
   const navigate = useNavigate();
+  const [page, setPage] = useState<number>(1);
 
   const handleClickNewQuestion = () => {
     navigate('/question/new');
@@ -38,11 +40,11 @@ const QuestionList: React.FC = () => {
 
   const handleClickViewAnswer = () => navigate('/question/answer');
 
-  const { data, error } = useSWR('getQuestions', () =>
+  const { data } = useSWR(`getQuestions?q=${page}`, () =>
     getQuestions({
       query: {
         limit: 10,
-        page: 1,
+        page: page,
       },
     }),
   );
@@ -74,7 +76,7 @@ const QuestionList: React.FC = () => {
                 }}
               >
                 {data?.data.map((question) => (
-                  <>
+                  <Box key={question.id}>
                     <ListItemButton
                       onClick={() => handleClickQuestion(question.id)}
                     >
@@ -113,7 +115,7 @@ const QuestionList: React.FC = () => {
                       />
                     </ListItemButton>
                     <Divider />
-                  </>
+                  </Box>
                 ))}
               </List>
             </CardContent>
@@ -127,18 +129,9 @@ const QuestionList: React.FC = () => {
           >
             <Pagination
               count={data?.pagination.totalPage || 1}
-              page={data?.pagination.currentPage || 1}
+              page={page}
               onChange={(event, page) => {
-                const newPage = page;
-                mutate('getQuestions', async () => {
-                  const newData = await getQuestions({
-                    query: {
-                      limit: 10,
-                      page: newPage,
-                    },
-                  });
-                  return newData;
-                });
+                setPage(page);
               }}
             />
           </div>
