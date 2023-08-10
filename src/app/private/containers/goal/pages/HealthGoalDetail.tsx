@@ -34,8 +34,8 @@ const mockResponse = {
   bloodSugarCurrentType: 'FAST_PLASMA_GLUCOSE',
   bloodSugarTargetValue: '200.00',
   bloodSugarTargetType: 'FAST_PLASMA_GLUCOSE',
-  glycatedHemonglobinCurrentValue: '3.00',
-  glycatedHemonglobinTargetValue: '50.00',
+  glycatedHemoglobinCurrentValue: '3.00',
+  glycatedHemoglobinTargetValue: '50.00',
   weightCurrentValue: '80.00',
   weightTargetValue: '10.00',
   bodyMassIndexTargetValue: '20.00',
@@ -171,8 +171,8 @@ const HealthGoalDetail: React.FC = () => {
                 />
                 <GoalCompareItem
                   label={'Glycated Hemonglobin'}
-                  leftItem={data.glycatedHemonglobinCurrentValue || '--'}
-                  rightItem={data.glycatedHemonglobinTargetValue || '--'}
+                  leftItem={data.glycatedHemoglobinCurrentValue || '--'}
+                  rightItem={data.glycatedHemoglobinTargetValue || '--'}
                 />
                 <GoalCompareItem
                   label={'Weight'}

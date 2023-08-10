@@ -72,8 +72,8 @@ interface IGetHealthGoalResponse {
   bloodSugarCurrentType: BloodSugarType | null;
   bloodSugarTargetValue: number;
   bloodSugarTargetType: BloodSugarType;
-  glycatedHemonglobinCurrentValue: number | null;
-  glycatedHemonglobinTargetValue: number;
+  glycatedHemoglobinCurrentValue: number | null;
+  glycatedHemoglobinTargetValue: number;
   weightCurrentValue: number | null;
   weightTargetValue: number;
   bodyMassIndexCurrentValue: number | null;
