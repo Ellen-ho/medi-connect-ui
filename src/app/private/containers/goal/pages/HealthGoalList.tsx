@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import {
   IGetHealthGoalListResponse,
@@ -16,20 +16,27 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  Pagination,
 } from '@mui/material';
 import BasicCard from '../../../../../components/card/BasicCard';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
 import FlagCircleIcon from '@mui/icons-material/FlagCircle';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import GoalStatus from '../components/GoalStatus';
 
 const HealthGoalList: React.FC = () => {
   const { state } = useContext(AuthContext);
   const navigate = useNavigate();
+  const isDoctor = state.doctorId != null;
+  const [searchParams] = useSearchParams();
+  const targetPatientId = searchParams.get('targetPatientId');
 
   const handleClickGoal = (id: string) => {
-    navigate(`/health-goal/${id}`);
+    navigate({
+      pathname: `/health-goal/${id}`,
+      search: isDoctor ? `?targetPatientId=${targetPatientId}` : '',
+    });
   };
 
   const { data } = useSWR('getHealthGoalList', () =>
@@ -37,7 +44,7 @@ const HealthGoalList: React.FC = () => {
       query: {
         page: 1,
         limit: 10,
-        targetPatientId: state.patientId as string,
+        targetPatientId: (targetPatientId || state.patientId) as string,
       },
     }),
   );
@@ -85,6 +92,32 @@ const HealthGoalList: React.FC = () => {
               )}
             </List>
           </BasicCard>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '20px',
+            }}
+          >
+            <Pagination
+              count={data?.pagination.totalPage || 1}
+              page={data?.pagination.currentPage || 1}
+              onChange={(event, page) => {
+                const newPage = page;
+                mutate('getHealthGoalList', async () => {
+                  const newData = await getHealthGoalList({
+                    query: {
+                      targetPatientId: (targetPatientId ||
+                        state.patientId) as string,
+                      page: newPage,
+                      limit: 10,
+                    },
+                  });
+                  return newData;
+                });
+              }}
+            />
+          </div>
         </CommonWrapper>
       </PrimaryPageContent>
     </>

@@ -59,6 +59,9 @@ export interface IGetHealthGoalListResponse {
 
 interface IGetHealthGoalRequest {
   healthGoalId: string;
+  query: {
+    targetPatientId: string;
+  };
 }
 
 interface IGetHealthGoalResponse {
@@ -101,11 +104,13 @@ export const rejectHealthGoal = async (
   return response.data;
 };
 
-export const getHealthGoal = async (
-  data: IGetHealthGoalRequest,
-): Promise<IGetHealthGoalResponse> => {
+export const getHealthGoal = async ({
+  healthGoalId,
+  query,
+}: IGetHealthGoalRequest): Promise<IGetHealthGoalResponse> => {
+  const queries = queryString.stringify(query);
   const response = await api.get<IGetHealthGoalResponse>(
-    `/health-goals/${data.healthGoalId}`,
+    `/health-goals/${healthGoalId}?${queries}`,
   );
   return response.data;
 };

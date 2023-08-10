@@ -11,6 +11,7 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  Pagination,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -216,6 +217,30 @@ const NotificationList: React.FC = () => {
               </List>
             </CardContent>
           </Card>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '20px',
+            }}
+          >
+            <Pagination
+              count={data?.pagination.totalPage || 1}
+              page={data?.pagination.currentPage || 1}
+              onChange={(event, page) => {
+                const newPage = page;
+                mutate(async () => {
+                  const newData = await getNotificationList({
+                    query: {
+                      limit: 10,
+                      page: newPage,
+                    },
+                  });
+                  return newData;
+                });
+              }}
+            />
+          </div>
         </CommonWrapper>
       </PrimaryPageContent>
     </>

@@ -55,8 +55,12 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
     navigate(`/profile/view?targetPatientId=${targetPatientId}`);
   };
 
-  const handleViewPatientRecords = async (patientId: string) => {
-    navigate(`/record?targetPatientId=${patientId}`);
+  const handleViewPatientRecords = async (targetPatientId: string) => {
+    navigate(`/record?targetPatientId=${targetPatientId}`);
+  };
+
+  const handleViewPatientGoals = async (targetPatientId: string) => {
+    navigate(`/health-goal?targetPatientId=${targetPatientId}`);
   };
 
   const { data } = useSWR('getDoctorConsultAppointments', () =>
@@ -254,6 +258,24 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
                 <span>
                   <Button variant="contained" disabled>
                     View Patient Records
+                  </Button>
+                </span>
+              </Tooltip>
+            )}
+            {selectedDetail.status === ConsultAppointmentStatusType.UPCOMING ? (
+              <Button
+                variant="contained"
+                onClick={() =>
+                  handleViewPatientGoals(selectedDetail?.patient?.id)
+                }
+              >
+                View Patient Goals
+              </Button>
+            ) : (
+              <Tooltip title="Cannot view patient goals">
+                <span>
+                  <Button variant="contained" disabled>
+                    View Patient Goals
                   </Button>
                 </span>
               </Tooltip>
