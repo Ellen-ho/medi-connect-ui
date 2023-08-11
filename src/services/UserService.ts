@@ -13,7 +13,7 @@ interface ILoginResponse {
     createdAt: string;
     displayName: string;
     role: string;
-    avatar: string;
+    avatar: string | null;
   };
   patientId: string;
   doctorId: string;

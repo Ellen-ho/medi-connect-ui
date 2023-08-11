@@ -22,6 +22,7 @@ const OAuth: React.FC = () => {
             id: response.user.id,
             displayName: response.user.displayName,
             role: response.user.role,
+            avatar: response.user.avatar,
           },
           patientId: response.patientId,
           doctorId: response.doctorId,

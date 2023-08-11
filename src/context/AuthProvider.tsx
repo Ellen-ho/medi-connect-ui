@@ -44,24 +44,6 @@ const reducer = (state: AuthState, action: AuthAction): AuthState => {
 export const AuthProvider: React.FC<{ children: any }> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // useEffect(() => {
-  //   const cachedAuth = localStorage.getItem('auth');
-  //   const isLogin = cachedAuth && JSON.parse(cachedAuth).isLoggedIn;
-
-  //   if (isLogin) {
-  //     const { token, currentUser, patientId, doctorId } =
-  //       JSON.parse(cachedAuth);
-  //     dispatch({
-  //       type: 'LOG_IN',
-  //       payload: { token, currentUser, patientId, doctorId },
-  //     });
-  //   } else {
-  //     dispatch({
-  //       type: 'LOG_OUT',
-  //     });
-  //   }
-  // }, []);
-
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
       {children}

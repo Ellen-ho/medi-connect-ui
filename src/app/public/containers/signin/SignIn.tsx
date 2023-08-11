@@ -57,6 +57,7 @@ const SignIn: React.FC = () => {
           id: response.user.id,
           displayName: response.user.displayName,
           role: response.user.role,
+          avatar: response.user.avatar,
         },
         patientId: response.patientId,
         doctorId: response.doctorId,
@@ -67,26 +68,6 @@ const SignIn: React.FC = () => {
 
   const handleFacebookLogin = async () => {
     window.open(`http://localhost:10000/api/auth/facebook`, '_self');
-    // try {
-    //   const response = await fetch('http://localhost:10000/api/auth/facebook', {
-    //     method: 'GET',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error(`Request failed with status: ${response.status}`);
-    //   }
-    //   const data = await response.json();
-    //   if (data.url) {
-    //     window.location.href = data.url; // Redirect to the URL from the response
-    //   } else {
-    //     console.error('No URL provided in the response.');
-    //   }
-    // } catch (error) {
-    //   console.error('Error fetching Facebook login URL:', error);
-    // }
   };
 
   return (
