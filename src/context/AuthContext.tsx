@@ -7,6 +7,7 @@ export interface AuthState {
     id: string;
     displayName: string;
     role: string;
+    avatar: string | null;
   } | null;
   patientId: string | null;
   doctorId: string | null;
@@ -21,6 +22,7 @@ export type AuthAction =
           id: string;
           displayName: string;
           role: string;
+          avatar: string | null;
         };
         patientId: string;
         doctorId: string;

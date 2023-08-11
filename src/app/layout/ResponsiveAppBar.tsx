@@ -16,7 +16,7 @@ import { AuthContext } from '../../context/AuthContext';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import useSWR from 'swr';
 import { getNotificationHints } from '../../services/NotificationService';
-import { Badge, Chip } from '@mui/material';
+import { Avatar, Badge, Chip } from '@mui/material';
 import { NotificationContext } from '../../context/NotificationContext';
 import { UserRoleType } from '../../types/Users';
 
@@ -58,6 +58,7 @@ const dropMenuePages = [
 const ResponsiveAppBar: React.FC = () => {
   const { state, dispatch } = useContext(AuthContext);
   const currentUserRole = state.currentUser?.role as UserRoleType;
+  const avatar = state.currentUser?.avatar;
   const { state: notificationState, dispatch: notificationDispatch } =
     useContext(NotificationContext);
   const navigate = useNavigate();
@@ -180,9 +181,23 @@ const ResponsiveAppBar: React.FC = () => {
                   </Badge>
                 </IconButton>
                 <IconButton sx={{ color: 'white' }} onClick={handleOpenNavMenu}>
-                  <AccountCircleRoundedIcon
-                    sx={{ display: { xs: 'none', md: 'flex' } }}
-                  />
+                  <Avatar
+                    sx={{
+                      display: { xs: 'none', md: 'flex' },
+                      width: 35,
+                      height: 35,
+                    }}
+                  >
+                    {avatar ? (
+                      <img
+                        src={avatar}
+                        alt="avatar"
+                        style={{ width: '100%', height: '100%' }}
+                      />
+                    ) : (
+                      <AccountCircleRoundedIcon />
+                    )}
+                  </Avatar>
                   <MenuIcon sx={{ display: { xs: 'flex', md: 'none' } }} />
                 </IconButton>
                 <Menu
