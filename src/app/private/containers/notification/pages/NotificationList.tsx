@@ -27,7 +27,7 @@ import {
   getNotificationList,
   readAllNotifications,
 } from '../../../../../services/NotificationService';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
@@ -39,6 +39,7 @@ import { NotificationType } from '../../../../../types/Notifications';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const NotificationList: React.FC = () => {
+  const [page, setPage] = useState<number>(1);
   const { state, dispatch } = useContext(NotificationContext);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null,
@@ -51,11 +52,11 @@ const NotificationList: React.FC = () => {
   const handleCloseMenu = () => {
     setAnchorElNav(null);
   };
-  const { data, mutate } = useSWR('getNotifications', () =>
+  const { data, mutate } = useSWR(`getNotifications?q=${page}`, () =>
     getNotificationList({
       query: {
         limit: 10,
-        page: 1,
+        page: page,
       },
     }),
   );
@@ -226,18 +227,9 @@ const NotificationList: React.FC = () => {
           >
             <Pagination
               count={data?.pagination.totalPage || 1}
-              page={data?.pagination.currentPage || 1}
+              page={page}
               onChange={(event, page) => {
-                const newPage = page;
-                mutate(async () => {
-                  const newData = await getNotificationList({
-                    query: {
-                      limit: 10,
-                      page: newPage,
-                    },
-                  });
-                  return newData;
-                });
+                setPage(page);
               }}
             />
           </div>

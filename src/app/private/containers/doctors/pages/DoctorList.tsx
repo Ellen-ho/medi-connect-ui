@@ -8,13 +8,15 @@ import { useState } from 'react';
 import DoctorCard from '../components/DoctorCard';
 import { DoctorListWrapper } from './DoctorList.styled';
 import useSWR from 'swr';
+import { Pagination } from '@mui/material';
 
 const DoctorList: React.FC = () => {
-  const { data, isLoading } = useSWR('getDoctors', () =>
+  const [page, setPage] = useState<number>(1);
+  const { data, isLoading } = useSWR(`getDoctors?q=${page}`, () =>
     getDoctors({
       query: {
-        page: 1,
-        limit: 10,
+        limit: 9,
+        page: page,
       },
     }),
   );
@@ -29,6 +31,21 @@ const DoctorList: React.FC = () => {
               <DoctorCard key={doctor.id} data={doctor} />
             ))}
         </DoctorListWrapper>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '20px',
+          }}
+        >
+          <Pagination
+            count={data?.pagination.totalPage || 1}
+            page={page}
+            onChange={(event, page) => {
+              setPage(page);
+            }}
+          />
+        </div>
       </PrimaryPageContent>
     </>
   );

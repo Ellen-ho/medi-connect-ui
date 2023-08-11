@@ -31,6 +31,8 @@ import DataLoading from '../../../../../components/signs/DataLoading';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MultipleSelectChip from '../../../../../components/form/MultipleSelectChip';
+import ImageUploadComponent from '../../../../../components/form/ImageUploadComponent';
+import RowItem from '../../../../../components/form/RowItem';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -85,11 +87,14 @@ const DoctorProfileDetail: React.FC = () => {
     const payload = {
       ...data,
       careerStartDate: dayjs(data.careerStartDate).tz('Asia/Taipei').format(),
-      avatar: 'https://i.pravatar.cc/200',
     };
     await editDoctorProfile(payload);
     await mutate();
     toast.success('Profile updated successfully!');
+  };
+
+  const handleImageUpload = (imageUrl: string) => {
+    setProfile((prev) => ({ ...prev, avatar: imageUrl }));
   };
 
   const { isLoading, mutate } = useSWR(
@@ -134,13 +139,10 @@ const DoctorProfileDetail: React.FC = () => {
                   >
                     <AccountCircleIcon /> Personal
                   </Typography>
-                  <EditableRowItem label={'Avatar'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      {...register('avatar')}
-                    />
-                  </EditableRowItem>
+                  <RowItem label="Avatar">
+                    <input type="hidden" {...register('avatar')} />{' '}
+                    <ImageUploadComponent onImageUpload={handleImageUpload} />
+                  </RowItem>
                   <EditableRowItem label={'First Name'}>
                     <TextField
                       size="small"

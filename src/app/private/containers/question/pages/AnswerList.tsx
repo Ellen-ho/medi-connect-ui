@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
@@ -21,6 +21,7 @@ import {
   ListItemText,
   Tooltip,
   Typography,
+  Pagination,
 } from '@mui/material';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
@@ -33,16 +34,17 @@ const AnswerList: React.FC = () => {
   const { state } = useContext(AuthContext);
   const isDoctor = state.doctorId != null;
   const navigate = useNavigate();
+  const [page, setPage] = useState<number>(1);
 
   const handleClickAnswer = (answerId: string) => {
     navigate(`/question/answer/${answerId}`);
   };
 
-  const { data, error } = useSWR('getAnswerList', () =>
+  const { data, error } = useSWR(`getAnswerList?q=${page}`, () =>
     getAnswerList({
       query: {
         limit: 10,
-        page: 1,
+        page: page,
       },
     }),
   );
@@ -137,6 +139,21 @@ const AnswerList: React.FC = () => {
               </List>
             </CardContent>
           </Card>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '20px',
+            }}
+          >
+            <Pagination
+              count={data?.pagination.totalPage || 1}
+              page={page}
+              onChange={(event, page) => {
+                setPage(page);
+              }}
+            />
+          </div>
         </CommonWrapper>
       </PrimaryPageContent>
     </>
