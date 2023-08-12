@@ -7,10 +7,11 @@ import { ProfileDetailWrapper } from './ProfileDetail.styled';
 import {
   Box,
   Button,
-  Card,
-  CardContent,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
-  Icon,
   IconButton,
   InputAdornment,
   MenuItem,
@@ -41,7 +42,6 @@ import DataLoading from '../../../../../components/signs/DataLoading';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { AuthContext } from '../../../../../context/AuthContext';
 import BasicCard from '../../../../../components/card/BasicCard';
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import toast from 'react-hot-toast';
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
@@ -49,11 +49,11 @@ import * as timezone from 'dayjs/plugin/timezone';
 import { GenderType } from '../../../../../types/Share';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useParams, useSearchParams } from 'react-router-dom';
-import AvatarUploader from '../components/AvatarUploader';
+import { useSearchParams } from 'react-router-dom';
 
 import ImageUploadComponent from '../../../../../components/form/ImageUploadComponent';
 import RowItem from '../../../../../components/form/RowItem';
+import ImageAvatar from '../../../../../components/avatar/ImageAvatar';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -85,24 +85,16 @@ const defaultPatient: IPatient = {
 const ProfileDetail: React.FC = () => {
   const { state } = useContext(AuthContext);
   const [profile, setProfile] = useState<IPatient>(defaultPatient);
+  const [isAvatarUploadDialogOpen, setAvatarUploadDialogOpen] = useState(false);
+
   const [searchParams] = useSearchParams();
   const targetPatientId = searchParams.get('targetPatientId');
-
-  function generateFallbackAvatar(alt: string) {
-    const initials = alt.substring(0, 1).toUpperCase();
-    return (
-      <Avatar sx={{ bgcolor: deepOrange[500] }} alt={alt}>
-        {initials}
-      </Avatar>
-    );
-  }
 
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-    setValue,
   } = useForm<IPatient>({
     values: profile,
   });
@@ -149,6 +141,10 @@ const ProfileDetail: React.FC = () => {
     setProfile((prev) => ({ ...prev, avatar: imageUrl }));
   };
 
+  const handleOpenAvatarUploadDialog = () => {
+    setAvatarUploadDialogOpen(true);
+  };
+
   const { isLoading, mutate } = useSWR(
     'getPatientProfile',
     () =>
@@ -188,135 +184,108 @@ const ProfileDetail: React.FC = () => {
             </Typography>
           ) : (
             <FormWrapper onSubmit={handleSubmit(onEditProfile)}>
-              {/* <BasicCard
-                startTitleAdornment={<SentimentSatisfiedAltIcon />}
-                title={'Avatar'}
+              <BasicCard
+                startTitleAdornment={
+                  <AccountCircleIcon sx={{ marginRight: '.5rem' }} />
+                }
+                title={'Personal'}
               >
-                <CardContent>
-                  <input
-                    accept="image/*"
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                  />
-                  <label htmlFor="contained-button-file">
-                    <IconButton>
-                      <Avatar
-                        src={profile.avatar ?? undefined}
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
-                        sx={{ width: 56, height: 56 }}
-                      >
-                        R
-                      </Avatar>
-                    </IconButton>
-                  </label>
-                </CardContent>
-              </BasicCard> */}
-              <Card>
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div"
-                    sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
-                  >
-                    <AccountCircleIcon /> Personal
-                  </Typography>
-                  <RowItem label="Avatar">
-                    <input type="hidden" {...register('avatar')} />{' '}
-                    {/* Hidden input to hold the imageUrl */}
-                    <ImageUploadComponent onImageUpload={handleImageUpload} />
-                  </RowItem>
-                  <EditableRowItem label={'First Name'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      {...register('firstName')}
-                    />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Last Name'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      {...register('lastName')}
-                    />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Birth Date'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      type="date"
-                      {...register('birthDate')}
-                    />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Gender'}>
-                    <TextField
-                      select
-                      size="small"
-                      InputLabelProps={{ shrink: true }}
-                      error={!!errors.gender}
-                      helperText={<>{errors.gender?.message}</>}
-                      value={profile.gender}
-                      {...register('gender')}
-                    >
-                      <MenuItem key={'male'} value={'MALE'}>
-                        Male
-                      </MenuItem>
-                      <MenuItem key={'femal'} value={'FEMALE'}>
-                        Female
-                      </MenuItem>
-                    </TextField>
-                  </EditableRowItem>
-                  <EditableRowItem label={'Height'}>
-                    <TextField
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="start">cm</InputAdornment>
-                        ),
+                <RowItem label="Avatar">
+                  <input type="hidden" {...register('avatar')} />{' '}
+                  <IconButton onClick={handleOpenAvatarUploadDialog}>
+                    <ImageAvatar
+                      imageUrl={profile.avatar}
+                      sx={{
+                        width: 50,
+                        height: 50,
                       }}
-                      size="small"
-                      variant="outlined"
-                      type="number"
-                      {...register('heightValueCm')}
                     />
-                  </EditableRowItem>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="div"
-                    sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
+                  </IconButton>
+                  {/* Hidden input to hold the imageUrl */}
+                  {/* <ImageUploadComponent onImageUpload={handleImageUpload} /> */}
+                </RowItem>
+                <EditableRowItem label={'First Name'}>
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    {...register('firstName')}
+                  />
+                </EditableRowItem>
+                <EditableRowItem label={'Last Name'}>
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    {...register('lastName')}
+                  />
+                </EditableRowItem>
+                <EditableRowItem label={'Birth Date'}>
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    type="date"
+                    {...register('birthDate')}
+                  />
+                </EditableRowItem>
+                <EditableRowItem label={'Gender'}>
+                  <TextField
+                    select
+                    size="small"
+                    InputLabelProps={{ shrink: true }}
+                    error={!!errors.gender}
+                    helperText={<>{errors.gender?.message}</>}
+                    value={profile.gender}
+                    {...register('gender')}
                   >
-                    <FmdBadOutlinedIcon /> Allergy
-                  </Typography>
-                  <EditableRowItem label={'Medicine'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      {...register('allergy.medicine')}
-                    />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Food'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      {...register('allergy.food')}
-                    />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Other'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      {...register('allergy.other')}
-                    />
-                  </EditableRowItem>
-                </CardContent>
-              </Card>
+                    <MenuItem key={'male'} value={'MALE'}>
+                      Male
+                    </MenuItem>
+                    <MenuItem key={'femal'} value={'FEMALE'}>
+                      Female
+                    </MenuItem>
+                  </TextField>
+                </EditableRowItem>
+                <EditableRowItem label={'Height'}>
+                  <TextField
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="start">cm</InputAdornment>
+                      ),
+                    }}
+                    size="small"
+                    variant="outlined"
+                    type="number"
+                    {...register('heightValueCm')}
+                  />
+                </EditableRowItem>
+              </BasicCard>
+              <BasicCard
+                startTitleAdornment={
+                  <FmdBadOutlinedIcon sx={{ marginRight: '.5rem' }} />
+                }
+                title={'Allergy'}
+              >
+                <EditableRowItem label={'Medicine'}>
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    {...register('allergy.medicine')}
+                  />
+                </EditableRowItem>
+                <EditableRowItem label={'Food'}>
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    {...register('allergy.food')}
+                  />
+                </EditableRowItem>
+                <EditableRowItem label={'Other'}>
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    {...register('allergy.other')}
+                  />
+                </EditableRowItem>
+              </BasicCard>
               {/* Medical History */}
               <BasicCard
                 startTitleAdornment={
@@ -594,6 +563,42 @@ const ProfileDetail: React.FC = () => {
           )}
         </ProfileDetailWrapper>
       </PrimaryPageContent>
+
+      <Dialog
+        fullWidth
+        maxWidth="sm"
+        open={isAvatarUploadDialogOpen}
+        onClose={() => setAvatarUploadDialogOpen(false)}
+      >
+        <DialogTitle>Upload Avatar</DialogTitle>
+        <DialogContent>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <ImageAvatar
+              imageUrl={profile.avatar}
+              sx={{
+                width: 150,
+                height: 150,
+              }}
+            />
+            <Divider></Divider>
+            <ImageUploadComponent onImageUpload={handleImageUpload} />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setAvatarUploadDialogOpen(false)}>
+            Cancel
+          </Button>
+          {/* <Button onClick={handleSubmitThankContent} color="primary">
+            Send
+          </Button> */}
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
