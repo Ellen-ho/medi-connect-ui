@@ -11,12 +11,11 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import { useNavigate } from 'react-router-dom';
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import { AuthContext } from '../../context/AuthContext';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import useSWR from 'swr';
 import { getNotificationHints } from '../../services/NotificationService';
-import { Avatar, Badge, Chip } from '@mui/material';
+import { Badge, Chip } from '@mui/material';
 import { NotificationContext } from '../../context/NotificationContext';
 import { UserRoleType } from '../../types/Users';
 import ImageAvatar from '../../components/avatar/ImageAvatar';
@@ -74,6 +73,7 @@ const ResponsiveAppBar: React.FC = () => {
   };
 
   const handleSignOut = () => {
+    handleCloseNavMenu();
     dispatch({
       type: 'LOG_OUT',
     });

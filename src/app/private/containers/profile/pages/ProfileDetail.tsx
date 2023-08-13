@@ -1,17 +1,10 @@
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import Avatar from '@mui/material/Avatar';
-import { deepOrange } from '@mui/material/colors';
 import TextField from '@mui/material/TextField';
 import { ProfileDetailWrapper } from './ProfileDetail.styled';
 import {
   Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
   IconButton,
   InputAdornment,
   MenuItem,
@@ -39,7 +32,7 @@ import {
 } from '../../../../../types/Patients';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import DataLoading from '../../../../../components/signs/DataLoading';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { AuthContext } from '../../../../../context/AuthContext';
 import BasicCard from '../../../../../components/card/BasicCard';
 import toast from 'react-hot-toast';
@@ -50,10 +43,9 @@ import { GenderType } from '../../../../../types/Share';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useSearchParams } from 'react-router-dom';
-
-import ImageUploadComponent from '../../../../../components/form/ImageUploadComponent';
 import RowItem from '../../../../../components/form/RowItem';
 import ImageAvatar from '../../../../../components/avatar/ImageAvatar';
+import AvatarUploadDialog from '../components/AvatarUploadDialog';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -83,7 +75,7 @@ const defaultPatient: IPatient = {
 };
 
 const ProfileDetail: React.FC = () => {
-  const { state } = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext);
   const [profile, setProfile] = useState<IPatient>(defaultPatient);
   const [isAvatarUploadDialogOpen, setAvatarUploadDialogOpen] = useState(false);
 
@@ -132,7 +124,13 @@ const ProfileDetail: React.FC = () => {
       ...data,
       birthDate: dayjs(data.birthDate).tz('Asia/Taipei').format(),
     };
-    await editPatientProfile(payload);
+    const response = await editPatientProfile(payload);
+    dispatch({
+      type: 'UPDATE_PROFILE',
+      payload: {
+        avatar: response.avatar,
+      },
+    });
     await mutate();
     toast.success('Profile updated successfully!');
   };
@@ -205,47 +203,54 @@ const ProfileDetail: React.FC = () => {
                   {/* Hidden input to hold the imageUrl */}
                   {/* <ImageUploadComponent onImageUpload={handleImageUpload} /> */}
                 </RowItem>
-                <EditableRowItem label={'First Name'}>
+                <RowItem label={'First Name'}>
                   <TextField
                     size="small"
                     variant="outlined"
                     {...register('firstName')}
                   />
-                </EditableRowItem>
-                <EditableRowItem label={'Last Name'}>
+                </RowItem>
+                <RowItem label={'Last Name'}>
                   <TextField
                     size="small"
                     variant="outlined"
                     {...register('lastName')}
                   />
-                </EditableRowItem>
-                <EditableRowItem label={'Birth Date'}>
+                </RowItem>
+                <RowItem label={'Birth Date'}>
                   <TextField
                     size="small"
                     variant="outlined"
                     type="date"
                     {...register('birthDate')}
                   />
-                </EditableRowItem>
-                <EditableRowItem label={'Gender'}>
-                  <TextField
-                    select
-                    size="small"
-                    InputLabelProps={{ shrink: true }}
-                    error={!!errors.gender}
-                    helperText={<>{errors.gender?.message}</>}
-                    value={profile.gender}
-                    {...register('gender')}
-                  >
-                    <MenuItem key={'male'} value={'MALE'}>
-                      Male
-                    </MenuItem>
-                    <MenuItem key={'femal'} value={'FEMALE'}>
-                      Female
-                    </MenuItem>
-                  </TextField>
-                </EditableRowItem>
-                <EditableRowItem label={'Height'}>
+                </RowItem>
+                <RowItem label={'Gender'}>
+                  <Controller
+                    name="gender"
+                    control={control}
+                    defaultValue={profile.gender}
+                    render={({ field }) => (
+                      <TextField
+                        select
+                        size="small"
+                        InputLabelProps={{ shrink: true }}
+                        error={!!errors.gender}
+                        helperText={<>{errors.gender?.message}</>}
+                        value={field.value}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      >
+                        <MenuItem key={'male'} value={'MALE'}>
+                          Male
+                        </MenuItem>
+                        <MenuItem key={'female'} value={'FEMALE'}>
+                          Female
+                        </MenuItem>
+                      </TextField>
+                    )}
+                  />
+                </RowItem>
+                <RowItem label={'Height'}>
                   <TextField
                     InputProps={{
                       endAdornment: (
@@ -257,7 +262,7 @@ const ProfileDetail: React.FC = () => {
                     type="number"
                     {...register('heightValueCm')}
                   />
-                </EditableRowItem>
+                </RowItem>
               </BasicCard>
               <BasicCard
                 startTitleAdornment={
@@ -265,27 +270,27 @@ const ProfileDetail: React.FC = () => {
                 }
                 title={'Allergy'}
               >
-                <EditableRowItem label={'Medicine'}>
+                <RowItem label={'Medicine'}>
                   <TextField
                     size="small"
                     variant="outlined"
                     {...register('allergy.medicine')}
                   />
-                </EditableRowItem>
-                <EditableRowItem label={'Food'}>
+                </RowItem>
+                <RowItem label={'Food'}>
                   <TextField
                     size="small"
                     variant="outlined"
                     {...register('allergy.food')}
                   />
-                </EditableRowItem>
-                <EditableRowItem label={'Other'}>
+                </RowItem>
+                <RowItem label={'Other'}>
                   <TextField
                     size="small"
                     variant="outlined"
                     {...register('allergy.other')}
                   />
-                </EditableRowItem>
+                </RowItem>
               </BasicCard>
               {/* Medical History */}
               <BasicCard
@@ -311,7 +316,7 @@ const ProfileDetail: React.FC = () => {
                 <>
                   {medicalHistoryFields &&
                     medicalHistoryFields.map((history, index) => (
-                      <EditableRowItem label={`#${index + 1}`}>
+                      <RowItem label={`#${index + 1}`}>
                         <Box
                           key={index}
                           sx={{
@@ -322,24 +327,40 @@ const ProfileDetail: React.FC = () => {
                             py: '1rem',
                           }}
                         >
-                          <TextField
-                            select
-                            label={'Diagnosis'}
-                            size="small"
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.gender}
-                            helperText={<>{errors.gender?.message}</>}
-                            value={history.diagnosis}
-                            {...register(`medicalHistory.${index}.diagnosis`)}
-                          >
-                            {Object.values(PersonalDiagnosisType).map(
-                              (diagnosis) => (
-                                <MenuItem key={diagnosis} value={diagnosis}>
-                                  {diagnosis}
-                                </MenuItem>
-                              ),
+                          <Controller
+                            name={`medicalHistory.${index}.diagnosis`}
+                            control={control}
+                            defaultValue={history.diagnosis}
+                            render={({ field }) => (
+                              <TextField
+                                select
+                                label={'Diagnosis'}
+                                size="small"
+                                InputLabelProps={{ shrink: true }}
+                                error={
+                                  !!errors.medicalHistory?.[index]?.diagnosis
+                                }
+                                helperText={
+                                  <>
+                                    {
+                                      errors.medicalHistory?.[index]?.diagnosis
+                                        ?.message
+                                    }
+                                  </>
+                                }
+                                value={field.value}
+                                onChange={(e) => field.onChange(e.target.value)}
+                              >
+                                {Object.values(PersonalDiagnosisType).map(
+                                  (diagnosis) => (
+                                    <MenuItem key={diagnosis} value={diagnosis}>
+                                      {diagnosis}
+                                    </MenuItem>
+                                  ),
+                                )}
+                              </TextField>
                             )}
-                          </TextField>
+                          />
                           <TextField
                             label={'Details'}
                             size="small"
@@ -356,7 +377,7 @@ const ProfileDetail: React.FC = () => {
                             </IconButton>
                           </Tooltip>
                         </Box>
-                      </EditableRowItem>
+                      </RowItem>
                     ))}
                 </>
               </BasicCard>
@@ -385,7 +406,7 @@ const ProfileDetail: React.FC = () => {
                 <>
                   {familyHistoryFields &&
                     familyHistoryFields.map((history, index) => (
-                      <EditableRowItem label={`#${index + 1}`}>
+                      <RowItem label={`#${index + 1}`}>
                         <Box
                           key={index}
                           sx={{
@@ -396,24 +417,41 @@ const ProfileDetail: React.FC = () => {
                             py: '1rem',
                           }}
                         >
-                          <TextField
-                            select
-                            label={'Diagnosis'}
-                            size="small"
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.gender}
-                            helperText={<>{errors.gender?.message}</>}
-                            value={history.diagnosis}
-                            {...register(`familyHistory.${index}.diagnosis`)}
-                          >
-                            {Object.values(FamilyDiagnosisType).map(
-                              (diagnosis) => (
-                                <MenuItem key={diagnosis} value={diagnosis}>
-                                  {diagnosis}
-                                </MenuItem>
-                              ),
+                          <Controller
+                            name={`familyHistory.${index}.diagnosis`}
+                            control={control}
+                            defaultValue={history.diagnosis}
+                            render={({ field }) => (
+                              <TextField
+                                select
+                                label={'Diagnosis'}
+                                size="small"
+                                InputLabelProps={{ shrink: true }}
+                                error={
+                                  !!errors.familyHistory?.[index]?.diagnosis
+                                }
+                                helperText={
+                                  <>
+                                    {
+                                      errors.familyHistory?.[index]?.diagnosis
+                                        ?.message
+                                    }
+                                  </>
+                                }
+                                value={field.value}
+                                onChange={(e) => field.onChange(e.target.value)}
+                              >
+                                {Object.values(FamilyDiagnosisType).map(
+                                  (diagnosis) => (
+                                    <MenuItem key={diagnosis} value={diagnosis}>
+                                      {diagnosis}
+                                    </MenuItem>
+                                  ),
+                                )}
+                              </TextField>
                             )}
-                          </TextField>
+                          />
+
                           <TextField
                             label={'Details'}
                             size="small"
@@ -436,7 +474,7 @@ const ProfileDetail: React.FC = () => {
                             </IconButton>
                           </Tooltip>
                         </Box>
-                      </EditableRowItem>
+                      </RowItem>
                     ))}
                 </>
               </BasicCard>
@@ -467,7 +505,7 @@ const ProfileDetail: React.FC = () => {
                 <>
                   {medicineUsageFields &&
                     medicineUsageFields.map((usage, index) => (
-                      <EditableRowItem label={`#${index + 1}`}>
+                      <RowItem label={`#${index + 1}`}>
                         <Box
                           key={index}
                           sx={{
@@ -492,58 +530,108 @@ const ProfileDetail: React.FC = () => {
                               `medicineUsage.${index}.medicineDosage`,
                             )}
                           />
-                          <TextField
-                            select
-                            label={'Medicine Unit'}
-                            size="small"
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.gender}
-                            helperText={<>{errors.gender?.message}</>}
-                            value={usage.medicineUnit}
-                            {...register(`medicineUsage.${index}.medicineUnit`)}
-                          >
-                            {Object.values(MedicineUnitType).map((usage) => (
-                              <MenuItem key={usage} value={usage}>
-                                {usage}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                          <TextField
-                            select
-                            label={'Medicine Time'}
-                            size="small"
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.gender}
-                            helperText={<>{errors.gender?.message}</>}
-                            value={usage.medicineTime}
-                            {...register(`medicineUsage.${index}.medicineTime`)}
-                          >
-                            {Object.values(MedicineTimeType).map((usage) => (
-                              <MenuItem key={usage} value={usage}>
-                                {usage}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                          <TextField
-                            select
-                            label={'Medicine Frequency'}
-                            size="small"
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.gender}
-                            helperText={<>{errors.gender?.message}</>}
-                            value={usage.medicineFrequency}
-                            {...register(
-                              `medicineUsage.${index}.medicineFrequency`,
+                          <Controller
+                            name={`medicineUsage.${index}.medicineUnit`}
+                            control={control}
+                            defaultValue={usage.medicineUnit}
+                            render={({ field }) => (
+                              <TextField
+                                select
+                                label={'Medicine Unit'}
+                                size="small"
+                                InputLabelProps={{ shrink: true }}
+                                error={
+                                  !!errors.medicineUsage?.[index]?.medicineUnit
+                                }
+                                helperText={
+                                  <>
+                                    {
+                                      errors.medicineUsage?.[index]
+                                        ?.medicineUnit?.message
+                                    }
+                                  </>
+                                }
+                                value={field.value}
+                                onChange={(e) => field.onChange(e.target.value)}
+                              >
+                                {Object.values(MedicineUnitType).map((unit) => (
+                                  <MenuItem key={unit} value={unit}>
+                                    {unit}
+                                  </MenuItem>
+                                ))}
+                              </TextField>
                             )}
-                          >
-                            {Object.values(MedicineFrequencyType).map(
-                              (usage) => (
-                                <MenuItem key={usage} value={usage}>
-                                  {usage}
-                                </MenuItem>
-                              ),
+                          />
+
+                          <Controller
+                            name={`medicineUsage.${index}.medicineTime`}
+                            control={control}
+                            defaultValue={usage.medicineTime}
+                            render={({ field }) => (
+                              <TextField
+                                select
+                                label={'Medicine Time'}
+                                size="small"
+                                InputLabelProps={{ shrink: true }}
+                                error={
+                                  !!errors.medicineUsage?.[index]?.medicineTime
+                                }
+                                helperText={
+                                  <>
+                                    {
+                                      errors.medicineUsage?.[index]
+                                        ?.medicineTime?.message
+                                    }
+                                  </>
+                                }
+                                value={field.value}
+                                onChange={(e) => field.onChange(e.target.value)}
+                              >
+                                {Object.values(MedicineTimeType).map((time) => (
+                                  <MenuItem key={time} value={time}>
+                                    {time}
+                                  </MenuItem>
+                                ))}
+                              </TextField>
                             )}
-                          </TextField>
+                          />
+
+                          <Controller
+                            name={`medicineUsage.${index}.medicineFrequency`}
+                            control={control}
+                            defaultValue={usage.medicineFrequency}
+                            render={({ field }) => (
+                              <TextField
+                                select
+                                label={'Medicine Frequency'}
+                                size="small"
+                                InputLabelProps={{ shrink: true }}
+                                error={
+                                  !!errors.medicineUsage?.[index]
+                                    ?.medicineFrequency
+                                }
+                                helperText={
+                                  <>
+                                    {
+                                      errors.medicineUsage?.[index]
+                                        ?.medicineFrequency?.message
+                                    }
+                                  </>
+                                }
+                                value={field.value}
+                                onChange={(e) => field.onChange(e.target.value)}
+                              >
+                                {Object.values(MedicineFrequencyType).map(
+                                  (frequency) => (
+                                    <MenuItem key={frequency} value={frequency}>
+                                      {frequency}
+                                    </MenuItem>
+                                  ),
+                                )}
+                              </TextField>
+                            )}
+                          />
+
                           <Tooltip title={'Delete the item'} placement="top">
                             <IconButton color={'error'}>
                               <DeleteForeverIcon
@@ -552,7 +640,7 @@ const ProfileDetail: React.FC = () => {
                             </IconButton>
                           </Tooltip>
                         </Box>
-                      </EditableRowItem>
+                      </RowItem>
                     ))}
                 </>
               </BasicCard>
@@ -564,71 +652,14 @@ const ProfileDetail: React.FC = () => {
           )}
         </ProfileDetailWrapper>
       </PrimaryPageContent>
-
-      <Dialog
-        fullWidth
-        maxWidth="sm"
-        open={isAvatarUploadDialogOpen}
+      <AvatarUploadDialog
+        isOpen={isAvatarUploadDialogOpen}
         onClose={() => setAvatarUploadDialogOpen(false)}
-      >
-        <DialogTitle>Upload Avatar</DialogTitle>
-        <DialogContent>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <ImageAvatar
-              imageUrl={profile.avatar}
-              sx={{
-                width: 150,
-                height: 150,
-                mb: '1rem',
-              }}
-            />
-            <Divider></Divider>
-            <ImageUploadComponent onImageUpload={handleImageUpload} />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setAvatarUploadDialogOpen(false)}>
-            Cancel
-          </Button>
-          {/* <Button onClick={handleSubmitThankContent} color="primary">
-            Send
-          </Button> */}
-        </DialogActions>
-      </Dialog>
+        imageUrl={profile.avatar}
+        onImageUpload={handleImageUpload}
+      />
     </>
   );
 };
 
 export default ProfileDetail;
-
-interface IEditableRowItemProps {
-  label: string;
-  children?: React.ReactNode;
-}
-const EditableRowItem: React.FC<IEditableRowItemProps> = ({
-  label,
-  children,
-}) => {
-  return (
-    <>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          height: '3.5rem',
-        }}
-      >
-        <Box color="text.primary">{label}</Box>
-        <Box color="text.secondary">{children}</Box>
-      </Box>
-      <Divider />
-    </>
-  );
-};

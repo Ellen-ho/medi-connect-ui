@@ -17,6 +17,7 @@ interface ILoginResponse {
   };
   patientId: string;
   doctorId: string;
+  hasProfile: boolean;
 }
 
 interface ISignupRequest {

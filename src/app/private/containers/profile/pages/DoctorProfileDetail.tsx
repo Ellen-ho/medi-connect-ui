@@ -3,22 +3,19 @@ import { IDoctor } from '../../../../../types/Doctors';
 import { GenderType, MedicalSpecialtyType } from '../../../../../types/Share';
 import { AuthContext } from '../../../../../context/AuthContext';
 import {
-  Avatar,
-  Box,
   Button,
   Card,
   CardContent,
-  Divider,
+  IconButton,
   MenuItem,
   TextField,
   Typography,
 } from '@mui/material';
-import { deepOrange } from '@mui/material/colors';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
 import * as timezone from 'dayjs/plugin/timezone';
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 import toast from 'react-hot-toast';
 import {
   editDoctorProfile,
@@ -31,8 +28,9 @@ import DataLoading from '../../../../../components/signs/DataLoading';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MultipleSelectChip from '../../../../../components/form/MultipleSelectChip';
-import ImageUploadComponent from '../../../../../components/form/ImageUploadComponent';
 import RowItem from '../../../../../components/form/RowItem';
+import AvatarUploadDialog from '../components/AvatarUploadDialog';
+import ImageAvatar from '../../../../../components/avatar/ImageAvatar';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -61,17 +59,9 @@ const defaultDoctor: IDoctor = {
 };
 
 const DoctorProfileDetail: React.FC = () => {
-  const { state } = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext);
   const [profile, setProfile] = useState<IDoctor>(defaultDoctor);
-
-  function generateFallbackAvatar(alt: string) {
-    const initials = alt.substring(0, 1).toUpperCase();
-    return (
-      <Avatar sx={{ bgcolor: deepOrange[500] }} alt={alt}>
-        {initials}
-      </Avatar>
-    );
-  }
+  const [isAvatarUploadDialogOpen, setAvatarUploadDialogOpen] = useState(false);
 
   const {
     register,
@@ -83,18 +73,28 @@ const DoctorProfileDetail: React.FC = () => {
   });
 
   const onEditProfile = async (data: IDoctor) => {
-    console.log(data);
     const payload = {
       ...data,
       careerStartDate: dayjs(data.careerStartDate).tz('Asia/Taipei').format(),
     };
-    await editDoctorProfile(payload);
+    const response = await editDoctorProfile(payload);
+    dispatch({
+      type: 'UPDATE_PROFILE',
+      payload: {
+        avatar: response.avatar,
+      },
+    });
     await mutate();
     toast.success('Profile updated successfully!');
   };
 
   const handleImageUpload = (imageUrl: string) => {
     setProfile((prev) => ({ ...prev, avatar: imageUrl }));
+    setAvatarUploadDialogOpen(false);
+  };
+
+  const handleOpenAvatarUploadDialog = () => {
+    setAvatarUploadDialogOpen(true);
   };
 
   const { isLoading, mutate } = useSWR(
@@ -141,145 +141,163 @@ const DoctorProfileDetail: React.FC = () => {
                   </Typography>
                   <RowItem label="Avatar">
                     <input type="hidden" {...register('avatar')} />{' '}
-                    <ImageUploadComponent onImageUpload={handleImageUpload} />
+                    <IconButton onClick={handleOpenAvatarUploadDialog}>
+                      <ImageAvatar
+                        imageUrl={profile.avatar}
+                        sx={{
+                          width: 50,
+                          height: 50,
+                        }}
+                      />
+                    </IconButton>
+                    {/* Hidden input to hold the imageUrl */}
+                    {/* <ImageUploadComponent onImageUpload={handleImageUpload} /> */}
                   </RowItem>
-                  <EditableRowItem label={'First Name'}>
+                  <RowItem label={'First Name'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('firstName')}
                     />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Last Name'}>
+                  </RowItem>
+                  <RowItem label={'Last Name'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('lastName')}
                     />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Gender'}>
-                    <TextField
-                      select
-                      size="small"
-                      InputLabelProps={{ shrink: true }}
-                      error={!!errors.gender}
-                      helperText={<>{errors.gender?.message}</>}
-                      value={profile.gender}
-                      {...register('gender')}
-                    >
-                      <MenuItem key={'male'} value={'MALE'}>
-                        Male
-                      </MenuItem>
-                      <MenuItem key={'femal'} value={'FEMALE'}>
-                        Female
-                      </MenuItem>
-                    </TextField>
-                  </EditableRowItem>
-                  <EditableRowItem label={'About Me'} height={'9rem'}>
+                  </RowItem>
+                  <RowItem label={'Gender'}>
+                    <Controller
+                      name="gender"
+                      control={control}
+                      defaultValue={profile.gender}
+                      render={({ field }) => (
+                        <TextField
+                          select
+                          size="small"
+                          InputLabelProps={{ shrink: true }}
+                          error={!!errors.gender}
+                          helperText={<>{errors.gender?.message}</>}
+                          value={field.value}
+                          onChange={(e) => field.onChange(e.target.value)}
+                        >
+                          <MenuItem key={'male'} value={'MALE'}>
+                            Male
+                          </MenuItem>
+                          <MenuItem key={'female'} value={'FEMALE'}>
+                            Female
+                          </MenuItem>
+                        </TextField>
+                      )}
+                    />
+                  </RowItem>
+
+                  <RowItem label={'About Me'} sx={{ height: '9rem' }}>
                     <TextField
                       multiline
                       rows={4}
                       variant="filled"
                       {...register('aboutMe')}
                     />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Languages Spoken'}>
+                  </RowItem>
+                  <RowItem label={'Languages Spoken'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('languagesSpoken')}
                     />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Specialties'}>
+                  </RowItem>
+                  <RowItem label={'Specialties'}>
                     <MultipleSelectChip
                       names={Object.values(MedicalSpecialtyType)}
                       {...register('specialties')}
                     />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Career Start Date'}>
+                  </RowItem>
+                  <RowItem label={'Career Start Date'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       type="date"
                       {...register('careerStartDate')}
                     />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Office Practical Location Line 1'}>
+                  </RowItem>
+                  <RowItem label={'Office Practical Location Line 1'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('officePracticalLocation.line1')}
                     />
-                  </EditableRowItem>
+                  </RowItem>
 
-                  <EditableRowItem label={'Office Practical Location Line 2'}>
+                  <RowItem label={'Office Practical Location Line 2'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('officePracticalLocation.line2')}
                     />
-                  </EditableRowItem>
+                  </RowItem>
 
-                  <EditableRowItem label={'City'}>
+                  <RowItem label={'City'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('officePracticalLocation.city')}
                     />
-                  </EditableRowItem>
+                  </RowItem>
 
-                  <EditableRowItem label={'State / Province'}>
+                  <RowItem label={'State / Province'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('officePracticalLocation.stateProvince')}
                     />
-                  </EditableRowItem>
+                  </RowItem>
 
-                  <EditableRowItem label={'Postal Code'}>
+                  <RowItem label={'Postal Code'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('officePracticalLocation.postalCode')}
                     />
-                  </EditableRowItem>
+                  </RowItem>
 
-                  <EditableRowItem label={'Country'}>
+                  <RowItem label={'Country'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('officePracticalLocation.country')}
                     />
-                  </EditableRowItem>
+                  </RowItem>
 
-                  <EditableRowItem label={'Country Code'}>
+                  <RowItem label={'Country Code'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('officePracticalLocation.countryCode')}
                     />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Education'}>
+                  </RowItem>
+                  <RowItem label={'Education'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('education')}
                     />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Awards'}>
+                  </RowItem>
+                  <RowItem label={'Awards'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('awards')}
                     />
-                  </EditableRowItem>
-                  <EditableRowItem label={'Affiliations'}>
+                  </RowItem>
+                  <RowItem label={'Affiliations'}>
                     <TextField
                       size="small"
                       variant="outlined"
                       {...register('affiliations')}
                     />
-                  </EditableRowItem>
+                  </RowItem>
                 </CardContent>
               </Card>
 
@@ -290,36 +308,14 @@ const DoctorProfileDetail: React.FC = () => {
           )}
         </ProfileDetailWrapper>
       </PrimaryPageContent>
+      <AvatarUploadDialog
+        isOpen={isAvatarUploadDialogOpen}
+        onClose={() => setAvatarUploadDialogOpen(false)}
+        imageUrl={profile.avatar}
+        onImageUpload={handleImageUpload}
+      />
     </>
   );
 };
 
 export default DoctorProfileDetail;
-
-interface IEditableRowItemProps {
-  label: string;
-  children?: React.ReactNode;
-  height?: string;
-}
-const EditableRowItem: React.FC<IEditableRowItemProps> = ({
-  label,
-  children,
-  height = '3.5rem',
-}) => {
-  return (
-    <>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          height,
-        }}
-      >
-        <Box color="text.primary">{label}</Box>
-        <Box color="text.secondary">{children}</Box>
-      </Box>
-      <Divider />
-    </>
-  );
-};

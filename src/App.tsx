@@ -15,6 +15,7 @@ import Notification from './app/private/containers/notification/Index';
 import HealthGoal from './app/private/containers/goal/Index';
 import useInitAuth from './hooks/UseInitAuth';
 import OAuth from './app/public/containers/oauth/OAuth';
+import PublicRoutes from './app/public/PublicRoutes';
 
 const App: React.FC = () => {
   useInitAuth();
@@ -31,10 +32,12 @@ const App: React.FC = () => {
         <Route element={<Notification />} path="/notification/*" />
         <Route element={<HealthGoal />} path="/health-goal/*" />
       </Route>
+      <Route element={<PublicRoutes />}>
+        <Route element={<OAuth />} path="/oauth" />
+        <Route element={<SignIn />} path="/signin" />
+        <Route element={<SignUp />} path="/signup" />
+      </Route>
       <Route element={<Home />} path="/" />
-      <Route element={<OAuth />} path="/oauth" />
-      <Route element={<SignIn />} path="/signin" />
-      <Route element={<SignUp />} path="/signup" />
       <Route element={<NotFound />} path="" />
     </Routes>
   );

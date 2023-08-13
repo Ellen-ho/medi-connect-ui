@@ -8,7 +8,7 @@ import { useState } from 'react';
 import DoctorCard from '../components/DoctorCard';
 import { DoctorListWrapper } from './DoctorList.styled';
 import useSWR from 'swr';
-import { Pagination } from '@mui/material';
+import { Grid, Pagination } from '@mui/material';
 
 const DoctorList: React.FC = () => {
   const [page, setPage] = useState<number>(1);
@@ -25,12 +25,15 @@ const DoctorList: React.FC = () => {
     <>
       <PrimaryPageTop pageTitle="Doctors" />
       <PrimaryPageContent>
-        <DoctorListWrapper>
+        <DoctorListWrapper></DoctorListWrapper>
+        <Grid container spacing={2}>
           {data &&
             data.data.map((doctor) => (
-              <DoctorCard key={doctor.id} data={doctor} />
+              <Grid item xs={12} sm={6} md={4} lg={4}>
+                <DoctorCard key={doctor.id} data={doctor} />
+              </Grid>
             ))}
-        </DoctorListWrapper>
+        </Grid>
         <div
           style={{
             display: 'flex',

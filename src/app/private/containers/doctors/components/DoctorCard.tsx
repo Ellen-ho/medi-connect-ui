@@ -6,6 +6,7 @@ import {
   Typography,
   IconButton,
   Button,
+  Chip,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { MedicalSpecialtyType } from '../../../../../types/Share';
@@ -29,14 +30,21 @@ const DoctorCard: React.FC<IDoctorCard> = ({ data }) => {
   };
 
   return (
-    <Card>
-      <CardContent>
+    <Card sx={{ display: 'flex', minHeight: '250px' }}>
+      <CardContent
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          flexGrow: 1,
+        }}
+      >
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            flexGrow: 9,
+            flexGrow: 4,
           }}
         >
           <Box>
@@ -56,11 +64,12 @@ const DoctorCard: React.FC<IDoctorCard> = ({ data }) => {
           <Typography variant="h6" textAlign={'center'} fontWeight={'bold'}>
             Dr. {data.firstName} {data.lastName}
           </Typography>
-          <Typography variant="body1" sx={{ textAlign: 'center' }}>
-            {data.specialties.map((v) => toSentenceCaseFormat(v)).join(', ')}
-          </Typography>{' '}
-          <Box textAlign={'center'}>
-            <IconButton></IconButton>
+          <Box>
+            <Typography variant="body1" sx={{ textAlign: 'center' }}>
+              {data.specialties.map((v) => (
+                <Chip label={toSentenceCaseFormat(v)} sx={{ m: '.1rem' }} />
+              ))}
+            </Typography>{' '}
           </Box>
         </Box>
         <Box
