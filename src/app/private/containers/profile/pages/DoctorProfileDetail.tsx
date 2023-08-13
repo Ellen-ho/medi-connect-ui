@@ -3,23 +3,19 @@ import { IDoctor } from '../../../../../types/Doctors';
 import { GenderType, MedicalSpecialtyType } from '../../../../../types/Share';
 import { AuthContext } from '../../../../../context/AuthContext';
 import {
-  Avatar,
-  Box,
   Button,
   Card,
   CardContent,
-  Divider,
   IconButton,
   MenuItem,
   TextField,
   Typography,
 } from '@mui/material';
-import { deepOrange } from '@mui/material/colors';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
 import * as timezone from 'dayjs/plugin/timezone';
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 import toast from 'react-hot-toast';
 import {
   editDoctorProfile,
@@ -32,7 +28,6 @@ import DataLoading from '../../../../../components/signs/DataLoading';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MultipleSelectChip from '../../../../../components/form/MultipleSelectChip';
-import ImageUploadComponent from '../../../../../components/form/ImageUploadComponent';
 import RowItem from '../../../../../components/form/RowItem';
 import AvatarUploadDialog from '../components/AvatarUploadDialog';
 import ImageAvatar from '../../../../../components/avatar/ImageAvatar';
@@ -64,18 +59,9 @@ const defaultDoctor: IDoctor = {
 };
 
 const DoctorProfileDetail: React.FC = () => {
-  const { state } = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext);
   const [profile, setProfile] = useState<IDoctor>(defaultDoctor);
   const [isAvatarUploadDialogOpen, setAvatarUploadDialogOpen] = useState(false);
-
-  function generateFallbackAvatar(alt: string) {
-    const initials = alt.substring(0, 1).toUpperCase();
-    return (
-      <Avatar sx={{ bgcolor: deepOrange[500] }} alt={alt}>
-        {initials}
-      </Avatar>
-    );
-  }
 
   const {
     register,
@@ -92,7 +78,13 @@ const DoctorProfileDetail: React.FC = () => {
       ...data,
       careerStartDate: dayjs(data.careerStartDate).tz('Asia/Taipei').format(),
     };
-    await editDoctorProfile(payload);
+    const response = await editDoctorProfile(payload);
+    dispatch({
+      type: 'UPDATE_PROFILE',
+      payload: {
+        avatar: response.avatar,
+      },
+    });
     await mutate();
     toast.success('Profile updated successfully!');
   };

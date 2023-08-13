@@ -5,11 +5,6 @@ import { ProfileDetailWrapper } from './ProfileDetail.styled';
 import {
   Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
   IconButton,
   InputAdornment,
   MenuItem,
@@ -48,8 +43,6 @@ import { GenderType } from '../../../../../types/Share';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useSearchParams } from 'react-router-dom';
-
-import ImageUploadComponent from '../../../../../components/form/ImageUploadComponent';
 import RowItem from '../../../../../components/form/RowItem';
 import ImageAvatar from '../../../../../components/avatar/ImageAvatar';
 import AvatarUploadDialog from '../components/AvatarUploadDialog';
@@ -82,7 +75,7 @@ const defaultPatient: IPatient = {
 };
 
 const ProfileDetail: React.FC = () => {
-  const { state } = useContext(AuthContext);
+  const { state, dispatch } = useContext(AuthContext);
   const [profile, setProfile] = useState<IPatient>(defaultPatient);
   const [isAvatarUploadDialogOpen, setAvatarUploadDialogOpen] = useState(false);
 
@@ -131,7 +124,13 @@ const ProfileDetail: React.FC = () => {
       ...data,
       birthDate: dayjs(data.birthDate).tz('Asia/Taipei').format(),
     };
-    await editPatientProfile(payload);
+    const response = await editPatientProfile(payload);
+    dispatch({
+      type: 'UPDATE_PROFILE',
+      payload: {
+        avatar: response.avatar,
+      },
+    });
     await mutate();
     toast.success('Profile updated successfully!');
   };

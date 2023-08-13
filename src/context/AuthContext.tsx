@@ -30,7 +30,13 @@ export type AuthAction =
         hasProfile: boolean;
       };
     }
-  | { type: 'LOG_OUT' };
+  | { type: 'LOG_OUT' }
+  | {
+      type: 'UPDATE_PROFILE';
+      payload: {
+        avatar: string | null;
+      };
+    };
 
 interface AuthContextProps {
   state: AuthState;
