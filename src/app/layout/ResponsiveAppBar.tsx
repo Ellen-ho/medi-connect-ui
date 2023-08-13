@@ -19,6 +19,7 @@ import { getNotificationHints } from '../../services/NotificationService';
 import { Avatar, Badge, Chip } from '@mui/material';
 import { NotificationContext } from '../../context/NotificationContext';
 import { UserRoleType } from '../../types/Users';
+import ImageAvatar from '../../components/avatar/ImageAvatar';
 
 const topPages = [
   { title: 'Doctors', link: 'doctor', permission: [UserRoleType.PATIENT] },
@@ -182,23 +183,12 @@ const ResponsiveAppBar: React.FC = () => {
                   </Badge>
                 </IconButton>
                 <IconButton sx={{ color: 'white' }} onClick={handleOpenNavMenu}>
-                  <Avatar
+                  <ImageAvatar
+                    imageUrl={avatar}
                     sx={{
                       display: { xs: 'none', md: 'flex' },
-                      width: 35,
-                      height: 35,
                     }}
-                  >
-                    {avatar ? (
-                      <img
-                        src={avatar}
-                        alt="avatar"
-                        style={{ width: '100%', height: '100%' }}
-                      />
-                    ) : (
-                      <AccountCircleRoundedIcon />
-                    )}
-                  </Avatar>
+                  />
                   <MenuIcon sx={{ display: { xs: 'flex', md: 'none' } }} />
                 </IconButton>
                 <Menu

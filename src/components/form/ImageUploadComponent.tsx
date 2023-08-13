@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Button, CircularProgress, Container, Input } from '@mui/material';
+import { Box, Button, CircularProgress, Container, Input } from '@mui/material';
 import { uploadAvatar } from '../../services/UserService';
+import { MuiFileInput } from 'mui-file-input';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 interface ImageUploadProps {
   onImageUpload: (imageUrl: string) => void;
@@ -13,10 +15,14 @@ const ImageUploadComponent: React.FC<ImageUploadProps> = ({
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      setSelectedFile(event.target.files[0]);
-    }
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files && event.target.files.length > 0) {
+  //     setSelectedFile(event.target.files[0]);
+  //   }
+  // };
+
+  const handleFileChange = (newFile: File | null) => {
+    setSelectedFile(newFile);
   };
 
   const handleUpload = async () => {
@@ -35,28 +41,48 @@ const ImageUploadComponent: React.FC<ImageUploadProps> = ({
   };
 
   return (
-    <Container>
-      <h2>Image Upload</h2>
-      <Input
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '1rem',
+      }}
+    >
+      <MuiFileInput
+        value={selectedFile}
+        onChange={handleFileChange}
+        placeholder="Click to upload image"
+        inputProps={{ accept: 'image/*' }}
+        sx={{ border: '1px dashed #ccc', width: '100%' }}
+      />
+      {/* <Input
         type="file"
         inputProps={{ accept: 'image/*' }}
         onChange={handleFileChange}
-      />
-      <Button
+      /> */}
+      {/* <Button
         variant="contained"
         onClick={handleUpload}
         disabled={!selectedFile || loading}
       >
         Upload
-      </Button>
-      {loading && <CircularProgress />}
+      </Button> */}
+      <LoadingButton
+        onClick={handleUpload}
+        loading={loading}
+        disabled={!selectedFile || loading}
+      >
+        Upload
+      </LoadingButton>
+      {/* {loading && <CircularProgress />}
       {imageUrl && (
         <div>
           <h3>Uploaded Image</h3>
           <img src={imageUrl} alt="Uploaded" style={{ maxWidth: '100%' }} />
         </div>
-      )}
-    </Container>
+      )} */}
+    </Box>
   );
 };
 

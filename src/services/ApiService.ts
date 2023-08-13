@@ -6,7 +6,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  baseURL: 'http://localhost:10000/api',
+  baseURL: import.meta.env.VITE_APP_SERVER_URL,
 });
 
 // append auth token here rather than in initialization of axios

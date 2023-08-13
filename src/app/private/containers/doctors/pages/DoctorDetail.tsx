@@ -26,8 +26,7 @@ import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import toast from 'react-hot-toast';
 import dayjs from 'dayjs';
 
-// TODO: remove this to env
-const MAP_API_KEY = 'AIzaSyBEI_3kBwvdfukP1FONBej8ELqWguE3azk';
+const MAP_API_KEY = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
 
 const getValidDateRange = () => {
   // default date range can be edited 28th of the month to 28th of next month
