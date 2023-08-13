@@ -1,10 +1,11 @@
-import { Box, Divider } from '@mui/material';
+import { Box, Divider, SxProps, Theme } from '@mui/material';
 
 interface IRowItemProps {
   label: string;
   children?: React.ReactNode;
+  sx?: SxProps<Theme>;
 }
-const RowItem: React.FC<IRowItemProps> = ({ label, children }) => {
+const RowItem: React.FC<IRowItemProps> = ({ label, children, sx = {} }) => {
   return (
     <>
       <Box
@@ -14,6 +15,7 @@ const RowItem: React.FC<IRowItemProps> = ({ label, children }) => {
           alignItems: 'center',
           minHeight: '3rem',
           padding: '.5rem 0',
+          ...sx,
         }}
       >
         <Box color="text.primary">{label}</Box>
