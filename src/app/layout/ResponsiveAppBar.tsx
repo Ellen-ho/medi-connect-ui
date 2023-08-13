@@ -73,6 +73,7 @@ const ResponsiveAppBar: React.FC = () => {
   };
 
   const handleSignOut = () => {
+    handleCloseNavMenu();
     dispatch({
       type: 'LOG_OUT',
     });
