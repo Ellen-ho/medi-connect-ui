@@ -139,6 +139,7 @@ const ProfileDetail: React.FC = () => {
 
   const handleImageUpload = (imageUrl: string) => {
     setProfile((prev) => ({ ...prev, avatar: imageUrl }));
+    setAvatarUploadDialogOpen(false);
   };
 
   const handleOpenAvatarUploadDialog = () => {
@@ -584,6 +585,7 @@ const ProfileDetail: React.FC = () => {
               sx={{
                 width: 150,
                 height: 150,
+                mb: '1rem',
               }}
             />
             <Divider></Divider>
