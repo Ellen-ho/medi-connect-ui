@@ -17,10 +17,12 @@ const useInitAuth = () => {
           currentUser: cachedAuth.currentUser as {
             id: string;
             displayName: string;
+            avatar: string;
             role: string;
           },
           patientId: cachedAuth.patientId as string,
           doctorId: cachedAuth.doctorId as string,
+          hasProfile: cachedAuth.hasProfile as boolean,
         },
       });
     } else {
