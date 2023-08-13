@@ -32,11 +32,11 @@ const getValidDateRange = () => {
   // default date range can be edited 28th of the month to 28th of next month
   const today = dayjs();
   let start = today.startOf('month');
-  let end = today.endOf('month');
+  let end = today.endOf('month').add(1, 'day'); // add 1 day to include the end date
 
   if (today.date() > 28) {
     start = today.add(1, 'month').startOf('month');
-    end = today.add(1, 'month').endOf('month');
+    end = today.add(1, 'month').endOf('month').add(1, 'day'); // add 1 day to include the end date;
   }
 
   const validStartDate = start.format('YYYY-MM-DD');
