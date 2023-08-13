@@ -11,7 +11,8 @@ import ServiceEntrance from './components/ServiceEntrance';
 import HomeHeader from './components/HomeHeader';
 
 const Home: React.FC = () => {
-  const context = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
+  const hasProfile = state.hasProfile;
   const navigate = useNavigate();
 
   const handleClick = (path: string) => {
@@ -19,6 +20,10 @@ const Home: React.FC = () => {
   };
 
   const currentYear = new Date().getFullYear();
+
+  if (!hasProfile) {
+    navigate('/profile');
+  }
 
   return (
     <>

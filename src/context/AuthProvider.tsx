@@ -15,6 +15,7 @@ const reducer = (state: AuthState, action: AuthAction): AuthState => {
         currentUser: action.payload.currentUser,
         patientId: action.payload.patientId,
         doctorId: action.payload.doctorId,
+        hasProfile: action.payload.hasProfile,
       };
       localStorage.setItem('auth', JSON.stringify(udpatedState));
       return {
@@ -29,6 +30,7 @@ const reducer = (state: AuthState, action: AuthAction): AuthState => {
         currentUser: null,
         patientId: null,
         doctorId: null,
+        hasProfile: false,
       };
       localStorage.setItem('auth', JSON.stringify(udpatedState));
       return {

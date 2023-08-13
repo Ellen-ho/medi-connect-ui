@@ -11,6 +11,7 @@ export interface AuthState {
   } | null;
   patientId: string | null;
   doctorId: string | null;
+  hasProfile: boolean;
 }
 
 export type AuthAction =
@@ -26,6 +27,7 @@ export type AuthAction =
         };
         patientId: string;
         doctorId: string;
+        hasProfile: boolean;
       };
     }
   | { type: 'LOG_OUT' };
@@ -41,6 +43,7 @@ export const initialState = {
   currentUser: null,
   patientId: null,
   doctorId: null,
+  hasProfile: false,
 };
 
 export const AuthContext = createContext<AuthContextProps>({
