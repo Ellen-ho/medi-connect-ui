@@ -1,7 +1,5 @@
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import Avatar from '@mui/material/Avatar';
-import { deepOrange } from '@mui/material/colors';
 import TextField from '@mui/material/TextField';
 import { ProfileDetailWrapper } from './ProfileDetail.styled';
 import {
@@ -39,7 +37,7 @@ import {
 } from '../../../../../types/Patients';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import DataLoading from '../../../../../components/signs/DataLoading';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { AuthContext } from '../../../../../context/AuthContext';
 import BasicCard from '../../../../../components/card/BasicCard';
 import toast from 'react-hot-toast';
@@ -228,22 +226,29 @@ const ProfileDetail: React.FC = () => {
                   />
                 </EditableRowItem>
                 <EditableRowItem label={'Gender'}>
-                  <TextField
-                    select
-                    size="small"
-                    InputLabelProps={{ shrink: true }}
-                    error={!!errors.gender}
-                    helperText={<>{errors.gender?.message}</>}
-                    value={profile.gender}
-                    {...register('gender')}
-                  >
-                    <MenuItem key={'male'} value={'MALE'}>
-                      Male
-                    </MenuItem>
-                    <MenuItem key={'femal'} value={'FEMALE'}>
-                      Female
-                    </MenuItem>
-                  </TextField>
+                  <Controller
+                    name="gender"
+                    control={control}
+                    defaultValue={profile.gender}
+                    render={({ field }) => (
+                      <TextField
+                        select
+                        size="small"
+                        InputLabelProps={{ shrink: true }}
+                        error={!!errors.gender}
+                        helperText={<>{errors.gender?.message}</>}
+                        value={field.value}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      >
+                        <MenuItem key={'male'} value={'MALE'}>
+                          Male
+                        </MenuItem>
+                        <MenuItem key={'female'} value={'FEMALE'}>
+                          Female
+                        </MenuItem>
+                      </TextField>
+                    )}
+                  />
                 </EditableRowItem>
                 <EditableRowItem label={'Height'}>
                   <TextField
