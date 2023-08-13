@@ -116,6 +116,8 @@ const NotificationList: React.FC = () => {
         break;
       case NotificationType.THANK_YOU_NOTIFICATION:
       case NotificationType.AGREED_NOTIFICATION:
+      case NotificationType.APPRECIATION_BE_CANCELED_NOTIFICATION:
+      case NotificationType.AGREED_BE_CANCELED_NOTIFICATION:
         navigate(`/question/answer/${referenceId}`);
         break;
     }
