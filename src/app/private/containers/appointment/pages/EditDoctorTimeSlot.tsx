@@ -27,7 +27,6 @@ const getValidDateRange = () => {
 
   const validStartDate = start.format('YYYY-MM-DD');
   const validEndDate = end.format('YYYY-MM-DD');
-  console.table({ validStartDate, validEndDate });
 
   return {
     validStartDate,

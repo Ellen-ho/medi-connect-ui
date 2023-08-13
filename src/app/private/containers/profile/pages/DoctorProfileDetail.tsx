@@ -73,7 +73,6 @@ const DoctorProfileDetail: React.FC = () => {
   });
 
   const onEditProfile = async (data: IDoctor) => {
-    console.log(data);
     const payload = {
       ...data,
       careerStartDate: dayjs(data.careerStartDate).tz('Asia/Taipei').format(),
