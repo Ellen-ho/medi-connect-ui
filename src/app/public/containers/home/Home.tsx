@@ -2,7 +2,15 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../context/AuthContext';
 import React from 'react';
-import { Box, Container, Divider, Grid, Typography } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Typography,
+} from '@mui/material';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
@@ -12,6 +20,7 @@ import HomeHeader from './components/HomeHeader';
 
 const Home: React.FC = () => {
   const { state } = useContext(AuthContext);
+  const isLoggedIn = state.isLoggedIn;
   const hasProfile = state.hasProfile;
   const navigate = useNavigate();
 
@@ -20,10 +29,6 @@ const Home: React.FC = () => {
   };
 
   const currentYear = new Date().getFullYear();
-
-  if (!hasProfile) {
-    navigate('/profile');
-  }
 
   return (
     <>
@@ -42,6 +47,23 @@ const Home: React.FC = () => {
           }
         />
         <Divider sx={{ my: '1.5rem' }} />
+        {isLoggedIn && !hasProfile && (
+          <Alert
+            severity="warning"
+            action={
+              <Button
+                color="inherit"
+                size="small"
+                onClick={() => handleClick('/profile')}
+              >
+                Go to Profile
+              </Button>
+            }
+            sx={{ marginBottom: '1rem' }}
+          >
+            Please complete your profile to access all features!
+          </Alert>
+        )}
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={6} lg={6}>
             <ServiceEntrance

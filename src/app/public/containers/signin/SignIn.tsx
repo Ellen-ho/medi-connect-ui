@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../../context/AuthContext';
@@ -8,7 +8,6 @@ import * as yup from 'yup';
 import PrimaryPageContent from '../../../layout/PrimaryPageContent';
 import { BottomAreaWrapper, SignInWrapper } from './SignIn.styled';
 import {
-  Box,
   Button,
   Card,
   CardContent,
@@ -32,6 +31,7 @@ const schema = yup
   .required();
 
 const SignIn: React.FC = () => {
+  const APP_SERVER_URL = import.meta.env.VITE_APP_SERVER_URL;
   const navigate = useNavigate();
   const { dispatch } = useContext(AuthContext);
   const {
@@ -64,11 +64,12 @@ const SignIn: React.FC = () => {
         hasProfile: response.hasProfile,
       },
     });
-    navigate('/');
+
+    response.hasProfile ? navigate('/') : navigate('/profile');
   };
 
   const handleFacebookLogin = async () => {
-    window.open(`http://localhost:10000/api/auth/facebook`, '_self');
+    window.open(`${APP_SERVER_URL}/auth/facebook`, '_self');
   };
 
   return (
