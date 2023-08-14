@@ -24,6 +24,8 @@ const NotificationIcons: React.FC<INotificationIconsProps> = ({
       case NotificationType.HEALTH_GOAL_NOTIFICATION:
         return <SportsScoreIcon />;
       case NotificationType.CANCEL_OVERTIME_PENDING_GOAL:
+      case NotificationType.AGREED_BE_CANCELED_NOTIFICATION:
+      case NotificationType.APPRECIATION_BE_CANCELED_NOTIFICATION:
         return <CancelIcon />;
       case NotificationType.GET_ANSWER_NOTIFICATION:
         return <QuestionAnswerIcon />;
