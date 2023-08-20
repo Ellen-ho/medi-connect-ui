@@ -3,6 +3,7 @@ import {
   ExerciseType,
   FoodCategoryType,
   IntensityType,
+  Language,
   SleepQualityType,
   createBloodPressureRecord,
   createBloodSugarRecord,
