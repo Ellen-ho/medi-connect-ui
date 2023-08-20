@@ -5,6 +5,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toSentenceCaseFormat } from '../../../../../utils/sentenceCaseFormat';
+import {
+  FoodCategoryType,
+  Language,
+  foodKcaloriesPerUnitList,
+} from '../../../../../services/RecordService';
 
 interface ICreateRecordFormProps {
   categoryMeta: IRecordCategory;
@@ -47,11 +52,19 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
               helperText={<>{errors[field.id]?.message}</>}
             >
               <MenuItem value="">Select {field.name}</MenuItem>
-              {field.options?.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {toSentenceCaseFormat(option.label)}
-                </MenuItem>
-              ))}
+              {field.options?.map((option) => {
+                const categoryType = option.value as FoodCategoryType;
+                const exampleText =
+                  foodKcaloriesPerUnitList[categoryType].examples[
+                    Language.EN_US
+                  ];
+
+                return (
+                  <MenuItem key={option.value} value={option.value}>
+                    {toSentenceCaseFormat(option.label)} - {exampleText}
+                  </MenuItem>
+                );
+              })}
             </TextField>
           ) : (
             <TextField
@@ -65,6 +78,7 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
               helperText={<>{errors[field.id]?.message}</>}
             />
           )}
+          {/* {field.example && <p>Example: {field.example}</p>} */}
         </FormControl>
       ))}
       <Button type="submit" variant="contained" color="primary">
