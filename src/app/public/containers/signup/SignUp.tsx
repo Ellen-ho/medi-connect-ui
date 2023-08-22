@@ -25,7 +25,7 @@ interface ISignUpFormInputs {
   email: string;
   password: string;
   confirmPassword: string;
-  role: String;
+  role: string;
 }
 
 const schema = yup
@@ -56,7 +56,7 @@ const SignUp: React.FC = () => {
       displayName: data.displayName,
       email: data.email,
       password: data.password,
-      role: UserRoleType.PATIENT,
+      role: data.role,
     };
 
     const response = await signupUser(payload);
@@ -116,8 +116,8 @@ const SignUp: React.FC = () => {
                   error={!!errors.role}
                   defaultValue=""
                 >
-                  <MenuItem value="patient">Patient</MenuItem>
-                  <MenuItem value="doctor">Doctor</MenuItem>
+                  <MenuItem value="PATIENT">Patient</MenuItem>
+                  <MenuItem value="DOCTOR">Doctor</MenuItem>
                 </Select>
               </FormControl>
 
