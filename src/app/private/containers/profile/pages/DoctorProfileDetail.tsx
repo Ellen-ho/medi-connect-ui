@@ -98,7 +98,7 @@ const DoctorProfileDetail: React.FC = () => {
   };
 
   const { isLoading, mutate } = useSWR(
-    'getDoctorProfile',
+    state.doctorId ? 'getDoctorProfile' : null,
     () => getDoctorProfile(state.doctorId as string),
     {
       onSuccess: (data) => {
