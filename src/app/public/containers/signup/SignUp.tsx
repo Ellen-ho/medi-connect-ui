@@ -10,7 +10,11 @@ import {
   Button,
   Card,
   CardContent,
+  FormControl,
+  InputLabel,
   Link,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from '@mui/material';
@@ -21,6 +25,7 @@ interface ISignUpFormInputs {
   email: string;
   password: string;
   confirmPassword: string;
+  role: string;
 }
 
 const schema = yup
@@ -32,6 +37,7 @@ const schema = yup
       .string()
       .oneOf([yup.ref('password')], 'Passwords must match')
       .required('Confirm Password is required'),
+    role: yup.string().required(),
   })
   .required();
 
@@ -50,7 +56,7 @@ const SignUp: React.FC = () => {
       displayName: data.displayName,
       email: data.email,
       password: data.password,
-      role: UserRoleType.PATIENT,
+      role: data.role,
     };
 
     const response = await signupUser(payload);
@@ -101,6 +107,20 @@ const SignUp: React.FC = () => {
                 error={!!errors.confirmPassword}
                 helperText={<>{errors.confirmPassword?.message}</>}
               />
+              <FormControl>
+                <InputLabel>User Role</InputLabel>
+                <Select
+                  label="User Role"
+                  size="small"
+                  {...register('role')}
+                  error={!!errors.role}
+                  defaultValue=""
+                >
+                  <MenuItem value="PATIENT">Patient</MenuItem>
+                  <MenuItem value="DOCTOR">Doctor</MenuItem>
+                </Select>
+              </FormControl>
+
               <Button type="submit" variant="contained" color="primary">
                 Sign Up
               </Button>

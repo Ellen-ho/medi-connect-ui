@@ -20,41 +20,12 @@ import GoalStatus from '../components/GoalStatus';
 import { useContext } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
 
-const mockResponse = {
-  id: '0b417e61-65b0-49a8-aedf-9e141dd7346a',
-  bloodPressureCurrentValue: {
-    systolicBloodPressure: 130,
-    diastolicBloodPressure: 80,
-  },
-  bloodPressureTargetValue: {
-    systolicBloodPressure: 120,
-    diastolicBloodPressure: 70,
-  },
-  bloodSugarCurrentValue: '50.00',
-  bloodSugarCurrentType: 'FAST_PLASMA_GLUCOSE',
-  bloodSugarTargetValue: '200.00',
-  bloodSugarTargetType: 'FAST_PLASMA_GLUCOSE',
-  glycatedHemoglobinCurrentValue: '3.00',
-  glycatedHemoglobinTargetValue: '50.00',
-  weightCurrentValue: '80.00',
-  weightTargetValue: '10.00',
-  bodyMassIndexTargetValue: '20.00',
-  startAt: '2023-07-22T01:58:46.000Z',
-  result: null,
-  endAt: '2023-07-28T01:58:05.000Z',
-  status: 'PENDING',
-  createdAt: '2023-07-21T05:59:55.797Z',
-  updatedAt: '2023-07-21T05:59:55.797Z',
-};
-
 const HealthGoalDetail: React.FC = () => {
   const { id } = useParams();
   const { state } = useContext(AuthContext);
   const [searchParams] = useSearchParams();
   const targetPatientId = searchParams.get('targetPatientId');
   const navigate = useNavigate();
-
-  // const data = mockResponse;
 
   const handleReject = async () => {
     await rejectHealthGoal({
@@ -165,7 +136,7 @@ const HealthGoalDetail: React.FC = () => {
                   }
                 />
                 <GoalCompareItem
-                  label={'Blood Sugar'}
+                  label={'Fasting Blood Sugar'}
                   leftItem={data.bloodSugarCurrentValue || '--'}
                   rightItem={data.bloodSugarTargetValue || '--'}
                 />
@@ -178,6 +149,11 @@ const HealthGoalDetail: React.FC = () => {
                   label={'Weight'}
                   leftItem={data.weightCurrentValue || '--'}
                   rightItem={data.weightTargetValue || '--'}
+                />
+                <GoalCompareItem
+                  label={'Body Mass Index'}
+                  leftItem={data.bodyMassIndexCurrentValue || '--'}
+                  rightItem={data.bodyMassIndexTargetValue || '--'}
                 />
               </BasicCard>
             </>

@@ -50,13 +50,6 @@ import AvatarUploadDialog from '../components/AvatarUploadDialog';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-// const schema = yup
-//   .object({
-//     content: yup.string().required(),
-//     medicalSpecialty: yup.string().required(),
-//   })
-//   .required();
-
 const defaultPatient: IPatient = {
   avatar: null,
   firstName: '',
@@ -78,7 +71,6 @@ const ProfileDetail: React.FC = () => {
   const { state, dispatch } = useContext(AuthContext);
   const [profile, setProfile] = useState<IPatient>(defaultPatient);
   const [isAvatarUploadDialogOpen, setAvatarUploadDialogOpen] = useState(false);
-
   const [searchParams] = useSearchParams();
   const targetPatientId = searchParams.get('targetPatientId');
 
@@ -90,7 +82,6 @@ const ProfileDetail: React.FC = () => {
   } = useForm<IPatient>({
     values: profile,
   });
-  // {resolver: yupResolver(schema),}
 
   const {
     fields: medicalHistoryFields,
@@ -145,7 +136,7 @@ const ProfileDetail: React.FC = () => {
   };
 
   const { isLoading, mutate } = useSWR(
-    'getPatientProfile',
+    state.patientId ? 'getPatientProfile' : null,
     () =>
       getPatientProfile({
         query: {

@@ -17,14 +17,21 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import ServiceEntrance from './components/ServiceEntrance';
 import HomeHeader from './components/HomeHeader';
+import { UserRoleType } from '../../../../types/Users';
 
 const Home: React.FC = () => {
   const { state } = useContext(AuthContext);
+  const isDoctor = state.currentUser?.role === UserRoleType.DOCTOR;
   const isLoggedIn = state.isLoggedIn;
   const hasProfile = state.hasProfile;
   const navigate = useNavigate();
 
   const handleClick = (path: string) => {
+    navigate(path);
+  };
+
+  const toProfile = () => {
+    const path = isDoctor ? '/profile/doctor' : '/profile';
     navigate(path);
   };
 
@@ -51,11 +58,7 @@ const Home: React.FC = () => {
           <Alert
             severity="warning"
             action={
-              <Button
-                color="inherit"
-                size="small"
-                onClick={() => handleClick('/profile')}
-              >
+              <Button color="inherit" size="small" onClick={toProfile}>
                 Go to Profile
               </Button>
             }
