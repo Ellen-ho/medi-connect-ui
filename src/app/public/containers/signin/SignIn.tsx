@@ -111,7 +111,7 @@ const SignIn: React.FC = () => {
                 color="primary"
                 onClick={handleFacebookLogin}
               >
-                Sign In with Facebook
+                Sign In with Facebook (Patients only)
               </Button>
               <BottomAreaWrapper>
                 <Link href="/signup">Sign Up</Link>
