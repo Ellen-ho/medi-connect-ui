@@ -18,8 +18,6 @@ const RecordDetail: React.FC = () => {
   const [searchParams] = useSearchParams();
   const targetPatientId = searchParams.get('targetPatientId');
 
-  // const navigate = useNavigate();
-
   const { data, error } = useSWR('getRecord', () =>
     getRecord({
       urlPath: typeId as string,

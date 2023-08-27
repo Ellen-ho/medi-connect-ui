@@ -5,7 +5,7 @@ interface RowItemProps {
   value: string;
   error?: boolean;
   helperText?: string;
-  onChange: (value: string) => void; // 新增onChange函數
+  onChange: (value: string) => void;
 }
 
 const RowItem: React.FC<RowItemProps> = ({
@@ -13,7 +13,7 @@ const RowItem: React.FC<RowItemProps> = ({
   value,
   error,
   helperText,
-  onChange, 
+  onChange,
 }) => {
   return (
     <div>

@@ -119,17 +119,6 @@ const SignIn: React.FC = () => {
             </FormWrapper>
           </CardContent>
         </Card>
-        {/* <form onSubmit={handleSubmit(onSignIn)}>
-          <input type="email" placeholder="Email" {...register('email')} />
-          <p>{errors.email?.message}</p>
-          <input
-            type="password"
-            placeholder="Password"
-            {...register('password')}
-          />
-          <p>{errors.password?.message}</p>
-          <input type="submit" />
-        </form> */}
       </SignInWrapper>
     </PrimaryPageContent>
   );

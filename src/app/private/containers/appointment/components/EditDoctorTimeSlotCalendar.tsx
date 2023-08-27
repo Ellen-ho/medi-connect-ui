@@ -113,18 +113,6 @@ const EditDoctorTimeSlotCalendar: React.FC<
     handleSubmit,
     formState: { errors, isDirty },
   } = useForm<IEditDoctorTimeSlotInputs>({
-    // resolver: yupResolver(
-    //   yup
-    //     .object({
-    //       startAt: yup.string().required(),
-    //       endAt: yup
-    //         .string()
-    //         .required()
-    //         .min(yup.ref('startAt'), 'End time must be later than start time'),
-    //     })
-    //     .required(),
-    // ),
-    // defaultValues: currentEvent,
     values: currentEvent,
   });
 
@@ -199,7 +187,6 @@ const EditDoctorTimeSlotCalendar: React.FC<
                   size="small"
                   variant="outlined"
                   type="datetime-local"
-                  // value={currentEvent?.startAt}
                   {...register('startAt')}
                   error={!!errors.startAt}
                   helperText={<>{errors.startAt?.message}</>}
@@ -210,7 +197,6 @@ const EditDoctorTimeSlotCalendar: React.FC<
                   size="small"
                   variant="outlined"
                   type="datetime-local"
-                  // value={currentEvent?.endAt}
                   {...register('endAt')}
                   error={!!errors.endAt}
                   helperText={<>{errors.endAt?.message}</>}
