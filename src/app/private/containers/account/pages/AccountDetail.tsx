@@ -31,14 +31,6 @@ interface IAccountForm {
   confirmPassword: string;
 }
 
-// const accountSchema = yup.object({
-//   displayName: yup.string().required(),
-//   password: yup.string().required(),
-//   confirmPassword: yup.string().when('password', {
-//     is: (val: string) => val && val.length > 0,
-//   }),
-// });
-
 const AccountDetail: React.FC = () => {
   const {
     register,
@@ -46,9 +38,7 @@ const AccountDetail: React.FC = () => {
     formState: { errors, isDirty },
     control,
     setValue,
-  } = useForm<IAccount>({
-    // resolver: yupResolver(accountSchema),
-  });
+  } = useForm<IAccount>({});
 
   const { data, isLoading } = useSWR('getUserAccount', () => getUserAccount());
 

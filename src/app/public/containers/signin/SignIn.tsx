@@ -111,7 +111,7 @@ const SignIn: React.FC = () => {
                 color="primary"
                 onClick={handleFacebookLogin}
               >
-                Sign In with Facebook
+                Sign In with Facebook (Patients only)
               </Button>
               <BottomAreaWrapper>
                 <Link href="/signup">Sign Up</Link>
@@ -119,17 +119,6 @@ const SignIn: React.FC = () => {
             </FormWrapper>
           </CardContent>
         </Card>
-        {/* <form onSubmit={handleSubmit(onSignIn)}>
-          <input type="email" placeholder="Email" {...register('email')} />
-          <p>{errors.email?.message}</p>
-          <input
-            type="password"
-            placeholder="Password"
-            {...register('password')}
-          />
-          <p>{errors.password?.message}</p>
-          <input type="submit" />
-        </form> */}
       </SignInWrapper>
     </PrimaryPageContent>
   );

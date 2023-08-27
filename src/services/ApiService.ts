@@ -14,13 +14,11 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const auth = getAuthFromCache();
   config.headers.Authorization = `Bearer ${auth ? auth.token : ''}`;
-
   return config;
 });
 
 api.interceptors.response.use(
   (response) => {
-    // toast.success('Request successful!');
     return response;
   },
   (error) => {

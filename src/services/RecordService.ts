@@ -322,7 +322,7 @@ interface ICreateFoodRecordResponse {
   id: string;
   foodTime: Date;
   foodCategory: FoodCategoryType;
-  foodAmount: number; //Ask
+  foodAmount: number;
   kcalories: number;
   foodNote: string | null;
   createdAt: Date;
