@@ -17,7 +17,6 @@ import { dateFormatter } from '../../../../../utils/dateFormatter';
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
 import { IDoctorTimeSlot } from '../../../../../services/ConsultationService';
 import RowItem from '../../../../../components/form/RowItem';
-import { start } from 'repl';
 
 interface IFullCalendarEvent {
   id: string;

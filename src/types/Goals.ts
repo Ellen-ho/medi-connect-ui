@@ -1,4 +1,3 @@
-import { Interface } from 'readline';
 import { IBloodPressureValue } from '../services/GoalService';
 import { BloodSugarType } from '../services/RecordService';
 import { GenderType } from './Share';
