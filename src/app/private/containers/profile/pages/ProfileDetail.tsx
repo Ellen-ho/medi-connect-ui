@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import useSWR from 'swr';
 import {
+  createPatientProfile,
   editPatientProfile,
   getPatientProfile,
 } from '../../../../../services/PatientService';
@@ -69,6 +70,7 @@ const defaultPatient: IPatient = {
 
 const ProfileDetail: React.FC = () => {
   const { state, dispatch } = useContext(AuthContext);
+  const hasProfile = state.hasProfile;
   const [profile, setProfile] = useState<IPatient>(defaultPatient);
   const [isAvatarUploadDialogOpen, setAvatarUploadDialogOpen] = useState(false);
   const [searchParams] = useSearchParams();
@@ -115,11 +117,21 @@ const ProfileDetail: React.FC = () => {
       ...data,
       birthDate: dayjs(data.birthDate).tz('Asia/Taipei').format(),
     };
-    const response = await editPatientProfile(payload);
+
+    let response;
+    if (hasProfile) {
+      response = await editPatientProfile(payload);
+    } else {
+      response = await createPatientProfile(payload);
+    }
+
     dispatch({
       type: 'UPDATE_PROFILE',
       payload: {
         avatar: response.avatar,
+        patientId: response.id,
+        doctorId: null,
+        hasProfile: true,
       },
     });
     await mutate();
