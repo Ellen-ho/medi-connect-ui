@@ -8,6 +8,7 @@
 - [About Medi-Connect](#About-Medi-Connect)
 - [Features](#Features)
 - [Todos](#Todos)
+- [Local development](#local-development)
 
 ## About Medi-Connect
 
