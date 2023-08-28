@@ -1,6 +1,13 @@
-# Medi-Connect-api
+# Medi-Connect-ui
 
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
+
+## Table of contents
+
+- [User Interface](#User-Interface)
+- [About Medi-Connect](#About-Medi-Connect)
+- [Features](#Features)
+- [Todos](#Todos)
 
 ## About Medi-Connect
 
