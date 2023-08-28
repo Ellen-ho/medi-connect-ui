@@ -87,8 +87,15 @@ As a doctor member, you can...
 2. Modify the image uploading process for users to store images on other cloud storage service.
 3. Integrate additional social features, like doctors being able to share specialized articles to educate patients about different medical disciplines, and enabling patients to interact and motivate each other through mutual communication.
 
-## Install
+## Local development
 
+### Install dependency
 ```
 yarn install --frozen-lockfile
+```
+
+### Running the application
+
+```shell
+yarn dev
 ```
