@@ -4,9 +4,10 @@ import api from './ApiService';
 
 interface ICreatePatientProfileRequest extends IPatient {}
 
-interface ICreatePatientProfileResponse {
+interface ICreatePatientProfileResponse extends IPatient {
   id: string;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IEditPatientProfileRequest extends IPatient {}

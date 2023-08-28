@@ -41,6 +41,9 @@ const reducer = (state: AuthState, action: AuthAction): AuthState => {
     case 'UPDATE_PROFILE': {
       const udpatedState = {
         ...state,
+        hasProfile: action.payload.hasProfile,
+        patientId: action.payload.patientId,
+        doctorId: action.payload.doctorId,
       };
       udpatedState.currentUser!.avatar = action.payload.avatar;
 

@@ -3,21 +3,24 @@ import { IDoctor } from '../../../../../types/Doctors';
 import { GenderType, MedicalSpecialtyType } from '../../../../../types/Share';
 import { AuthContext } from '../../../../../context/AuthContext';
 import {
+  Box,
   Button,
   Card,
   CardContent,
   IconButton,
   MenuItem,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
 import * as timezone from 'dayjs/plugin/timezone';
 import useSWR from 'swr';
 import toast from 'react-hot-toast';
 import {
+  createDoctorProfile,
   editDoctorProfile,
   getDoctorProfile,
 } from '../../../../../services/DoctorServices';
@@ -31,11 +34,29 @@ import MultipleSelectChip from '../../../../../components/form/MultipleSelectChi
 import RowItem from '../../../../../components/form/RowItem';
 import AvatarUploadDialog from '../components/AvatarUploadDialog';
 import ImageAvatar from '../../../../../components/avatar/ImageAvatar';
+import BasicCard from '../../../../../components/card/BasicCard';
+import TranslateIcon from '@mui/icons-material/Translate';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import SchoolIcon from '@mui/icons-material/School';
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const defaultDoctor: IDoctor = {
+interface IDoctorForm
+  extends Omit<
+    IDoctor,
+    'languagesSpoken' | 'education' | 'awards' | 'affiliations'
+  > {
+  languagesSpoken: Array<{ name: string }>;
+  education: Array<{ name: string }>;
+  awards: Array<{ name: string }>;
+  affiliations: Array<{ name: string }>;
+}
+
+const defaultDoctor: IDoctorForm = {
   avatar: null,
   firstName: '',
   lastName: '',
@@ -54,13 +75,14 @@ const defaultDoctor: IDoctor = {
     countryCode: '',
   },
   education: [],
-  awards: null,
-  affiliations: null,
+  awards: [],
+  affiliations: [],
 };
 
 const DoctorProfileDetail: React.FC = () => {
   const { state, dispatch } = useContext(AuthContext);
-  const [profile, setProfile] = useState<IDoctor>(defaultDoctor);
+  const hasProfile = state.hasProfile;
+  const [profile, setProfile] = useState<IDoctorForm>(defaultDoctor);
   const [isAvatarUploadDialogOpen, setAvatarUploadDialogOpen] = useState(false);
 
   const {
@@ -68,20 +90,70 @@ const DoctorProfileDetail: React.FC = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<IDoctor>({
+  } = useForm<IDoctorForm>({
     values: profile,
   });
 
-  const onEditProfile = async (data: IDoctor) => {
+  const {
+    fields: languagesSpokenFields,
+    append: languagesSpokenAppend,
+    remove: languagesSpokenRemove,
+  } = useFieldArray({
+    control,
+    name: 'languagesSpoken', // unique name for your Field Array
+  });
+
+  const {
+    fields: educationFields,
+    append: educationAppend,
+    remove: educationRemove,
+  } = useFieldArray({
+    control,
+    name: 'education', // unique name for your Field Array
+  });
+
+  const {
+    fields: awardsFields,
+    append: awardsAppend,
+    remove: awardsRemove,
+  } = useFieldArray({
+    control,
+    name: 'awards', // unique name for your Field Array
+  });
+
+  const {
+    fields: affiliationsFields,
+    append: affiliationsAppend,
+    remove: affiliationsRemove,
+  } = useFieldArray({
+    control,
+    name: 'affiliations', // unique name for your Field Array
+  });
+
+  const onEditProfile = async (data: IDoctorForm) => {
     const payload = {
       ...data,
       careerStartDate: dayjs(data.careerStartDate).tz('Asia/Taipei').format(),
+      languagesSpoken: data.languagesSpoken.map((lang) => lang.name),
+      education: data.education.map((education) => education.name),
+      awards: data.awards.map((award) => award.name),
+      affiliations: data.affiliations.map((affiliation) => affiliation.name),
     };
-    const response = await editDoctorProfile(payload);
+
+    let response;
+    if (hasProfile) {
+      response = await editDoctorProfile(payload);
+    } else {
+      response = await createDoctorProfile(payload);
+    }
+
     dispatch({
       type: 'UPDATE_PROFILE',
       payload: {
         avatar: response.avatar,
+        patientId: null,
+        doctorId: response.id,
+        hasProfile: true,
       },
     });
     await mutate();
@@ -111,7 +183,29 @@ const DoctorProfileDetail: React.FC = () => {
 
         const { createdAt, updatedAt, id, ...newProfile } = profile;
 
-        setProfile(newProfile);
+        const profileForForm = {
+          ...newProfile,
+          languagesSpoken: newProfile.languagesSpoken.map((lang) => ({
+            name: lang,
+          })),
+          education: newProfile.education.map((education) => ({
+            name: education,
+          })),
+          awards:
+            newProfile.awards == null
+              ? []
+              : newProfile.awards.map((award) => ({
+                  name: award,
+                })),
+          affiliations:
+            newProfile.affiliations == null
+              ? []
+              : newProfile.affiliations.map((affiliation) => ({
+                  name: affiliation,
+                })),
+        };
+
+        setProfile(profileForForm);
       },
     },
   );
@@ -201,13 +295,6 @@ const DoctorProfileDetail: React.FC = () => {
                       {...register('aboutMe')}
                     />
                   </RowItem>
-                  <RowItem label={'Languages Spoken'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      {...register('languagesSpoken')}
-                    />
-                  </RowItem>
                   <RowItem label={'Specialties'}>
                     <MultipleSelectChip
                       names={Object.values(MedicalSpecialtyType)}
@@ -277,29 +364,216 @@ const DoctorProfileDetail: React.FC = () => {
                       {...register('officePracticalLocation.countryCode')}
                     />
                   </RowItem>
-                  <RowItem label={'Education'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      {...register('education')}
-                    />
-                  </RowItem>
-                  <RowItem label={'Awards'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      {...register('awards')}
-                    />
-                  </RowItem>
-                  <RowItem label={'Affiliations'}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      {...register('affiliations')}
-                    />
-                  </RowItem>
                 </CardContent>
               </Card>
+
+              {/* Languages Spoken */}
+              <BasicCard
+                startTitleAdornment={
+                  <TranslateIcon sx={{ marginRight: '.5rem' }} />
+                }
+                title={'Languages Spoken'}
+                titleRightElement={
+                  <Tooltip title={'Add new item'} placement="top">
+                    <IconButton>
+                      <AddCircleOutlineIcon
+                        onClick={() =>
+                          languagesSpokenAppend({
+                            name: '',
+                          })
+                        }
+                      />
+                    </IconButton>
+                  </Tooltip>
+                }
+              >
+                <>
+                  {languagesSpokenFields &&
+                    languagesSpokenFields.map((language, index) => (
+                      <RowItem label={`#${index + 1}`}>
+                        <Box
+                          key={index}
+                          sx={{
+                            display: 'flex',
+                            gap: '.5rem',
+                            flexDirection: 'row',
+                            alignItems: 'top',
+                            py: '1rem',
+                          }}
+                        >
+                          <TextField
+                            size="small"
+                            variant="outlined"
+                            {...register(`languagesSpoken.${index}.name`)}
+                          />
+                          <Tooltip title={'Delete the item'} placement="top">
+                            <IconButton color={'error'}>
+                              <DeleteForeverIcon
+                                onClick={() => languagesSpokenRemove(index)}
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        </Box>
+                      </RowItem>
+                    ))}
+                </>
+              </BasicCard>
+
+              {/* Education */}
+              <BasicCard
+                startTitleAdornment={
+                  <SchoolIcon sx={{ marginRight: '.5rem' }} />
+                }
+                title={'Education'}
+                titleRightElement={
+                  <Tooltip title={'Add new item'} placement="top">
+                    <IconButton>
+                      <AddCircleOutlineIcon
+                        onClick={() =>
+                          educationAppend({
+                            name: '',
+                          })
+                        }
+                      />
+                    </IconButton>
+                  </Tooltip>
+                }
+              >
+                <>
+                  {educationFields &&
+                    educationFields.map((education, index) => (
+                      <RowItem label={`#${index + 1}`}>
+                        <Box
+                          key={index}
+                          sx={{
+                            display: 'flex',
+                            gap: '.5rem',
+                            flexDirection: 'row',
+                            alignItems: 'top',
+                            py: '1rem',
+                          }}
+                        >
+                          <TextField
+                            size="small"
+                            variant="outlined"
+                            {...register(`education.${index}.name`)}
+                          />
+                          <Tooltip title={'Delete the item'} placement="top">
+                            <IconButton color={'error'}>
+                              <DeleteForeverIcon
+                                onClick={() => educationRemove(index)}
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        </Box>
+                      </RowItem>
+                    ))}
+                </>
+              </BasicCard>
+
+              {/* awards */}
+              <BasicCard
+                startTitleAdornment={
+                  <MilitaryTechIcon sx={{ marginRight: '.5rem' }} />
+                }
+                title={'Awards'}
+                titleRightElement={
+                  <Tooltip title={'Add new item'} placement="top">
+                    <IconButton>
+                      <AddCircleOutlineIcon
+                        onClick={() =>
+                          awardsAppend({
+                            name: '',
+                          })
+                        }
+                      />
+                    </IconButton>
+                  </Tooltip>
+                }
+              >
+                <>
+                  {awardsFields &&
+                    awardsFields.map((award, index) => (
+                      <RowItem label={`#${index + 1}`}>
+                        <Box
+                          key={index}
+                          sx={{
+                            display: 'flex',
+                            gap: '.5rem',
+                            flexDirection: 'row',
+                            alignItems: 'top',
+                            py: '1rem',
+                          }}
+                        >
+                          <TextField
+                            size="small"
+                            variant="outlined"
+                            {...register(`awards.${index}.name`)}
+                          />
+                          <Tooltip title={'Delete the item'} placement="top">
+                            <IconButton color={'error'}>
+                              <DeleteForeverIcon
+                                onClick={() => awardsRemove(index)}
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        </Box>
+                      </RowItem>
+                    ))}
+                </>
+              </BasicCard>
+
+              {/* affiliations */}
+              <BasicCard
+                startTitleAdornment={
+                  <AccountBalanceIcon sx={{ marginRight: '.5rem' }} />
+                }
+                title={'Affiliations'}
+                titleRightElement={
+                  <Tooltip title={'Add new item'} placement="top">
+                    <IconButton>
+                      <AddCircleOutlineIcon
+                        onClick={() =>
+                          affiliationsAppend({
+                            name: '',
+                          })
+                        }
+                      />
+                    </IconButton>
+                  </Tooltip>
+                }
+              >
+                <>
+                  {affiliationsFields &&
+                    affiliationsFields.map((affiliation, index) => (
+                      <RowItem label={`#${index + 1}`}>
+                        <Box
+                          key={index}
+                          sx={{
+                            display: 'flex',
+                            gap: '.5rem',
+                            flexDirection: 'row',
+                            alignItems: 'top',
+                            py: '1rem',
+                          }}
+                        >
+                          <TextField
+                            size="small"
+                            variant="outlined"
+                            {...register(`affiliations.${index}.name`)}
+                          />
+                          <Tooltip title={'Delete the item'} placement="top">
+                            <IconButton color={'error'}>
+                              <DeleteForeverIcon
+                                onClick={() => affiliationsRemove(index)}
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        </Box>
+                      </RowItem>
+                    ))}
+                </>
+              </BasicCard>
 
               <Button type="submit" variant="contained" color="primary">
                 Save

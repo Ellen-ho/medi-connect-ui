@@ -35,6 +35,9 @@ export type AuthAction =
       type: 'UPDATE_PROFILE';
       payload: {
         avatar: string | null;
+        patientId: string | null;
+        doctorId: string | null;
+        hasProfile: boolean;
       };
     };
 
