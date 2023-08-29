@@ -11,7 +11,6 @@ import {
   Button,
   Card,
   CardContent,
-  Link,
   TextField,
   Typography,
 } from '@mui/material';
@@ -114,7 +113,9 @@ const SignIn: React.FC = () => {
                 Sign In with Facebook (Patients only)
               </Button>
               <BottomAreaWrapper>
-                <Link href="/signup">Sign Up</Link>
+                <Button variant="text" onClick={() => navigate('/signup')}>
+                  Sign Up
+                </Button>
               </BottomAreaWrapper>
             </FormWrapper>
           </CardContent>

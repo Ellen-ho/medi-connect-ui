@@ -3,7 +3,6 @@ import { signupUser } from '../../../../services/UserService';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { UserRoleType } from '../../../../types/Users';
 import PrimaryPageContent from '../../../layout/PrimaryPageContent';
 import { BottomAreaWrapper, SignUpWrapper } from './SignUp.styled';
 import {
@@ -12,7 +11,6 @@ import {
   CardContent,
   FormControl,
   InputLabel,
-  Link,
   MenuItem,
   Select,
   TextField,
@@ -125,7 +123,9 @@ const SignUp: React.FC = () => {
                 Sign Up
               </Button>
               <BottomAreaWrapper>
-                <Link href={'/signin'}>Sign In</Link>
+                <Button variant="text" onClick={() => navigate('/signin')}>
+                  Sign In
+                </Button>
               </BottomAreaWrapper>
             </FormWrapper>
           </CardContent>
