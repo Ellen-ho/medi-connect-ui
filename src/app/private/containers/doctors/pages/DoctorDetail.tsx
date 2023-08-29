@@ -36,7 +36,7 @@ const getValidDateRange = () => {
   let end = today.endOf('month').add(1, 'day'); // add 1 day to include the end date
 
   if (today.date() >= 28) {
-    start = today.add(1, 'month').startOf('month');
+    start = today.add(1, 'day');
     end = today.add(1, 'month').endOf('month').add(1, 'day'); // add 1 day to include the end date;
   }
 
