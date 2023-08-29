@@ -19,10 +19,10 @@ import {
 import { IDoctorTimeSlot } from '../../../../../services/ConsultationService';
 import RowItem from '../../../../../components/form/RowItem';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+// import * as yup from 'yup';
+// import { yupResolver } from '@hookform/resolvers/yup';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface IEditDoctorTimeSlotInputs {

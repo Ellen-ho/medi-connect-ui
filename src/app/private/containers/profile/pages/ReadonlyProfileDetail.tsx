@@ -1,23 +1,7 @@
 import React, { useContext, useState } from 'react';
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  Divider,
-  MenuItem,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 import { GenderType } from '../../../../../types/Share';
-import {
-  FamilyDiagnosisType,
-  IPatient,
-  MedicineFrequencyType,
-  MedicineTimeType,
-  MedicineUnitType,
-  PersonalDiagnosisType,
-} from '../../../../../types/Patients';
+import { IPatient } from '../../../../../types/Patients';
 import { AuthContext } from '../../../../../context/AuthContext';
 import { ProfileDetailWrapper } from './ProfileDetail.styled';
 import useSWR from 'swr';
@@ -25,11 +9,10 @@ import { getPatientProfile } from '../../../../../services/PatientService';
 import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import FmdBadOutlinedIcon from '@mui/icons-material/FmdBadOutlined';
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
-import * as dayjs from 'dayjs';
-import * as utc from 'dayjs/plugin/utc';
-import * as timezone from 'dayjs/plugin/timezone';
-import { useParams, useSearchParams } from 'react-router-dom';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import { useSearchParams } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import DataLoading from '../../../../../components/signs/DataLoading';

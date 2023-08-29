@@ -14,9 +14,9 @@ import {
   Typography,
 } from '@mui/material';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import * as dayjs from 'dayjs';
-import * as utc from 'dayjs/plugin/utc';
-import * as timezone from 'dayjs/plugin/timezone';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import useSWR from 'swr';
 import toast from 'react-hot-toast';
 import {
