@@ -30,7 +30,6 @@ import { ProfileDetailWrapper } from './ProfileDetail.styled';
 import DataLoading from '../../../../../components/signs/DataLoading';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import MultipleSelectChip from '../../../../../components/form/MultipleSelectChip';
 import RowItem from '../../../../../components/form/RowItem';
 import AvatarUploadDialog from '../components/AvatarUploadDialog';
 import ImageAvatar from '../../../../../components/avatar/ImageAvatar';
@@ -41,11 +40,12 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import SchoolIcon from '@mui/icons-material/School';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import SpecialtyMultipleSelect from '../components/SpecialtyMultipleSelect';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-interface IDoctorForm
+export interface IDoctorForm
   extends Omit<
     IDoctor,
     'languagesSpoken' | 'education' | 'awards' | 'affiliations'
@@ -296,9 +296,12 @@ const DoctorProfileDetail: React.FC = () => {
                     />
                   </RowItem>
                   <RowItem label={'Specialties'}>
-                    <MultipleSelectChip
-                      names={Object.values(MedicalSpecialtyType)}
-                      {...register('specialties')}
+                    <Controller
+                      name="specialties"
+                      control={control}
+                      render={({ field }) => (
+                        <SpecialtyMultipleSelect field={field} />
+                      )}
                     />
                   </RowItem>
                   <RowItem label={'Career Start Date'}>
