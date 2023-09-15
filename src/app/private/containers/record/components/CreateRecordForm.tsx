@@ -82,7 +82,7 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
               error={!!errors[field.id]}
               helperText={<>{errors[field.id]?.message}</>}
               inputProps={{
-                step: '0.01',
+                step: field.type === 'number' ? '0.01' : '0',
               }}
             />
           )}
