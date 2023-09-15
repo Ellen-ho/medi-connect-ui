@@ -63,7 +63,7 @@ const defaultDoctor: IDoctorForm = {
   gender: GenderType.MALE,
   aboutMe: '',
   languagesSpoken: [],
-  specialties: [MedicalSpecialtyType.INTERNAL_MEDICINE],
+  specialties: [],
   careerStartDate: '',
   officePracticalLocation: {
     line1: '',
@@ -408,6 +408,9 @@ const DoctorProfileDetail: React.FC = () => {
                             size="small"
                             variant="outlined"
                             {...register(`languagesSpoken.${index}.name`)}
+                            sx={{
+                              flexGrow: '1',
+                            }}
                           />
                           <Tooltip title={'Delete the item'} placement="top">
                             <IconButton color={'error'}>
@@ -460,6 +463,9 @@ const DoctorProfileDetail: React.FC = () => {
                             size="small"
                             variant="outlined"
                             {...register(`education.${index}.name`)}
+                            sx={{
+                              flexGrow: '1',
+                            }}
                           />
                           <Tooltip title={'Delete the item'} placement="top">
                             <IconButton color={'error'}>
@@ -512,6 +518,9 @@ const DoctorProfileDetail: React.FC = () => {
                             size="small"
                             variant="outlined"
                             {...register(`awards.${index}.name`)}
+                            sx={{
+                              flexGrow: '1',
+                            }}
                           />
                           <Tooltip title={'Delete the item'} placement="top">
                             <IconButton color={'error'}>
@@ -564,6 +573,9 @@ const DoctorProfileDetail: React.FC = () => {
                             size="small"
                             variant="outlined"
                             {...register(`affiliations.${index}.name`)}
+                            sx={{
+                              flexGrow: '1',
+                            }}
                           />
                           <Tooltip title={'Delete the item'} placement="top">
                             <IconButton color={'error'}>
