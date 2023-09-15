@@ -81,6 +81,9 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
               {...register(field.id)}
               error={!!errors[field.id]}
               helperText={<>{errors[field.id]?.message}</>}
+              inputProps={{
+                step: '0.01',
+              }}
             />
           )}
           {/* {field.example && <p>Example: {field.example}</p>} */}
