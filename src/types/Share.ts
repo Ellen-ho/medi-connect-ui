@@ -1,3 +1,5 @@
+import { sortStringsAlphabeticallyAscending } from '../utils/sortStringsAlphabeticallyAscending';
+
 export enum MedicalSpecialtyType {
   INTERNAL_MEDICINE = 'INTERNAL_MEDICINE', // 內科
   SURGERY = 'SURGERY', // 外科
@@ -20,6 +22,11 @@ export enum MedicalSpecialtyType {
   GASTROENTEROLOGY = 'GASTROENTEROLOGY', // 消化科
   PULMONARY_MEDICINE = 'PULMONARY_MEDICINE', // 胸腔內科
 }
+
+// from enum -> an array of string -> sort by alphabet
+export const medicalSpecialties = sortStringsAlphabeticallyAscending(
+  Object.values(MedicalSpecialtyType),
+);
 
 export enum GenderType {
   MALE = 'MALE',

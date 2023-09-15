@@ -5,9 +5,9 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { ControllerRenderProps } from 'react-hook-form';
 import { IDoctorForm } from '../pages/DoctorProfileDetail';
-import { MedicalSpecialtyType } from '../../../../../types/Share';
+import { medicalSpecialties } from '../../../../../types/Share';
 
-const specialties = Object.values(MedicalSpecialtyType);
+const specialties = medicalSpecialties;
 
 interface ISpecialtyMultipleSelectProps {
   field: ControllerRenderProps<IDoctorForm, 'specialties'>;
