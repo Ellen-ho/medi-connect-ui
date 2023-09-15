@@ -56,15 +56,17 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
                 let exampleText = '';
                 if (categoryMeta.name === 'Food') {
                   const categoryType = option.value as FoodCategoryType;
-                  exampleText =
+                  exampleText = ` - ${
                     foodKcaloriesPerUnitList[categoryType].examples[
                       Language.EN_US
-                    ];
+                    ]
+                  }`;
                 }
 
                 return (
                   <MenuItem key={option.value} value={option.value}>
-                    {toSentenceCaseFormat(option.label)} - {exampleText}
+                    {toSentenceCaseFormat(option.label)}
+                    {exampleText}
                   </MenuItem>
                 );
               })}
