@@ -53,11 +53,14 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
             >
               <MenuItem value="">Select {field.name}</MenuItem>
               {field.options?.map((option) => {
-                const categoryType = option.value as FoodCategoryType;
-                const exampleText =
-                  foodKcaloriesPerUnitList[categoryType].examples[
-                    Language.EN_US
-                  ];
+                let exampleText = '';
+                if (categoryMeta.name === 'Food') {
+                  const categoryType = option.value as FoodCategoryType;
+                  exampleText =
+                    foodKcaloriesPerUnitList[categoryType].examples[
+                      Language.EN_US
+                    ];
+                }
 
                 return (
                   <MenuItem key={option.value} value={option.value}>
