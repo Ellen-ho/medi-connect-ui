@@ -36,7 +36,14 @@ const RecordDetail: React.FC = () => {
           <BasicCard title={'Record Detail'}>
             {data?.data &&
               Object.entries(data.data).map(([key, value]) => {
-                const dateRelatedFields = ['createdAt', 'updatedAt', 'Date'];
+                const dateRelatedFields = [
+                  'createdAt',
+                  'updatedAt',
+                  'Date',
+                  'foodTime',
+                  'sleepTime',
+                  'wakeUpTime',
+                ];
                 const isDateRelatedField = dateRelatedFields.some((field) =>
                   key.includes(field),
                 );
