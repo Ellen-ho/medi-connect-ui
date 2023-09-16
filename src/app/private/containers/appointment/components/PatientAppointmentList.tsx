@@ -49,10 +49,12 @@ const PatientAppointmentList: React.FC<IPatientAppointmentListProps> = () => {
 
   const handleCancelAppointment = async (consultAppointmentId: string) => {
     await cancelConsultAppointment({ consultAppointmentId });
+    setDetailDialogOpen(false);
+    mutate();
     toast.success('Cancel appointment successfully');
   };
 
-  const { data } = useSWR('getPatientConsultAppointments', () =>
+  const { data, mutate } = useSWR('getPatientConsultAppointments', () =>
     getPatientConsultAppointments(),
   );
 
@@ -215,15 +217,16 @@ const PatientAppointmentList: React.FC<IPatientAppointmentListProps> = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Button
-              variant="contained"
-              disabled={!selectedDetail.cancelAvailability}
-              onClick={() =>
-                handleCancelAppointment(selectedDetail.appointmentId)
-              }
-            >
-              Cancel This Appointment
-            </Button>
+            {selectedDetail.cancelAvailability && (
+              <Button
+                variant="contained"
+                onClick={() =>
+                  handleCancelAppointment(selectedDetail.appointmentId)
+                }
+              >
+                Cancel This Appointment
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
       )}
