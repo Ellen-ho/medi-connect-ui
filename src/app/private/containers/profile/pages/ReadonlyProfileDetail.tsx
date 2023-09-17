@@ -20,6 +20,7 @@ import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import BasicCard from '../../../../../components/card/BasicCard';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import RowItem from '../../../../../components/form/RowItem';
+import ImageAvatar from '../../../../../components/avatar/ImageAvatar';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -93,7 +94,15 @@ const ReadonlyProfileDetail: React.FC = () => {
                     <AccountCircleIcon /> Personal
                   </Typography>
                   <Box>
-                    <RowItem label="Avatar">{profile.avatar}</RowItem>
+                    <RowItem label="Avatar">
+                      <ImageAvatar
+                        imageUrl={profile.avatar}
+                        sx={{
+                          width: 50,
+                          height: 50,
+                        }}
+                      />
+                    </RowItem>
                     <RowItem label="First Name">{profile.firstName}</RowItem>
                     <RowItem label="Last Name">{profile.lastName}</RowItem>
                     <RowItem label="Birth Date">{profile.birthDate}</RowItem>
