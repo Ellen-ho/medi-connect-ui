@@ -81,7 +81,11 @@ const Home: React.FC = () => {
 
           <Grid item xs={12} sm={12} md={6} lg={6}>
             <ServiceEntrance
-              handleClick={() => handleClick('/record')}
+              handleClick={() => {
+                if (!isDoctor) {
+                  handleClick('/record');
+                }
+              }}
               title={'Efficient Records Management'}
               subtitle={
                 'All your health records in one place. Access them anytime anywhere.'
@@ -92,7 +96,11 @@ const Home: React.FC = () => {
 
           <Grid item xs={12} sm={12} md={6} lg={6}>
             <ServiceEntrance
-              handleClick={() => handleClick('/health-goal')}
+              handleClick={() => {
+                if (!isDoctor) {
+                  handleClick('/health-goal');
+                }
+              }}
               title={'Personalized Health Goals'}
               subtitle={
                 "Set health goals. Track progress. Achieve milestones. We're with you at every step."
