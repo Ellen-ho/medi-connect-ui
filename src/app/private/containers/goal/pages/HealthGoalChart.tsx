@@ -113,7 +113,7 @@ const HealthGoalChart: React.FC = () => {
       <Card>
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Glycated HemoGlobin Records
+            Glycated Hemoglobin Records
           </Typography>
           <ResponsiveContainer width="100%" height={300}>
             {data ? (
@@ -133,7 +133,7 @@ const HealthGoalChart: React.FC = () => {
                 <Legend />
                 <Line
                   type="monotone"
-                  dataKey="glycatedHemoglobinValue"
+                  dataKey="glycatedHemoglobinValuePercent"
                   name="Glycated Hemoglobin Value"
                   stroke="#8884d8"
                 />

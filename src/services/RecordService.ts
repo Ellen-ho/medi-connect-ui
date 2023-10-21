@@ -403,21 +403,21 @@ export interface IGetGoalDurationRecordsResponse {
         id: string;
         systolicBloodPressure: number;
         diastolicBloodPressure: number;
-        bloodPressureDate: Date;
+        bloodPressureDate: string;
       }>
     | [];
   bloodSugarRecordsData:
     | Array<{
         id: string;
         bloodSugarValue: number;
-        bloodSugarDate: Date;
+        bloodSugarDate: string;
       }>
     | [];
   glycatedHemoglobinRecordsData:
     | Array<{
         id: string;
         glycatedHemoglobinValuePercent: number;
-        glycatedHemoglobinDate: Date;
+        glycatedHemoglobinDate: string;
       }>
     | [];
   weightRecordsData:
@@ -425,7 +425,7 @@ export interface IGetGoalDurationRecordsResponse {
         id: string;
         weightValueKg: number;
         bodyMassIndex: number;
-        weightDate: Date;
+        weightDate: string;
       }>
     | [];
 }
