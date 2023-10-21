@@ -41,6 +41,13 @@ const HealthGoalDetail: React.FC = () => {
     navigate('/health-goal');
   };
 
+  const handleClickViewDataAnalyzation = async () => {
+    await activateHealthGoal({
+      healthGoalId: id as string,
+    });
+    navigate('/health-goal');
+  };
+
   const { data } = useSWR('getHealthGoal', () =>
     getHealthGoal({
       healthGoalId: id as string,
@@ -93,7 +100,17 @@ const HealthGoalDetail: React.FC = () => {
                   </Box>
                 </>
               )}
-              <BasicCard title={'Health Goal Info'}>
+              <BasicCard
+                title={'Health Goal Info'}
+                titleRightElement={
+                  <Button
+                    onClick={handleClickViewDataAnalyzation}
+                    variant="contained"
+                  >
+                    View Data Analyzation On Record Counts
+                  </Button>
+                }
+              >
                 <RowItem label={'Status'}>
                   <GoalStatus status={data.status} />
                 </RowItem>

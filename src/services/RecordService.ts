@@ -29,7 +29,7 @@ interface IGetRecordsRequest {
   };
 }
 
-interface IGetRecordsResponse<T> {
+export interface IGetRecordsResponse<T> {
   patientData: IPatientData;
   recordsData: Array<T>;
   pagination: {
