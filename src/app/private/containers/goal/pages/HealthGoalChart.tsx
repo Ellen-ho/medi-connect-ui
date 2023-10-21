@@ -134,7 +134,7 @@ const HealthGoalChart: React.FC = () => {
                 <Line
                   type="monotone"
                   dataKey="glycatedHemoglobinValuePercent"
-                  name="Glycated Hemoglobin Value"
+                  name="Glycated Hemoglobin Value Percent"
                   stroke="#8884d8"
                 />
               </LineChart>
