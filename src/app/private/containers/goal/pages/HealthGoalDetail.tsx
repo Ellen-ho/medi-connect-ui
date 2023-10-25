@@ -13,12 +13,21 @@ import NoDataFound from '../../../../../components/signs/NoDataFound';
 import GoalCompareItem from '../components/GoalCompareItem';
 import RowItem from '../../../../../components/form/RowItem';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
-import { Alert, AlertTitle, Box, Button } from '@mui/material';
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Button,
+  IconButton,
+  Tooltip,
+} from '@mui/material';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { HealthGoalStatus } from '../../../../../types/Goals';
 import GoalStatus from '../components/GoalStatus';
 import { useContext } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
+import { getGoalDurationRecords } from '../../../../../services/RecordService';
+import InsightsIcon from '@mui/icons-material/Insights';
 
 const HealthGoalDetail: React.FC = () => {
   const { id } = useParams();
@@ -39,6 +48,16 @@ const HealthGoalDetail: React.FC = () => {
       healthGoalId: id as string,
     });
     navigate('/health-goal');
+  };
+
+  const handleClickViewDataAnalyzation = async () => {
+    await getGoalDurationRecords({
+      goalId: id as string,
+      query: {
+        targetPatientId: (targetPatientId || state.patientId) as string,
+      },
+    }),
+      navigate(`/health-goal/${id}/data-analysis`);
   };
 
   const { data } = useSWR('getHealthGoal', () =>
@@ -93,7 +112,16 @@ const HealthGoalDetail: React.FC = () => {
                   </Box>
                 </>
               )}
-              <BasicCard title={'Health Goal Info'}>
+              <BasicCard
+                title={'Health Goal Info'}
+                titleRightElement={
+                  <Tooltip title="View Record Data Analysis">
+                    <IconButton onClick={handleClickViewDataAnalyzation}>
+                      <InsightsIcon />
+                    </IconButton>
+                  </Tooltip>
+                }
+              >
                 <RowItem label={'Status'}>
                   <GoalStatus status={data.status} />
                 </RowItem>

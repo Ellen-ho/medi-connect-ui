@@ -1,5 +1,6 @@
 import queryString from 'query-string';
 import api from './ApiService';
+import { GenderType } from '../types/Share';
 
 interface IPatientData {
   firstName: string;
@@ -29,7 +30,7 @@ interface IGetRecordsRequest {
   };
 }
 
-interface IGetRecordsResponse<T> {
+export interface IGetRecordsResponse<T> {
   patientData: IPatientData;
   recordsData: Array<T>;
   pagination: {
@@ -384,6 +385,51 @@ interface ICreateWeightRecordResponse {
   updatedAt: Date;
 }
 
+interface IGetGoalDurationRecordsRequest {
+  goalId: string;
+  query: {
+    targetPatientId: string;
+  };
+}
+export interface IGetGoalDurationRecordsResponse {
+  patientData: {
+    firstName: string;
+    lastName: string;
+    birthDate: Date;
+    gender: GenderType;
+  };
+  bloodPressureRecordsData:
+    | Array<{
+        id: string;
+        systolicBloodPressure: number;
+        diastolicBloodPressure: number;
+        bloodPressureDate: string;
+      }>
+    | [];
+  bloodSugarRecordsData:
+    | Array<{
+        id: string;
+        bloodSugarValue: number;
+        bloodSugarDate: string;
+      }>
+    | [];
+  glycatedHemoglobinRecordsData:
+    | Array<{
+        id: string;
+        glycatedHemoglobinValuePercent: number;
+        glycatedHemoglobinDate: string;
+      }>
+    | [];
+  weightRecordsData:
+    | Array<{
+        id: string;
+        weightValueKg: number;
+        bodyMassIndex: number;
+        weightDate: string;
+      }>
+    | [];
+}
+
 export const getRecord = async ({
   urlPath,
   recordId,
@@ -473,6 +519,17 @@ export const createWeightRecord = async (
   const response = await api.post<ICreateWeightRecordResponse>(
     '/records/weight',
     data,
+  );
+  return response.data;
+};
+
+export const getGoalDurationRecords = async ({
+  goalId,
+  query,
+}: IGetGoalDurationRecordsRequest): Promise<IGetGoalDurationRecordsResponse> => {
+  const queries = queryString.stringify(query);
+  const response = await api.get<IGetGoalDurationRecordsResponse>(
+    `/records/goal/${goalId}?${queries}`,
   );
   return response.data;
 };

@@ -54,6 +54,7 @@ interface IGetQuestionsRequest {
   query: {
     page: number;
     limit: number;
+    searchKeyword: string;
   };
 }
 
