@@ -8,7 +8,7 @@ const Layout: React.FC<ILayoutProps> = ({ children }) => {
   return (
     <>
       <ResponsiveAppBar />
-      <MainContent>{children}</MainContent>
+      {children}
     </>
   );
 };
