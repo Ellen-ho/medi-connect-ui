@@ -13,13 +13,19 @@ const PatientHome: React.FC = () => {
         <h2>Welcome, {state.currentUser?.displayName}</h2>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <BasicCard title={'Upcoming'}>TBD</BasicCard>
+            <BasicCard title={'Upcoming Appointments'}>TBD</BasicCard>
           </Grid>
           <Grid item xs={8}>
-            <BasicCard title={'Recent Questions'}>TBD</BasicCard>
+            <BasicCard title={'Your Questions'}>TBD</BasicCard>
           </Grid>
           <Grid item xs={4}>
-            <BasicCard title={'Upcoming'}>TBD</BasicCard>
+            <BasicCard title={'Ongoing Goals'}>TBD</BasicCard>
+          </Grid>
+          <Grid item xs={8}>
+            <BasicCard title={'Latest Questions'}>TBD</BasicCard>
+          </Grid>
+          <Grid item xs={4}>
+            <BasicCard title={'News'}>TBD</BasicCard>
           </Grid>
         </Grid>
       </CommonWrapper>
