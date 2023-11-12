@@ -2,10 +2,7 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import {
-  IGetHealthGoalListResponse,
-  getHealthGoalList,
-} from '../../../../../services/GoalService';
+import { getHealthGoalList } from '../../../../../services/GoalService';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
@@ -22,7 +19,7 @@ import BasicCard from '../../../../../components/card/BasicCard';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
 import FlagCircleIcon from '@mui/icons-material/FlagCircle';
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 import GoalStatus from '../components/GoalStatus';
 
 const HealthGoalList: React.FC = () => {
@@ -52,9 +49,9 @@ const HealthGoalList: React.FC = () => {
 
   return (
     <>
-      <PrimaryPageTop pageTitle="Health Goal" />
       <PrimaryPageContent>
         <CommonWrapper>
+          <PrimaryPageTop pageTitle="Health Goal" />
           <BasicCard title={'Goal'}>
             <List
               sx={{

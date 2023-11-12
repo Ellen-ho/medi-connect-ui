@@ -41,6 +41,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import SpecialtyMultipleSelect from '../components/SpecialtyMultipleSelect';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -212,9 +213,9 @@ const DoctorProfileDetail: React.FC = () => {
 
   return (
     <>
-      <PrimaryPageTop pageTitle="Profile" />
       <PrimaryPageContent>
-        <ProfileDetailWrapper>
+        <CommonWrapper>
+          <PrimaryPageTop pageTitle="Profile" />
           {isLoading ? (
             <DataLoading />
           ) : profile == null ? (
@@ -595,7 +596,7 @@ const DoctorProfileDetail: React.FC = () => {
               </Button>
             </FormWrapper>
           )}
-        </ProfileDetailWrapper>
+        </CommonWrapper>
       </PrimaryPageContent>
       <AvatarUploadDialog
         isOpen={isAvatarUploadDialogOpen}

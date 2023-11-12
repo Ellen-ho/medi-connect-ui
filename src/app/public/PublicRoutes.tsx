@@ -11,7 +11,7 @@ const PublicRoutes = () => {
   const isLoggedIn = cachedAuth && cachedAuth.isLoggedIn;
 
   return isLoggedIn ? (
-    <Navigate to="/" replace={true} state={{ from: location }} />
+    <Navigate to="/home" replace={true} state={{ from: location }} />
   ) : (
     <Outlet />
   );

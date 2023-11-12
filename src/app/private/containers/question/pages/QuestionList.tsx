@@ -58,28 +58,28 @@ const QuestionList: React.FC = () => {
 
   return (
     <>
-      <PrimaryPageTop
-        pageTitle="Question"
-        rightElement={
-          isDoctor ? (
-            <>
-              <SearchBar onSearch={handleSearch} />
-              <Button onClick={handleClickViewAnswer} variant="contained">
-                View Your Answers
-              </Button>
-            </>
-          ) : (
-            <>
-              <SearchBar onSearch={handleSearch} />
-              <Button onClick={handleClickNewQuestion} variant="contained">
-                Ask Question
-              </Button>
-            </>
-          )
-        }
-      />
       <PrimaryPageContent>
         <CommonWrapper>
+          <PrimaryPageTop
+            pageTitle="Question"
+            rightElement={
+              isDoctor ? (
+                <>
+                  <SearchBar onSearch={handleSearch} />
+                  <Button onClick={handleClickViewAnswer} variant="contained">
+                    View Your Answers
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <SearchBar onSearch={handleSearch} />
+                  <Button onClick={handleClickNewQuestion} variant="contained">
+                    Ask Question
+                  </Button>
+                </>
+              )
+            }
+          />
           <Card>
             <CardContent>
               <List

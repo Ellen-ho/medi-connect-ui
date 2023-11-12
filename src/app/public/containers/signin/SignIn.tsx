@@ -63,8 +63,6 @@ const SignIn: React.FC = () => {
         hasProfile: response.hasProfile,
       },
     });
-
-    response.hasProfile ? navigate('/') : navigate('/profile');
   };
 
   const handleFacebookLogin = async () => {

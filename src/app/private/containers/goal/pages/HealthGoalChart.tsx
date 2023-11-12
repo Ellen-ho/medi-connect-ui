@@ -10,10 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import {
-  IGetGoalDurationRecordsResponse,
-  getGoalDurationRecords,
-} from '../../../../../services/RecordService';
+import { getGoalDurationRecords } from '../../../../../services/RecordService';
 import { useParams, useSearchParams } from 'react-router-dom';
 import useSWR from 'swr';
 import { AuthContext } from '../../../../../context/AuthContext';

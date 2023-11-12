@@ -42,14 +42,3 @@ const Home: React.FC = () => {
 };
 
 export default Home;
-
-/**
- * Before Sign In
- * - Landing looks page (slogan and ads)
- * - Sign Up CTA
- * - turn 4 features into sections with slogan and ads
- * 3650 × 1060
- * After Sign In
- * - Key Statistics
- * - Latest events: appointments, health goals
- */

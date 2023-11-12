@@ -2,30 +2,21 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
-import {
-  getAnswerDetails,
-  getAnswerList,
-} from '../../../../../services/QuestionService';
+import { getAnswerList } from '../../../../../services/QuestionService';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import {
   Grid,
-  Avatar,
-  Badge,
-  Button,
   Card,
   CardContent,
   Divider,
   List,
-  ListItemAvatar,
   ListItemButton,
   ListItemText,
-  Tooltip,
   Typography,
   Pagination,
 } from '@mui/material';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
-import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
@@ -59,17 +50,17 @@ const AnswerList: React.FC = () => {
 
   return (
     <>
-      <PrimaryPageTop
-        pageTitle="Your Answer"
-        rightElement={
-          <>
-            <SearchBar onSearch={handleSearch} />
-            <div></div>
-          </>
-        }
-      />
       <PrimaryPageContent>
         <CommonWrapper>
+          <PrimaryPageTop
+            pageTitle="Your Answer"
+            rightElement={
+              <>
+                <SearchBar onSearch={handleSearch} />
+                <div></div>
+              </>
+            }
+          />
           <Card>
             <CardContent>
               <List

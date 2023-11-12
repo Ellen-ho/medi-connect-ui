@@ -5,6 +5,7 @@ import { Card, CardContent, Typography } from '@mui/material';
 import CreateRecordForm from '../components/CreateRecordForm';
 import { getRecordCategory } from '../helpers/getRecordCategory';
 import { useParams } from 'react-router-dom';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 const CreateRecord: React.FC = () => {
   const { typeId } = useParams();
@@ -12,9 +13,9 @@ const CreateRecord: React.FC = () => {
 
   return (
     <>
-      <SecondaryPageTop />
       <PrimaryPageContent>
-        <CreateRecordWrapper>
+        <CommonWrapper>
+          <SecondaryPageTop />
           <Card>
             <CardContent>
               {currentCategory ? (
@@ -36,7 +37,7 @@ const CreateRecord: React.FC = () => {
               )}
             </CardContent>
           </Card>
-        </CreateRecordWrapper>
+        </CommonWrapper>
       </PrimaryPageContent>
     </>
   );

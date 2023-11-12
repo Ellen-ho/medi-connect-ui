@@ -24,6 +24,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import RowItem from '../../../../../components/form/RowItem';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 interface IAccountForm {
   displayName: string;
@@ -61,9 +62,9 @@ const AccountDetail: React.FC = () => {
 
   return (
     <>
-      <PrimaryPageTop pageTitle="Account" />
       <PrimaryPageContent>
-        <AccountDetailWrapper>
+        <CommonWrapper>
+          <PrimaryPageTop pageTitle="Account" />
           {isLoading ? (
             <DataLoading />
           ) : data == null ? (
@@ -129,7 +130,7 @@ const AccountDetail: React.FC = () => {
               </Button>
             </FormWrapper>
           )}
-        </AccountDetailWrapper>
+        </CommonWrapper>
       </PrimaryPageContent>
     </>
   );
