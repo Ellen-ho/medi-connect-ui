@@ -4,6 +4,7 @@ import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { AuthContext } from '../../../../../context/AuthContext';
 import { Grid } from '@mui/material';
 import BasicCard from '../../../../../components/card/BasicCard';
+import UpcomingAppointment from '../components/UpcomingAppointment';
 
 const PatientHome: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -13,7 +14,7 @@ const PatientHome: React.FC = () => {
         <h2>Welcome, {state.currentUser?.displayName}</h2>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <BasicCard title={'Upcoming Appointments'}>TBD</BasicCard>
+            <UpcomingAppointment />
           </Grid>
           <Grid item xs={8}>
             <BasicCard title={'Your Questions'}>TBD</BasicCard>
