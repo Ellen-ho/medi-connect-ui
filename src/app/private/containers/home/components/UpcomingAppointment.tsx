@@ -3,7 +3,14 @@ import BasicCard from '../../../../../components/card/BasicCard';
 import useSWR from 'swr';
 import { getPatientConsultAppointments } from '../../../../../services/ConsultationService';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
-import { Avatar, Box, Divider, Skeleton, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  Skeleton,
+  Typography,
+} from '@mui/material';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 
@@ -30,6 +37,10 @@ const UpcomingAppointment: React.FC = () => {
     },
     meetingLink: null,
     cancelAvailability: true,
+  };
+
+  const handleViewAppointment = () => {
+    navigate('/appointment');
   };
 
   // if (isLoading) {
@@ -88,21 +99,15 @@ const UpcomingAppointment: React.FC = () => {
           </Typography>
         </Box>
       </Box>
-      {/* <ListItemButton>
-        <ListItemAvatar>
-          <Avatar>
-            <CalendarMonthIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={`Dr. ${upcomingAppointment.doctor.firstName} ${upcomingAppointment.doctor.lastName}`}
-          secondary={`Datetime: ${dateFormatter(
-            upcomingAppointment.doctorTimeSlot.startAt.toString(),
-          )} ~ ${dateFormatter(
-            upcomingAppointment.doctorTimeSlot.endAt.toString(),
-          )}`}
-        />
-      </ListItemButton> */}
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: '1rem' }}>
+        <Button
+          size="large"
+          variant="contained"
+          onClick={handleViewAppointment}
+        >
+          View More
+        </Button>
+      </Box>
     </BasicCard>
   );
 };
