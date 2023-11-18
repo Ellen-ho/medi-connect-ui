@@ -5,6 +5,8 @@ import { AuthContext } from '../../../../../context/AuthContext';
 import { Grid } from '@mui/material';
 import BasicCard from '../../../../../components/card/BasicCard';
 import UpcomingAppointment from '../components/UpcomingAppointment';
+import SelfQuestions from '../components/SelfQuestions';
+import OnGoingGoals from '../components/OnGoingGoals';
 
 const PatientHome: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -17,17 +19,17 @@ const PatientHome: React.FC = () => {
             <UpcomingAppointment />
           </Grid>
           <Grid item xs={8}>
-            <BasicCard title={'Your Questions'}>TBD</BasicCard>
+            <SelfQuestions />
           </Grid>
           <Grid item xs={4}>
-            <BasicCard title={'Ongoing Goals'}>TBD</BasicCard>
+            <OnGoingGoals />
           </Grid>
-          <Grid item xs={8}>
+          {/* <Grid item xs={8}>
             <BasicCard title={'Latest Questions'}>TBD</BasicCard>
           </Grid>
           <Grid item xs={4}>
             <BasicCard title={'News'}>TBD</BasicCard>
-          </Grid>
+          </Grid> */}
         </Grid>
       </CommonWrapper>
     </PrimaryPageContent>

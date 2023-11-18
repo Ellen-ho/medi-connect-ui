@@ -67,6 +67,15 @@ export interface IHealthGoalDetail {
   updatedAt: Date;
 }
 
+export interface IHealthGoal {
+  id: string;
+  startAt: Date;
+  endAt: Date;
+  status: HealthGoalStatus;
+  result: IHealthGoalResult | null;
+  createdAt: Date;
+}
+
 export interface IGoalList {
   patientData: {
     firstName: string;
@@ -74,12 +83,7 @@ export interface IGoalList {
     birthDate: Date;
     gender: GenderType;
   };
-  goalsData: Array<{
-    startAt: Date;
-    endAt: Date;
-    status: HealthGoalStatus;
-    result: IHealthGoalResult | null;
-  }>;
+  goalsData: Array<IHealthGoal>;
   pagination: {
     pages: number[];
     totalPage: number;

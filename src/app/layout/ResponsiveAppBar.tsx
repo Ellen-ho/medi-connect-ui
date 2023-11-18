@@ -121,7 +121,7 @@ const ResponsiveAppBar: React.FC = () => {
         >
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <HealthAndSafetyIcon
-              onClick={() => navigate('/')}
+              onClick={() => navigate(isLoggedIn ? '/home' : '/')}
               sx={{
                 mr: 1,
               }}

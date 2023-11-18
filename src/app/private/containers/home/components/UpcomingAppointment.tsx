@@ -100,11 +100,7 @@ const UpcomingAppointment: React.FC = () => {
         </Box>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: '1rem' }}>
-        <Button
-          size="large"
-          variant="contained"
-          onClick={handleViewAppointment}
-        >
+        <Button size="large" onClick={handleViewAppointment}>
           View More
         </Button>
       </Box>
