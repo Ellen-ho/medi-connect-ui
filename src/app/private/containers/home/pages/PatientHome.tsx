@@ -3,7 +3,6 @@ import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { AuthContext } from '../../../../../context/AuthContext';
 import { Grid } from '@mui/material';
-import BasicCard from '../../../../../components/card/BasicCard';
 import UpcomingAppointment from '../components/UpcomingAppointment';
 import SelfQuestions from '../components/SelfQuestions';
 import OnGoingGoals from '../components/OnGoingGoals';
