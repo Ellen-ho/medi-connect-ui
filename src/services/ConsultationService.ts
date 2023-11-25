@@ -24,6 +24,7 @@ interface IDoctorData {
   firstName: string;
   lastName: string;
   specialties: MedicalSpecialtyType[];
+  avatar: string;
 }
 export interface IPatientConsultAppointmentDatas {
   appointmentId: string;
@@ -41,6 +42,12 @@ export interface IDoctorConsultAppointmentDatas {
   doctorTimeSlot: IDoctorTimeSlotData;
   patient: IPatientData;
   meetingLink: string | null;
+}
+
+export interface IGetConsultAppointmentsRequest {
+  query: {
+    onlyUpcoming?: boolean;
+  };
 }
 
 export interface IGetPatientConsultAppointmentsResponse {
@@ -153,11 +160,15 @@ export const createConsultAppointmentRecord = async (
   return response.data;
 };
 
-export const getPatientConsultAppointments =
-  async (): Promise<IGetPatientConsultAppointmentsResponse> => {
-    const response = await api.get('/consultations/patient');
-    return response.data;
-  };
+export const getPatientConsultAppointments = async ({
+  query,
+}: IGetConsultAppointmentsRequest): Promise<IGetPatientConsultAppointmentsResponse> => {
+  const queries = query.onlyUpcoming
+    ? `?${queryString.stringify({ onlyUpcoming: query.onlyUpcoming })}`
+    : '';
+  const response = await api.get(`/consultations/patient${queries}`);
+  return response.data;
+};
 
 export const getDoctorConsultAppointments =
   async (): Promise<IGetDoctorConsultAppointmentsResponse> => {

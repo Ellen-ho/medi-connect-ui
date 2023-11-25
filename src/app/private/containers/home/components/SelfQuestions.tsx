@@ -5,35 +5,26 @@ import NoDataFound from '../../../../../components/signs/NoDataFound';
 import { Box, Button, Divider, Skeleton } from '@mui/material';
 import QuestionItem from '../../question/components/QuestionItem';
 import { getQuestions } from '../../../../../services/QuestionService';
+import { useContext } from 'react';
+import { AuthContext } from '../../../../../context/AuthContext';
 
 const SelfQuestions: React.FC = () => {
   const title = 'Your Questions';
   const navigate = useNavigate();
+  const { state } = useContext(AuthContext);
 
-  // const { data } = useSWR(`getQuestions?q=${page}?q=${searchKeyword}`, () =>
-  //   getQuestions({
-  //     query: {
-  //       limit: 10,
-  //       page: page,
-  //       searchKeyword: searchKeyword,
-  //     },
-  //   }),
-  // );
+  const { data } = useSWR(`getQuestions?q=askerId`, () =>
+    getQuestions({
+      query: {
+        limit: 2,
+        page: 1,
+        askerId: state.patientId,
+        searchKeyword: '',
+      },
+    }),
+  );
 
-  const questions = [
-    {
-      id: 'cce88a74-9698-4947-8ae6-addd6c69dad3',
-      content: 'why I am here? who am I? Where I need to go?',
-      createdAt: '2023-11-18T12:06:17.850Z',
-      answerCounts: 0,
-    },
-    {
-      id: '06a64fff-270c-480e-ad5d-a11ee3170d98',
-      content: 'Why human gets old?',
-      createdAt: '2023-11-12T13:01:10.432Z',
-      answerCounts: 0,
-    },
-  ];
+  const questions = data?.data;
 
   const handleViewQuestion = () => {
     navigate('/question');
