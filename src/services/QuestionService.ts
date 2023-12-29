@@ -55,7 +55,7 @@ interface IGetQuestionsRequest {
     page: number;
     limit: number;
     searchKeyword: string;
-    askerId: string | null;
+    askerId?: string;
   };
 }
 

@@ -13,16 +13,19 @@ const SelfQuestions: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useContext(AuthContext);
 
-  const { data } = useSWR(`getQuestions?q=askerId`, () =>
-    getQuestions({
-      query: {
-        limit: 2,
-        page: 1,
-        askerId: state.patientId,
-        searchKeyword: '',
-      },
-    }),
-  );
+  const { data } = useSWR(`getQuestions?q=askerId`, () => {
+    const askerId = state.patientId ? { askerId: state.patientId } : {};
+    const query = {
+      limit: 2,
+      page: 1,
+      searchKeyword: '',
+      ...askerId,
+    };
+
+    return getQuestions({
+      query,
+    });
+  });
 
   const questions = data?.data;
 
