@@ -45,7 +45,6 @@ const QuestionList: React.FC = () => {
         limit: 10,
         page: page,
         searchKeyword: searchKeyword,
-        ask,
       },
     }),
   );
