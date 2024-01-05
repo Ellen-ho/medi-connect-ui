@@ -1,14 +1,11 @@
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import {
-  IGetDoctorItem,
-  getDoctors,
-} from '../../../../../services/DoctorServices';
+import { getDoctors } from '../../../../../services/DoctorServices';
 import { useState } from 'react';
 import DoctorCard from '../components/DoctorCard';
-import { DoctorListWrapper } from './DoctorList.styled';
 import useSWR from 'swr';
 import { Grid, Pagination } from '@mui/material';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 const DoctorList: React.FC = () => {
   const [page, setPage] = useState<number>(1);
@@ -22,10 +19,9 @@ const DoctorList: React.FC = () => {
   );
 
   return (
-    <>
-      <PrimaryPageTop pageTitle="Doctors" />
-      <PrimaryPageContent>
-        <DoctorListWrapper></DoctorListWrapper>
+    <PrimaryPageContent>
+      <CommonWrapper>
+        <PrimaryPageTop pageTitle="Doctors" />
         <Grid container spacing={2}>
           {data &&
             data.data.map((doctor) => (
@@ -49,8 +45,8 @@ const DoctorList: React.FC = () => {
             }}
           />
         </div>
-      </PrimaryPageContent>
-    </>
+      </CommonWrapper>
+    </PrimaryPageContent>
   );
 };
 

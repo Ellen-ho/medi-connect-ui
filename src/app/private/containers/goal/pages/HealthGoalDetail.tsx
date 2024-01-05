@@ -70,127 +70,122 @@ const HealthGoalDetail: React.FC = () => {
   );
 
   return (
-    <>
-      <SecondaryPageTop />
-      <PrimaryPageContent>
-        <CommonWrapper>
-          {data ? (
-            <>
-              {data.status === HealthGoalStatus.PENDING && (
-                <>
-                  <Alert severity="info">
-                    <AlertTitle>
-                      Your Health Challenge: Become Your Best Self!
-                    </AlertTitle>
-                    Spotted unusual health patterns! It's your launchpad to
-                    great health. Embrace our goals, forge vibrant habits. Ready
-                    for an exciting journey? Your future self cheers you on!
-                  </Alert>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '1rem',
-                    }}
+    <PrimaryPageContent>
+      <CommonWrapper>
+        <SecondaryPageTop />
+        {data ? (
+          <>
+            {data.status === HealthGoalStatus.PENDING && (
+              <>
+                <Alert severity="info">
+                  <AlertTitle>
+                    Your Health Challenge: Become Your Best Self!
+                  </AlertTitle>
+                  Spotted unusual health patterns! It's your launchpad to great
+                  health. Embrace our goals, forge vibrant habits. Ready for an
+                  exciting journey? Your future self cheers you on!
+                </Alert>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '1rem',
+                  }}
+                >
+                  <Button
+                    onClick={handleActivate}
+                    variant="contained"
+                    color="primary"
                   >
-                    <Button
-                      onClick={handleActivate}
-                      variant="contained"
-                      color="primary"
-                    >
-                      <RocketLaunchIcon sx={{ paddingRight: '.4rem' }} /> Take
-                      Challenge!
-                    </Button>
-                    <Button
-                      onClick={handleReject}
-                      variant="outlined"
-                      color="error"
-                    >
-                      Reject
-                    </Button>
-                  </Box>
-                </>
-              )}
-              <BasicCard
-                title={'Health Goal Info'}
-                titleRightElement={
-                  <Tooltip title="View Record Data Analysis">
-                    <IconButton onClick={handleClickViewDataAnalyzation}>
-                      <InsightsIcon />
-                    </IconButton>
-                  </Tooltip>
+                    <RocketLaunchIcon sx={{ paddingRight: '.4rem' }} /> Take
+                    Challenge!
+                  </Button>
+                  <Button
+                    onClick={handleReject}
+                    variant="outlined"
+                    color="error"
+                  >
+                    Reject
+                  </Button>
+                </Box>
+              </>
+            )}
+            <BasicCard
+              title={'Health Goal Info'}
+              titleRightElement={
+                <Tooltip title="View Record Data Analysis">
+                  <IconButton onClick={handleClickViewDataAnalyzation}>
+                    <InsightsIcon />
+                  </IconButton>
+                </Tooltip>
+              }
+            >
+              <RowItem label={'Status'}>
+                <GoalStatus status={data.status} />
+              </RowItem>
+              <RowItem label={'Start At'}>
+                {dateFormatter(data.startAt.toString())}
+              </RowItem>
+              <RowItem label={'End At'}>
+                {dateFormatter(data.endAt.toString())}
+              </RowItem>
+              <RowItem label={'Created At'}>
+                {dateFormatter(data.createdAt.toString())}
+              </RowItem>
+            </BasicCard>
+            <BasicCard title={'Health Goal Targets'}>
+              <GoalCompareItem
+                label={'Category'}
+                leftItem={'Current Value'}
+                rightItem={'Suggested Value'}
+                isHeader={true}
+              />
+              <GoalCompareItem
+                label={'Systolic Blood Pressure'}
+                leftItem={
+                  data.bloodPressureCurrentValue?.systolicBloodPressure || '--'
                 }
-              >
-                <RowItem label={'Status'}>
-                  <GoalStatus status={data.status} />
-                </RowItem>
-                <RowItem label={'Start At'}>
-                  {dateFormatter(data.startAt.toString())}
-                </RowItem>
-                <RowItem label={'End At'}>
-                  {dateFormatter(data.endAt.toString())}
-                </RowItem>
-                <RowItem label={'Created At'}>
-                  {dateFormatter(data.createdAt.toString())}
-                </RowItem>
-              </BasicCard>
-              <BasicCard title={'Health Goal Targets'}>
-                <GoalCompareItem
-                  label={'Category'}
-                  leftItem={'Current Value'}
-                  rightItem={'Suggested Value'}
-                  isHeader={true}
-                />
-                <GoalCompareItem
-                  label={'Systolic Blood Pressure'}
-                  leftItem={
-                    data.bloodPressureCurrentValue?.systolicBloodPressure ||
-                    '--'
-                  }
-                  rightItem={
-                    data.bloodPressureTargetValue?.systolicBloodPressure || '--'
-                  }
-                />
-                <GoalCompareItem
-                  label={'Diastolic Blood Pressure'}
-                  leftItem={
-                    data.bloodPressureCurrentValue?.diastolicBloodPressure ||
-                    '--'
-                  }
-                  rightItem={
-                    data.bloodPressureTargetValue?.diastolicBloodPressure ||
-                    '--'
-                  }
-                />
-                <GoalCompareItem
-                  label={'Fasting Blood Sugar'}
-                  leftItem={data.bloodSugarCurrentValue || '--'}
-                  rightItem={data.bloodSugarTargetValue || '--'}
-                />
-                <GoalCompareItem
-                  label={'Glycated Hemonglobin'}
-                  leftItem={data.glycatedHemoglobinCurrentValue || '--'}
-                  rightItem={data.glycatedHemoglobinTargetValue || '--'}
-                />
-                <GoalCompareItem
-                  label={'Weight'}
-                  leftItem={data.weightCurrentValue || '--'}
-                  rightItem={data.weightTargetValue || '--'}
-                />
-                <GoalCompareItem
-                  label={'Body Mass Index'}
-                  leftItem={data.bodyMassIndexCurrentValue || '--'}
-                  rightItem={data.bodyMassIndexTargetValue || '--'}
-                />
-              </BasicCard>
-            </>
-          ) : (
-            <NoDataFound />
-          )}
-        </CommonWrapper>
-      </PrimaryPageContent>
-    </>
+                rightItem={
+                  data.bloodPressureTargetValue?.systolicBloodPressure || '--'
+                }
+              />
+              <GoalCompareItem
+                label={'Diastolic Blood Pressure'}
+                leftItem={
+                  data.bloodPressureCurrentValue?.diastolicBloodPressure || '--'
+                }
+                rightItem={
+                  data.bloodPressureTargetValue?.diastolicBloodPressure || '--'
+                }
+              />
+              <GoalCompareItem
+                label={'Fasting Blood Sugar'}
+                leftItem={data.bloodSugarCurrentValue || '--'}
+                rightItem={data.bloodSugarTargetValue || '--'}
+              />
+              <GoalCompareItem
+                label={'Glycated Hemonglobin'}
+                leftItem={data.glycatedHemoglobinCurrentValue || '--'}
+                rightItem={data.glycatedHemoglobinTargetValue || '--'}
+              />
+              <GoalCompareItem
+                label={'Weight'}
+                leftItem={data.weightCurrentValue || '--'}
+                rightItem={data.weightTargetValue || '--'}
+              />
+              <GoalCompareItem
+                label={'Body Mass Index'}
+                leftItem={data.bodyMassIndexCurrentValue || '--'}
+                rightItem={data.bodyMassIndexTargetValue || '--'}
+              />
+            </BasicCard>
+          </>
+        ) : (
+          <NoDataFound />
+        )}
+      </CommonWrapper>
+    </PrimaryPageContent>
   );
 };
 

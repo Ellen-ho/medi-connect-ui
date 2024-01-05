@@ -5,10 +5,8 @@ export const SignInWrapper = styled.div`
   ${mq({
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    '> *': {
-      width: ['100%', '80%', '50%'],
-    },
+    alignItems: 'stretch',
+    width: ['100%', '80%', '50%'],
   })}
 `;
 

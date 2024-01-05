@@ -13,6 +13,7 @@ import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import BasicCard from '../../../../../components/card/BasicCard';
 import EditDoctorTimeSlotCalendar from '../components/EditDoctorTimeSlotCalendar';
 import { Alert } from '@mui/material';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 const getValidDateRange = () => {
   // default date range can be edited 28th of the month to 28th of next month
@@ -68,9 +69,9 @@ const EditDoctorTimeSlot: React.FC = () => {
   });
 
   return (
-    <>
-      <SecondaryPageTop />
-      <PrimaryPageContent>
+    <PrimaryPageContent>
+      <CommonWrapper>
+        <SecondaryPageTop />
         <BasicCard title={'Appointment Time Slot Management'}>
           <Alert severity="info" sx={{ marginBottom: '1rem' }}>
             The valid start and end dates for scheduling appointments based on
@@ -89,8 +90,8 @@ const EditDoctorTimeSlot: React.FC = () => {
             eventCancelCallback={handleCancelTimeSlot}
           />
         </BasicCard>
-      </PrimaryPageContent>
-    </>
+      </CommonWrapper>
+    </PrimaryPageContent>
   );
 };
 

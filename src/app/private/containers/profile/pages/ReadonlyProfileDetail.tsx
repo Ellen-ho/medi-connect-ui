@@ -21,6 +21,7 @@ import BasicCard from '../../../../../components/card/BasicCard';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import RowItem from '../../../../../components/form/RowItem';
 import ImageAvatar from '../../../../../components/avatar/ImageAvatar';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -72,9 +73,9 @@ const ReadonlyProfileDetail: React.FC = () => {
 
   return (
     <>
-      <PrimaryPageTop pageTitle="Patient Profile" />
       <PrimaryPageContent>
-        <ProfileDetailWrapper>
+        <CommonWrapper>
+          <PrimaryPageTop pageTitle="Patient Profile" />
           {isLoading ? (
             <DataLoading />
           ) : profile == null ? (
@@ -205,7 +206,7 @@ const ReadonlyProfileDetail: React.FC = () => {
               </BasicCard>
             </FormWrapper>
           )}
-        </ProfileDetailWrapper>
+        </CommonWrapper>
       </PrimaryPageContent>
     </>
   );

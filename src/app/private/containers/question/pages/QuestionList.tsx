@@ -1,29 +1,22 @@
 import {
-  Avatar,
-  Badge,
   Box,
   Button,
   Card,
   CardContent,
   Divider,
   List,
-  ListItemAvatar,
-  ListItemButton,
-  ListItemText,
   Pagination,
-  Tooltip,
 } from '@mui/material';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import { useNavigate } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { getQuestions } from '../../../../../services/QuestionService';
-import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import useSWR, { mutate } from 'swr';
-import { dateFormatter } from '../../../../../utils/dateFormatter';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
 import SearchBar from '../../../../../components/search/Search';
+import QuestionItem from '../components/QuestionItem';
 
 const QuestionList: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -58,28 +51,28 @@ const QuestionList: React.FC = () => {
 
   return (
     <>
-      <PrimaryPageTop
-        pageTitle="Question"
-        rightElement={
-          isDoctor ? (
-            <>
-              <SearchBar onSearch={handleSearch} />
-              <Button onClick={handleClickViewAnswer} variant="contained">
-                View Your Answers
-              </Button>
-            </>
-          ) : (
-            <>
-              <SearchBar onSearch={handleSearch} />
-              <Button onClick={handleClickNewQuestion} variant="contained">
-                Ask Question
-              </Button>
-            </>
-          )
-        }
-      />
       <PrimaryPageContent>
         <CommonWrapper>
+          <PrimaryPageTop
+            pageTitle="Question"
+            rightElement={
+              isDoctor ? (
+                <>
+                  <SearchBar onSearch={handleSearch} />
+                  <Button onClick={handleClickViewAnswer} variant="contained">
+                    View Your Answers
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <SearchBar onSearch={handleSearch} />
+                  <Button onClick={handleClickNewQuestion} variant="contained">
+                    Ask Question
+                  </Button>
+                </>
+              )
+            }
+          />
           <Card>
             <CardContent>
               <List
@@ -99,43 +92,10 @@ const QuestionList: React.FC = () => {
                   })
                   .map((question) => (
                     <Box key={question.id}>
-                      <ListItemButton
-                        onClick={() => handleClickQuestion(question.id)}
-                      >
-                        <ListItemAvatar>
-                          <Tooltip
-                            title={
-                              question.answerCounts > 0
-                                ? 'This question had been answered'
-                                : 'No answer yet'
-                            }
-                            placement="top"
-                          >
-                            <Badge
-                              badgeContent={question.answerCounts}
-                              color="error"
-                              overlap="circular"
-                            >
-                              <Avatar
-                                sx={{
-                                  bgcolor:
-                                    question.answerCounts > 0
-                                      ? (theme) => theme.palette.success.light
-                                      : (theme) => theme.palette.grey[500],
-                                }}
-                              >
-                                <QuestionAnswerIcon />
-                              </Avatar>
-                            </Badge>
-                          </Tooltip>
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={question.content}
-                          secondary={`Created at ${dateFormatter(
-                            question.createdAt,
-                          )}`}
-                        />
-                      </ListItemButton>
+                      <QuestionItem
+                        handleClickQuestion={handleClickQuestion}
+                        question={question}
+                      />
                       <Divider />
                     </Box>
                   ))}

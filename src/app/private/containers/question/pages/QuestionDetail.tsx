@@ -43,6 +43,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import toast from 'react-hot-toast';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 const QuestionDetail: React.FC = () => {
   const navigate = useNavigate();
@@ -127,9 +128,9 @@ const QuestionDetail: React.FC = () => {
 
   return (
     <>
-      <SecondaryPageTop />
       <PrimaryPageContent>
-        <QuestionDetailWrapper>
+        <CommonWrapper>
+          <SecondaryPageTop />
           <BasicCard title={'Question'}>
             {data ? (
               <>
@@ -350,7 +351,7 @@ const QuestionDetail: React.FC = () => {
               )}
             </BasicCard>
           )}
-        </QuestionDetailWrapper>
+        </CommonWrapper>
       </PrimaryPageContent>
 
       <Dialog

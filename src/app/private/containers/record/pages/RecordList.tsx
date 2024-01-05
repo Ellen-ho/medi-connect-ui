@@ -10,6 +10,7 @@ import RecordItem from '../components/RecordItem';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
 import { AuthContext } from '../../../../../context/AuthContext';
 import useSWR, { mutate } from 'swr';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 const RecordList: React.FC = () => {
   const [page, setPage] = useState<number>(1);
@@ -47,38 +48,36 @@ const RecordList: React.FC = () => {
   return (
     <>
       {recordCategory ? (
-        <>
-          <SecondaryPageTop
-            onBack={() =>
-              navigate({
-                pathname: '/record',
-                search: targetPatientId
-                  ? `?targetPatientId=${targetPatientId}`
-                  : '',
-              })
-            }
-            rightElement={
-              !isDoctor && (
-                <Button onClick={handleNewQuestion} variant="contained">
-                  Add Record
-                </Button>
-              )
-            }
-          />
-          <PrimaryPageContent>
-            <RecordListWrapper>
-              {data?.recordsData && data.recordsData.length > 0 ? (
-                data.recordsData.map((record: unknown) => (
-                  <RecordItem
-                    record={record}
-                    recordCategory={recordCategory}
-                    onClick={handleClickRecord}
-                  />
-                ))
-              ) : (
-                <NoDataFound />
-              )}
-            </RecordListWrapper>
+        <PrimaryPageContent>
+          <CommonWrapper>
+            <SecondaryPageTop
+              onBack={() =>
+                navigate({
+                  pathname: '/record',
+                  search: targetPatientId
+                    ? `?targetPatientId=${targetPatientId}`
+                    : '',
+                })
+              }
+              rightElement={
+                !isDoctor && (
+                  <Button onClick={handleNewQuestion} variant="contained">
+                    Add Record
+                  </Button>
+                )
+              }
+            />
+            {data?.recordsData && data.recordsData.length > 0 ? (
+              data.recordsData.map((record: unknown) => (
+                <RecordItem
+                  record={record}
+                  recordCategory={recordCategory}
+                  onClick={handleClickRecord}
+                />
+              ))
+            ) : (
+              <NoDataFound />
+            )}
             <div
               style={{
                 display: 'flex',
@@ -94,8 +93,8 @@ const RecordList: React.FC = () => {
                 }}
               />
             </div>
-          </PrimaryPageContent>
-        </>
+          </CommonWrapper>
+        </PrimaryPageContent>
       ) : (
         <Typography
           gutterBottom

@@ -47,6 +47,7 @@ import { useSearchParams } from 'react-router-dom';
 import RowItem from '../../../../../components/form/RowItem';
 import ImageAvatar from '../../../../../components/avatar/ImageAvatar';
 import AvatarUploadDialog from '../components/AvatarUploadDialog';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -175,9 +176,9 @@ const ProfileDetail: React.FC = () => {
   );
   return (
     <>
-      <PrimaryPageTop pageTitle="Profile" />
       <PrimaryPageContent>
-        <ProfileDetailWrapper>
+        <CommonWrapper>
+          <PrimaryPageTop pageTitle="Profile" />
           {isLoading ? (
             <DataLoading />
           ) : profile == null ? (
@@ -653,7 +654,7 @@ const ProfileDetail: React.FC = () => {
               </Button>
             </FormWrapper>
           )}
-        </ProfileDetailWrapper>
+        </CommonWrapper>
       </PrimaryPageContent>
       <AvatarUploadDialog
         isOpen={isAvatarUploadDialogOpen}

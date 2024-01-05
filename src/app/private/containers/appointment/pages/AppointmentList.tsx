@@ -18,23 +18,21 @@ const AppointmentList: React.FC = () => {
   };
 
   return (
-    <>
-      <PrimaryPageTop
-        pageTitle="Appointment"
-        rightElement={
-          isDoctor && (
-            <Button onClick={handleClickEditTimeSlot} variant="contained">
-              Edit Time Slot
-            </Button>
-          )
-        }
-      />
-      <PrimaryPageContent>
-        <CommonWrapper>
-          {isDoctor ? <DoctorAppointmentList /> : <PatientAppointmentList />}
-        </CommonWrapper>
-      </PrimaryPageContent>
-    </>
+    <PrimaryPageContent>
+      <CommonWrapper>
+        <PrimaryPageTop
+          pageTitle="Appointment"
+          rightElement={
+            isDoctor && (
+              <Button onClick={handleClickEditTimeSlot} variant="contained">
+                Edit Time Slot
+              </Button>
+            )
+          }
+        />
+        {isDoctor ? <DoctorAppointmentList /> : <PatientAppointmentList />}
+      </CommonWrapper>
+    </PrimaryPageContent>
   );
 };
 

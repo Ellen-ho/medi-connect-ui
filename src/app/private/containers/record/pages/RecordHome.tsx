@@ -8,6 +8,7 @@ import { recordCategories } from '../types/Record.type';
 import { RecordHomeWrapper } from './RecordHome.styled';
 import { getRecord, getRecords } from '../../../../../services/RecordService';
 import { AuthContext } from '../../../../../context/AuthContext';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 const RecordHome: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -23,9 +24,9 @@ const RecordHome: React.FC = () => {
 
   return (
     <>
-      <PrimaryPageTop pageTitle="Records" />
       <PrimaryPageContent>
-        <RecordHomeWrapper>
+        <CommonWrapper>
+          <PrimaryPageTop pageTitle="Records" />
           {recordCategories.map((category) => (
             <RecordEntrance
               key={category.urlPath}
@@ -39,7 +40,7 @@ const RecordHome: React.FC = () => {
               }
             />
           ))}
-        </RecordHomeWrapper>
+        </CommonWrapper>
       </PrimaryPageContent>
     </>
   );

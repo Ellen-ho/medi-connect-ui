@@ -124,120 +124,118 @@ const NotificationList: React.FC = () => {
   };
 
   return (
-    <>
-      <PrimaryPageTop pageTitle={'Notification'} />
-      <PrimaryPageContent>
-        <CommonWrapper>
-          <Card>
-            <CardContent>
-              <Box textAlign={'right'}>
-                <IconButton onClick={handleOpenMenu}>
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorElNav}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                  }}
-                  open={Boolean(anchorElNav)}
-                  onClose={handleCloseMenu}
-                >
-                  <MenuItem onClick={handleReadAll}>
-                    <Typography textAlign="center">Read All</Typography>
-                  </MenuItem>
-                  <MenuItem onClick={handleDeleteAll}>
-                    <Typography textAlign="center">Delete All</Typography>
-                  </MenuItem>
-                </Menu>
-              </Box>
-              <List
-                sx={{
-                  width: '100%',
-                  bgcolor: 'background.paper',
+    <PrimaryPageContent>
+      <CommonWrapper>
+        <PrimaryPageTop pageTitle={'Notification'} />
+        <Card>
+          <CardContent>
+            <Box textAlign={'right'}>
+              <IconButton onClick={handleOpenMenu}>
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
                 }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseMenu}
               >
-                {data?.data && data?.data.length > 0 ? (
-                  data?.data.map((notification) => (
-                    <>
-                      <Box
-                        key={notification.id}
-                        display="flex"
-                        alignItems="center"
-                      >
-                        <ListItemButton
-                          key={notification.id}
-                          onClick={() =>
-                            handleClickNotification(
-                              notification.id,
-                              notification.notificationType,
-                              notification.referenceId,
-                            )
-                          }
-                          sx={{
-                            backgroundColor: notification.isRead
-                              ? '#fff'
-                              : '#e0f5ff',
-                          }}
-                        >
-                          <ListItemAvatar>
-                            <Avatar>
-                              <NotificationIcons
-                                notificationType={notification.notificationType}
-                              />
-                            </Avatar>
-                          </ListItemAvatar>
-                          <ListItemText
-                            primary={notification.title}
-                            secondary={`${dateFormatter(
-                              notification.createdAt.toString(),
-                            )}`}
-                          />
-                        </ListItemButton>
-                        <Tooltip title={'Delete'} placement="top">
-                          <IconButton
-                            color={'warning'}
-                            onClick={() =>
-                              handleDeleteNotification(notification.id)
-                            }
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Tooltip>
-                        <Divider />
-                      </Box>
-                    </>
-                  ))
-                ) : (
-                  <NoDataFound />
-                )}
-              </List>
-            </CardContent>
-          </Card>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: '20px',
-            }}
-          >
-            <Pagination
-              count={data?.pagination.totalPage || 1}
-              page={page}
-              onChange={(event, page) => {
-                setPage(page);
+                <MenuItem onClick={handleReadAll}>
+                  <Typography textAlign="center">Read All</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleDeleteAll}>
+                  <Typography textAlign="center">Delete All</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
+            <List
+              sx={{
+                width: '100%',
+                bgcolor: 'background.paper',
               }}
-            />
-          </div>
-        </CommonWrapper>
-      </PrimaryPageContent>
-    </>
+            >
+              {data?.data && data?.data.length > 0 ? (
+                data?.data.map((notification) => (
+                  <>
+                    <Box
+                      key={notification.id}
+                      display="flex"
+                      alignItems="center"
+                    >
+                      <ListItemButton
+                        key={notification.id}
+                        onClick={() =>
+                          handleClickNotification(
+                            notification.id,
+                            notification.notificationType,
+                            notification.referenceId,
+                          )
+                        }
+                        sx={{
+                          backgroundColor: notification.isRead
+                            ? '#fff'
+                            : '#e0f5ff',
+                        }}
+                      >
+                        <ListItemAvatar>
+                          <Avatar>
+                            <NotificationIcons
+                              notificationType={notification.notificationType}
+                            />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={notification.title}
+                          secondary={`${dateFormatter(
+                            notification.createdAt.toString(),
+                          )}`}
+                        />
+                      </ListItemButton>
+                      <Tooltip title={'Delete'} placement="top">
+                        <IconButton
+                          color={'warning'}
+                          onClick={() =>
+                            handleDeleteNotification(notification.id)
+                          }
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Divider />
+                    </Box>
+                  </>
+                ))
+              ) : (
+                <NoDataFound />
+              )}
+            </List>
+          </CardContent>
+        </Card>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '20px',
+          }}
+        >
+          <Pagination
+            count={data?.pagination.totalPage || 1}
+            page={page}
+            onChange={(event, page) => {
+              setPage(page);
+            }}
+          />
+        </div>
+      </CommonWrapper>
+    </PrimaryPageContent>
   );
 };
 

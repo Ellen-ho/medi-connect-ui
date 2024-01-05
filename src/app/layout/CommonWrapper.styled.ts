@@ -5,10 +5,8 @@ export const CommonWrapper = styled.div`
   ${mq({
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'stretch',
     gap: '1rem',
-    '> *': {
-      width: ['100%', '100%', '70%'],
-    },
+    width: ['100%', '100%', '70%'],
   })}
 `;

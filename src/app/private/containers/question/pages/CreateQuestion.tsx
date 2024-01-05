@@ -17,6 +17,7 @@ import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { CreateQuestionWrapper } from './CreateQuestion.styled';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import { toSentenceCaseFormat } from '../../../../../utils/sentenceCaseFormat';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 
 interface ICreateQuestionFormInputs {
   content: string;
@@ -54,9 +55,9 @@ const CreateQuestion: React.FC = () => {
 
   return (
     <>
-      <SecondaryPageTop />
       <PrimaryPageContent>
-        <CreateQuestionWrapper>
+        <CommonWrapper>
+          <SecondaryPageTop />
           <Card>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
@@ -99,7 +100,7 @@ const CreateQuestion: React.FC = () => {
               </FormWrapper>
             </CardContent>
           </Card>
-        </CreateQuestionWrapper>
+        </CommonWrapper>
       </PrimaryPageContent>
     </>
   );

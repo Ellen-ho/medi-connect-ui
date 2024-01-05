@@ -55,7 +55,9 @@ const PatientAppointmentList: React.FC<IPatientAppointmentListProps> = () => {
   };
 
   const { data, mutate } = useSWR('getPatientConsultAppointments', () =>
-    getPatientConsultAppointments(),
+    getPatientConsultAppointments({
+      query: {},
+    }),
   );
 
   return (

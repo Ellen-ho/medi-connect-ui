@@ -30,9 +30,9 @@ const RecordDetail: React.FC = () => {
 
   return (
     <>
-      <SecondaryPageTop />
       <PrimaryPageContent>
         <CommonWrapper>
+          <SecondaryPageTop />
           <BasicCard title={'Record Detail'}>
             {data?.data &&
               Object.entries(data.data).map(([key, value]) => {

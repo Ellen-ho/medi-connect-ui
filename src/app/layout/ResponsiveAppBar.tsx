@@ -59,6 +59,7 @@ const ResponsiveAppBar: React.FC = () => {
   const { state, dispatch } = useContext(AuthContext);
   const currentUserRole = state.currentUser?.role as UserRoleType;
   const avatar = state.currentUser?.avatar;
+  const isLoggedIn = state.isLoggedIn;
   const { state: notificationState, dispatch: notificationDispatch } =
     useContext(NotificationContext);
   const navigate = useNavigate();
@@ -96,7 +97,7 @@ const ResponsiveAppBar: React.FC = () => {
   };
 
   useSWR(
-    state.isLoggedIn ? 'getNotificationHints' : null,
+    isLoggedIn ? 'getNotificationHints' : null,
     () => getNotificationHints(),
     {
       onSuccess: (data) => {
@@ -120,7 +121,7 @@ const ResponsiveAppBar: React.FC = () => {
         >
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <HealthAndSafetyIcon
-              onClick={() => navigate('/')}
+              onClick={() => navigate(isLoggedIn ? '/home' : '/')}
               sx={{
                 mr: 1,
               }}
@@ -130,7 +131,7 @@ const ResponsiveAppBar: React.FC = () => {
               variant="h6"
               noWrap
               component="a"
-              href="/"
+              href={isLoggedIn ? '/home' : '/'}
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -151,7 +152,7 @@ const ResponsiveAppBar: React.FC = () => {
           </Box>
 
           <Box sx={{ display: { py: 2 } }}>
-            {state.isLoggedIn ? (
+            {isLoggedIn ? (
               <Box sx={{ display: 'flex' }}>
                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                   {topPages.map((page) => {
