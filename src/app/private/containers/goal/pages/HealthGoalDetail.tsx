@@ -149,6 +149,7 @@ const HealthGoalDetail: React.FC = () => {
                 rightItem={
                   data.bloodPressureTargetValue?.systolicBloodPressure || '--'
                 }
+                unit={'mmHg'}
               />
               <GoalCompareItem
                 label={'Diastolic Blood Pressure'}
@@ -158,26 +159,31 @@ const HealthGoalDetail: React.FC = () => {
                 rightItem={
                   data.bloodPressureTargetValue?.diastolicBloodPressure || '--'
                 }
+                unit={'mmHg'}
               />
               <GoalCompareItem
                 label={'Fasting Blood Sugar'}
                 leftItem={data.bloodSugarCurrentValue || '--'}
                 rightItem={data.bloodSugarTargetValue || '--'}
+                unit={'mg/dl'}
               />
               <GoalCompareItem
                 label={'Glycated Hemonglobin'}
                 leftItem={data.glycatedHemoglobinCurrentValue || '--'}
                 rightItem={data.glycatedHemoglobinTargetValue || '--'}
+                unit={'%'}
               />
               <GoalCompareItem
                 label={'Weight'}
                 leftItem={data.weightCurrentValue || '--'}
                 rightItem={data.weightTargetValue || '--'}
+                unit={'kg'}
               />
               <GoalCompareItem
                 label={'Body Mass Index'}
                 leftItem={data.bodyMassIndexCurrentValue || '--'}
                 rightItem={data.bodyMassIndexTargetValue || '--'}
+                unit={'kg/m²'}
               />
             </BasicCard>
           </>

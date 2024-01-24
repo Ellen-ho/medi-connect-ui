@@ -450,6 +450,7 @@ export const getRecords = async ({
   const response = await api.get<IGetRecordsResponse<unknown>>(
     `/records/${urlPath}?${queries}`,
   );
+
   return response.data;
 };
 
