@@ -18,6 +18,7 @@ interface IPatientData {
   id: string;
   firstName: string;
   lastName: string;
+  avatar: string;
 }
 
 interface IDoctorData {
@@ -170,11 +171,15 @@ export const getPatientConsultAppointments = async ({
   return response.data;
 };
 
-export const getDoctorConsultAppointments =
-  async (): Promise<IGetDoctorConsultAppointmentsResponse> => {
-    const response = await api.get('/consultations/doctor');
-    return response.data;
-  };
+export const getDoctorConsultAppointments = async ({
+  query,
+}: IGetConsultAppointmentsRequest): Promise<IGetDoctorConsultAppointmentsResponse> => {
+  const queries = query.onlyUpcoming
+    ? `?${queryString.stringify({ onlyUpcoming: query.onlyUpcoming })}`
+    : '';
+  const response = await api.get('/consultations/doctor');
+  return response.data;
+};
 
 export const editDoctorTimeSlot = async (
   data: IEditDoctorTimeSlotRequest,

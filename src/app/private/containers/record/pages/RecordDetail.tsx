@@ -9,7 +9,6 @@ import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 import BasicCard from '../../../../../components/card/BasicCard';
 import RowItem from '../../../../../components/form/RowItem';
 import { camelToTitleCase } from '../../../../../utils/camelToTitleCase';
-import ClearIcon from '@mui/icons-material/Clear';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 
 const RecordDetail: React.FC = () => {
@@ -38,7 +37,6 @@ const RecordDetail: React.FC = () => {
               Object.entries(data.data).map(([key, value]) => {
                 const dateRelatedFields = [
                   'createdAt',
-                  'updatedAt',
                   'Date',
                   'foodTime',
                   'sleepTime',
@@ -47,6 +45,9 @@ const RecordDetail: React.FC = () => {
                 const isDateRelatedField = dateRelatedFields.some((field) =>
                   key.includes(field),
                 );
+                if (key === 'id' || key === 'updatedAt') {
+                  return null;
+                }
                 return (
                   <RowItem label={camelToTitleCase(key)}>
                     {isDateRelatedField ? dateFormatter(value) : value}

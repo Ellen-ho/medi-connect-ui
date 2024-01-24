@@ -5,12 +5,14 @@ interface IGoalCompareItemProps {
   label: string;
   leftItem?: string | number | React.ReactNode;
   rightItem?: string | number | React.ReactNode;
+  unit?: string;
   isHeader?: boolean;
 }
 const GoalCompareItem: React.FC<IGoalCompareItemProps> = ({
   label,
   leftItem = '--',
   rightItem = '--',
+  unit = '',
   isHeader = false,
 }) => {
   return (
@@ -23,7 +25,7 @@ const GoalCompareItem: React.FC<IGoalCompareItemProps> = ({
           padding: '.5rem 0',
         }}
       >
-        <Box color="text.primary" sx={{ width: '20%', textAlign: 'right' }}>
+        <Box color="text.primary" sx={{ width: '20%', textAlign: 'center' }}>
           {label}
         </Box>
         <Box
@@ -49,6 +51,9 @@ const GoalCompareItem: React.FC<IGoalCompareItemProps> = ({
           }}
         >
           {rightItem}
+        </Box>
+        <Box color="text.primary" sx={{ width: '20%', textAlign: 'center' }}>
+          {unit}
         </Box>
       </Box>
       <Divider></Divider>

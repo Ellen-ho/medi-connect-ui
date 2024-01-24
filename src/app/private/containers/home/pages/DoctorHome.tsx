@@ -8,6 +8,7 @@ import { getDoctorStatistic } from '../../../../../services/DoctorServices';
 import DoctorUpcomingAppointment from '../components/DoctorUpcomingAppointment';
 import SelfQuestions from '../components/SelfQuestions';
 import DoctorAchievement from '../components/DoctorAchievement';
+import PresentTimeSlot from '../components/PresentTimeSlot';
 
 const DoctorHome: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -23,13 +24,13 @@ const DoctorHome: React.FC = () => {
         <h2>Welcome, Dr. {state.currentUser?.displayName}</h2>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <DoctorAchievement />
-          </Grid>
-          <Grid item xs={12}>
             <DoctorUpcomingAppointment />
           </Grid>
-          <Grid item xs={13}>
-            <SelfQuestions />
+          <Grid item xs={8}>
+            <DoctorAchievement />
+          </Grid>
+          <Grid item xs={4}>
+            <PresentTimeSlot />
           </Grid>
         </Grid>
       </CommonWrapper>

@@ -57,19 +57,19 @@ export const recordCategories: IRecordCategory[] = [
       },
       {
         id: 'systolicBloodPressure',
-        name: 'Systolic Blood Pressure',
+        name: 'Systolic Blood Pressure (mmHg)',
         type: 'number',
         placeholder: 'Please Enter Systolic Blood Pressure',
       },
       {
         id: 'diastolicBloodPressure',
-        name: 'Diastolic Blood Pressure',
+        name: 'Diastolic Blood Pressure (mmHg)',
         type: 'number',
         placeholder: 'Please Enter Diastolic Blood Pressure',
       },
       {
         id: 'heartBeat',
-        name: 'Heart Beat',
+        name: 'Heart Beat (bpm)',
         type: 'number',
         placeholder: 'Please Enter Heart Beat',
       },
@@ -102,7 +102,7 @@ export const recordCategories: IRecordCategory[] = [
       },
       {
         id: 'bloodSugarValue',
-        name: 'Blood Sugar Value',
+        name: 'Blood Sugar Value (mg/dl)',
         type: 'number',
         placeholder: 'Please Enter Blood Sugar Value',
       },
@@ -153,7 +153,7 @@ export const recordCategories: IRecordCategory[] = [
       },
       {
         id: 'exerciseDurationMinute',
-        name: 'Exercise Duration Minute',
+        name: 'Exercise Duration (min)',
         type: 'number',
         placeholder: 'Please Enter Exercise Duration Minute',
       },
@@ -210,7 +210,7 @@ export const recordCategories: IRecordCategory[] = [
       },
       {
         id: 'foodAmount',
-        name: 'The Amount Of Food',
+        name: 'The Amount Of Food (one serving)',
         type: 'number',
         placeholder: 'Please Enter Amount Of Food',
       },
@@ -242,7 +242,7 @@ export const recordCategories: IRecordCategory[] = [
       },
       {
         id: 'glycatedHemoglobinValuePercent',
-        name: 'Glycated Hemoglobin Value Percent',
+        name: 'Glycated Hemoglobin Value (%)',
         type: 'number',
         placeholder: 'Please Enter Glycated Hemoglobin Value Percent',
       },
@@ -323,7 +323,7 @@ export const recordCategories: IRecordCategory[] = [
       },
       {
         id: 'weightValueKg',
-        name: 'weight Value Kg',
+        name: 'weight Value (kg)',
         type: 'number',
         placeholder: 'Please Enter Weight Value Kg',
       },

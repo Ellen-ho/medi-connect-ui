@@ -27,24 +27,6 @@ const UpcomingAppointment: React.FC = () => {
 
   const upcomingAppointment = data?.upcomingAppointments[0];
 
-  // const upcomingAppointment = {
-  //   appointmentId: 'dca8d139-863c-4f77-ac07-63655272b2a3',
-  //   patientId: '4910c664-b7bb-4088-b413-8210abfed654',
-  //   status: 'UPCOMING',
-  //   doctorTimeSlot: {
-  //     startAt: '2023-11-20T01:00:00.000Z',
-  //     endAt: '2023-11-20T01:30:00.000Z',
-  //   },
-  //   doctor: {
-  //     firstName: 'Jim',
-  //     lastName: 'Williams',
-  //     specialties: ['OPHTHALMOLOGY'],
-  //     avatar: 'https://i.imgur.com/GEkMq5X.png', // new
-  //   },
-  //   meetingLink: null,
-  //   cancelAvailability: true,
-  // };
-
   const handleViewAppointment = () => {
     navigate('/appointment');
   };
