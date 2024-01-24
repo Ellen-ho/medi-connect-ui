@@ -5,7 +5,7 @@ import { AuthContext } from '../../../../../context/AuthContext';
 import { Grid } from '@mui/material';
 import UpcomingAppointment from '../components/UpcomingAppointment';
 import SelfQuestions from '../components/SelfQuestions';
-import OnGoingGoals from '../components/OnGoingGoals';
+import PresentGoal from '../components/PresentGoal';
 
 const PatientHome: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -21,7 +21,7 @@ const PatientHome: React.FC = () => {
             <SelfQuestions />
           </Grid>
           <Grid item xs={4}>
-            <OnGoingGoals />
+            <PresentGoal />
           </Grid>
           {/* <Grid item xs={8}>
             <BasicCard title={'Latest Questions'}>TBD</BasicCard>
