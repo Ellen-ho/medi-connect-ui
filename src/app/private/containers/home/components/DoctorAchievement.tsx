@@ -8,7 +8,7 @@ import { getDoctorStatistic } from '../../../../../services/DoctorServices';
 import CountUp from 'react-countup';
 
 const DoctorAchievement: React.FC = () => {
-  const title = 'Your Questions';
+  const title = 'Your Answers';
   const navigate = useNavigate();
   const { state } = useContext(AuthContext);
   const doctorId = state.doctorId;

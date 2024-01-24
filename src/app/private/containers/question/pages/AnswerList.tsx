@@ -53,7 +53,7 @@ const AnswerList: React.FC = () => {
       <PrimaryPageContent>
         <CommonWrapper>
           <PrimaryPageTop
-            pageTitle="Your Answer"
+            pageTitle="Your Answers"
             rightElement={
               <>
                 <SearchBar onSearch={handleSearch} />
