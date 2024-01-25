@@ -17,9 +17,11 @@ import useInitAuth from './hooks/UseInitAuth';
 import OAuth from './app/public/containers/oauth/OAuth';
 import PublicRoutes from './app/public/PublicRoutes';
 import PersonalHome from './app/private/containers/home/Index';
+import useSocketNotification from './hooks/UseSocketNotification';
 
 const App: React.FC = () => {
   useInitAuth();
+  useSocketNotification();
 
   return (
     <Routes>

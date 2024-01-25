@@ -66,7 +66,7 @@ const SignIn: React.FC = () => {
   };
 
   const handleFacebookLogin = async () => {
-    window.open(`${APP_SERVER_URL}/auth/facebook`, '_self');
+    window.open(`${APP_SERVER_URL}/api/auth/facebook`, '_self');
   };
 
   return (

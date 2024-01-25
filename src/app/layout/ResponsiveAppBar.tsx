@@ -108,7 +108,6 @@ const ResponsiveAppBar: React.FC = () => {
           },
         });
       },
-      refreshInterval: 5 * 60 * 1000, // every 10 minutes
     },
   );
 
