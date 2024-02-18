@@ -3,13 +3,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../../../../../context/AuthContext';
 import BasicCard from '../../../../../components/card/BasicCard';
 import { Box, Button, Typography } from '@mui/material';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const PresentTimeSlot: React.FC = () => {
   const { state } = useContext(AuthContext);
   const navigate = useNavigate();
-  const isDoctor = state.doctorId != null;
-  const [searchParams] = useSearchParams();
 
   const handleViewTimeSlot = () => {
     navigate('/appointment/time-slot');

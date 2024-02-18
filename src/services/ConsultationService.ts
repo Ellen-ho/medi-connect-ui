@@ -177,7 +177,7 @@ export const getDoctorConsultAppointments = async ({
   const queries = query.onlyUpcoming
     ? `?${queryString.stringify({ onlyUpcoming: query.onlyUpcoming })}`
     : '';
-  const response = await api.get('/consultations/doctor');
+  const response = await api.get(`/consultations/doctor${queries}`);
   return response.data;
 };
 
