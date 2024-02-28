@@ -64,7 +64,7 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
   };
 
   const { data } = useSWR('getDoctorConsultAppointments', () =>
-    getDoctorConsultAppointments(),
+    getDoctorConsultAppointments({ query: {} }),
   );
 
   return (
