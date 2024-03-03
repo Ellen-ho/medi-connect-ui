@@ -49,7 +49,7 @@ const RecordDetail: React.FC = () => {
                   return null;
                 }
                 return (
-                  <RowItem label={camelToTitleCase(key)}>
+                  <RowItem label={camelToTitleCase(key)} key={key}>
                     {isDateRelatedField ? dateFormatter(value) : value}
                   </RowItem>
                 );

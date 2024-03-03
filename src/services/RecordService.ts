@@ -25,8 +25,10 @@ interface IGetRecordsRequest {
   urlPath: string;
   query: {
     targetPatientId: string;
-    page: number;
-    limit: number;
+    startDate: string;
+    endDate: string;
+    page?: number;
+    limit?: number;
   };
 }
 
@@ -445,11 +447,17 @@ export const getRecord = async ({
 export const getRecords = async ({
   urlPath,
   query,
-}: IGetRecordsRequest): Promise<IGetRecordsResponse<unknown>> => {
+}: IGetRecordsRequest): Promise<
+  IGetRecordsResponse<{
+    id: string;
+    date: string;
+    [key: string]: any;
+  }>
+> => {
   const queries = queryString.stringify(query);
-  const response = await api.get<IGetRecordsResponse<unknown>>(
-    `/records/${urlPath}?${queries}`,
-  );
+  const response = await api.get<
+    IGetRecordsResponse<{ id: string; date: string; [key: string]: any }>
+  >(`/records/${urlPath}?${queries}`);
 
   return response.data;
 };
