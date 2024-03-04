@@ -2,13 +2,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import BasicCard from '../../../../../components/card/BasicCard';
 import useSWR from 'swr';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
-import { Box, Button, Skeleton, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Tooltip, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
-import { HealthGoalStatus } from '../../../../../types/Goals';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { getHealthGoalList } from '../../../../../services/GoalService';
+import trophyUrl from '/src/assets/trophy.png';
 
 const PresentGoal: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -70,7 +70,7 @@ const PresentGoal: React.FC = () => {
         }}
       >
         <Box sx={{ flex: 1 }}>
-          <img src="src/assets/trophy.png" alt="" width="60" height="60" />
+          <img src={trophyUrl} alt="" width="60" height="60" />
         </Box>
         <Box sx={{ flex: 9 }}>
           <Typography variant="body1" sx={{ mb: '.3rem' }}>

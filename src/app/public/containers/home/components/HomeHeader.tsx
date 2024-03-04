@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material';
+import consultUrl from '/src/assets/doctor_banner.png';
 
 const HomeHeader: React.FC = () => {
   return (
@@ -14,7 +15,7 @@ const HomeHeader: React.FC = () => {
         <Box
           sx={{
             width: '100%',
-            background: 'url(src/assets/doctor_banner.png) no-repeat top',
+            background: `url(${consultUrl}) no-repeat top`,
             backgroundSize: 'contain',
             height: { xs: '200px', sm: '300px', md: '450px' }, // 800 * 457
           }}

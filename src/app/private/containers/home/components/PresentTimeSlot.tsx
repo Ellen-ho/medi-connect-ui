@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../../../../../context/AuthContext';
 import BasicCard from '../../../../../components/card/BasicCard';
 import { Box, Button, Typography } from '@mui/material';
+import trophyUrl from '/src/assets/trophy.png';
 
 const PresentTimeSlot: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -22,7 +23,7 @@ const PresentTimeSlot: React.FC = () => {
         }}
       >
         <Box sx={{ flex: 1 }}>
-          <img src="src/assets/trophy.png" alt="" width="60" height="60" />
+          <img src={trophyUrl} alt="" width="60" height="60" />
         </Box>
         <Box sx={{ flex: 9 }}>
           <Typography variant="body1" sx={{ mb: '.3rem' }}>

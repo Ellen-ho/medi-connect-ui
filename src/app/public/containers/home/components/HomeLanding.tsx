@@ -1,12 +1,9 @@
-import {
-  Box,
-  Card,
-  CardActionArea,
-  CardContent,
-  Divider,
-  Typography,
-} from '@mui/material';
+import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
 import HomeHeader from './HomeHeader';
+import questionUrl from '/src/assets/home_icon_question.png';
+import recodUrl from '/src/assets/home_icon_record.png';
+import goalUrl from '/src/assets/home_icon_goal.png';
+import consultUrl from '/src/assets/home_icon_consult.png';
 
 const homeFeatureList = [
   {
@@ -14,28 +11,28 @@ const homeFeatureList = [
     description:
       'This feature allows users to ask medical questions and receive answers from experienced doctors, providing quick and reliable medical advice.',
 
-    icon: 'home_icon_question',
+    icon: questionUrl,
   },
   {
     title: 'Streamline Your Health Records',
     description:
       'This feature helps users organize and manage their medical records in a systematic and efficient manner, reducing the hassle of dealing with paper documents.',
 
-    icon: 'home_icon_record',
+    icon: recodUrl,
   },
   {
     title: 'Achieve Your Health Ambitions',
     description:
       "Users can set and work towards personalized health goals, whether it's weight management, fitness, or disease prevention, with guidance tailored to their specific needs.",
 
-    icon: 'home_icon_goal',
+    icon: goalUrl,
   },
   {
     title: 'Consult with Trusted Medical Professionals',
     description:
       'Users have the opportunity to consult with trusted and experienced doctors, ensuring they receive expert medical care and advice.',
 
-    icon: 'home_icon_consult',
+    icon: consultUrl,
   },
 ];
 
@@ -121,7 +118,7 @@ const HomeFeatureIntro: React.FC<IHomeFeatureIntroProps> = ({
         <Box
           sx={{
             width: '30%',
-            background: `url(src/assets/${icon}.png) no-repeat center`,
+            background: `url(${icon}) no-repeat center`,
             backgroundSize: 'contain',
             // height: { xs: '200px', sm: '300px', md: '450px' },
           }}
