@@ -96,7 +96,6 @@ const ResponsiveAppBar: React.FC = () => {
     });
     navigate('/notification');
   };
-  const currentYear = new Date().getFullYear();
 
   useSWR(
     isLoggedIn ? 'getNotificationHints' : null,
