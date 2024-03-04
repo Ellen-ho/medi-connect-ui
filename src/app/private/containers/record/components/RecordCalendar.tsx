@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -45,7 +45,9 @@ const RecordCalendar: React.FC<IRecordCalendarProps> = ({
   eventClickCallback,
   dateRangeChangeCallback,
 }) => {
-  const fullCalendarEvents: EventSourceInput = getCalendarEventFormat(events);
+  const fullCalendarEvents: EventSourceInput = useMemo(() => {
+    return getCalendarEventFormat(events);
+  }, [events]);
 
   // This handler will be triggered when perv/next button being clicked
   const handleDatesSet = (dateInfo: DatesSetArg) => {
