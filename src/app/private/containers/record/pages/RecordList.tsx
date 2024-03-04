@@ -5,15 +5,14 @@ import { useContext, useState } from 'react';
 import { getRecordCategory } from '../helpers/getRecordCategory';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import { getRecords } from '../../../../../services/RecordService';
-import { RecordListWrapper } from './RecordList.styled';
-import RecordItem from '../components/RecordItem';
-import NoDataFound from '../../../../../components/signs/NoDataFound';
 import { AuthContext } from '../../../../../context/AuthContext';
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import RecordCalendar from '../components/RecordCalendar';
+import { getCurrentMonthDateRange } from '../../../../../utils/getCurrentMonthDateRange';
+import NoDataFound from '../../../../../components/signs/NoDataFound';
 
 const RecordList: React.FC = () => {
-  const [page, setPage] = useState<number>(1);
   const { state } = useContext(AuthContext);
   const { typeId } = useParams();
   const isDoctor = state.doctorId != null;
@@ -21,9 +20,20 @@ const RecordList: React.FC = () => {
   const [searchParams] = useSearchParams();
   const targetPatientId = searchParams.get('targetPatientId');
 
+  const { currentStartDate, currentEndDate } = getCurrentMonthDateRange(
+    new Date(),
+  );
+  const [dateRange, setDateRange] = useState<{
+    startDate: string;
+    endDate: string;
+  }>({
+    startDate: currentStartDate,
+    endDate: currentEndDate,
+  });
+
   const navigate = useNavigate();
 
-  const handleNewQuestion = () => {
+  const handleNewRecord = () => {
     navigate(`/record/${recordCategory?.urlPath}/new`);
   };
 
@@ -34,77 +44,60 @@ const RecordList: React.FC = () => {
     });
   };
 
-  const { data, error } = useSWR(`getRecords?q=${page}`, () =>
+  const handleDateRangeChange = (startDate: string, endDate: string) => {
+    if (startDate !== dateRange.startDate || endDate !== dateRange.endDate) {
+      setDateRange({
+        startDate,
+        endDate,
+      });
+    }
+  };
+
+  const { data } = useSWR('getRecords', () =>
     getRecords({
       urlPath: typeId as string,
       query: {
         targetPatientId: (targetPatientId || state.patientId) as string,
-        limit: 10,
-        page: page,
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate,
       },
     }),
   );
 
+  const recordData = data?.recordsData;
+
   return (
     <>
-      {recordCategory ? (
-        <PrimaryPageContent>
-          <CommonWrapper>
-            <SecondaryPageTop
-              onBack={() =>
-                navigate({
-                  pathname: '/record',
-                  search: targetPatientId
-                    ? `?targetPatientId=${targetPatientId}`
-                    : '',
-                })
-              }
-              rightElement={
-                !isDoctor && (
-                  <Button onClick={handleNewQuestion} variant="contained">
-                    Add Record
-                  </Button>
-                )
-              }
+      <PrimaryPageContent>
+        <CommonWrapper>
+          <SecondaryPageTop
+            onBack={() =>
+              navigate({
+                pathname: '/record',
+                search: targetPatientId
+                  ? `?targetPatientId=${targetPatientId}`
+                  : '',
+              })
+            }
+            rightElement={
+              !isDoctor && (
+                <Button onClick={handleNewRecord} variant="contained">
+                  Add Record
+                </Button>
+              )
+            }
+          />
+          {recordData ? (
+            <RecordCalendar
+              events={recordData}
+              eventClickCallback={handleClickRecord}
+              dateRangeChangeCallback={handleDateRangeChange}
             />
-            {data?.recordsData && data.recordsData.length > 0 ? (
-              data.recordsData.map((record: unknown) => (
-                <RecordItem
-                  record={record}
-                  recordCategory={recordCategory}
-                  onClick={handleClickRecord}
-                />
-              ))
-            ) : (
-              <NoDataFound />
-            )}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginTop: '20px',
-              }}
-            >
-              <Pagination
-                count={data?.pagination.totalPage || 1}
-                page={page}
-                onChange={(event, page) => {
-                  setPage(page);
-                }}
-              />
-            </div>
-          </CommonWrapper>
-        </PrimaryPageContent>
-      ) : (
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="div"
-          sx={{ textAlign: 'center' }}
-        >
-          Invalid record category!
-        </Typography>
-      )}
+          ) : (
+            <NoDataFound />
+          )}
+        </CommonWrapper>
+      </PrimaryPageContent>
     </>
   );
 };
