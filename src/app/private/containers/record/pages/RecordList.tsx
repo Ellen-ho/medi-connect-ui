@@ -20,7 +20,9 @@ const RecordList: React.FC = () => {
   const [searchParams] = useSearchParams();
   const targetPatientId = searchParams.get('targetPatientId');
 
-  const { currentStartDate, currentEndDate } = getCurrentMonthDateRange();
+  const { currentStartDate, currentEndDate } = getCurrentMonthDateRange(
+    new Date(),
+  );
   const [dateRange, setDateRange] = useState<{
     startDate: string;
     endDate: string;
@@ -43,10 +45,12 @@ const RecordList: React.FC = () => {
   };
 
   const handleDateRangeChange = (startDate: string, endDate: string) => {
-    setDateRange({
-      startDate,
-      endDate,
-    });
+    if (startDate !== dateRange.startDate || endDate !== dateRange.endDate) {
+      setDateRange({
+        startDate,
+        endDate,
+      });
+    }
   };
 
   const { data } = useSWR('getRecords', () =>
