@@ -31,10 +31,15 @@ export interface IRecordCategory {
   createRecordService: Function;
   formSchema: any;
   fields: IField[];
+  fieldWithUnit: Record<string, string>;
 }
 
 export const recordCategories: IRecordCategory[] = [
   {
+    fieldWithUnit: {
+      systolicBloodPressure: 'mmHg',
+      diastolicloodPressure: 'mmHg',
+    },
     urlPath: 'blood-pressure',
     name: 'Blood Pressure',
     subtitle: 'Promote heart health by tracking BP.',
