@@ -10,6 +10,7 @@ import BasicCard from '../../../../../components/card/BasicCard';
 import RowItem from '../../../../../components/form/RowItem';
 import { camelToTitleCase } from '../../../../../utils/camelToTitleCase';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
+import { getUnitForField } from '../helpers/getRecordCategory';
 
 const RecordDetail: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -45,12 +46,19 @@ const RecordDetail: React.FC = () => {
                 const isDateRelatedField = dateRelatedFields.some((field) =>
                   key.includes(field),
                 );
+                const unit =
+                  typeId !== undefined
+                    ? getUnitForField(typeId, key)
+                    : undefined;
+                console.log(unit);
                 if (key === 'id' || key === 'updatedAt') {
                   return null;
                 }
                 return (
                   <RowItem label={camelToTitleCase(key)} key={key}>
-                    {isDateRelatedField ? dateFormatter(value) : value}
+                    {isDateRelatedField
+                      ? dateFormatter(value)
+                      : `${value}${unit ? unit : ''}`}
                   </RowItem>
                 );
               })}

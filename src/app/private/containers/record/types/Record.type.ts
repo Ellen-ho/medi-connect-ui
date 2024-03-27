@@ -31,10 +31,16 @@ export interface IRecordCategory {
   createRecordService: Function;
   formSchema: any;
   fields: IField[];
+  fieldWithUnit: Record<string, string>;
 }
 
 export const recordCategories: IRecordCategory[] = [
   {
+    fieldWithUnit: {
+      systolicBloodPressure: 'mmHg',
+      diastolicBloodPressure: 'mmHg',
+      heartBeat: 'bpm',
+    },
     urlPath: 'blood-pressure',
     name: 'Blood Pressure',
     subtitle: 'Promote heart health by tracking BP.',
@@ -82,6 +88,9 @@ export const recordCategories: IRecordCategory[] = [
     ],
   },
   {
+    fieldWithUnit: {
+      bloodSugarValue: 'mg/dl',
+    },
     urlPath: 'blood-sugar',
     name: 'Blood Sugar',
     subtitle: 'Manage diabetes with regular glucose checks.',
@@ -115,6 +124,9 @@ export const recordCategories: IRecordCategory[] = [
     ],
   },
   {
+    fieldWithUnit: {
+      exerciseDurationMinute: 'min',
+    },
     urlPath: 'exercise',
     name: 'Exercise',
     subtitle: 'Stay fit and motivated with exercise logs.',
@@ -176,6 +188,9 @@ export const recordCategories: IRecordCategory[] = [
     ],
   },
   {
+    fieldWithUnit: {
+      foodAmount: 'serve',
+    },
     urlPath: 'food',
     name: 'Food',
     subtitle: 'Maintain a balanced diet by recording meals.',
@@ -223,6 +238,9 @@ export const recordCategories: IRecordCategory[] = [
     ],
   },
   {
+    fieldWithUnit: {
+      glycatedHemoglobinValuePercent: '%',
+    },
     urlPath: 'glycated-hemoglobin',
     name: 'Glycated Hemoglobin',
     subtitle: 'Monitor long-term blood sugar with HbA1c levels.',
@@ -249,6 +267,9 @@ export const recordCategories: IRecordCategory[] = [
     ],
   },
   {
+    fieldWithUnit: {
+      sleepDurationHour: 'hr',
+    },
     urlPath: 'sleep',
     name: 'Sleep',
     subtitle: 'Improve rest and productivity with sleep logs.',
@@ -303,6 +324,9 @@ export const recordCategories: IRecordCategory[] = [
     ],
   },
   {
+    fieldWithUnit: {
+      weightValueKg: 'kg',
+    },
     urlPath: 'weight',
     name: 'Weight',
     subtitle: 'Support fitness goals by tracking weight.',
