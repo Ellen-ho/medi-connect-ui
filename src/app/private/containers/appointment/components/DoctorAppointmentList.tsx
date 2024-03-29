@@ -198,10 +198,6 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
 
           <DialogContent>
             <DialogContentText>
-              <RowItem label={'Appointment No.'}>
-                {selectedDetail.appointmentId}
-              </RowItem>
-
               <RowItem
                 label={'Patient Name'}
               >{`${selectedDetail.patient.firstName} ${selectedDetail.patient.lastName}`}</RowItem>
