@@ -6,7 +6,6 @@ import { AuthContext } from '../../../../../context/AuthContext';
 import useSWR from 'swr';
 import { getDoctorStatistic } from '../../../../../services/DoctorServices';
 import DoctorUpcomingAppointment from '../components/DoctorUpcomingAppointment';
-import SelfQuestions from '../components/SelfQuestions';
 import DoctorAchievement from '../components/DoctorAchievement';
 import PresentTimeSlot from '../components/PresentTimeSlot';
 
