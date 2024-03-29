@@ -4,29 +4,116 @@ import { getDoctors } from '../../../../../services/DoctorServices';
 import { useState } from 'react';
 import DoctorCard from '../components/DoctorCard';
 import useSWR from 'swr';
-import { Grid, Pagination } from '@mui/material';
+import {
+  Box,
+  Grid,
+  MenuItem,
+  Pagination,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import { MedicalSpecialtyType } from '../../../../../types/Share';
 
 const DoctorList: React.FC = () => {
   const [page, setPage] = useState<number>(1);
-  const { data, isLoading } = useSWR(`getDoctors?q=${page}`, () =>
-    getDoctors({
-      query: {
-        limit: 9,
-        page: page,
-      },
-    }),
+  const [selectedSpecialty, setSelectedSpecialty] = useState<
+    MedicalSpecialtyType | 'All'
+  >('All');
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const { data, isLoading } = useSWR(
+    `getDoctors?q=${page}${selectedSpecialty}`,
+    () =>
+      getDoctors({
+        query: {
+          limit: 9,
+          page: page,
+          specialties:
+            selectedSpecialty === 'All' ? undefined : selectedSpecialty,
+        },
+      }),
   );
+
+  const handleSpecialtySelect = (
+    event: SelectChangeEvent<{ value: MedicalSpecialtyType | 'All' }>,
+  ) => {
+    // @ts-expect-error
+    setSelectedSpecialty(event.target.value);
+  };
 
   return (
     <PrimaryPageContent>
       <CommonWrapper>
         <PrimaryPageTop pageTitle="Doctors" />
+        <Box display="flex" alignItems="center">
+          <Select
+            // @ts-expect-error
+            value={selectedSpecialty}
+            onChange={handleSpecialtySelect}
+          >
+            <MenuItem value={'All'}>All</MenuItem>
+            <MenuItem value={MedicalSpecialtyType.INTERNAL_MEDICINE}>
+              Internal Medicine
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.SURGERY}>Surgery</MenuItem>
+            <MenuItem value={MedicalSpecialtyType.OBSTETRICS_AND_GYNECOLOGY}>
+              Obstetrics and Gynecology
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.PEDIATRICS}>
+              Pediatrics
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.OPHTHALMOLOGY}>
+              Ophthalmology
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.OTORHINOLARYNGOLOGY}>
+              Otorhinolaryngology
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.DERMATOLOGY}>
+              Dermatology
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.PSYCHIATRY}>
+              Psychiatry
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.DENTISTRY}>
+              Dentistry
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.ORTHOPEDICS}>
+              Orthopedics
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.UROLOGY}>Urology</MenuItem>
+            <MenuItem value={MedicalSpecialtyType.NEUROLOGY}>
+              Neurology
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.NEUROSURGERY}>
+              Neurosurgery
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.CARDIOLOGY}>
+              Cardiology
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.CARDIOTHORACIC_SURGERY}>
+              Cardiothoracic Surgery
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.ONCOLOGY}>Oncology</MenuItem>
+            <MenuItem value={MedicalSpecialtyType.NEPHROLOGY}>
+              Nephrology
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.PULMONOLOGY}>
+              Pulmonology
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.GASTROENTEROLOGY}>
+              Gastroenterology
+            </MenuItem>
+            <MenuItem value={MedicalSpecialtyType.PULMONARY_MEDICINE}>
+              Pulmonary Medicine
+            </MenuItem>
+          </Select>
+        </Box>
+
         <Grid container spacing={2}>
           {data &&
             data.data.map((doctor) => (
-              <Grid item xs={12} sm={6} md={4} lg={4}>
-                <DoctorCard key={doctor.id} data={doctor} />
+              <Grid item xs={12} sm={6} md={4} lg={4} key={doctor.id}>
+                <DoctorCard data={doctor} />
               </Grid>
             ))}
         </Grid>

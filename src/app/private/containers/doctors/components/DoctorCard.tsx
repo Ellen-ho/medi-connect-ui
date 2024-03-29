@@ -30,7 +30,17 @@ const DoctorCard: React.FC<IDoctorCard> = ({ data }) => {
   };
 
   return (
-    <Card sx={{ display: 'flex', minHeight: '250px' }}>
+    <Card
+      sx={{
+        display: 'flex',
+        minHeight: '250px',
+        boxShadow: 3,
+        transition: 'transform 0.3s ease',
+        '&:hover': {
+          transform: 'scale(1.05)',
+        },
+      }}
+    >
       <CardContent
         sx={{
           display: 'flex',
