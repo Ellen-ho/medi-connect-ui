@@ -18,6 +18,8 @@ import OAuth from './app/public/containers/oauth/OAuth';
 import PublicRoutes from './app/public/PublicRoutes';
 import PersonalHome from './app/private/containers/home/Index';
 import useSocketNotification from './hooks/UseSocketNotification';
+import MailForReset from './app/public/containers/resetPassword/pages/MailForReset';
+import PasswordReset from './app/public/containers/resetPassword/pages/PasswordReset';
 
 const App: React.FC = () => {
   useInitAuth();
@@ -40,6 +42,8 @@ const App: React.FC = () => {
         <Route element={<OAuth />} path="/oauth" />
         <Route element={<SignIn />} path="/signin" />
         <Route element={<SignUp />} path="/signup" />
+        <Route element={<MailForReset />} path="/input-email" />
+        <Route element={<PasswordReset />} path="/reset-password" />
       </Route>
       <Route element={<Home />} path="/" />
       <Route element={<NotFound />} path="" />

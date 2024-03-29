@@ -11,6 +11,7 @@ import {
   Button,
   Card,
   CardContent,
+  Grid,
   TextField,
   Typography,
 } from '@mui/material';
@@ -110,11 +111,32 @@ const SignIn: React.FC = () => {
               >
                 Sign In with Facebook (Patients only)
               </Button>
-              <BottomAreaWrapper>
+              {/* <BottomAreaWrapper>
                 <Button variant="text" onClick={() => navigate('/signup')}>
                   Sign Up
                 </Button>
-              </BottomAreaWrapper>
+                <Grid>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => navigate('/input-email')}
+                  >
+                    <Typography variant="contained">Forgot Password</Typography>
+                  </Button>
+                </Grid>
+              </BottomAreaWrapper> */}
+              <Grid
+                container
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Button variant="text" onClick={() => navigate('/signup')}>
+                  Sign Up
+                </Button>
+                <Button variant="text" onClick={() => navigate('/input-email')}>
+                  Forgot Password
+                </Button>
+              </Grid>
             </FormWrapper>
           </CardContent>
         </Card>
