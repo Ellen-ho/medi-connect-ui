@@ -13,7 +13,8 @@ import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import { PasswordResetWrapper } from './PasswordReset.styles';
 import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+
 interface IPasswordResetFormInputs {
   newPassword: string;
   confirmNewPassword: string;
@@ -28,7 +29,8 @@ const schema = yup
 
 const PasswordReset: React.FC = () => {
   const navigate = useNavigate();
-  const { resetToken } = useParams<{ resetToken: string }>();
+  const [searchParams] = useSearchParams();
+  const resetToken = searchParams.get('token');
   const {
     register,
     handleSubmit,
