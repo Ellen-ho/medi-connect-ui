@@ -21,10 +21,15 @@ import useSocketNotification from './hooks/UseSocketNotification';
 import MailForReset from './app/public/containers/resetPassword/pages/MailForReset';
 import PasswordReset from './app/public/containers/resetPassword/pages/PasswordReset';
 import SignInDoctor from './app/public/containers/signin-doctor/SignInDoctor';
+import LoadingComponent from './components/loading/Loading';
 
 const App: React.FC = () => {
-  useInitAuth();
+  const isLoading = useInitAuth();
   useSocketNotification();
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <Routes>
