@@ -7,20 +7,22 @@ import useSWR from 'swr';
 import {
   Box,
   Grid,
+  IconButton,
   MenuItem,
   Pagination,
   Select,
   SelectChangeEvent,
+  Tooltip,
 } from '@mui/material';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 import { MedicalSpecialtyType } from '../../../../../types/Share';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const DoctorList: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [selectedSpecialty, setSelectedSpecialty] = useState<
     MedicalSpecialtyType | 'All'
   >('All');
-  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const { data, isLoading } = useSWR(
     `getDoctors?q=${page}${selectedSpecialty}`,
     () =>
@@ -41,6 +43,10 @@ const DoctorList: React.FC = () => {
     setSelectedSpecialty(event.target.value);
   };
 
+  const handleFilterReset = () => {
+    setSelectedSpecialty('All');
+  };
+
   return (
     <PrimaryPageContent>
       <CommonWrapper>
@@ -50,6 +56,7 @@ const DoctorList: React.FC = () => {
             // @ts-expect-error
             value={selectedSpecialty}
             onChange={handleSpecialtySelect}
+            style={{ width: '280px' }}
           >
             <MenuItem value={'All'}>All</MenuItem>
             <MenuItem value={MedicalSpecialtyType.INTERNAL_MEDICINE}>
@@ -107,6 +114,18 @@ const DoctorList: React.FC = () => {
               Pulmonary Medicine
             </MenuItem>
           </Select>
+          <Box
+            sx={{
+              display: selectedSpecialty === 'All' ? 'none' : 'flex',
+              marginLeft: '1rem',
+            }}
+          >
+            <Tooltip title="Reset filter">
+              <IconButton onClick={handleFilterReset}>
+                <CancelIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Box>
 
         <Grid container spacing={2}>
