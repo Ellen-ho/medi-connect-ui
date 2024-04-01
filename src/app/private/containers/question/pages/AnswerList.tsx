@@ -14,6 +14,7 @@ import {
   ListItemText,
   Typography,
   Pagination,
+  Box,
 } from '@mui/material';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
@@ -52,17 +53,12 @@ const AnswerList: React.FC = () => {
     <>
       <PrimaryPageContent>
         <CommonWrapper>
-          <PrimaryPageTop
-            pageTitle="Your Answers"
-            rightElement={
-              <>
-                <SearchBar onSearch={handleSearch} />
-                <div></div>
-              </>
-            }
-          />
+          <PrimaryPageTop pageTitle="Your Answers" />
           <Card>
             <CardContent>
+              <Box sx={{ paddingLeft: '6px' }}>
+                <SearchBar onSearch={handleSearch} />
+              </Box>
               <List
                 sx={{
                   width: '100%',

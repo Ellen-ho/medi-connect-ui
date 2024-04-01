@@ -17,7 +17,10 @@ import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { CreateQuestionWrapper } from './CreateQuestion.styled';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import { toSentenceCaseFormat } from '../../../../../utils/sentenceCaseFormat';
-import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import {
+  ButtonAreaWrapper,
+  CommonWrapper,
+} from '../../../../layout/CommonWrapper.styled';
 
 interface ICreateQuestionFormInputs {
   content: string;
@@ -82,7 +85,7 @@ const CreateQuestion: React.FC = () => {
                   helperText="Select Medical Specialty"
                   {...register('medicalSpecialty')}
                 >
-                  <MenuItem value="" selected>
+                  <MenuItem value="" selected disabled>
                     Select Medical Specialty
                   </MenuItem>
                   {Object.values(MedicalSpecialtyType).map((value) => (
@@ -93,9 +96,11 @@ const CreateQuestion: React.FC = () => {
                 </TextField>
                 <p>{errors.medicalSpecialty?.message}</p>
 
-                <Button type="submit" variant="contained" color="primary">
-                  Post question
-                </Button>
+                <ButtonAreaWrapper>
+                  <Button type="submit" variant="contained" color="primary">
+                    Post question
+                  </Button>
+                </ButtonAreaWrapper>
                 {/* <input type="submit" value="Post question" /> */}
               </FormWrapper>
             </CardContent>

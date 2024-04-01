@@ -10,3 +10,12 @@ export const CommonWrapper = styled.div`
     width: ['100%', '100%', '70%'],
   })}
 `;
+
+export const ButtonAreaWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+`;

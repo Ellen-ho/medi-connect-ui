@@ -9,7 +9,3 @@ export const SignUpWrapper = styled.div`
     width: ['100%', '80%', '50%'],
   })}
 `;
-
-export const BottomAreaWrapper = styled.div`
-  text-align: center;
-`;

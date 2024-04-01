@@ -47,7 +47,10 @@ import { useSearchParams } from 'react-router-dom';
 import RowItem from '../../../../../components/form/RowItem';
 import ImageAvatar from '../../../../../components/avatar/ImageAvatar';
 import AvatarUploadDialog from '../components/AvatarUploadDialog';
-import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import {
+  ButtonAreaWrapper,
+  CommonWrapper,
+} from '../../../../layout/CommonWrapper.styled';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -648,10 +651,11 @@ const ProfileDetail: React.FC = () => {
                     ))}
                 </>
               </BasicCard>
-
-              <Button type="submit" variant="contained" color="primary">
-                Save
-              </Button>
+              <ButtonAreaWrapper>
+                <Button type="submit" variant="contained" color="primary">
+                  Save
+                </Button>
+              </ButtonAreaWrapper>
             </FormWrapper>
           )}
         </CommonWrapper>
