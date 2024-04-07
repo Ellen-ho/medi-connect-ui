@@ -4,6 +4,8 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
+  SxProps,
+  Theme,
   Typography,
 } from '@mui/material';
 
@@ -12,6 +14,7 @@ interface IRecordEntranceProps {
   subtitle: string;
   onClick?: () => void;
   icon?: React.FC;
+  sx?: SxProps<Theme>;
 }
 
 const RecordEntrance: React.FC<IRecordEntranceProps> = ({
@@ -19,9 +22,10 @@ const RecordEntrance: React.FC<IRecordEntranceProps> = ({
   subtitle,
   onClick,
   icon,
+  sx,
 }) => {
   return (
-    <Card>
+    <Card sx={sx}>
       <CardActionArea onClick={onClick}>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <CardContent>

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -6,6 +6,8 @@ import { DatesSetArg, EventSourceInput } from '@fullcalendar/core';
 import { EventImpl } from '@fullcalendar/core/internal';
 import dayjs from 'dayjs';
 import { getCurrentMonthDateRange } from '../../../../../utils/getCurrentMonthDateRange';
+import { Box } from '@mui/material';
+import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
 
 interface IFullCalendarEvent {
   id: string;
@@ -60,6 +62,12 @@ const RecordCalendar: React.FC<IRecordCalendarProps> = ({
 
   return (
     <>
+      <Box marginBottom={'1rem'}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+          <SquareRoundedIcon sx={{ color: '#4d86d2' }} /> Click to see record
+          details
+        </Box>
+      </Box>
       <FullCalendar
         plugins={[timeGridPlugin, dayGridPlugin]}
         initialView="dayGridMonth"

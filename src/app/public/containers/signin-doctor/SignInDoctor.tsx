@@ -12,15 +12,12 @@ import {
   Button,
   Card,
   CardContent,
-  Divider,
   Grid,
   TextField,
   Typography,
 } from '@mui/material';
 import { FormWrapper } from '../../../../components/form/Index.styled';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
-import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
-import FacebookIcon from '../../../../assets/FacebookIcon';
 
 interface ISignInFormInputs {
   email: string;
@@ -34,7 +31,7 @@ const schema = yup
   })
   .required();
 
-const SignIn: React.FC = () => {
+const SignInDoctor: React.FC = () => {
   const APP_SERVER_URL = import.meta.env.VITE_APP_SERVER_URL;
   const navigate = useNavigate();
   const { dispatch } = useContext(AuthContext);
@@ -68,14 +65,6 @@ const SignIn: React.FC = () => {
         hasProfile: response.hasProfile,
       },
     });
-  };
-
-  const handleFacebookLogin = async () => {
-    window.open(`${APP_SERVER_URL}/api/auth/facebook`, '_self');
-  };
-
-  const handleDoctorSignInCLick = () => {
-    navigate('/signin-doctor');
   };
 
   return (
@@ -112,24 +101,6 @@ const SignIn: React.FC = () => {
               <Button type="submit" variant="contained" color="primary">
                 Sign In
               </Button>
-              <Divider>Or</Divider>
-              <Button
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: '99em',
-                }}
-                variant="outlined"
-                color="primary"
-                onClick={handleFacebookLogin}
-              >
-                <Box sx={{ width: '30px', height: '30px', marginRight: '5px' }}>
-                  <FacebookIcon />
-                </Box>{' '}
-                Sign In with Facebook
-              </Button>
-
               <Grid
                 container
                 justifyContent="space-between"
@@ -142,17 +113,6 @@ const SignIn: React.FC = () => {
                   Forgot Password
                 </Button>
               </Grid>
-              <Divider />
-              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Button
-                  onClick={handleDoctorSignInCLick}
-                  sx={{ borderRadius: '10px' }}
-                  variant="outlined"
-                  startIcon={<MedicalInformationIcon />}
-                >
-                  Are you doctor?
-                </Button>
-              </Box>
             </FormWrapper>
           </CardContent>
         </Card>
@@ -161,4 +121,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default SignInDoctor;

@@ -115,9 +115,14 @@ const HealthGoalDetail: React.FC = () => {
               title={'Health Goal Info'}
               titleRightElement={
                 <Tooltip title="View Record Data Analysis">
-                  <IconButton onClick={handleClickViewDataAnalyzation}>
-                    <InsightsIcon />
-                  </IconButton>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<InsightsIcon />}
+                    onClick={handleClickViewDataAnalyzation}
+                  >
+                    View Analysis
+                  </Button>
                 </Tooltip>
               }
             >

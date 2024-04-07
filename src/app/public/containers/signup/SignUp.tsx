@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import PrimaryPageContent from '../../../layout/PrimaryPageContent';
-import { BottomAreaWrapper, SignUpWrapper } from './SignUp.styled';
+import { SignUpWrapper } from './SignUp.styled';
 import {
   Button,
   Card,
@@ -17,6 +17,7 @@ import {
   Typography,
 } from '@mui/material';
 import { FormWrapper } from '../../../../components/form/Index.styled';
+import { ButtonAreaWrapper } from '../../../layout/CommonWrapper.styled';
 
 interface ISignUpFormInputs {
   displayName: string;
@@ -119,14 +120,14 @@ const SignUp: React.FC = () => {
                 </Select>
               </FormControl>
 
-              <Button type="submit" variant="contained" color="primary">
-                Sign Up
-              </Button>
-              <BottomAreaWrapper>
+              <ButtonAreaWrapper>
+                <Button type="submit" variant="contained" color="primary">
+                  Sign Up
+                </Button>
                 <Button variant="text" onClick={() => navigate('/signin')}>
                   Sign In
                 </Button>
-              </BottomAreaWrapper>
+              </ButtonAreaWrapper>
             </FormWrapper>
           </CardContent>
         </Card>
