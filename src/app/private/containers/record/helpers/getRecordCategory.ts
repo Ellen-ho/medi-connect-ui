@@ -1,9 +1,17 @@
-import { IRecordCategory, recordCategories } from '../types/Record.type';
+import {
+  IRecordCategory,
+  ISubCategory,
+  recordCategories,
+} from '../types/Record.type';
 
 export const getRecordCategory = (
   urlPath: string,
-): IRecordCategory | undefined =>
-  recordCategories.find((category) => category.urlPath === urlPath);
+): ISubCategory | undefined => {
+  const allSubCategories = recordCategories.flatMap(
+    (category) => category.subCategories,
+  );
+  return allSubCategories.find((category) => category.urlPath === urlPath);
+};
 
 export const getUnitForField = (
   urlPath: string,
