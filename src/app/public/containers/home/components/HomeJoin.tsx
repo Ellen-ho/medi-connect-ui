@@ -1,16 +1,7 @@
 import React from 'react';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Checkbox,
-  FormControlLabel,
-  Link,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import SignUpCard from '../../signup/components/SignUpCard';
 
 const HomeJoin: React.FC = () => {
   const navigate = useNavigate();
@@ -23,13 +14,13 @@ const HomeJoin: React.FC = () => {
       sx={{
         margin: 'auto',
         maxWidth: 1200,
-        height: 500,
-        padding: 2,
+        padding: '35px',
         backgroundColor: 'rgba(224, 247, 250, 0.5)',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        borderRadius: '20px',
       }}
     >
       <Box sx={{ width: '66.66%', paddingRight: '1.5%' }}>
@@ -73,7 +64,10 @@ const HomeJoin: React.FC = () => {
           Create your free account and start managing your health.
         </Typography>
       </Box>
-      <Card sx={{ width: '33.33%', maxHeight: 500, paddingRight: '1.5%' }}>
+      <Box sx={{ width: '33.33%', paddingRight: '1.5%' }}>
+        <SignUpCard title="Join Medi Connect today" />
+      </Box>
+      {/* <Card sx={{ width: '33.33%', maxHeight: 500, paddingRight: '1.5%' }}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             Join Medi Connect today
@@ -135,7 +129,7 @@ const HomeJoin: React.FC = () => {
             Sign up with Google
           </Button>
         </CardContent>
-      </Card>
+      </Card> */}
     </Box>
   );
 };
