@@ -4,6 +4,7 @@ import questionUrl from '/src/assets/home_icon_question.png';
 import recodUrl from '/src/assets/home_icon_record.png';
 import goalUrl from '/src/assets/home_icon_goal.png';
 import consultUrl from '/src/assets/home_icon_consult.png';
+import HomeJoin from './HomeJoin';
 
 const homeFeatureList = [
   {
@@ -49,6 +50,7 @@ const HomeLanding: React.FC = () => {
         }}
       >
         <HomeHeader />
+        <HomeJoin />
         <Divider sx={{ my: '1.5rem' }} />
         {homeFeatureList.map(({ title, description, icon }) => (
           <HomeFeatureIntro
