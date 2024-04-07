@@ -6,5 +6,5 @@ export const FormWrapper = styled.form`
   justify-content: center;
   align-items: stretch;
   width: 100%;
-  gap: 1rem;
+  gap: 1.5rem;
 `;

@@ -29,6 +29,13 @@ export const theme = createTheme({
     },
   },
   components: {
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          borderRadius: '99em !important',
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -42,6 +49,13 @@ export const theme = createTheme({
           borderRadius: '20px',
           boxShadow:
             '1px 0px 0px -1px rgba(0,0,0,0.1), 1px 1px 0px 0px rgba(0,0,0,0.1), 0px 0px 0px 0px rgba(0,0,0,0.1)',
+        },
+      },
+    },
+    MuiCardActionArea: {
+      styleOverrides: {
+        root: {
+          height: '100%',
         },
       },
     },

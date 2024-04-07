@@ -1,6 +1,6 @@
-import { Button, MenuItem, FormControl, TextField } from '@mui/material';
+import { Button, MenuItem, FormControl, TextField, Box } from '@mui/material';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
-import { IRecordCategory } from '../types/Record.type';
+import { ISubCategory } from '../types/Record.type';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -10,13 +10,14 @@ import {
   Language,
   foodKcaloriesPerUnitList,
 } from '../../../../../services/RecordService';
+import { ButtonAreaWrapper } from '../../../../layout/CommonWrapper.styled';
 
 interface ICreateRecordFormProps {
-  categoryMeta: IRecordCategory;
+  subCategoryMeta: ISubCategory;
 }
 
 const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
-  categoryMeta,
+  subCategoryMeta,
 }) => {
   const navigate = useNavigate();
 
@@ -25,26 +26,25 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(categoryMeta.formSchema),
+    resolver: yupResolver(subCategoryMeta.formSchema),
   });
 
   const onCreateQuestion = async (data: unknown) => {
     const payload = data;
-    const createRecordService = categoryMeta.createRecordService();
+    const createRecordService = subCategoryMeta.createRecordService();
     await createRecordService(payload);
 
-    navigate(`/record/${categoryMeta.urlPath}`);
+    navigate(`/record/${subCategoryMeta.urlPath}`);
   };
 
   return (
     <FormWrapper onSubmit={handleSubmit(onCreateQuestion)}>
-      {categoryMeta.fields.map((field) => (
+      {subCategoryMeta.fields.map((field) => (
         <FormControl key={field.id}>
           {field.type === 'select' ? (
             <TextField
               select
               label={`Select ${field.name}`}
-              size="small"
               placeholder={field.placeholder}
               InputLabelProps={{ shrink: true }}
               {...register(field.id)}
@@ -54,7 +54,7 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
               <MenuItem value="">Select {field.name}</MenuItem>
               {field.options?.map((option) => {
                 let exampleText = '';
-                if (categoryMeta.name === 'Food') {
+                if (subCategoryMeta.name === 'Food') {
                   const categoryType = option.value as FoodCategoryType;
                   exampleText = ` - ${
                     foodKcaloriesPerUnitList[categoryType].examples[
@@ -76,7 +76,6 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
               label={field.name}
               placeholder={field.placeholder}
               type={field.type}
-              size="small"
               InputLabelProps={{ shrink: true }}
               {...register(field.id)}
               error={!!errors[field.id]}
@@ -89,9 +88,11 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
           {/* {field.example && <p>Example: {field.example}</p>} */}
         </FormControl>
       ))}
-      <Button type="submit" variant="contained" color="primary">
-        Save
-      </Button>
+      <ButtonAreaWrapper>
+        <Button type="submit" variant="contained" color="primary">
+          Save
+        </Button>
+      </ButtonAreaWrapper>
     </FormWrapper>
   );
 };
