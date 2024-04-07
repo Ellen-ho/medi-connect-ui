@@ -119,7 +119,7 @@ const ResponsiveAppBar: React.FC = () => {
           disableGutters
           sx={{ display: 'flex', justifyContent: 'space-between' }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', color: '#fff' }}>
             <HealthAndSafetyIcon
               onClick={() => navigate(isLoggedIn ? '/home' : '/')}
               sx={{
