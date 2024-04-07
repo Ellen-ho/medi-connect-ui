@@ -1,27 +1,31 @@
 import { createTheme } from '@mui/material';
 
 export const theme = createTheme({
-  // palette: {
-  //   primary: {
-  //     main: purple[500],
-  //   },
-  //   secondary: {
-  //     main: green[500],
-  //   },
-  //   error: {
-  //     main: green[500],
-  //   },
-
-  //   warning: {
-  //     main: green[500],
-  //   },
-  //   info: {
-  //     main: green[500],
-  //   },
-  //   success: {
-  //     main: green[500],
-  //   },
-  // },
+  palette: {
+    text: {
+      primary: '#fff',
+      secondary: '#353a3f',
+      disabled: '#fff',
+    },
+    primary: {
+      main: '#61bdd1',
+    },
+    secondary: {
+      main: '#80CADA',
+    },
+    error: {
+      main: '#b32d1b',
+    },
+    // warning: {
+    //   main: green[500],
+    // },
+    // info: {
+    //   main: green[500],
+    // },
+    // success: {
+    //   main: green[500],
+    // },
+  },
   typography: {
     fontFamily: '@fontsource/source-code-pro',
     allVariants: {
@@ -41,8 +45,25 @@ export const theme = createTheme({
         root: {
           borderRadius: '99em',
         },
+        containedPrimary: {
+          color: '#fff',
+          '&:hover': {
+            backgroundColor: '#80CADA', // Your desired hover color
+          },
+        },
+        outlinedPrimary: {
+          '&:hover': {
+            borderColor: '#80CADA', // Adjust border color for outlined buttons
+          },
+        },
+        textPrimary: {
+          '&:hover': {
+            color: '#80CADA', // Set hover color for text buttons
+          },
+        },
       },
     },
+
     MuiCard: {
       styleOverrides: {
         root: {

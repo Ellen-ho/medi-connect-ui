@@ -11,21 +11,6 @@ import {
   Typography,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-const LabelWithLink = () => (
-  <Typography variant="body2">
-    By continuing, I confirm that I am over 18 years old and agree to Medi
-    Connect's{' '}
-    <>
-      <Link href="#" underline="hover">
-        Terms
-      </Link>
-      <Typography>and</Typography>
-      <Link href="#" underline="hover">
-        Privacy Policy
-      </Link>
-    </>
-  </Typography>
-);
 
 const HomeJoin: React.FC = () => {
   const navigate = useNavigate();
