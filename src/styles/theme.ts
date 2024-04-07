@@ -33,9 +33,11 @@ export const theme = createTheme({
     },
   },
   components: {
-    MuiInputBase: {
+    MuiOutlinedInput: {
       styleOverrides: {
         root: {
+          color: '#666',
+          borderColor: '#666',
           borderRadius: '99em !important',
         },
       },
