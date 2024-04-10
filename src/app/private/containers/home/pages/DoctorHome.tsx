@@ -25,10 +25,10 @@ const DoctorHome: React.FC = () => {
           <Grid item xs={12}>
             <DoctorUpcomingAppointment />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12} md={8}>
             <DoctorAchievement />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} md={4}>
             <PresentTimeSlot />
           </Grid>
         </Grid>

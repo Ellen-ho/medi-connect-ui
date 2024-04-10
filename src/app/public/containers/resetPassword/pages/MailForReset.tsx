@@ -14,6 +14,7 @@ import { FormWrapper } from '../../../../../components/form/Index.styled';
 import { createPasswordChangeMail } from '../../../../../services/UserService';
 import { MailForResetWrapper } from './MailForReset.styles';
 import { useState } from 'react';
+import { ButtonAreaWrapper } from '../../../../layout/CommonWrapper.styled';
 
 interface IMailForResetFormInputs {
   email: string;
@@ -88,15 +89,17 @@ const MailForReset: React.FC = () => {
                 your junk, spam, social, or other folders.
               </Typography>
               <CardActions sx={{ justifyContent: 'flex-end' }}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  onClick={handleResendEmail}
-                  disabled={isButtonDisabled}
-                >
-                  Resend
-                </Button>
+                <ButtonAreaWrapper>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleResendEmail}
+                    disabled={isButtonDisabled}
+                  >
+                    Resend
+                  </Button>
+                </ButtonAreaWrapper>
               </CardActions>
             </CardContent>
           </Card>
@@ -120,9 +123,11 @@ const MailForReset: React.FC = () => {
                   error={!!errors.email}
                   helperText={<>{errors.email?.message}</>}
                 />
-                <Button type="submit" variant="contained" color="primary">
-                  Next
-                </Button>
+                <ButtonAreaWrapper>
+                  <Button type="submit" variant="contained" color="primary">
+                    Next
+                  </Button>
+                </ButtonAreaWrapper>
               </FormWrapper>
             </CardContent>
           </Card>

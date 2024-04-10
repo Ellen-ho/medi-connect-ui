@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import { FormWrapper } from '../../../../components/form/Index.styled';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
+import { ButtonAreaWrapper } from '../../../layout/CommonWrapper.styled';
 
 interface ISignInFormInputs {
   email: string;
@@ -97,10 +98,11 @@ const SignInDoctor: React.FC = () => {
                 error={!!errors.password}
                 helperText={<>{errors.password?.message}</>}
               />
-
-              <Button type="submit" variant="contained" color="primary">
-                Sign In
-              </Button>
+              <ButtonAreaWrapper>
+                <Button type="submit" variant="contained" color="primary">
+                  Sign In
+                </Button>
+              </ButtonAreaWrapper>
               <Grid
                 container
                 justifyContent="space-between"

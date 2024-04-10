@@ -26,6 +26,7 @@ import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import toast from 'react-hot-toast';
 import dayjs from 'dayjs';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import { mq } from '../../../../../styles/media-query';
 
 const MAP_API_KEY = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
 
@@ -85,16 +86,22 @@ const DoctorDetail: React.FC = () => {
         {doctorDetail ? (
           <>
             <Box
-              sx={{
+              sx={mq({
                 display: 'flex',
-                flexDirection: 'row',
+                gap: '20px',
+                flexDirection: ['column', 'row'],
                 alignItems: 'center',
                 mb: '20px',
-              }}
+              })}
             >
-              <Avatar sx={{ width: 180, height: 180 }}>
+              <Avatar sx={mq({ width: [100, 180], height: [100, 180] })}>
                 {doctorDetail.avatar !== null ? (
-                  <img src={doctorDetail.avatar} alt={doctorDetail.firstName} />
+                  <img
+                    src={doctorDetail.avatar}
+                    alt={doctorDetail.firstName}
+                    width={'100%'}
+                    height={'100%'}
+                  />
                 ) : (
                   <PersonRoundedIcon sx={{ width: '75%', height: '75%' }} />
                 )}
@@ -106,10 +113,22 @@ const DoctorDetail: React.FC = () => {
                   paddingLeft: '30px',
                 }}
               >
-                <Typography variant="h4" fontWeight={'bold'}>
+                <Typography
+                  variant="h4"
+                  fontWeight={'bold'}
+                  sx={mq({
+                    textAlign: ['center', 'left'],
+                  })}
+                >
                   Dr. {doctorDetail.firstName} {doctorDetail.lastName}
                 </Typography>
-                <Typography variant="body1" color={'text.secondary'}>
+                <Typography
+                  variant="body1"
+                  color={'text.secondary'}
+                  sx={mq({
+                    textAlign: ['center', 'left'],
+                  })}
+                >
                   {`${fromNowFormatter(
                     doctorDetail.careerStartDate.toString(),
                   )} experience in`}{' '}
@@ -203,7 +222,11 @@ const DoctorDetail: React.FC = () => {
                       <Typography
                         variant="body1"
                         color={'text.secondary'}
-                        lineHeight={'4rem'}
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'center',
+                          alignItems: 'center',
+                        }}
                       >
                         {education}
                       </Typography>
@@ -229,7 +252,11 @@ const DoctorDetail: React.FC = () => {
                       <Typography
                         variant="body1"
                         color={'text.secondary'}
-                        lineHeight={'4rem'}
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'center',
+                          alignItems: 'center',
+                        }}
                       >
                         {award}
                       </Typography>
@@ -255,7 +282,11 @@ const DoctorDetail: React.FC = () => {
                       <Typography
                         variant="body1"
                         color={'text.secondary'}
-                        lineHeight={'4rem'}
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'center',
+                          alignItems: 'center',
+                        }}
                       >
                         {affiliation}
                       </Typography>
@@ -274,7 +305,11 @@ const DoctorDetail: React.FC = () => {
                   <Typography
                     variant="body1"
                     color={'text.secondary'}
-                    lineHeight={'4rem'}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'center',
+                      alignItems: 'center',
+                    }}
                   >
                     {addressFormatter(doctorDetail.officePracticalLocation)}
                   </Typography>

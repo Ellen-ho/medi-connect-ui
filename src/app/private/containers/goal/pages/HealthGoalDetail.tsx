@@ -28,6 +28,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
 import { getGoalDurationRecords } from '../../../../../services/RecordService';
 import InsightsIcon from '@mui/icons-material/Insights';
+import { mq } from '../../../../../styles/media-query';
 
 const HealthGoalDetail: React.FC = () => {
   const { id } = useParams();
@@ -121,7 +122,9 @@ const HealthGoalDetail: React.FC = () => {
                     startIcon={<InsightsIcon />}
                     onClick={handleClickViewDataAnalyzation}
                   >
-                    View Analysis
+                    <Box sx={mq({ display: ['none', 'block'] })}>
+                      View Analysis
+                    </Box>
                   </Button>
                 </Tooltip>
               }

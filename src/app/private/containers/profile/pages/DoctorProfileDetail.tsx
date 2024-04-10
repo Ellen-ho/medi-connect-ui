@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { IDoctor } from '../../../../../types/Doctors';
-import { GenderType, MedicalSpecialtyType } from '../../../../../types/Share';
+import { GenderType } from '../../../../../types/Share';
 import { AuthContext } from '../../../../../context/AuthContext';
 import {
   Box,
@@ -26,7 +26,6 @@ import {
 } from '../../../../../services/DoctorServices';
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import { ProfileDetailWrapper } from './ProfileDetail.styled';
 import DataLoading from '../../../../../components/signs/DataLoading';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -41,7 +40,10 @@ import SchoolIcon from '@mui/icons-material/School';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import SpecialtyMultipleSelect from '../components/SpecialtyMultipleSelect';
-import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import {
+  ButtonAreaWrapper,
+  CommonWrapper,
+} from '../../../../layout/CommonWrapper.styled';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -235,16 +237,29 @@ const DoctorProfileDetail: React.FC = () => {
                     <AccountCircleIcon /> Personal
                   </Typography>
                   <RowItem label="Avatar">
-                    <input type="hidden" {...register('avatar')} />{' '}
-                    <IconButton onClick={handleOpenAvatarUploadDialog}>
-                      <ImageAvatar
-                        imageUrl={profile.avatar}
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <input type="hidden" {...register('avatar')} />{' '}
+                      <IconButton
+                        onClick={handleOpenAvatarUploadDialog}
                         sx={{
                           width: 50,
                           height: 50,
                         }}
-                      />
-                    </IconButton>
+                      >
+                        <ImageAvatar
+                          imageUrl={profile.avatar}
+                          sx={{
+                            width: 50,
+                            height: 50,
+                          }}
+                        />
+                      </IconButton>
+                    </Box>
                     {/* Hidden input to hold the imageUrl */}
                     {/* <ImageUploadComponent onImageUpload={handleImageUpload} /> */}
                   </RowItem>
@@ -449,7 +464,10 @@ const DoctorProfileDetail: React.FC = () => {
                 <>
                   {educationFields &&
                     educationFields.map((education, index) => (
-                      <RowItem label={`#${index + 1}`}>
+                      <RowItem
+                        label={`#${index + 1}`}
+                        rightElementSx={{ flexBasis: '90%' }}
+                      >
                         <Box
                           key={index}
                           sx={{
@@ -504,7 +522,10 @@ const DoctorProfileDetail: React.FC = () => {
                 <>
                   {awardsFields &&
                     awardsFields.map((award, index) => (
-                      <RowItem label={`#${index + 1}`}>
+                      <RowItem
+                        label={`#${index + 1}`}
+                        rightElementSx={{ flexBasis: '90%' }}
+                      >
                         <Box
                           key={index}
                           sx={{
@@ -559,7 +580,10 @@ const DoctorProfileDetail: React.FC = () => {
                 <>
                   {affiliationsFields &&
                     affiliationsFields.map((affiliation, index) => (
-                      <RowItem label={`#${index + 1}`}>
+                      <RowItem
+                        label={`#${index + 1}`}
+                        rightElementSx={{ flexBasis: '90%' }}
+                      >
                         <Box
                           key={index}
                           sx={{
@@ -591,9 +615,11 @@ const DoctorProfileDetail: React.FC = () => {
                 </>
               </BasicCard>
 
-              <Button type="submit" variant="contained" color="primary">
-                Save
-              </Button>
+              <ButtonAreaWrapper>
+                <Button type="submit" variant="contained" color="primary">
+                  Save
+                </Button>
+              </ButtonAreaWrapper>
             </FormWrapper>
           )}
         </CommonWrapper>
