@@ -19,7 +19,6 @@ import { Badge, Chip } from '@mui/material';
 import { NotificationContext } from '../../context/NotificationContext';
 import { UserRoleType } from '../../types/Users';
 import ImageAvatar from '../../components/avatar/ImageAvatar';
-import TableFooter from '@mui/material/TableFooter';
 
 const topPages = [
   { title: 'Doctors', link: 'doctor', permission: [UserRoleType.PATIENT] },
