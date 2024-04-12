@@ -6,13 +6,14 @@ import { Grid } from '@mui/material';
 import UpcomingAppointment from '../components/UpcomingAppointment';
 import SelfQuestions from '../components/SelfQuestions';
 import PresentGoal from '../components/PresentGoal';
+import Typewriter from '../components/TypeWriter';
 
 const PatientHome: React.FC = () => {
   const { state } = useContext(AuthContext);
   return (
     <PrimaryPageContent>
       <CommonWrapper>
-        <h2>Welcome, {state.currentUser?.displayName}</h2>
+        <Typewriter text={`Welcome, ${state.currentUser?.displayName}`} />
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <UpcomingAppointment />

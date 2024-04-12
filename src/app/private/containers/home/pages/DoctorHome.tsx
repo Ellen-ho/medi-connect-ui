@@ -1,13 +1,14 @@
 import { Grid } from '@mui/material';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
 import useSWR from 'swr';
 import { getDoctorStatistic } from '../../../../../services/DoctorServices';
 import DoctorUpcomingAppointment from '../components/DoctorUpcomingAppointment';
 import DoctorAchievement from '../components/DoctorAchievement';
 import PresentTimeSlot from '../components/PresentTimeSlot';
+import Typewriter from '../components/TypeWriter';
 
 const DoctorHome: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -16,11 +17,10 @@ const DoctorHome: React.FC = () => {
   const { data: doctorStatistic } = useSWR('getDoctorStatistic', () =>
     getDoctorStatistic(doctorId as string),
   );
-
   return (
     <PrimaryPageContent>
       <CommonWrapper>
-        <h2>Welcome, Dr. {state.currentUser?.displayName}</h2>
+        <Typewriter text={`Welcome, Dr. ${state.currentUser?.displayName}`} />
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <DoctorUpcomingAppointment />
