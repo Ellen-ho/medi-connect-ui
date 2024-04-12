@@ -28,10 +28,9 @@ import NoDataFound from '../../../../../components/signs/NoDataFound';
 import RowItem from '../../../../../components/form/RowItem';
 import useSWR from 'swr';
 import ClearIcon from '@mui/icons-material/Clear';
-import toast from 'react-hot-toast';
-import { getPatientProfile } from '../../../../../services/PatientService';
 import { useNavigate } from 'react-router-dom';
 import { ConsultAppointmentStatusType } from '../../../../../types/Consultations';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
 
 interface IDoctorAppointmentListProps {}
 
@@ -99,7 +98,10 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
               </>
             ))
           ) : (
-            <NoDataFound />
+            <NoDataFound
+              icon={<EventBusyIcon />}
+              label="You currently have no upcoming appointments."
+            ></NoDataFound>
           )}
         </List>
       </BasicCard>
@@ -133,7 +135,10 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
               </>
             ))
           ) : (
-            <NoDataFound />
+            <NoDataFound
+              icon={<EventBusyIcon />}
+              label="You currently have no completed appointments."
+            ></NoDataFound>
           )}
         </List>
       </BasicCard>
@@ -167,7 +172,10 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
               </>
             ))
           ) : (
-            <NoDataFound />
+            <NoDataFound
+              icon={<EventBusyIcon />}
+              label="You currently have no canceled appointments."
+            ></NoDataFound>
           )}
         </List>
       </BasicCard>

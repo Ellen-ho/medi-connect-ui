@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
 
 const DoctorUpcomingAppointment: React.FC = () => {
   const navigate = useNavigate();
@@ -31,20 +32,13 @@ const DoctorUpcomingAppointment: React.FC = () => {
     navigate('/appointment');
   };
 
-  // if (isLoading) {
-  //   return (
-  //     <BasicCard title={''}>
-  //       <Skeleton />
-  //       <Skeleton />
-  //       <Skeleton />
-  //     </BasicCard>
-  //   );
-  // }
-
   if (!upcomingAppointment) {
     return (
       <BasicCard title={'Upcoming Appointments'}>
-        <NoDataFound />
+        <NoDataFound
+          icon={<EventBusyIcon />}
+          label="You currently have no upcoming appointments."
+        ></NoDataFound>
       </BasicCard>
     );
   }

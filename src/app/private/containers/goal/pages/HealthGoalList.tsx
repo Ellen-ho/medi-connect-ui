@@ -10,6 +10,7 @@ import BasicCard from '../../../../../components/card/BasicCard';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
 import useSWR from 'swr';
 import GoalItem from '../components/GoalItem';
+import SportsScoreIcon from '@mui/icons-material/SportsScore';
 
 const HealthGoalList: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -59,7 +60,10 @@ const HealthGoalList: React.FC = () => {
                   </>
                 ))
               ) : (
-                <NoDataFound />
+                <NoDataFound
+                  icon={<SportsScoreIcon />}
+                  label="You currently have no goal data."
+                ></NoDataFound>
               )}
             </List>
           </BasicCard>

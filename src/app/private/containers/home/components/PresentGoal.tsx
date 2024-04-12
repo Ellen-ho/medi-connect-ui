@@ -9,6 +9,7 @@ import { dateFormatter } from '../../../../../utils/dateFormatter';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { getHealthGoalList } from '../../../../../services/GoalService';
 import trophyUrl from '/src/assets/trophy.png';
+import SportsScoreIcon from '@mui/icons-material/SportsScore';
 
 const PresentGoal: React.FC = () => {
   const { state } = useContext(AuthContext);
@@ -55,7 +56,10 @@ const PresentGoal: React.FC = () => {
   if (!goal) {
     return (
       <BasicCard>
-        <NoDataFound />
+        <NoDataFound
+          icon={<SportsScoreIcon />}
+          label="You currently have no goal data."
+        ></NoDataFound>
       </BasicCard>
     );
   }
