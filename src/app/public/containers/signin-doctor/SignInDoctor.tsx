@@ -6,7 +6,7 @@ import { loginUser } from '../../../../services/UserService';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import PrimaryPageContent from '../../../layout/PrimaryPageContent';
-import { BottomAreaWrapper, SignInWrapper } from './SignIn.styled';
+import { SignInWrapper } from './SignIn.styled';
 import {
   Box,
   Button,

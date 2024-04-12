@@ -33,6 +33,25 @@ export const theme = createTheme({
     },
   },
   components: {
+    MuiAccordionSummary: {
+      styleOverrides: {
+        root: {
+          padding: '16px',
+        },
+        content: {
+          display: 'flex',
+          alignItems: 'center',
+        },
+      },
+    },
+    MuiAccordion: {
+      styleOverrides: {
+        root: {
+          boxShadow: 'none',
+          backgroundColor: '#f6f7fa',
+        },
+      },
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {

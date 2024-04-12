@@ -25,7 +25,7 @@ const HomeJoin: React.FC = () => {
     >
       <Box sx={{ width: '66.66%', paddingRight: '1.5%' }}>
         <Typography
-          variant="h5"
+          variant="h4"
           component="h1"
           fontWeight={900}
           sx={{
@@ -67,69 +67,6 @@ const HomeJoin: React.FC = () => {
       <Box sx={{ width: '33.33%', paddingRight: '1.5%' }}>
         <SignUpCard title="Join Medi Connect today" />
       </Box>
-      {/* <Card sx={{ width: '33.33%', maxHeight: 500, paddingRight: '1.5%' }}>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Join Medi Connect today
-          </Typography>
-
-          <TextField
-            label="Email address"
-            type="email"
-            fullWidth
-            variant="outlined"
-            margin="normal"
-          />
-
-          <TextField
-            label="Password"
-            type="password"
-            fullWidth
-            variant="outlined"
-            margin="normal"
-          />
-          <FormControlLabel
-            control={<Checkbox name="confirm" color="primary" />}
-            label={
-              <Typography variant="body2">
-                By continuing, I confirm that I am over 18 years old and agree
-                to Medi Connect's{' '}
-                <Link href="#" underline="hover">
-                  Terms
-                </Link>{' '}
-                and{' '}
-                <Link href="#" underline="hover">
-                  Privacy Policy
-                </Link>
-              </Typography>
-            }
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ marginY: 2, borderRadius: '2rem' }}
-            onClick={handleClick}
-          >
-            Get started
-          </Button>
-
-          <Typography align="center" variant="body1" component="div">
-            OR
-          </Typography>
-
-          <Button
-            variant="contained"
-            startIcon={
-              <img alt="Google logo" src="/path-to-your-google-logo" />
-            }
-            fullWidth
-            sx={{ marginY: 1, borderRadius: '2rem' }}
-          >
-            Sign up with Google
-          </Button>
-        </CardContent>
-      </Card> */}
     </Box>
   );
 };
