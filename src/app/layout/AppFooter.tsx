@@ -7,6 +7,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { Divider } from '@mui/material';
+import { mq } from '../../styles/media-query';
 
 function AppFooter() {
   const currentYear = new Date().getFullYear();
@@ -15,136 +16,175 @@ function AppFooter() {
     <Box
       component="footer"
       sx={{
-        py: 3,
+        display: 'flex',
+        justifyContent: 'center',
         backgroundColor: '#143566',
         color: 'white',
       }}
     >
-      <Grid container spacing={4}>
-        <Grid item xs={12} sm={6} md={3} container alignItems="center">
-          <HealthAndSafetyIcon sx={{ mr: 1 }} />
-          <Typography
-            variant="caption"
-            display="block"
-            color="white"
-            fontSize={30}
-          >
-            Medi Connect
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Typography
-            variant="subtitle1"
-            color="white"
-            fontSize={18}
-            gutterBottom
-          >
-            Product
-          </Typography>
-          <Link
-            href="#"
-            variant="body2"
-            display="block"
-            color="primary"
-            underline="none"
-            fontWeight="bold"
-            fontSize={15}
-          >
-            Features
-          </Link>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Typography
-            variant="subtitle1"
-            color="white"
-            fontSize={18}
-            gutterBottom
-          >
-            Health Knowledge
-          </Typography>
-          <Link
-            href="#"
-            variant="body2"
-            display="block"
-            color="primary"
-            underline="none"
-            fontWeight="bold"
-            fontSize={15}
-          >
-            Our Blog
-          </Link>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Typography
-            variant="subtitle1"
-            color="white"
-            fontSize={18}
-            gutterBottom
-          >
-            About Us
-          </Typography>
-          <Link
-            href="#"
-            variant="body2"
-            display="block"
-            color="primary"
-            underline="none"
-            fontWeight="bold"
-            fontSize={15}
-          >
-            Who We Are
-          </Link>
-          <Link
-            href="#"
-            variant="body2"
-            display="block"
-            color="primary"
-            underline="none"
-            fontWeight="bold"
-            fontSize={15}
-          >
-            Contact Us
-          </Link>
-        </Grid>
-      </Grid>
-      <Divider
-        sx={{
-          height: '0.1px',
-          width: '100%',
-          backgroundColor: 'rgba(154, 154, 154, 0.5)',
-        }}
-      />
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          mt: 3,
-          gap: '10px',
+          width: '1280px',
         }}
       >
-        <FacebookIcon />
-        <TwitterIcon />
-        <InstagramIcon />
+        <Grid container sx={{ padding: '25px' }}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={4}
+            container
+            alignItems="center"
+            sx={mq({
+              justifyContent: ['center', 'center', 'start'],
+            })}
+          >
+            <HealthAndSafetyIcon sx={{ mr: 1 }} />
+            <Typography
+              variant="caption"
+              display="block"
+              color="white"
+              fontSize={30}
+            >
+              Medi Connect
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={12} md={8}>
+            <Box
+              sx={mq({
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                gap: ['10px', '10px', '100px'],
+              })}
+            >
+              <Box>
+                <Typography
+                  variant="subtitle1"
+                  color="white"
+                  fontSize={18}
+                  gutterBottom
+                >
+                  Product
+                </Typography>
+                <Link
+                  href="#"
+                  variant="body2"
+                  display="block"
+                  color="primary"
+                  underline="none"
+                  fontWeight="bold"
+                  fontSize={15}
+                >
+                  Features
+                </Link>
+              </Box>
+              <Box>
+                <Typography
+                  variant="subtitle1"
+                  color="white"
+                  fontSize={18}
+                  gutterBottom
+                >
+                  Health Knowledge
+                </Typography>
+                <Link
+                  href="#"
+                  variant="body2"
+                  display="block"
+                  color="primary"
+                  underline="none"
+                  fontWeight="bold"
+                  fontSize={15}
+                >
+                  Our Blog
+                </Link>
+              </Box>
+              <Box>
+                <Typography
+                  variant="subtitle1"
+                  color="white"
+                  fontSize={18}
+                  gutterBottom
+                >
+                  About Us
+                </Typography>
+                <Link
+                  href="#"
+                  variant="body2"
+                  display="block"
+                  color="primary"
+                  underline="none"
+                  fontWeight="bold"
+                  fontSize={15}
+                >
+                  Who We Are
+                </Link>
+                <Link
+                  href="#"
+                  variant="body2"
+                  display="block"
+                  color="primary"
+                  underline="none"
+                  fontWeight="bold"
+                  fontSize={15}
+                >
+                  Contact Us
+                </Link>
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
+        <Divider
+          sx={{
+            height: '0.1px',
+            width: '100%',
+            backgroundColor: 'rgba(154, 154, 154, 0.5)',
+          }}
+        />
+        <Box
+          sx={{
+            padding: '25px 0',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '15px',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '10px',
+            }}
+          >
+            <FacebookIcon />
+            <TwitterIcon />
+            <InstagramIcon />
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '20px',
+            }}
+          >
+            <Link href="#" underline="hover">
+              Terms
+            </Link>
+            <Link href="#" underline="hover">
+              Privacy Policy
+            </Link>
+          </Box>
+          <Typography variant="body2" color="white" align="center">
+            Copyright © {currentYear} HealthTap
+          </Typography>
+        </Box>
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: '20px',
-        }}
-      >
-        <Link href="#" underline="hover">
-          Terms
-        </Link>
-        <Link href="#" underline="hover">
-          Privacy Policy
-        </Link>
-      </Box>
-      <Typography variant="body2" color="white" align="center" mt={3}>
-        Copyright © {currentYear} HealthTap
-      </Typography>
     </Box>
   );
 }
