@@ -16,7 +16,6 @@ function AppFooter() {
       component="footer"
       sx={{
         py: 3,
-        px: 2,
         backgroundColor: '#143566',
         color: 'white',
       }}
@@ -29,7 +28,6 @@ function AppFooter() {
             display="block"
             color="white"
             fontSize={30}
-            gutterBottom
           >
             Medi Connect
           </Typography>

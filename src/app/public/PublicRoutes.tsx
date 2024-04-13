@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { getAuthFromCache } from '../../utils/getAuthFromCache';
+import Layout from '../layout/Layout';
 
 const PublicRoutes = () => {
   const location = useLocation();
@@ -13,7 +14,9 @@ const PublicRoutes = () => {
   return isLoggedIn ? (
     <Navigate to="/home" replace={true} state={{ from: location }} />
   ) : (
-    <Outlet />
+    <Layout>
+      <Outlet />
+    </Layout>
   );
 };
 

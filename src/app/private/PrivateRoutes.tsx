@@ -1,5 +1,6 @@
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { getAuthFromCache } from '../../utils/getAuthFromCache';
+import Layout from '../layout/Layout';
 
 const PrivateRoutes = () => {
   const location = useLocation();
@@ -7,7 +8,9 @@ const PrivateRoutes = () => {
   const isLoggedIn = cachedAuth && cachedAuth.isLoggedIn;
 
   return isLoggedIn ? (
-    <Outlet />
+    <Layout>
+      <Outlet />
+    </Layout>
   ) : (
     <Navigate to="/signin" replace={true} state={{ from: location }} />
   );

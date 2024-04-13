@@ -6,6 +6,7 @@ import goalUrl from '/src/assets/home_icon_goal.png';
 import consultUrl from '/src/assets/home_icon_consult.png';
 import HomeJoin from './HomeJoin';
 import HomeFaq from './HomeFaq';
+import AppFooter from '../../../../layout/AppFooter';
 
 const homeFeatureList = [
   {
@@ -40,29 +41,32 @@ const homeFeatureList = [
 
 const HomeLanding: React.FC = () => {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch',
-          maxWidth: '1280px',
-          gap: '1rem',
-        }}
-      >
-        <HomeHeader />
-        <HomeJoin />
-        <HomeFaq />
-        <Divider sx={{ my: '1.5rem' }} />
-        {homeFeatureList.map(({ title, description, icon }) => (
-          <HomeFeatureIntro
-            title={title}
-            description={description}
-            icon={icon}
-          />
-        ))}
+    <>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            maxWidth: '1280px',
+            gap: '1rem',
+          }}
+        >
+          <HomeHeader />
+          <HomeJoin />
+          <HomeFaq />
+          <Divider sx={{ my: '1.5rem' }} />
+          {homeFeatureList.map(({ title, description, icon }) => (
+            <HomeFeatureIntro
+              title={title}
+              description={description}
+              icon={icon}
+            />
+          ))}
+        </Box>
       </Box>
-    </Box>
+      <AppFooter />
+    </>
   );
 };
 
