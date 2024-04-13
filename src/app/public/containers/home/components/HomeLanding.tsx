@@ -65,7 +65,9 @@ const HomeLanding: React.FC = () => {
           ))}
         </Box>
       </Box>
-      <AppFooter />
+      <Box sx={{ mt: '1.5rem' }}>
+        <AppFooter />
+      </Box>
     </>
   );
 };
