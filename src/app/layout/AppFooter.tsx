@@ -99,6 +99,28 @@ function AppFooter() {
                 >
                   Our Blog
                 </Link>
+                <Link
+                  href="/article/health-matrix"
+                  variant="body2"
+                  display="block"
+                  color="primary"
+                  underline="none"
+                  fontWeight="bold"
+                  fontSize={15}
+                >
+                  Health Matrix Data Types
+                </Link>
+                <Link
+                  href="/article/life-style"
+                  variant="body2"
+                  display="block"
+                  color="primary"
+                  underline="none"
+                  fontWeight="bold"
+                  fontSize={15}
+                >
+                  Life Style Data Types
+                </Link>
               </Box>
               <Box>
                 <Typography

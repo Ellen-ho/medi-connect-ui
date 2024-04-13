@@ -6,8 +6,9 @@ import goalUrl from '/src/assets/home_icon_goal.png';
 import consultUrl from '/src/assets/home_icon_consult.png';
 import HomeJoin from './HomeJoin';
 import HomeFaq from './HomeFaq';
-import AppFooter from './AppFooter';
+
 import HomeFeatureCompare from './HomeFeatureCompare';
+import AppFooter from '../../../../layout/AppFooter';
 
 const homeFeatureList = [
   {
