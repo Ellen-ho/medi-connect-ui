@@ -44,7 +44,7 @@ const homeFeatureList = [
 const HomeLanding: React.FC = () => {
   return (
     <>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ mb: '1.5rem', display: 'flex', justifyContent: 'center' }}>
         <Box
           sx={{
             display: 'flex',
@@ -67,9 +67,6 @@ const HomeLanding: React.FC = () => {
             />
           ))}
         </Box>
-      </Box>
-      <Box sx={{ mt: '1.5rem' }}>
-        <AppFooter />
       </Box>
     </>
   );
