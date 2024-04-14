@@ -96,6 +96,7 @@ function AppFooter() {
                   underline="none"
                   fontWeight="bold"
                   fontSize={15}
+                  sx={{ marginBottom: 2 }}
                 >
                   Our Blog
                 </Link>
@@ -107,6 +108,7 @@ function AppFooter() {
                   underline="none"
                   fontWeight="bold"
                   fontSize={15}
+                  sx={{ marginBottom: 2 }}
                 >
                   Health Matrix Data Types
                 </Link>
@@ -139,11 +141,12 @@ function AppFooter() {
                   underline="none"
                   fontWeight="bold"
                   fontSize={15}
+                  sx={{ marginBottom: 2 }}
                 >
                   Who We Are
                 </Link>
                 <Link
-                  href="#"
+                  href="/contact"
                   variant="body2"
                   display="block"
                   color="primary"
@@ -199,11 +202,11 @@ function AppFooter() {
               Terms
             </Link>
             <Link href="#" underline="hover">
-              Privacy Policy
+              Privacy
             </Link>
           </Box>
           <Typography variant="body2" color="white" align="center">
-            Copyright © {currentYear} HealthTap
+            Copyright © {currentYear} Medi Connect
           </Typography>
         </Box>
       </Box>
