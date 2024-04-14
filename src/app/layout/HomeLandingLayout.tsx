@@ -1,3 +1,4 @@
+import AppFooter from './AppFooter';
 import MainContent from './MainContent.styled';
 import ResponsiveAppBar from './ResponsiveAppBar';
 
@@ -9,6 +10,7 @@ const HomeLandingLayout: React.FC<IHomeLandingLayoutProps> = ({ children }) => {
     <>
       <ResponsiveAppBar />
       <MainContent padding={'0'}>{children}</MainContent>
+      <AppFooter />
     </>
   );
 };
