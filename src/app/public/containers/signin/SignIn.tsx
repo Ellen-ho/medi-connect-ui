@@ -21,6 +21,7 @@ import { FormWrapper } from '../../../../components/form/Index.styled';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
 import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
 import FacebookIcon from '../../../../assets/FacebookIcon';
+import { ButtonAreaWrapper } from '../../../layout/CommonWrapper.styled';
 
 interface ISignInFormInputs {
   email: string;
@@ -108,27 +109,32 @@ const SignIn: React.FC = () => {
                 error={!!errors.password}
                 helperText={<>{errors.password?.message}</>}
               />
-
-              <Button type="submit" variant="contained" color="primary">
-                Sign In
-              </Button>
+              <ButtonAreaWrapper>
+                <Button type="submit" variant="contained" color="primary">
+                  Sign In
+                </Button>
+              </ButtonAreaWrapper>
               <Divider>Or</Divider>
-              <Button
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: '99em',
-                }}
-                variant="outlined"
-                color="primary"
-                onClick={handleFacebookLogin}
-              >
-                <Box sx={{ width: '30px', height: '30px', marginRight: '5px' }}>
-                  <FacebookIcon />
-                </Box>{' '}
-                Sign In with Facebook
-              </Button>
+              <ButtonAreaWrapper>
+                <Button
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: '99em',
+                  }}
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleFacebookLogin}
+                >
+                  <Box
+                    sx={{ width: '30px', height: '30px', marginRight: '5px' }}
+                  >
+                    <FacebookIcon />
+                  </Box>{' '}
+                  Sign In with Facebook
+                </Button>
+              </ButtonAreaWrapper>
 
               <Grid
                 container
