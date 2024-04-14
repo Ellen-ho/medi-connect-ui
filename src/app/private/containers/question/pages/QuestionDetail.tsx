@@ -366,6 +366,7 @@ const QuestionDetail: React.FC = () => {
             multiline
             rows={4}
             fullWidth
+            variant="filled"
             onChange={(e) => setThankContent(e.target.value)}
           />
         </DialogContent>

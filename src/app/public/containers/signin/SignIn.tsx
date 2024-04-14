@@ -8,14 +8,20 @@ import * as yup from 'yup';
 import PrimaryPageContent from '../../../layout/PrimaryPageContent';
 import { BottomAreaWrapper, SignInWrapper } from './SignIn.styled';
 import {
+  Box,
   Button,
   Card,
   CardContent,
+  Divider,
+  Grid,
   TextField,
   Typography,
 } from '@mui/material';
 import { FormWrapper } from '../../../../components/form/Index.styled';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
+import FacebookIcon from '../../../../assets/FacebookIcon';
+import { ButtonAreaWrapper } from '../../../layout/CommonWrapper.styled';
 
 interface ISignInFormInputs {
   email: string;
@@ -69,6 +75,10 @@ const SignIn: React.FC = () => {
     window.open(`${APP_SERVER_URL}/api/auth/facebook`, '_self');
   };
 
+  const handleDoctorSignInCLick = () => {
+    navigate('/signin-doctor');
+  };
+
   return (
     <PrimaryPageContent>
       <SignInWrapper>
@@ -99,22 +109,56 @@ const SignIn: React.FC = () => {
                 error={!!errors.password}
                 helperText={<>{errors.password?.message}</>}
               />
+              <ButtonAreaWrapper>
+                <Button type="submit" variant="contained" color="primary">
+                  Sign In
+                </Button>
+              </ButtonAreaWrapper>
+              <Divider>Or</Divider>
+              <ButtonAreaWrapper>
+                <Button
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: '99em',
+                  }}
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleFacebookLogin}
+                >
+                  <Box
+                    sx={{ width: '30px', height: '30px', marginRight: '5px' }}
+                  >
+                    <FacebookIcon />
+                  </Box>{' '}
+                  Sign In with Facebook
+                </Button>
+              </ButtonAreaWrapper>
 
-              <Button type="submit" variant="contained" color="primary">
-                Sign In
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleFacebookLogin}
+              <Grid
+                container
+                justifyContent="space-between"
+                alignItems="center"
               >
-                Sign In with Facebook (Patients only)
-              </Button>
-              <BottomAreaWrapper>
                 <Button variant="text" onClick={() => navigate('/signup')}>
                   Sign Up
                 </Button>
-              </BottomAreaWrapper>
+                <Button variant="text" onClick={() => navigate('/input-email')}>
+                  Forgot Password
+                </Button>
+              </Grid>
+              <Divider />
+              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Button
+                  onClick={handleDoctorSignInCLick}
+                  sx={{ borderRadius: '10px' }}
+                  variant="outlined"
+                  startIcon={<MedicalInformationIcon />}
+                >
+                  Are you doctor?
+                </Button>
+              </Box>
             </FormWrapper>
           </CardContent>
         </Card>

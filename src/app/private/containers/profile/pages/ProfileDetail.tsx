@@ -47,7 +47,10 @@ import { useSearchParams } from 'react-router-dom';
 import RowItem from '../../../../../components/form/RowItem';
 import ImageAvatar from '../../../../../components/avatar/ImageAvatar';
 import AvatarUploadDialog from '../components/AvatarUploadDialog';
-import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import {
+  ButtonAreaWrapper,
+  CommonWrapper,
+} from '../../../../layout/CommonWrapper.styled';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -194,16 +197,29 @@ const ProfileDetail: React.FC = () => {
                 title={'Personal'}
               >
                 <RowItem label="Avatar">
-                  <input type="hidden" {...register('avatar')} />{' '}
-                  <IconButton onClick={handleOpenAvatarUploadDialog}>
-                    <ImageAvatar
-                      imageUrl={profile.avatar}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <input type="hidden" {...register('avatar')} />{' '}
+                    <IconButton
+                      onClick={handleOpenAvatarUploadDialog}
                       sx={{
                         width: 50,
                         height: 50,
                       }}
-                    />
-                  </IconButton>
+                    >
+                      <ImageAvatar
+                        imageUrl={profile.avatar}
+                        sx={{
+                          width: 50,
+                          height: 50,
+                        }}
+                      />
+                    </IconButton>
+                  </Box>
                   {/* Hidden input to hold the imageUrl */}
                   {/* <ImageUploadComponent onImageUpload={handleImageUpload} /> */}
                 </RowItem>
@@ -320,12 +336,16 @@ const ProfileDetail: React.FC = () => {
                 <>
                   {medicalHistoryFields &&
                     medicalHistoryFields.map((history, index) => (
-                      <RowItem label={`#${index + 1}`}>
+                      <RowItem
+                        label={`#${index + 1}`}
+                        rightElementSx={{ flexBasis: '90%' }}
+                      >
                         <Box
                           key={index}
                           sx={{
                             display: 'flex',
                             gap: '.5rem',
+                            justifyContent: 'end',
                             flexDirection: 'row',
                             alignItems: 'top',
                             py: '1rem',
@@ -410,7 +430,10 @@ const ProfileDetail: React.FC = () => {
                 <>
                   {familyHistoryFields &&
                     familyHistoryFields.map((history, index) => (
-                      <RowItem label={`#${index + 1}`}>
+                      <RowItem
+                        label={`#${index + 1}`}
+                        rightElementSx={{ flexBasis: '90%' }}
+                      >
                         <Box
                           key={index}
                           sx={{
@@ -485,7 +508,7 @@ const ProfileDetail: React.FC = () => {
 
               <BasicCard
                 startTitleAdornment={
-                  <VaccinesIcon sx={{ marginRight: '.5rem' }} />
+                  <VaccinesIcon sx={{ marginRight: '1rem' }} />
                 }
                 title={'Medicince Usage'}
                 titleRightElement={
@@ -509,132 +532,166 @@ const ProfileDetail: React.FC = () => {
                 <>
                   {medicineUsageFields &&
                     medicineUsageFields.map((usage, index) => (
-                      <RowItem label={`#${index + 1}`}>
+                      <RowItem
+                        label={`#${index + 1}`}
+                        rightElementSx={{ flexBasis: '90%' }}
+                      >
                         <Box
-                          key={index}
                           sx={{
                             display: 'flex',
-                            gap: '.5rem',
                             flexDirection: 'row',
-                            alignItems: 'top',
-                            py: '1rem',
+                            justifyContent: 'end',
                           }}
                         >
-                          <TextField
-                            label={'Medicine Name'}
-                            size="small"
-                            variant="outlined"
-                            {...register(`medicineUsage.${index}.medicineName`)}
-                          />
-                          <TextField
-                            label={'Medicine Dosage'}
-                            size="small"
-                            variant="outlined"
-                            {...register(
-                              `medicineUsage.${index}.medicineDosage`,
-                            )}
-                          />
-                          <Controller
-                            name={`medicineUsage.${index}.medicineUnit`}
-                            control={control}
-                            defaultValue={usage.medicineUnit}
-                            render={({ field }) => (
-                              <TextField
-                                select
-                                label={'Medicine Unit'}
-                                size="small"
-                                InputLabelProps={{ shrink: true }}
-                                error={
-                                  !!errors.medicineUsage?.[index]?.medicineUnit
-                                }
-                                helperText={
-                                  <>
-                                    {
-                                      errors.medicineUsage?.[index]
-                                        ?.medicineUnit?.message
-                                    }
-                                  </>
-                                }
-                                value={field.value}
-                                onChange={(e) => field.onChange(e.target.value)}
-                              >
-                                {Object.values(MedicineUnitType).map((unit) => (
-                                  <MenuItem key={unit} value={unit}>
-                                    {unit}
-                                  </MenuItem>
-                                ))}
-                              </TextField>
-                            )}
-                          />
+                          <Box
+                            key={index}
+                            sx={{
+                              display: 'flex',
+                              gap: '.5rem',
+                              flexWrap: 'wrap',
+                              justifyContent: 'end',
+                              flexDirection: 'row',
+                              alignItems: 'top',
+                              py: '1rem',
+                            }}
+                          >
+                            <TextField
+                              label={'Medicine Name'}
+                              size="small"
+                              variant="outlined"
+                              {...register(
+                                `medicineUsage.${index}.medicineName`,
+                              )}
+                              sx={{ flexBasis: '60%' }}
+                            />
+                            <TextField
+                              label={'Medicine Dosage'}
+                              size="small"
+                              variant="outlined"
+                              {...register(
+                                `medicineUsage.${index}.medicineDosage`,
+                              )}
+                              sx={{ flexBasis: '15%' }}
+                            />
+                            <Controller
+                              name={`medicineUsage.${index}.medicineUnit`}
+                              control={control}
+                              defaultValue={usage.medicineUnit}
+                              render={({ field }) => (
+                                <TextField
+                                  sx={{ flexBasis: '30%' }}
+                                  select
+                                  label={'Medicine Unit'}
+                                  size="small"
+                                  InputLabelProps={{ shrink: true }}
+                                  error={
+                                    !!errors.medicineUsage?.[index]
+                                      ?.medicineUnit
+                                  }
+                                  helperText={
+                                    <>
+                                      {
+                                        errors.medicineUsage?.[index]
+                                          ?.medicineUnit?.message
+                                      }
+                                    </>
+                                  }
+                                  value={field.value}
+                                  onChange={(e) =>
+                                    field.onChange(e.target.value)
+                                  }
+                                >
+                                  {Object.values(MedicineUnitType).map(
+                                    (unit) => (
+                                      <MenuItem key={unit} value={unit}>
+                                        {unit}
+                                      </MenuItem>
+                                    ),
+                                  )}
+                                </TextField>
+                              )}
+                            />
 
-                          <Controller
-                            name={`medicineUsage.${index}.medicineTime`}
-                            control={control}
-                            defaultValue={usage.medicineTime}
-                            render={({ field }) => (
-                              <TextField
-                                select
-                                label={'Medicine Time'}
-                                size="small"
-                                InputLabelProps={{ shrink: true }}
-                                error={
-                                  !!errors.medicineUsage?.[index]?.medicineTime
-                                }
-                                helperText={
-                                  <>
-                                    {
-                                      errors.medicineUsage?.[index]
-                                        ?.medicineTime?.message
-                                    }
-                                  </>
-                                }
-                                value={field.value}
-                                onChange={(e) => field.onChange(e.target.value)}
-                              >
-                                {Object.values(MedicineTimeType).map((time) => (
-                                  <MenuItem key={time} value={time}>
-                                    {time}
-                                  </MenuItem>
-                                ))}
-                              </TextField>
-                            )}
-                          />
+                            <Controller
+                              name={`medicineUsage.${index}.medicineTime`}
+                              control={control}
+                              defaultValue={usage.medicineTime}
+                              render={({ field }) => (
+                                <TextField
+                                  sx={{ flexBasis: '35%' }}
+                                  select
+                                  label={'Medicine Time'}
+                                  size="small"
+                                  InputLabelProps={{ shrink: true }}
+                                  error={
+                                    !!errors.medicineUsage?.[index]
+                                      ?.medicineTime
+                                  }
+                                  helperText={
+                                    <>
+                                      {
+                                        errors.medicineUsage?.[index]
+                                          ?.medicineTime?.message
+                                      }
+                                    </>
+                                  }
+                                  value={field.value}
+                                  onChange={(e) =>
+                                    field.onChange(e.target.value)
+                                  }
+                                >
+                                  {Object.values(MedicineTimeType).map(
+                                    (time) => (
+                                      <MenuItem key={time} value={time}>
+                                        {time}
+                                      </MenuItem>
+                                    ),
+                                  )}
+                                </TextField>
+                              )}
+                            />
 
-                          <Controller
-                            name={`medicineUsage.${index}.medicineFrequency`}
-                            control={control}
-                            defaultValue={usage.medicineFrequency}
-                            render={({ field }) => (
-                              <TextField
-                                select
-                                label={'Medicine Frequency'}
-                                size="small"
-                                InputLabelProps={{ shrink: true }}
-                                error={
-                                  !!errors.medicineUsage?.[index]
-                                    ?.medicineFrequency
-                                }
-                                helperText={
-                                  <>
-                                    {
-                                      errors.medicineUsage?.[index]
-                                        ?.medicineFrequency?.message
-                                    }
-                                  </>
-                                }
-                                value={field.value}
-                                onChange={(e) => field.onChange(e.target.value)}
-                              >
-                                {Object.values(MedicineFrequencyType).map(
-                                  (frequency) => (
-                                    <MenuItem key={frequency} value={frequency}>
-                                      {frequency}
-                                    </MenuItem>
-                                  ),
-                                )}
-                              </TextField>
-                            )}
-                          />
+                            <Controller
+                              name={`medicineUsage.${index}.medicineFrequency`}
+                              control={control}
+                              defaultValue={usage.medicineFrequency}
+                              render={({ field }) => (
+                                <TextField
+                                  select
+                                  label={'Medicine Frequency'}
+                                  size="small"
+                                  InputLabelProps={{ shrink: true }}
+                                  error={
+                                    !!errors.medicineUsage?.[index]
+                                      ?.medicineFrequency
+                                  }
+                                  helperText={
+                                    <>
+                                      {
+                                        errors.medicineUsage?.[index]
+                                          ?.medicineFrequency?.message
+                                      }
+                                    </>
+                                  }
+                                  value={field.value}
+                                  onChange={(e) =>
+                                    field.onChange(e.target.value)
+                                  }
+                                >
+                                  {Object.values(MedicineFrequencyType).map(
+                                    (frequency) => (
+                                      <MenuItem
+                                        key={frequency}
+                                        value={frequency}
+                                      >
+                                        {frequency}
+                                      </MenuItem>
+                                    ),
+                                  )}
+                                </TextField>
+                              )}
+                            />
+                          </Box>
 
                           <Tooltip title={'Delete the item'} placement="top">
                             <IconButton color={'error'}>
@@ -648,10 +705,11 @@ const ProfileDetail: React.FC = () => {
                     ))}
                 </>
               </BasicCard>
-
-              <Button type="submit" variant="contained" color="primary">
-                Save
-              </Button>
+              <ButtonAreaWrapper>
+                <Button type="submit" variant="contained" color="primary">
+                  Save
+                </Button>
+              </ButtonAreaWrapper>
             </FormWrapper>
           )}
         </CommonWrapper>

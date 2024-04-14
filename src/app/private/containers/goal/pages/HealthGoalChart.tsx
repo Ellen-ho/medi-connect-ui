@@ -15,6 +15,9 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import useSWR from 'swr';
 import { AuthContext } from '../../../../../context/AuthContext';
 import NoDataFound from '../../../../../components/signs/NoDataFound';
+import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
+import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 
 const HealthGoalChart: React.FC = () => {
   const { id } = useParams();
@@ -32,156 +35,159 @@ const HealthGoalChart: React.FC = () => {
   );
 
   return (
-    <>
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Blood Pressure Records
-          </Typography>
-          <ResponsiveContainer width="100%" height={300}>
-            {data ? (
-              <LineChart
-                data={data.bloodPressureRecordsData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="bloodPressureDate" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="systolicBloodPressure"
-                  name="Systolic BP"
-                  stroke="#8884d8"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="diastolicBloodPressure"
-                  name="Diastolic BP"
-                  stroke="#82ca9d"
-                />
-              </LineChart>
-            ) : (
-              <NoDataFound />
-            )}
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Blood Sugar Records
-          </Typography>
-          <ResponsiveContainer width="100%" height={300}>
-            {data ? (
-              <LineChart
-                data={data.bloodSugarRecordsData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="bloodSugarDate" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="bloodSugarValue"
-                  name="Blood Sugar Value"
-                  stroke="#8884d8"
-                />
-              </LineChart>
-            ) : (
-              <NoDataFound />
-            )}
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Glycated Hemoglobin Records
-          </Typography>
-          <ResponsiveContainer width="100%" height={300}>
-            {data ? (
-              <LineChart
-                data={data.glycatedHemoglobinRecordsData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="glycatedHemoglobinDate" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="glycatedHemoglobinValuePercent"
-                  name="Glycated Hemoglobin Value Percent"
-                  stroke="#8884d8"
-                />
-              </LineChart>
-            ) : (
-              <NoDataFound />
-            )}
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Weight Records
-          </Typography>
-          <ResponsiveContainer width="100%" height={300}>
-            {data ? (
-              <LineChart
-                data={data.weightRecordsData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="weightDate" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="weightValueKg"
-                  name="Weight Value Kg"
-                  stroke="#8884d8"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="bodyMassIndex"
-                  name="BMI"
-                  stroke="#82ca9d"
-                />
-              </LineChart>
-            ) : (
-              <NoDataFound />
-            )}
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-    </>
+    <PrimaryPageContent>
+      <CommonWrapper>
+        <SecondaryPageTop />
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Blood Pressure Records
+            </Typography>
+            <ResponsiveContainer width="100%" height={300}>
+              {data ? (
+                <LineChart
+                  data={data.bloodPressureRecordsData}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="bloodPressureDate" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="systolicBloodPressure"
+                    name="Systolic BP"
+                    stroke="#8884d8"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="diastolicBloodPressure"
+                    name="Diastolic BP"
+                    stroke="#82ca9d"
+                  />
+                </LineChart>
+              ) : (
+                <NoDataFound />
+              )}
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Blood Sugar Records
+            </Typography>
+            <ResponsiveContainer width="100%" height={300}>
+              {data ? (
+                <LineChart
+                  data={data.bloodSugarRecordsData}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="bloodSugarDate" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="bloodSugarValue"
+                    name="Blood Sugar Value"
+                    stroke="#8884d8"
+                  />
+                </LineChart>
+              ) : (
+                <NoDataFound />
+              )}
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Glycated Hemoglobin Records
+            </Typography>
+            <ResponsiveContainer width="100%" height={300}>
+              {data ? (
+                <LineChart
+                  data={data.glycatedHemoglobinRecordsData}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="glycatedHemoglobinDate" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="glycatedHemoglobinValuePercent"
+                    name="Glycated Hemoglobin Value Percent"
+                    stroke="#8884d8"
+                  />
+                </LineChart>
+              ) : (
+                <NoDataFound />
+              )}
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Weight Records
+            </Typography>
+            <ResponsiveContainer width="100%" height={300}>
+              {data ? (
+                <LineChart
+                  data={data.weightRecordsData}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="weightDate" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="weightValueKg"
+                    name="Weight Value Kg"
+                    stroke="#8884d8"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="bodyMassIndex"
+                    name="BMI"
+                    stroke="#82ca9d"
+                  />
+                </LineChart>
+              ) : (
+                <NoDataFound />
+              )}
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </CommonWrapper>
+    </PrimaryPageContent>
   );
 };
 

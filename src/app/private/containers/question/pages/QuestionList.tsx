@@ -57,24 +57,21 @@ const QuestionList: React.FC = () => {
             pageTitle="Question"
             rightElement={
               isDoctor ? (
-                <>
-                  <SearchBar onSearch={handleSearch} />
-                  <Button onClick={handleClickViewAnswer} variant="contained">
-                    View Your Answers
-                  </Button>
-                </>
+                <Button onClick={handleClickViewAnswer} variant="contained">
+                  View Your Answers
+                </Button>
               ) : (
-                <>
-                  <SearchBar onSearch={handleSearch} />
-                  <Button onClick={handleClickNewQuestion} variant="contained">
-                    Ask Question
-                  </Button>
-                </>
+                <Button onClick={handleClickNewQuestion} variant="contained">
+                  Ask Question
+                </Button>
               )
             }
           />
           <Card>
             <CardContent>
+              <Box sx={{ paddingLeft: '6px' }}>
+                <SearchBar onSearch={handleSearch} />
+              </Box>
               <List
                 sx={{
                   width: '100%',

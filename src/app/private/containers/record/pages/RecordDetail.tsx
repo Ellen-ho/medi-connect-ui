@@ -58,7 +58,7 @@ const RecordDetail: React.FC = () => {
                   <RowItem label={camelToTitleCase(key)} key={key}>
                     {isDateRelatedField
                       ? dateFormatter(value)
-                      : `${value}${unit ? unit : ''}`}
+                      : `${value} ${unit ? unit : ''}`}
                   </RowItem>
                 );
               })}

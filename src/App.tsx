@@ -18,10 +18,21 @@ import OAuth from './app/public/containers/oauth/OAuth';
 import PublicRoutes from './app/public/PublicRoutes';
 import PersonalHome from './app/private/containers/home/Index';
 import useSocketNotification from './hooks/UseSocketNotification';
+import MailForReset from './app/public/containers/resetPassword/pages/MailForReset';
+import PasswordReset from './app/public/containers/resetPassword/pages/PasswordReset';
+import SignInDoctor from './app/public/containers/signin-doctor/SignInDoctor';
+import LoadingComponent from './components/loading/Loading';
+import HealthMatrixData from './app/public/containers/article/HealthMatrix';
+import LifestyleData from './app/public/containers/article/LifeStyle';
+import Article from './app/public/containers/article/Article';
 
 const App: React.FC = () => {
-  useInitAuth();
+  const isLoading = useInitAuth();
   useSocketNotification();
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <Routes>
@@ -39,8 +50,12 @@ const App: React.FC = () => {
       <Route element={<PublicRoutes />}>
         <Route element={<OAuth />} path="/oauth" />
         <Route element={<SignIn />} path="/signin" />
+        <Route element={<SignInDoctor />} path="/signin-doctor" />
         <Route element={<SignUp />} path="/signup" />
+        <Route element={<MailForReset />} path="/input-email" />
+        <Route element={<PasswordReset />} path="/reset-password" />
       </Route>
+      <Route element={<Article />} path="/article/*" />
       <Route element={<Home />} path="/" />
       <Route element={<NotFound />} path="" />
     </Routes>

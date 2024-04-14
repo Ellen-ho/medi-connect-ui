@@ -4,6 +4,11 @@ import questionUrl from '/src/assets/home_icon_question.png';
 import recodUrl from '/src/assets/home_icon_record.png';
 import goalUrl from '/src/assets/home_icon_goal.png';
 import consultUrl from '/src/assets/home_icon_consult.png';
+import HomeJoin from './HomeJoin';
+import HomeFaq from './HomeFaq';
+
+import HomeFeatureCompare from './HomeFeatureCompare';
+import AppFooter from '../../../../layout/AppFooter';
 
 const homeFeatureList = [
   {
@@ -38,27 +43,32 @@ const homeFeatureList = [
 
 const HomeLanding: React.FC = () => {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch',
-          maxWidth: '1280px',
-          gap: '1rem',
-        }}
-      >
-        <HomeHeader />
-        <Divider sx={{ my: '1.5rem' }} />
-        {homeFeatureList.map(({ title, description, icon }) => (
-          <HomeFeatureIntro
-            title={title}
-            description={description}
-            icon={icon}
-          />
-        ))}
+    <>
+      <Box sx={{ mb: '1.5rem', display: 'flex', justifyContent: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            maxWidth: '1280px',
+            gap: '1rem',
+          }}
+        >
+          <HomeHeader />
+          <HomeFeatureCompare />
+          <HomeJoin />
+          <HomeFaq />
+          <Divider sx={{ my: '1.5rem' }} />
+          {homeFeatureList.map(({ title, description, icon }) => (
+            <HomeFeatureIntro
+              title={title}
+              description={description}
+              icon={icon}
+            />
+          ))}
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 
@@ -76,7 +86,12 @@ const HomeFeatureIntro: React.FC<IHomeFeatureIntroProps> = ({
   icon,
 }) => {
   return (
-    <Card>
+    <Card
+      sx={{
+        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // 添加阴影
+        borderRadius: '12px', // 添加边框圆角
+      }}
+    >
       <CardContent
         sx={{
           display: 'flex',

@@ -1,4 +1,3 @@
-import AppFooter from './AppFooter';
 import MainContent from './MainContent.styled';
 import ResponsiveAppBar from './ResponsiveAppBar';
 
@@ -10,7 +9,6 @@ const Layout: React.FC<ILayoutProps> = ({ children }) => {
     <>
       <ResponsiveAppBar />
       <MainContent>{children}</MainContent>
-      <AppFooter />
     </>
   );
 };

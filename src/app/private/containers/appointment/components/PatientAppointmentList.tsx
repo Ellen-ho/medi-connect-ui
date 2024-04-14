@@ -29,6 +29,7 @@ import RowItem from '../../../../../components/form/RowItem';
 import useSWR from 'swr';
 import ClearIcon from '@mui/icons-material/Clear';
 import toast from 'react-hot-toast';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
 
 interface IPatientAppointmentListProps {}
 
@@ -92,7 +93,10 @@ const PatientAppointmentList: React.FC<IPatientAppointmentListProps> = () => {
               </>
             ))
           ) : (
-            <NoDataFound />
+            <NoDataFound
+              icon={<EventBusyIcon />}
+              label="You currently have no upcoming appointments."
+            ></NoDataFound>
           )}
         </List>
       </BasicCard>
@@ -126,7 +130,10 @@ const PatientAppointmentList: React.FC<IPatientAppointmentListProps> = () => {
               </>
             ))
           ) : (
-            <NoDataFound />
+            <NoDataFound
+              icon={<EventBusyIcon />}
+              label="You currently have no completed appointments."
+            ></NoDataFound>
           )}
         </List>
       </BasicCard>
@@ -160,7 +167,10 @@ const PatientAppointmentList: React.FC<IPatientAppointmentListProps> = () => {
               </>
             ))
           ) : (
-            <NoDataFound />
+            <NoDataFound
+              icon={<EventBusyIcon />}
+              label="You currently have no canceled appointments."
+            ></NoDataFound>
           )}
         </List>
       </BasicCard>
@@ -191,10 +201,6 @@ const PatientAppointmentList: React.FC<IPatientAppointmentListProps> = () => {
 
           <DialogContent>
             <DialogContentText>
-              <RowItem label={'Appointment No.'}>
-                {selectedDetail.appointmentId}
-              </RowItem>
-
               <RowItem
                 label={'Doctor Name'}
               >{`Dr. ${selectedDetail.doctor.firstName} ${selectedDetail.doctor.lastName}`}</RowItem>

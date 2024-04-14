@@ -24,7 +24,10 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import RowItem from '../../../../../components/form/RowItem';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import {
+  ButtonAreaWrapper,
+  CommonWrapper,
+} from '../../../../layout/CommonWrapper.styled';
 
 interface IAccountForm {
   displayName: string;
@@ -119,15 +122,16 @@ const AccountDetail: React.FC = () => {
                   </RowItem>
                 </CardContent>
               </Card>
-
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={!isDirty}
-              >
-                Save
-              </Button>
+              <ButtonAreaWrapper>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={!isDirty}
+                >
+                  Save
+                </Button>
+              </ButtonAreaWrapper>
             </FormWrapper>
           )}
         </CommonWrapper>

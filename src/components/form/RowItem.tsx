@@ -4,8 +4,14 @@ interface IRowItemProps {
   label: string;
   children?: React.ReactNode;
   sx?: SxProps<Theme>;
+  rightElementSx?: SxProps<Theme>;
 }
-const RowItem: React.FC<IRowItemProps> = ({ label, children, sx = {} }) => {
+const RowItem: React.FC<IRowItemProps> = ({
+  label,
+  children,
+  sx = {},
+  rightElementSx = {},
+}) => {
   return (
     <>
       <Box
@@ -44,8 +50,10 @@ const RowItem: React.FC<IRowItemProps> = ({ label, children, sx = {} }) => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
+            justifyContent: 'end',
             gap: '.5rem',
             flexBasis: '45%',
+            ...rightElementSx,
           }}
         >
           {children}

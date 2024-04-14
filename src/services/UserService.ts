@@ -60,6 +60,44 @@ interface IUploadAvatarImageResponse {
   imageUrl: string;
 }
 
+interface ICreatePasswordChangeMailRequest {
+  email: string;
+}
+
+interface ICreatePasswordChangeMailResponse {
+  success: boolean;
+  error?: string;
+}
+
+interface IUpdatePasswordRequest {
+  newPassword: string;
+  resetToken: string;
+}
+
+interface IUpdatePasswordResponse {
+  success: boolean;
+}
+
+export const updatePassword = async (
+  data: IUpdatePasswordRequest,
+): Promise<IUpdatePasswordResponse> => {
+  const response = await api.patch<IUpdatePasswordResponse>(
+    '/users/reset-password',
+    data,
+  );
+  return response.data;
+};
+
+export const createPasswordChangeMail = async (
+  data: ICreatePasswordChangeMailRequest,
+): Promise<ICreatePasswordChangeMailResponse> => {
+  const response = await api.post<ICreatePasswordChangeMailResponse>(
+    '/users/reset-password-mail',
+    data,
+  );
+  return response.data;
+};
+
 export const loginUser = async (
   data: ILoginRequest,
 ): Promise<ILoginResponse> => {

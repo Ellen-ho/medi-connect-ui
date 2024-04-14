@@ -37,6 +37,7 @@ import NotificationIcons from '../components/NotificationIcons';
 import { useNavigate } from 'react-router-dom';
 import { NotificationType } from '../../../../../types/Notifications';
 import DeleteIcon from '@mui/icons-material/Delete';
+import MessageIcon from '@mui/icons-material/Message';
 
 const NotificationList: React.FC = () => {
   const [page, setPage] = useState<number>(1);
@@ -214,7 +215,10 @@ const NotificationList: React.FC = () => {
                   </>
                 ))
               ) : (
-                <NoDataFound />
+                <NoDataFound
+                  icon={<MessageIcon />}
+                  label="You currently have no notification."
+                ></NoDataFound>
               )}
             </List>
           </CardContent>

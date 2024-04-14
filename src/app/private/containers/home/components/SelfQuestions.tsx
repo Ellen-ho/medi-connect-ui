@@ -7,6 +7,7 @@ import QuestionItem from '../../question/components/QuestionItem';
 import { getQuestions } from '../../../../../services/QuestionService';
 import { useContext } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
+import NotListedLocationIcon from '@mui/icons-material/NotListedLocation';
 
 const SelfQuestions: React.FC = () => {
   const title = 'Your Questions';
@@ -50,7 +51,10 @@ const SelfQuestions: React.FC = () => {
   if (!questions) {
     return (
       <BasicCard title={title}>
-        <NoDataFound />
+        <NoDataFound
+          icon={<NotListedLocationIcon />}
+          label="You haven't asked any questions yet."
+        ></NoDataFound>
       </BasicCard>
     );
   }
