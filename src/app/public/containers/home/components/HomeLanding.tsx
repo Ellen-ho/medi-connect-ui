@@ -14,28 +14,27 @@ const homeFeatureList = [
   {
     title: 'Get Your Health Questions Answered',
     description:
-      'This feature allows users to ask medical questions and receive answers from experienced doctors, providing quick and reliable medical advice.',
-
+      'You can ask medical questions and receive answers from our experienced doctors, providing quick and reliable medical advice.',
     icon: questionUrl,
   },
   {
     title: 'Streamline Your Health Records',
     description:
-      'This feature helps users organize and manage their medical records in a systematic and efficient manner, reducing the hassle of dealing with paper documents.',
+      'We help you organize and manage your medical records in a systematic and efficient manner, reducing the hassle of dealing with paper documents.',
 
     icon: recodUrl,
   },
   {
     title: 'Achieve Your Health Ambitions',
     description:
-      "Users can set and work towards personalized health goals, whether it's weight management, fitness, or disease prevention, with guidance tailored to their specific needs.",
+      'Our professional medical team will oversee your health data records and set personalized health goals for you, with guidance tailored to your specific needs.',
 
     icon: goalUrl,
   },
   {
     title: 'Consult with Trusted Medical Professionals',
     description:
-      'Users have the opportunity to consult with trusted and experienced doctors, ensuring they receive expert medical care and advice.',
+      'You can schedule online consultations with doctors outside of limited physical clinic hours, ensuring you receive expert medical care and advice.',
 
     icon: consultUrl,
   },
