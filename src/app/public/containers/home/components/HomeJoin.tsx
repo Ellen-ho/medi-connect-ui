@@ -41,8 +41,8 @@ const HomeJoin: React.FC = () => {
           paragraph
           sx={{ color: 'black', lineHeight: 1.8 }}
         >
-          Health is a lifelong dynamic balance.Our mission is to uncover the why
-          and the how, aiming for prevention rather than cure.
+          Health is a lifelong dynamic balance. Our dedicated medical team is
+          committed to maintaining your health fundamentally.
         </Typography>
 
         <Typography
@@ -50,9 +50,10 @@ const HomeJoin: React.FC = () => {
           paragraph
           sx={{ color: 'black', lineHeight: 1.8 }}
         >
-          Each health journey is personal.We strive to provide you and your
-          doctor with insights and tools that extend beyond the doctor's office,
-          supporting wellness every step of the way.
+          Beyond the limited time in a clinical setting, we accompany you in
+          understanding and tracking physiological data and lifestyle records.
+          From us, you receive professional and personalized health education
+          tailored to support your wellness journey every step of the way.
         </Typography>
 
         <Typography

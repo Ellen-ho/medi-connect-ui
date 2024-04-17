@@ -54,7 +54,6 @@ const HomeLanding: React.FC = () => {
           }}
         >
           <HomeHeader />
-          <HomeFeatureCompare />
           <HomeJoin />
           <HomeFaq />
           <Divider sx={{ my: '1.5rem' }} />

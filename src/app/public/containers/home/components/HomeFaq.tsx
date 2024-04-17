@@ -16,7 +16,7 @@ const faqs: FaqItem[] = [
   {
     question: 'Can doctors on MediConnect prescribe all medications?',
     answer:
-      "Currently, doctors on Medi Connect do not directly issue prescriptions to patients. On Medi Connect, the emphasis lies in having doctors from various specialties available to offer unlimited, personalized consultations to each patient, unrestricted by space and time. It's akin to having a health mentor readily available to assist you whenever needed.",
+      'Currently, Medi Connect serves to augment the physical healthcare provided by medical teams. It enables our doctors to offer additional medical assistance beyond in-person consultations, such as health advice and customized health education. However, prescriptions are issued during in-person visits to the clinic.',
   },
   {
     question: 'Can I review my health records over time?',
@@ -32,18 +32,12 @@ const faqs: FaqItem[] = [
   {
     question: 'What credentials do Medi Connect doctors have?',
     answer:
-      'At Medi Connect, we have licensed doctors from around the world, each having received comprehensive medical education at top medical schools in their respective countries. They possess nationally recognized medical diplomas and have accumulated years of practical experience. Every physician specializes in different fields, and their detailed profiles on MediConnect provide comprehensive backgrounds.',
+      'At Medi Connect, we have licensed doctors who have undergone extensive medical training. Each holds a nationally recognized medical diploma and brings years of practical experience to their role. Our physicians specialize in various fields, offering a diverse range of expertise. Detailed profiles for each doctor are available on MediConnect, providing comprehensive insights into their backgrounds.',
   },
   {
     question: 'What kind of health assistance can I receive on MediConnect?',
     answer:
-      "MediConnect offers two main types of records: Health Matrix and Lifestyle, enabling users to easily track their daily health data. The platform also analyzes your health status based on your consecutive 14-day records. If your health is deemed critical, we'll remind you to seek further medical examination. For those in suboptimal health, we tailor health goals. Throughout your goal achievement journey, you can ask questions on the platform, and our professional physicians will provide answers. You can also schedule online consultations with physicians according to your needs, aiding you in achieving your health goals more steadily.",
-  },
-  {
-    question:
-      'Can people who are currently healthy participate on the platform? Or is there a need for them to join?',
-    answer:
-      "Of course, you're more than welcome to join, as long as you're invested in your health and willing to put in the effort. An important perspective to consider is that health isn't static; it's a dynamic equilibrium achieved through ongoing efforts. Therefore, we encourage everyone to cultivate healthy habits and achieve long-term health in a sustainable manner.",
+      'Medi Connect offers two primary types of records—Health Matrix and Lifestyle—which enable users to effortlessly track their daily health data. The platform analyzes your health status using data collected over a consecutive 14-day period. Should your health be deemed critical, we will prompt you to seek further medical examination. For those with suboptimal health, we customize health goals tailored to individual needs. You can discuss these with your doctor in person or ask questions on the platform. Additionally, you can schedule online consultations with our physicians, helping you achieve your health goals more consistently.',
   },
 ];
 
