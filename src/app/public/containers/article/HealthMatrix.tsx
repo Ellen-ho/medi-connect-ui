@@ -1,25 +1,8 @@
 import React from 'react';
-import { Typography, Grid, Box, IconButton } from '@mui/material';
+import { Grid, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-interface SectionProps {
-  title: string;
-  content: string[];
-}
-
-const Section: React.FC<SectionProps> = ({ title, content }) => (
-  <Box style={{ marginBottom: 16 }}>
-    <Typography variant="h5" component="div">
-      {title}
-    </Typography>
-    {content.map((text, index) => (
-      <Typography variant="body1" paragraph key={index}>
-        {text}
-      </Typography>
-    ))}
-  </Box>
-);
+import Section from '../../../../components/section/Section';
 
 const HealthMatrixData: React.FC = () => {
   const navigate = useNavigate();
