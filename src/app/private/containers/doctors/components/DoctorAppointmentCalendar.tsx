@@ -93,7 +93,7 @@ const DoctorAppointmentCalendar: React.FC<IDoctorAppointmentCalendarProps> = ({
       </Box>
       <FullCalendar
         plugins={[timeGridPlugin, dayGridPlugin]}
-        initialView="timeGridWeek"
+        initialView="dayGridMonth"
         initialDate={validStartDate}
         validRange={{
           start: validStartDate,
