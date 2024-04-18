@@ -37,6 +37,11 @@ const topPages = [
     link: 'appointment',
     permission: [UserRoleType.PATIENT, UserRoleType.DOCTOR],
   },
+  {
+    title: 'Timetable',
+    link: 'appointment/time-slot',
+    permission: [UserRoleType.DOCTOR],
+  },
   { title: 'Record', link: 'record', permission: [UserRoleType.PATIENT] },
   { title: 'Goal', link: 'health-goal', permission: [UserRoleType.PATIENT] },
 ];
