@@ -7,6 +7,7 @@ import {
   Avatar,
   Box,
   Button,
+  Chip,
   Divider,
   Skeleton,
   Typography,
@@ -14,6 +15,7 @@ import {
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
+import { TimeSlotType } from '../../../../../types/Share';
 
 const DoctorUpcomingAppointment: React.FC = () => {
   const navigate = useNavigate();
@@ -64,13 +66,25 @@ const DoctorUpcomingAppointment: React.FC = () => {
               <Typography variant="h6" fontWeight={'bold'}>
                 {appointment.patient.firstName} {appointment.patient.lastName}
               </Typography>
-              <Typography variant="body2">
-                {`${dateFormatter(
-                  appointment.doctorTimeSlot.startAt,
-                )} ~ ${dateFormatter(appointment.doctorTimeSlot.endAt)}`}
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                Type: {appointment.doctorTimeSlot.type}
+              <Typography
+                variant="body2"
+                sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
+              >
+                <span>
+                  {`${dateFormatter(
+                    appointment.doctorTimeSlot.startAt,
+                  )} ~ ${dateFormatter(appointment.doctorTimeSlot.endAt)}`}
+                </span>
+                <Chip
+                  size="small"
+                  label={appointment.doctorTimeSlot.type}
+                  color={
+                    appointment.doctorTimeSlot.type === TimeSlotType.CLINIC
+                      ? 'primary'
+                      : 'success'
+                  }
+                  variant="outlined"
+                />
               </Typography>
             </Box>
           </Box>
