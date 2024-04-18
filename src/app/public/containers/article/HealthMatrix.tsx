@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, IconButton } from '@mui/material';
+import { Grid, IconButton, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Section from '../../../../components/section/Section';
@@ -12,6 +12,9 @@ const HealthMatrixData: React.FC = () => {
         <IconButton onClick={() => navigate('/')} aria-label="back">
           <ArrowBackIcon />
         </IconButton>
+        <Typography variant="h4" gutterBottom>
+          Understanding the Health Matrix Data
+        </Typography>
         <Section
           title="Blood Pressure"
           content={[
