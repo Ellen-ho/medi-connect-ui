@@ -35,6 +35,7 @@ export interface IPatientConsultAppointmentDatas {
   doctor: IDoctorData;
   meetingLink: string | null;
   cancelAvailability: boolean;
+  type: TimeSlotType;
 }
 
 export interface IDoctorConsultAppointmentDatas {
@@ -43,11 +44,13 @@ export interface IDoctorConsultAppointmentDatas {
   doctorTimeSlot: IDoctorTimeSlotData;
   patient: IPatientData;
   meetingLink: string | null;
+  type: TimeSlotType;
 }
 
 export interface IGetConsultAppointmentsRequest {
   query: {
     onlyUpcoming?: boolean;
+    type?: TimeSlotType;
   };
 }
 
@@ -171,20 +174,24 @@ export const createConsultAppointmentRecord = async (
 export const getPatientConsultAppointments = async ({
   query,
 }: IGetConsultAppointmentsRequest): Promise<IGetPatientConsultAppointmentsResponse> => {
-  const queries = query.onlyUpcoming
-    ? `?${queryString.stringify({ onlyUpcoming: query.onlyUpcoming })}`
-    : '';
-  const response = await api.get(`/consultations/patient${queries}`);
+  const queryParams = {
+    onlyUpcoming: query.onlyUpcoming !== undefined ? query.onlyUpcoming : '',
+    type: query.type !== undefined ? query.type : '',
+  };
+  const queries = queryString.stringify(queryParams);
+  const response = await api.get(`/consultations/patient?${queries}`);
   return response.data;
 };
 
 export const getDoctorConsultAppointments = async ({
   query,
 }: IGetConsultAppointmentsRequest): Promise<IGetDoctorConsultAppointmentsResponse> => {
-  const queries = query.onlyUpcoming
-    ? `?${queryString.stringify({ onlyUpcoming: query.onlyUpcoming })}`
-    : '';
-  const response = await api.get(`/consultations/doctor${queries}`);
+  const queryParams = {
+    onlyUpcoming: query.onlyUpcoming !== undefined ? query.onlyUpcoming : '',
+    type: query.type !== undefined ? query.type : '',
+  };
+  const queries = queryString.stringify(queryParams);
+  const response = await api.get(`/consultations/doctor?${queries}`);
   return response.data;
 };
 
