@@ -1,6 +1,6 @@
 import queryString from 'query-string';
 import api from './ApiService';
-import { MedicalSpecialtyType } from '../types/Share';
+import { MedicalSpecialtyType, TimeSlotType } from '../types/Share';
 import {
   ConsultAppointmentStatusType,
   IDoctorTimeSlotData,
@@ -66,6 +66,7 @@ export interface IGetDoctorConsultAppointmentsResponse {
 export interface ICreateDoctorTimeSlotRequest {
   startAt: string;
   endAt: string;
+  type: TimeSlotType;
 }
 
 interface ICreateDoctorTimeSlotResponse {
@@ -73,6 +74,7 @@ interface ICreateDoctorTimeSlotResponse {
   doctorId: string;
   startAt: string;
   endAt: string;
+  type: TimeSlotType;
   createdAt: string;
   updatedAt: string;
 }
@@ -87,16 +89,19 @@ interface ICreateMultipleTimeSlotsResponse {
     id: string;
     startAt: string;
     endAt: string;
+    type: TimeSlotType;
   }>;
 }
 
 interface IEditDoctorTimeSlotRequest extends IDoctorTimeSlotData {
   id: string;
+  type: TimeSlotType;
 }
 
 interface IEditDoctorTimeSlotResponse extends IDoctorTimeSlotData {
   id: string;
   updatedAt: string;
+  type: TimeSlotType;
 }
 
 interface ICancelConsultAppointmentRequest {
@@ -108,15 +113,16 @@ interface ICancelConsultAppointmentResponse {
   status: ConsultAppointmentStatusType;
 }
 
-export interface IGetDoctorTimeSlotsvRequest {
+export interface IGetDoctorTimeSlotsRequest {
   doctorId: string;
   query: {
     startTime: string;
     endTime: string;
+    type: TimeSlotType;
   };
 }
 
-export interface IGetDoctorTimeSlotsvResponse {
+export interface IGetDoctorTimeSlotsResponse {
   doctorId: string;
   timeSlots: IDoctorTimeSlot[];
 }
@@ -125,6 +131,7 @@ export interface IDoctorTimeSlot {
   startAt: string;
   endAt: string;
   isAvailable: boolean;
+  type: TimeSlotType;
 }
 
 interface ICancelDoctorTimeSlotRequest {
@@ -184,10 +191,10 @@ export const getDoctorConsultAppointments = async ({
 export const editDoctorTimeSlot = async (
   data: IEditDoctorTimeSlotRequest,
 ): Promise<IEditDoctorTimeSlotResponse> => {
-  const { startAt, endAt } = data;
+  const { startAt, endAt, type } = data;
   const response = await api.patch<IEditDoctorTimeSlotResponse>(
     `/consultations/time-slot/${data.id}`,
-    { startAt, endAt },
+    { startAt, endAt, type },
   );
   return response.data;
 };
@@ -213,7 +220,7 @@ export const cancelConsultAppointment = async (
 export const getDoctorTimeSlots = async ({
   doctorId,
   query,
-}: IGetDoctorTimeSlotsvRequest): Promise<IGetDoctorTimeSlotsvResponse> => {
+}: IGetDoctorTimeSlotsRequest): Promise<IGetDoctorTimeSlotsResponse> => {
   const queries = queryString.stringify(query);
   const response = await api.get(
     `/consultations/time-slots/doctors/${doctorId}?${queries}`,

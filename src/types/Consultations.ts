@@ -1,8 +1,9 @@
-import { MedicalSpecialtyType } from './Share';
+import { MedicalSpecialtyType, TimeSlotType } from './Share';
 
 export interface IDoctorTimeSlotData {
   startAt: string;
   endAt: string;
+  type: TimeSlotType;
 }
 
 export enum ConsultAppointmentStatusType {
