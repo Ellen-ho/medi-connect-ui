@@ -36,5 +36,5 @@ export enum GenderType {
 
 export enum TimeSlotType {
   ONLINE = 'ONLINE',
-  PHYSICAL = 'PHYSICAL',
+  CLINIC = 'CLINIC',
 }
