@@ -134,7 +134,7 @@ function AppFooter() {
                   About Us
                 </Typography>
                 <Link
-                  href="#"
+                  href="/team"
                   variant="body2"
                   display="block"
                   color="primary"

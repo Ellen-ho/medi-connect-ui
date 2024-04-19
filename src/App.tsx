@@ -22,9 +22,8 @@ import MailForReset from './app/public/containers/resetPassword/pages/MailForRes
 import PasswordReset from './app/public/containers/resetPassword/pages/PasswordReset';
 import SignInDoctor from './app/public/containers/signin-doctor/SignInDoctor';
 import LoadingComponent from './components/loading/Loading';
-import HealthMatrixData from './app/public/containers/article/HealthMatrix';
-import LifestyleData from './app/public/containers/article/LifeStyle';
 import Article from './app/public/containers/article/Article';
+import TeamLanding from './app/public/containers/home/page/TeamLanding';
 
 const App: React.FC = () => {
   const isLoading = useInitAuth();
@@ -56,6 +55,7 @@ const App: React.FC = () => {
         <Route element={<PasswordReset />} path="/reset-password" />
       </Route>
       <Route element={<Article />} path="/article/*" />
+      <Route element={<TeamLanding />} path="/team" />
       <Route element={<Home />} path="/" />
       <Route element={<NotFound />} path="" />
     </Routes>
