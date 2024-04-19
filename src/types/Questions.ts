@@ -5,5 +5,5 @@ export interface IQuestion {
   content: string;
   createdAt: string;
   answerCounts: number;
-  medicalSpecialty?: MedicalSpecialtyType;
+  medicalSpecialty: MedicalSpecialtyType;
 }

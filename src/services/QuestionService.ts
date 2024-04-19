@@ -222,7 +222,16 @@ export const getSingleQuestion = async (
 export const getQuestions = async (
   data: IGetQuestionsRequest,
 ): Promise<IGetQuestionsResponse> => {
-  const queries = queryString.stringify(data.query);
+  const queryParams = {
+    askerId: data.query.askerId !== undefined ? data.query.askerId : '',
+    searchKeyWord:
+      data.query.searchKeyword !== undefined ? data.query.searchKeyword : '',
+    medicalSpecialty:
+      data.query.medicalSpecialty !== undefined
+        ? data.query.medicalSpecialty
+        : '',
+  };
+  const queries = queryString.stringify(queryParams);
   const response = await api.get<IGetQuestionsResponse>(
     `/questions?${queries}`,
   );
