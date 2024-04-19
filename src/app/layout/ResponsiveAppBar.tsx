@@ -19,6 +19,7 @@ import { Badge, Chip } from '@mui/material';
 import { NotificationContext } from '../../context/NotificationContext';
 import { UserRoleType } from '../../types/Users';
 import ImageAvatar from '../../components/avatar/ImageAvatar';
+import NestedMenu from '../public/containers/home/components/NestMenu';
 
 const topPages = [
   { title: 'Doctors', link: 'doctor', permission: [UserRoleType.PATIENT] },
@@ -250,13 +251,16 @@ const ResponsiveAppBar: React.FC = () => {
                 </Menu>
               </Box>
             ) : (
-              <Button
-                variant="outlined"
-                onClick={() => handlePageClick('/signin')}
-                sx={{ color: 'white', borderColor: 'white' }}
-              >
-                Sign In
-              </Button>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <NestedMenu />
+                <Button
+                  variant="outlined"
+                  onClick={() => handlePageClick('/signin')}
+                  sx={{ color: 'white', borderColor: 'white' }}
+                >
+                  Sign In
+                </Button>
+              </Box>
             )}
           </Box>
         </Toolbar>

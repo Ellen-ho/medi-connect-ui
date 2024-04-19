@@ -1,14 +1,12 @@
 import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
-import HomeHeader from './HomeHeader';
+import HomeHeader from '../components/HomeHeader';
 import questionUrl from '/src/assets/home_icon_question.png';
 import recodUrl from '/src/assets/home_icon_record.png';
 import goalUrl from '/src/assets/home_icon_goal.png';
 import consultUrl from '/src/assets/home_icon_consult.png';
-import HomeJoin from './HomeJoin';
-import HomeFaq from './HomeFaq';
-
-import HomeFeatureCompare from './HomeFeatureCompare';
-import AppFooter from '../../../../layout/AppFooter';
+import HomeJoin from '../components/HomeJoin';
+import HomeFaq from '../components/HomeFaq';
+import DoctorCarousel from '../components/DoctorCarousel';
 
 const homeFeatureList = [
   {
@@ -54,9 +52,6 @@ const HomeLanding: React.FC = () => {
           }}
         >
           <HomeHeader />
-          <HomeJoin />
-          <HomeFaq />
-          <Divider sx={{ my: '1.5rem' }} />
           {homeFeatureList.map(({ title, description, icon }) => (
             <HomeFeatureIntro
               title={title}
@@ -64,6 +59,10 @@ const HomeLanding: React.FC = () => {
               icon={icon}
             />
           ))}
+          <DoctorCarousel />
+          <HomeJoin />
+          <HomeFaq />
+          <Divider sx={{ my: '1.5rem' }} />
         </Box>
       </Box>
     </>
