@@ -54,7 +54,8 @@ interface IGetQuestionsRequest {
   query: {
     page: number;
     limit: number;
-    searchKeyword: string;
+    searchKeyword?: string;
+    medicalSpecialty?: MedicalSpecialtyType;
     askerId?: string;
   };
 }
