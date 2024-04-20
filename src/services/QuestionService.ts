@@ -223,8 +223,10 @@ export const getQuestions = async (
   data: IGetQuestionsRequest,
 ): Promise<IGetQuestionsResponse> => {
   const queryParams = {
+    page: data.query.page,
+    limit: data.query.limit,
     askerId: data.query.askerId,
-    searchKeyword: data.query.searchKeyword,
+    searchKeyword: data.query.searchKeyword || undefined,
     medicalSpecialty: data.query.medicalSpecialty,
   };
   const queries = queryString.stringify(queryParams);
