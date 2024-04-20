@@ -224,12 +224,8 @@ export const getQuestions = async (
 ): Promise<IGetQuestionsResponse> => {
   const queryParams = {
     askerId: data.query.askerId !== undefined ? data.query.askerId : '',
-    searchKeyWord:
-      data.query.searchKeyword !== undefined ? data.query.searchKeyword : '',
-    medicalSpecialty:
-      data.query.medicalSpecialty !== undefined
-        ? data.query.medicalSpecialty
-        : '',
+    searchKeyword: data.query.searchKeyword,
+    medicalSpecialty: data.query.medicalSpecialty,
   };
   const queries = queryString.stringify(queryParams);
   const response = await api.get<IGetQuestionsResponse>(

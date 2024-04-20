@@ -176,7 +176,7 @@ export const getPatientConsultAppointments = async ({
 }: IGetConsultAppointmentsRequest): Promise<IGetPatientConsultAppointmentsResponse> => {
   const queryParams = {
     onlyUpcoming: query.onlyUpcoming !== undefined ? query.onlyUpcoming : '',
-    type: query.type !== undefined ? query.type : '',
+    type: query.type,
   };
   const queries = queryString.stringify(queryParams);
   const response = await api.get(`/consultations/patient?${queries}`);
