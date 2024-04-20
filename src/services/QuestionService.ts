@@ -223,7 +223,7 @@ export const getQuestions = async (
   data: IGetQuestionsRequest,
 ): Promise<IGetQuestionsResponse> => {
   const queryParams = {
-    askerId: data.query.askerId !== undefined ? data.query.askerId : '',
+    askerId: data.query.askerId,
     searchKeyword: data.query.searchKeyword,
     medicalSpecialty: data.query.medicalSpecialty,
   };
