@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   CardContent,
+  Checkbox,
   Divider,
   IconButton,
   List,
@@ -18,7 +19,7 @@ import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { getQuestions } from '../../../../../services/QuestionService';
 import useSWR, { mutate } from 'swr';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
-import { useContext, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
 import SearchBar from '../../../../../components/search/Search';
 import QuestionItem from '../components/QuestionItem';
@@ -31,9 +32,11 @@ import CancelIcon from '@mui/icons-material/Cancel';
 const QuestionList: React.FC = () => {
   const { state } = useContext(AuthContext);
   const isDoctor = state.doctorId != null;
+  const askerId = state.patientId;
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [showMyQuestion, setShowMyQuestion] = useState<boolean>(false);
   const [selectedSpecialty, setSelectedSpecialty] = useState<
     MedicalSpecialtyType | 'All'
   >('All');
@@ -61,10 +64,18 @@ const QuestionList: React.FC = () => {
     setSearchKeyword(searchString);
   };
 
-  const handleClickViewAnswer = () => navigate('/question/answer');
+  const handleShowMyQuestions = (
+    event: ChangeEvent<HTMLInputElement>,
+    checked: boolean,
+  ) => {
+    setShowMyQuestion(checked);
+  };
 
+  const handleClickViewAnswer = () => navigate('/question/answer');
+  console.log(showMyQuestion);
+  console.log(askerId);
   const { data } = useSWR(
-    `getQuestions?q=${page}?q=${searchKeyword}?q=${selectedSpecialty}`,
+    `getQuestions?q=${page}?q=${searchKeyword}?q=${selectedSpecialty}q=${showMyQuestion}`,
     () =>
       getQuestions({
         query: {
@@ -73,6 +84,7 @@ const QuestionList: React.FC = () => {
           searchKeyword: searchKeyword === '' ? undefined : searchKeyword,
           medicalSpecialty:
             selectedSpecialty === 'All' ? undefined : selectedSpecialty,
+          askerId: showMyQuestion && askerId !== null ? askerId : undefined,
         },
       }),
   );
@@ -89,9 +101,11 @@ const QuestionList: React.FC = () => {
                   View Your Answers
                 </Button>
               ) : (
-                <Button onClick={handleClickNewQuestion} variant="contained">
-                  Ask Question
-                </Button>
+                <Box display="flex" flexDirection="row">
+                  <Button onClick={handleClickNewQuestion} variant="contained">
+                    Ask Question
+                  </Button>
+                </Box>
               )
             }
           />
@@ -177,6 +191,13 @@ const QuestionList: React.FC = () => {
             <CardContent>
               <Box sx={{ paddingLeft: '6px' }}>
                 <SearchBar onSearch={handleSearch} />
+                <Box>
+                  <Checkbox
+                    value={showMyQuestion}
+                    onChange={handleShowMyQuestions}
+                  />
+                  Show my questions only
+                </Box>
               </Box>
               <List
                 sx={{
