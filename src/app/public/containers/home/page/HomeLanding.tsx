@@ -7,6 +7,7 @@ import consultUrl from '/src/assets/home_icon_consult.png';
 import HomeJoin from '../components/HomeJoin';
 import HomeFaq from '../components/HomeFaq';
 import DoctorCarousel from '../components/DoctorCarousel';
+import { mq } from '../../../../../styles/media-query';
 
 const homeFeatureList = [
   {
@@ -41,24 +42,42 @@ const homeFeatureList = [
 const HomeLanding: React.FC = () => {
   return (
     <>
-      <Box sx={{ mb: '1.5rem', display: 'flex', justifyContent: 'center' }}>
+      <Box
+        sx={{
+          mb: '1.5rem',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'stretch',
-            maxWidth: '1280px',
-            gap: '1rem',
+            width: '100%',
+            gap: '30px',
           }}
         >
           <HomeHeader />
-          {homeFeatureList.map(({ title, description, icon }) => (
-            <HomeFeatureIntro
-              title={title}
-              description={description}
-              icon={icon}
-            />
-          ))}
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box
+              sx={mq({
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '30px',
+                width: ['90%', '90%', '70%'],
+              })}
+            >
+              {homeFeatureList.map(({ title, description, icon }) => (
+                <HomeFeatureIntro
+                  title={title}
+                  description={description}
+                  icon={icon}
+                />
+              ))}
+            </Box>
+          </Box>
           <DoctorCarousel />
           <HomeJoin />
           <HomeFaq />

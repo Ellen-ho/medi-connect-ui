@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/elekchen9804/medi-connect-ui.git",
-  "author": "Elek.Chen <y.h.chen2016@gmail.com>",
+  "author": "",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
