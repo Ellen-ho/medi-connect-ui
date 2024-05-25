@@ -33,3 +33,8 @@ export enum GenderType {
   FEMALE = 'FEMALE',
   NON_BINARY = 'NON_BINARY',
 }
+
+export enum TimeSlotType {
+  ONLINE = 'ONLINE',
+  CLINIC = 'CLINIC',
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -17,6 +17,7 @@ import { dateFormatter } from '../../../../../utils/dateFormatter';
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
 import { IDoctorTimeSlot } from '../../../../../services/ConsultationService';
 import RowItem from '../../../../../components/form/RowItem';
+import { TimeSlotType } from '../../../../../types/Share';
 
 interface IFullCalendarEvent {
   id: string;
@@ -46,6 +47,7 @@ const getCalendarEventFormat = (
 };
 
 interface IDoctorAppointmentCalendarProps {
+  type: TimeSlotType;
   validStartDate: string;
   validEndDate: string;
   events: IDoctorTimeSlot[];
@@ -54,6 +56,7 @@ interface IDoctorAppointmentCalendarProps {
 }
 
 const DoctorAppointmentCalendar: React.FC<IDoctorAppointmentCalendarProps> = ({
+  type,
   validStartDate,
   validEndDate,
   events = [],
@@ -90,7 +93,7 @@ const DoctorAppointmentCalendar: React.FC<IDoctorAppointmentCalendarProps> = ({
       </Box>
       <FullCalendar
         plugins={[timeGridPlugin, dayGridPlugin]}
-        initialView="timeGridWeek"
+        initialView="dayGridMonth"
         initialDate={validStartDate}
         validRange={{
           start: validStartDate,
@@ -123,6 +126,7 @@ const DoctorAppointmentCalendar: React.FC<IDoctorAppointmentCalendarProps> = ({
               {dateFormatter(currentEvent?.startStr as string)} ~{' '}
               {dateFormatter(currentEvent?.endStr as string)}
             </RowItem>
+            <RowItem label={'Type'}>{type}</RowItem>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

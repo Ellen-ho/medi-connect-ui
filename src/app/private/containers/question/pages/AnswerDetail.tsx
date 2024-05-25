@@ -188,7 +188,7 @@ const AnswerDetail: React.FC = () => {
                     </>
                   ))
                 ) : (
-                  <NoDataFound label={'No Agreement for now'} />
+                  <NoDataFound label={'No agreement for now'} />
                 )}
               </Box>
             </BasicCard>

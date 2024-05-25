@@ -30,10 +30,15 @@ import useSWR from 'swr';
 import ClearIcon from '@mui/icons-material/Clear';
 import toast from 'react-hot-toast';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
+import { TimeSlotType } from '../../../../../types/Share';
 
-interface IPatientAppointmentListProps {}
+interface IPatientAppointmentListProps {
+  timeSlotType: TimeSlotType;
+}
 
-const PatientAppointmentList: React.FC<IPatientAppointmentListProps> = () => {
+const PatientAppointmentList: React.FC<IPatientAppointmentListProps> = ({
+  timeSlotType,
+}) => {
   const [detailDialogOpen, setDetailDialogOpen] = useState<boolean>(false);
   const [selectedDetail, setSelectedDetail] =
     useState<IPatientConsultAppointmentDatas | null>(null);
@@ -55,10 +60,9 @@ const PatientAppointmentList: React.FC<IPatientAppointmentListProps> = () => {
     toast.success('Cancel appointment successfully');
   };
 
-  const { data, mutate } = useSWR('getPatientConsultAppointments', () =>
-    getPatientConsultAppointments({
-      query: {},
-    }),
+  const { data, mutate } = useSWR(
+    `getPatientConsultAppointmentstype=${timeSlotType}`,
+    () => getPatientConsultAppointments({ query: { type: timeSlotType } }),
   );
 
   return (
@@ -212,16 +216,18 @@ const PatientAppointmentList: React.FC<IPatientAppointmentListProps> = () => {
               )}`}</RowItem>
 
               <RowItem label={'Status'}>{selectedDetail.status}</RowItem>
-
-              <RowItem label={'Meeting Link'}>
-                {selectedDetail.meetingLink ? (
-                  <Link href={selectedDetail.meetingLink}>
-                    {selectedDetail.meetingLink}
-                  </Link>
-                ) : (
-                  '--'
-                )}
-              </RowItem>
+              {timeSlotType === 'ONLINE' && (
+                <RowItem label={'Meeting Link'}>
+                  {selectedDetail.meetingLink ? (
+                    <Link href={selectedDetail.meetingLink}>
+                      {selectedDetail.meetingLink}
+                    </Link>
+                  ) : (
+                    '--'
+                  )}
+                </RowItem>
+              )}
+              <RowItem label={'Type'}>{timeSlotType}</RowItem>
             </DialogContentText>
           </DialogContent>
           <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>

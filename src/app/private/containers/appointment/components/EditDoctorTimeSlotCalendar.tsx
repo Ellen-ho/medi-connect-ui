@@ -24,11 +24,13 @@ import { useForm } from 'react-hook-form';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import dayjs from 'dayjs';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { TimeSlotType } from '../../../../../types/Share';
 
 interface IEditDoctorTimeSlotInputs {
   id: string;
   startAt: string;
   endAt: string;
+  type: TimeSlotType;
 }
 
 interface IFullCalendarEvent {
@@ -47,6 +49,8 @@ const getCalendarEventFormat = (
       start: item.startAt,
       end: item.endAt,
       allDay: false,
+      title: item.type === TimeSlotType.ONLINE ? 'Online' : 'Clinic',
+      color: item.type === TimeSlotType.ONLINE ? '#26A69A' : '#FFAB91',
       extendedProps: {
         isAvailable: item.isAvailable,
       },
@@ -57,17 +61,28 @@ const getCalendarEventFormat = (
 const isCreateEvent = (id: string) => id === 'CREATE_TIME_SLOT';
 
 interface IEditDoctorTimeSlotCalendarProps {
+  type: TimeSlotType;
   validStartDate: string;
   validEndDate: string;
   events: IDoctorTimeSlot[];
-  eventEditCallback: (eventId: string, startAt: string, endAt: string) => void;
-  eventCreateCallback: (startAt: string, endAt: string) => void;
+  eventEditCallback: (
+    eventId: string,
+    startAt: string,
+    endAt: string,
+    type: TimeSlotType,
+  ) => void;
+  eventCreateCallback: (
+    startAt: string,
+    endAt: string,
+    type: TimeSlotType,
+  ) => void;
   eventCancelCallback: (eventId: string) => void;
 }
 
 const EditDoctorTimeSlotCalendar: React.FC<
   IEditDoctorTimeSlotCalendarProps
 > = ({
+  type,
   validStartDate,
   validEndDate,
   events = [],
@@ -81,6 +96,7 @@ const EditDoctorTimeSlotCalendar: React.FC<
     id: '',
     startAt: '',
     endAt: '',
+    type,
   });
 
   const handleClickOpen = () => {
@@ -94,11 +110,17 @@ const EditDoctorTimeSlotCalendar: React.FC<
   const handleEditDialogSave = async (data: IEditDoctorTimeSlotInputs) => {
     const startAtUTC = dayjs(data.startAt).toISOString();
     const endAtUTC = dayjs(data.endAt).toISOString();
+    const type = data.type;
 
     if (isCreateEvent(currentEvent.id)) {
-      await eventCreateCallback(startAtUTC, endAtUTC);
+      await eventCreateCallback(startAtUTC, endAtUTC, type);
     } else {
-      await eventEditCallback(currentEvent.id as string, startAtUTC, endAtUTC);
+      await eventEditCallback(
+        currentEvent.id as string,
+        startAtUTC,
+        endAtUTC,
+        type as TimeSlotType,
+      );
     }
     handleEditDialogClose();
   };
@@ -146,6 +168,7 @@ const EditDoctorTimeSlotCalendar: React.FC<
             id: info.event.id,
             startAt: dayjs(info.event.startStr).format('YYYY-MM-DDTHH:mm'),
             endAt: dayjs(info.event.endStr).format('YYYY-MM-DDTHH:mm'),
+            type,
           });
           handleClickOpen();
         }}
@@ -157,6 +180,7 @@ const EditDoctorTimeSlotCalendar: React.FC<
             endAt: dayjs(info.dateStr)
               .add(30, 'minute')
               .format('YYYY-MM-DDTHH:mm'),
+            type,
           });
           handleClickOpen();
         }}
@@ -202,6 +226,7 @@ const EditDoctorTimeSlotCalendar: React.FC<
                   helperText={<>{errors.endAt?.message}</>}
                 />
               </RowItem>
+              <RowItem label={'Type'}>{type}</RowItem>
             </DialogContentText>
           </DialogContent>
           <DialogActions>

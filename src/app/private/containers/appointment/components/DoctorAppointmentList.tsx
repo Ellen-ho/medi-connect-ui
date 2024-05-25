@@ -16,6 +16,7 @@ import {
   Link,
   List,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import {
@@ -31,10 +32,15 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useNavigate } from 'react-router-dom';
 import { ConsultAppointmentStatusType } from '../../../../../types/Consultations';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
+import { TimeSlotType } from '../../../../../types/Share';
 
-interface IDoctorAppointmentListProps {}
+interface IDoctorAppointmentListProps {
+  timeSlotType: TimeSlotType;
+}
 
-const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
+const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = ({
+  timeSlotType,
+}) => {
   const navigate = useNavigate();
   const [detailDialogOpen, setDetailDialogOpen] = useState<boolean>(false);
   const [selectedDetail, setSelectedDetail] =
@@ -62,9 +68,18 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
     navigate(`/health-goal?targetPatientId=${targetPatientId}`);
   };
 
-  const { data } = useSWR('getDoctorConsultAppointments', () =>
-    getDoctorConsultAppointments({ query: {} }),
+  const { data } = useSWR(
+    `getDoctorConsultAppointments?${timeSlotType}`,
+    () => {
+      const query = {
+        onlyUpcoming: undefined,
+        type: timeSlotType,
+      };
+      return getDoctorConsultAppointments({ query });
+    },
   );
+
+  console.log(data);
 
   return (
     <>
@@ -217,16 +232,18 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = () => {
               )}`}</RowItem>
 
               <RowItem label={'Status'}>{selectedDetail.status}</RowItem>
-
-              <RowItem label={'Meeting Link'}>
-                {selectedDetail.meetingLink ? (
-                  <Link href={selectedDetail.meetingLink}>
-                    {selectedDetail.meetingLink}
-                  </Link>
-                ) : (
-                  '--'
-                )}
-              </RowItem>
+              {timeSlotType === 'ONLINE' && (
+                <RowItem label={'Meeting Link'}>
+                  {selectedDetail.meetingLink ? (
+                    <Link href={selectedDetail.meetingLink}>
+                      {selectedDetail.meetingLink}
+                    </Link>
+                  ) : (
+                    '--'
+                  )}
+                </RowItem>
+              )}
+              <RowItem label={'Type'}>{timeSlotType}</RowItem>
             </DialogContentText>
           </DialogContent>
           <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>

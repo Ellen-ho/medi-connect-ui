@@ -7,6 +7,7 @@ import {
   Avatar,
   Box,
   Button,
+  Chip,
   Divider,
   Skeleton,
   Typography,
@@ -14,6 +15,7 @@ import {
 import { dateFormatter } from '../../../../../utils/dateFormatter';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
+import { TimeSlotType } from '../../../../../types/Share';
 
 const DoctorUpcomingAppointment: React.FC = () => {
   const navigate = useNavigate();
@@ -26,13 +28,13 @@ const DoctorUpcomingAppointment: React.FC = () => {
     }),
   );
 
-  const upcomingAppointment = data?.upcomingAppointments[0];
+  const upcomingAppointments = data?.upcomingAppointments.slice(0, 3);
 
   const handleViewAppointment = () => {
     navigate('/appointment');
   };
 
-  if (!upcomingAppointment) {
+  if (!upcomingAppointments || upcomingAppointments.length === 0) {
     return (
       <BasicCard title={'Upcoming Appointments'}>
         <NoDataFound
@@ -45,42 +47,50 @@ const DoctorUpcomingAppointment: React.FC = () => {
 
   return (
     <BasicCard title={'Upcoming Appointments'}>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box sx={{ flex: 1 }}>
-          <Avatar sx={{ width: 100, height: 100, border: '1px solid #888' }}>
-            {upcomingAppointment.patient.avatar !== null ? (
-              <img
-                src={upcomingAppointment.patient.avatar}
-                width={100}
-                height={100}
-              />
-            ) : (
-              <PersonRoundedIcon sx={{ width: '75%', height: '75%' }} />
-            )}
-          </Avatar>
+      {upcomingAppointments.map((appointment) => (
+        <Box key={appointment.appointmentId} sx={{ mb: 2 }}>
+          {' '}
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+            <Avatar sx={{ width: 56, height: 56, mr: 2 }}>
+              {appointment.patient.avatar ? (
+                <img
+                  src={appointment.patient.avatar}
+                  alt={`${appointment.patient.firstName} ${appointment.patient.lastName}`}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              ) : (
+                <PersonRoundedIcon />
+              )}
+            </Avatar>
+            <Box sx={{ flexGrow: 1 }}>
+              <Typography variant="h6" fontWeight={'bold'}>
+                {appointment.patient.firstName} {appointment.patient.lastName}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
+              >
+                <span>
+                  {`${dateFormatter(
+                    appointment.doctorTimeSlot.startAt,
+                  )} ~ ${dateFormatter(appointment.doctorTimeSlot.endAt)}`}
+                </span>
+                <Chip
+                  size="small"
+                  label={appointment.doctorTimeSlot.type}
+                  color={
+                    appointment.doctorTimeSlot.type === TimeSlotType.CLINIC
+                      ? 'primary'
+                      : 'success'
+                  }
+                  variant="outlined"
+                />
+              </Typography>
+            </Box>
+          </Box>
+          <Divider />
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            pl: '2rem',
-            flex: 11,
-          }}
-        >
-          <Typography variant="h6" fontWeight={'bold'}>
-            {upcomingAppointment.patient.firstName}{' '}
-            {upcomingAppointment.patient.lastName}
-          </Typography>
-          <Divider sx={{ my: '10px' }} />
-          <Typography variant="body1">
-            {`${dateFormatter(
-              upcomingAppointment.doctorTimeSlot.startAt.toString(),
-            )} ~ ${dateFormatter(
-              upcomingAppointment.doctorTimeSlot.endAt.toString(),
-            )}`}
-          </Typography>
-        </Box>
-      </Box>
+      ))}
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: '1rem' }}>
         <Button size="large" onClick={handleViewAppointment}>
           View More

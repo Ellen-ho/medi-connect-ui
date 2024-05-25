@@ -53,6 +53,7 @@ const HealthGoalList: React.FC = () => {
                 data?.goalsData.map((goal) => (
                   <>
                     <GoalItem
+                      key={goal.id}
                       goal={goal}
                       handleClickGoal={() => handleClickGoal(goal.id)}
                     />

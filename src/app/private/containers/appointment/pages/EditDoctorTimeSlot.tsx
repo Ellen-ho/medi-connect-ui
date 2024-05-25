@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../../../../../context/AuthContext';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
@@ -12,8 +12,9 @@ import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import BasicCard from '../../../../../components/card/BasicCard';
 import EditDoctorTimeSlotCalendar from '../components/EditDoctorTimeSlotCalendar';
-import { Alert } from '@mui/material';
+import { Alert, Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { CommonWrapper } from '../../../../layout/CommonWrapper.styled';
+import { TimeSlotType } from '../../../../../types/Share';
 
 const getValidDateRange = () => {
   // default date range can be edited 28th of the month to 28th of next month
@@ -37,6 +38,7 @@ const getValidDateRange = () => {
 
 const EditDoctorTimeSlot: React.FC = () => {
   const { state } = useContext(AuthContext);
+  const [timeSlotType, setTimeSlotType] = useState(TimeSlotType.ONLINE);
   const doctorId = state.doctorId!;
 
   const { validStartDate, validEndDate } = getValidDateRange();
@@ -45,13 +47,18 @@ const EditDoctorTimeSlot: React.FC = () => {
     timeSlotId: string,
     startAt: string,
     endAt: string,
+    type: TimeSlotType,
   ) => {
-    await editDoctorTimeSlot({ id: timeSlotId, startAt, endAt });
+    await editDoctorTimeSlot({ id: timeSlotId, startAt, endAt, type });
     await mutate();
   };
 
-  const handleCreateTimeSlot = async (startAt: string, endAt: string) => {
-    await createDoctorTimeSlot({ startAt, endAt });
+  const handleCreateTimeSlot = async (
+    startAt: string,
+    endAt: string,
+    type: TimeSlotType,
+  ) => {
+    await createDoctorTimeSlot({ startAt, endAt, type });
     await mutate();
   };
 
@@ -60,10 +67,20 @@ const EditDoctorTimeSlot: React.FC = () => {
     await mutate();
   };
 
-  const { data, mutate } = useSWR('getDoctorTimeSlots', () => {
+  const handleTimeSlotTypeChange = (
+    event: React.MouseEvent<HTMLElement>,
+    value: TimeSlotType | null,
+  ) => {
+    if (value !== null && value !== timeSlotType) {
+      setTimeSlotType(value);
+    }
+  };
+
+  const { data, mutate } = useSWR(`getDoctorTimeSlots?${timeSlotType}`, () => {
     const query = {
       startTime: dayjs(validStartDate).toISOString(),
       endTime: dayjs(validEndDate).toISOString(),
+      type: timeSlotType,
     };
     return getDoctorTimeSlots({ doctorId, query });
   });
@@ -81,7 +98,39 @@ const EditDoctorTimeSlot: React.FC = () => {
             month, the valid start date is the 1st day of the next next month,
             and the valid end date is the end of the next next month.
           </Alert>
+          <Box sx={{ display: 'flex', justifyContent: 'end', mb: '15px' }}>
+            <ToggleButtonGroup
+              size="small"
+              color="primary"
+              value={timeSlotType}
+              exclusive
+              onChange={handleTimeSlotTypeChange}
+              sx={{
+                border: '1px solid', // 为整个组添加外边框
+                borderColor: 'secondary.dark',
+                '& .MuiToggleButton-root': {
+                  border: 'none', // 移除按钮间的边框
+                  '&.Mui-selected': {
+                    zIndex: 1, // 确保选中的按钮覆盖未选中的按钮边框
+                    border: '1.8px solid',
+                    borderColor: 'secondary.dark',
+                    bgcolor: 'secondary.main',
+                    color: 'white',
+                    '&:hover': {
+                      // 当选中的按钮被悬停时
+                      bgcolor: 'secondary.light', // 改变背景颜色为更亮的色调
+                      color: 'black', // 文本颜色变为黑色
+                    },
+                  },
+                },
+              }}
+            >
+              <ToggleButton value={TimeSlotType.ONLINE}>Online</ToggleButton>
+              <ToggleButton value={TimeSlotType.CLINIC}>Clinic</ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
           <EditDoctorTimeSlotCalendar
+            type={timeSlotType}
             validStartDate={validStartDate}
             validEndDate={validEndDate}
             events={data?.timeSlots || []}

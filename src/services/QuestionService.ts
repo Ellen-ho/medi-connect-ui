@@ -54,7 +54,8 @@ interface IGetQuestionsRequest {
   query: {
     page: number;
     limit: number;
-    searchKeyword: string;
+    searchKeyword?: string;
+    medicalSpecialty?: MedicalSpecialtyType;
     askerId?: string;
   };
 }
@@ -221,7 +222,14 @@ export const getSingleQuestion = async (
 export const getQuestions = async (
   data: IGetQuestionsRequest,
 ): Promise<IGetQuestionsResponse> => {
-  const queries = queryString.stringify(data.query);
+  const queryParams = {
+    page: data.query.page,
+    limit: data.query.limit,
+    askerId: data.query.askerId,
+    searchKeyword: data.query.searchKeyword || undefined,
+    medicalSpecialty: data.query.medicalSpecialty,
+  };
+  const queries = queryString.stringify(queryParams);
   const response = await api.get<IGetQuestionsResponse>(
     `/questions?${queries}`,
   );

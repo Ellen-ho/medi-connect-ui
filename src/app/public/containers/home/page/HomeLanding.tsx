@@ -1,41 +1,39 @@
 import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
-import HomeHeader from './HomeHeader';
+import HomeHeader from '../components/HomeHeader';
 import questionUrl from '/src/assets/home_icon_question.png';
 import recodUrl from '/src/assets/home_icon_record.png';
 import goalUrl from '/src/assets/home_icon_goal.png';
 import consultUrl from '/src/assets/home_icon_consult.png';
-import HomeJoin from './HomeJoin';
-import HomeFaq from './HomeFaq';
-
-import HomeFeatureCompare from './HomeFeatureCompare';
-import AppFooter from '../../../../layout/AppFooter';
+import HomeJoin from '../components/HomeJoin';
+import HomeFaq from '../components/HomeFaq';
+import DoctorCarousel from '../components/DoctorCarousel';
+import { mq } from '../../../../../styles/media-query';
 
 const homeFeatureList = [
   {
     title: 'Get Your Health Questions Answered',
     description:
-      'This feature allows users to ask medical questions and receive answers from experienced doctors, providing quick and reliable medical advice.',
-
+      'You can ask medical questions and receive answers from our experienced doctors, providing quick and reliable medical advice.',
     icon: questionUrl,
   },
   {
     title: 'Streamline Your Health Records',
     description:
-      'This feature helps users organize and manage their medical records in a systematic and efficient manner, reducing the hassle of dealing with paper documents.',
+      'We help you organize and manage your medical records in a systematic and efficient manner, reducing the hassle of dealing with paper documents.',
 
     icon: recodUrl,
   },
   {
     title: 'Achieve Your Health Ambitions',
     description:
-      "Users can set and work towards personalized health goals, whether it's weight management, fitness, or disease prevention, with guidance tailored to their specific needs.",
+      'Our professional medical team will oversee your health data records and set personalized health goals for you, with guidance tailored to your specific needs.',
 
     icon: goalUrl,
   },
   {
     title: 'Consult with Trusted Medical Professionals',
     description:
-      'Users have the opportunity to consult with trusted and experienced doctors, ensuring they receive expert medical care and advice.',
+      'You can schedule online consultations with doctors outside of limited physical clinic hours, ensuring you receive expert medical care and advice.',
 
     icon: consultUrl,
   },
@@ -44,28 +42,46 @@ const homeFeatureList = [
 const HomeLanding: React.FC = () => {
   return (
     <>
-      <Box sx={{ mb: '1.5rem', display: 'flex', justifyContent: 'center' }}>
+      <Box
+        sx={{
+          mb: '1.5rem',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'stretch',
-            maxWidth: '1280px',
-            gap: '1rem',
+            width: '100%',
+            gap: '30px',
           }}
         >
           <HomeHeader />
-          <HomeFeatureCompare />
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box
+              sx={mq({
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '30px',
+                width: ['90%', '90%', '70%'],
+              })}
+            >
+              {homeFeatureList.map(({ title, description, icon }) => (
+                <HomeFeatureIntro
+                  title={title}
+                  description={description}
+                  icon={icon}
+                />
+              ))}
+            </Box>
+          </Box>
+          <DoctorCarousel />
           <HomeJoin />
           <HomeFaq />
           <Divider sx={{ my: '1.5rem' }} />
-          {homeFeatureList.map(({ title, description, icon }) => (
-            <HomeFeatureIntro
-              title={title}
-              description={description}
-              icon={icon}
-            />
-          ))}
         </Box>
       </Box>
     </>

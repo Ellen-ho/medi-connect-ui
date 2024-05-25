@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SignUpCard from '../../signup/components/SignUpCard';
+import { mq } from '../../../../../styles/media-query';
 
 const HomeJoin: React.FC = () => {
   const navigate = useNavigate();
@@ -11,19 +12,25 @@ const HomeJoin: React.FC = () => {
   };
   return (
     <Box
-      sx={{
+      sx={mq({
         margin: 'auto',
         maxWidth: 1200,
         padding: '35px',
         backgroundColor: 'rgba(224, 247, 250, 0.5)',
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: ['column', 'column', 'column', 'row'],
         justifyContent: 'space-between',
+        gap: ['20px', '20px', '20px', '0'],
         alignItems: 'center',
         borderRadius: '20px',
-      }}
+      })}
     >
-      <Box sx={{ width: '66.66%', paddingRight: '1.5%' }}>
+      <Box
+        sx={mq({
+          width: ['100%', '100%', '100%', '66.66%'],
+          paddingRight: '1.5%',
+        })}
+      >
         <Typography
           variant="h4"
           component="h1"
@@ -41,8 +48,8 @@ const HomeJoin: React.FC = () => {
           paragraph
           sx={{ color: 'black', lineHeight: 1.8 }}
         >
-          Health is a lifelong dynamic balance.Our mission is to uncover the why
-          and the how, aiming for prevention rather than cure.
+          Health is a lifelong dynamic balance. Our dedicated medical team is
+          committed to maintaining your health fundamentally.
         </Typography>
 
         <Typography
@@ -50,9 +57,10 @@ const HomeJoin: React.FC = () => {
           paragraph
           sx={{ color: 'black', lineHeight: 1.8 }}
         >
-          Each health journey is personal.We strive to provide you and your
-          doctor with insights and tools that extend beyond the doctor's office,
-          supporting wellness every step of the way.
+          Beyond the limited time in a clinical setting, we accompany you in
+          understanding and tracking physiological data and lifestyle records.
+          From us, you receive professional and personalized health education
+          tailored to support your wellness journey every step of the way.
         </Typography>
 
         <Typography
@@ -64,7 +72,12 @@ const HomeJoin: React.FC = () => {
           Create your free account and start managing your health.
         </Typography>
       </Box>
-      <Box sx={{ width: '33.33%', paddingRight: '1.5%' }}>
+      <Box
+        sx={mq({
+          width: ['100%', '80%', '80%', '33.33%'],
+          paddingRight: '1.5%',
+        })}
+      >
         <SignUpCard title="Join Medi Connect today" />
       </Box>
     </Box>
