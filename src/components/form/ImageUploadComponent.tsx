@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Button, CircularProgress, Container, Input } from '@mui/material';
-import { uploadAvatar } from '../../services/UserService';
+import { Box } from '@mui/material';
 import { MuiFileInput } from 'mui-file-input';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { editUserAvatar } from '../../services/UserService';
 
 interface ImageUploadProps {
   onImageUpload: (imageUrl: string) => void;
@@ -23,7 +23,7 @@ const ImageUploadComponent: React.FC<ImageUploadProps> = ({
     if (selectedFile) {
       setLoading(true);
       try {
-        const response = await uploadAvatar(selectedFile);
+        const response = await editUserAvatar(selectedFile);
         setImageUrl(response.imageUrl);
         onImageUpload(response.imageUrl);
       } catch (error) {
