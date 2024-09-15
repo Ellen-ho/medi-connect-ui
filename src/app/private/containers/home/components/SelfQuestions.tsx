@@ -38,16 +38,6 @@ const SelfQuestions: React.FC = () => {
     navigate(`/question/${questionId}`);
   };
 
-  // if (isLoading) {
-  //   return (
-  //     <BasicCard title={''}>
-  //       <Skeleton />
-  //       <Skeleton />
-  //       <Skeleton />
-  //     </BasicCard>
-  //   );
-  // }
-
   if (!questions) {
     return (
       <BasicCard title={title}>

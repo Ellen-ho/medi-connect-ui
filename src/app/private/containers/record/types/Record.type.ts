@@ -207,7 +207,7 @@ export const recordCategories: IRecordCategory[] = [
         urlPath: 'exercise',
         name: 'Exercise',
         subtitle: 'Stay fit and motivated with exercise logs.',
-        createRecordService: () => createExerciseRecord, // need change
+        createRecordService: () => createExerciseRecord,
         formSchema: yup
           .object({
             exerciseDate: yup.date().required(),

@@ -102,7 +102,7 @@ const DoctorAppointmentCalendar: React.FC<IDoctorAppointmentCalendarProps> = ({
         headerToolbar={{
           left: 'prev,next',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay', // user can switch between the two
+          right: 'dayGridMonth,timeGridWeek,timeGridDay',
         }}
         events={fullCalendarEvents}
         eventClick={(info) => {

@@ -43,16 +43,6 @@ const PresentGoal: React.FC = () => {
     });
   };
 
-  // if (isLoading) {
-  //   return (
-  //     <BasicCard title={''}>
-  //       <Skeleton />
-  //       <Skeleton />
-  //       <Skeleton />
-  //     </BasicCard>
-  //   );
-  // }
-
   if (!goal) {
     return (
       <BasicCard>

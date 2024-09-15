@@ -124,7 +124,6 @@ const settings = {
   nextArrow: <SampleNextArrow />,
   prevArrow: <SamplePrevArrow />,
   responsive: [
-    // 576, 768, 992, 1200
     {
       breakpoint: 768,
       settings: {
@@ -156,15 +155,14 @@ const DoctorCarousel: React.FC = () => {
         {doctors.map((doctor, index) => (
           <div key={doctor.id} style={{ margin: '2px 5px' }}>
             {' '}
-            {/* Reduced margin around cards for less spacing */}
             <Card
               style={{
                 margin: 'auto',
-                width: '90%', // Reduced width to make card more compact
-                maxWidth: '500px', // Lower maximum width
-                height: '300px', // Smaller card height
+                width: '90%',
+                maxWidth: '500px',
+                height: '300px',
                 boxSizing: 'border-box',
-                backgroundColor: ['#E4F9E8', '#FFFEF5', '#FFF5F5'][index % 3], // Rotate background colors
+                backgroundColor: ['#E4F9E8', '#FFFEF5', '#FFF5F5'][index % 3],
                 display: 'flex',
                 flexDirection: 'column',
               }}
@@ -172,12 +170,12 @@ const DoctorCarousel: React.FC = () => {
               <CardMedia
                 component="img"
                 style={{
-                  width: '150px', // Smaller avatar width
-                  height: '150px', // Smaller avatar height
-                  objectFit: 'cover', // Maintain aspect ratio without distortion
-                  borderRadius: '50%', // Keeps the avatar circular
-                  margin: '10px auto 0', // Center avatar horizontally with margin top and auto for left/right
-                  flex: '0 0 auto', // Set flex-grow to 0 to keep size consistent
+                  width: '150px',
+                  height: '150px',
+                  objectFit: 'cover',
+                  borderRadius: '50%',
+                  margin: '10px auto 0',
+                  flex: '0 0 auto',
                 }}
                 image={doctor.avatar}
                 alt={`${doctor.firstName} ${doctor.lastName}`}
@@ -190,7 +188,7 @@ const DoctorCarousel: React.FC = () => {
                   flexDirection: 'column',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  textAlign: 'center', // Aligns text elements to the center horizontally
+                  textAlign: 'center',
                 }}
               >
                 <Typography gutterBottom variant="h5" component="div">

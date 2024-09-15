@@ -18,13 +18,6 @@ const DoctorAchievement: React.FC = () => {
     getDoctorStatistic(doctorId as string),
   );
 
-  // const data = {
-  //   id: '91318353-1e93-410b-afbc-c7cc67ea9ceb',
-  //   answerCounts: 10,
-  //   thankedCounts: 9,
-  //   beAgreedCounts: 3,
-  // };
-
   const handleViewQuestion = () => {
     navigate('/question');
   };
@@ -39,19 +32,9 @@ const DoctorAchievement: React.FC = () => {
     }, 500);
 
     return () => {
-      clearTimeout(timeoutId); // 清除定时器以防止内存泄漏
+      clearTimeout(timeoutId);
     };
   }, []);
-
-  // if (isLoading) {
-  //   return (
-  //     <BasicCard title={''}>
-  //       <Skeleton />
-  //       <Skeleton />
-  //       <Skeleton />
-  //     </BasicCard>
-  //   );
-  // }
 
   return (
     <BasicCard title={title}>

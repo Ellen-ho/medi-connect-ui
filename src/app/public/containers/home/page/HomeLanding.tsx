@@ -104,8 +104,8 @@ const HomeFeatureIntro: React.FC<IHomeFeatureIntroProps> = ({
   return (
     <Card
       sx={{
-        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // 添加阴影
-        borderRadius: '12px', // 添加边框圆角
+        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+        borderRadius: '12px',
       }}
     >
       <CardContent
@@ -151,7 +151,6 @@ const HomeFeatureIntro: React.FC<IHomeFeatureIntroProps> = ({
             width: '30%',
             background: `url(${icon}) no-repeat center`,
             backgroundSize: 'contain',
-            // height: { xs: '200px', sm: '300px', md: '450px' },
           }}
         ></Box>
       </CardContent>

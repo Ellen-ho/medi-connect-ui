@@ -19,8 +19,6 @@ import {
 import { IDoctorTimeSlot } from '../../../../../services/ConsultationService';
 import RowItem from '../../../../../components/form/RowItem';
 import { useForm } from 'react-hook-form';
-// import * as yup from 'yup';
-// import { yupResolver } from '@hookform/resolvers/yup';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import dayjs from 'dayjs';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -160,7 +158,7 @@ const EditDoctorTimeSlotCalendar: React.FC<
         headerToolbar={{
           left: 'prev,next',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay', // user can switch between the two
+          right: 'dayGridMonth,timeGridWeek,timeGridDay',
         }}
         events={fullCalendarEvents}
         eventClick={(info) => {
@@ -172,7 +170,6 @@ const EditDoctorTimeSlotCalendar: React.FC<
           });
           handleClickOpen();
         }}
-        // when click on a date of calendar, create a new event
         dateClick={(info) => {
           setCurrentEvent({
             id: 'CREATE_TIME_SLOT',

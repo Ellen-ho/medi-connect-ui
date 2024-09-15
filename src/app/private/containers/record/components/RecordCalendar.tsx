@@ -3,7 +3,6 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { DatesSetArg, EventSourceInput } from '@fullcalendar/core';
-import { EventImpl } from '@fullcalendar/core/internal';
 import dayjs from 'dayjs';
 import { getCurrentMonthDateRange } from '../../../../../utils/getCurrentMonthDateRange';
 import { Box } from '@mui/material';
@@ -52,7 +51,6 @@ const RecordCalendar: React.FC<IRecordCalendarProps> = ({
     return getCalendarEventFormat(events);
   }, [events]);
 
-  // This handler will be triggered when perv/next button being clicked
   const handleDatesSet = (dateInfo: DatesSetArg) => {
     const { currentStartDate, currentEndDate } = getCurrentMonthDateRange(
       new Date(dateInfo.view.title),
@@ -78,7 +76,7 @@ const RecordCalendar: React.FC<IRecordCalendarProps> = ({
         headerToolbar={{
           left: 'prev,next',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek', // user can switch between the two
+          right: 'dayGridMonth,timeGridWeek',
         }}
         events={fullCalendarEvents}
         eventClick={(info) => {

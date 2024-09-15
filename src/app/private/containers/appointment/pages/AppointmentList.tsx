@@ -15,10 +15,6 @@ const AppointmentList: React.FC = () => {
   const [timeSlotType, setTimeSlotType] = useState(TimeSlotType.ONLINE);
   const navigate = useNavigate();
 
-  // const handleClickEditTimeSlot = () => {
-  //   navigate('/appointment/time-slot');
-  // };
-
   const handleTimeSlotTypeChange = (
     event: React.MouseEvent<HTMLElement>,
     value: TimeSlotType | null,
@@ -34,11 +30,6 @@ const AppointmentList: React.FC = () => {
         <PrimaryPageTop
           pageTitle="Appointment"
           rightElement={
-            // isDoctor && (
-            //   <Button onClick={handleClickEditTimeSlot} variant="contained">
-            //     Edit Time Slot
-            //   </Button>
-            // )
             <Box sx={{ display: 'flex', justifyContent: 'end', mb: '15px' }}>
               <ToggleButtonGroup
                 size="small"
@@ -47,20 +38,19 @@ const AppointmentList: React.FC = () => {
                 exclusive
                 onChange={handleTimeSlotTypeChange}
                 sx={{
-                  border: '1px solid', // 为整个组添加外边框
+                  border: '1px solid',
                   borderColor: 'secondary.dark',
                   '& .MuiToggleButton-root': {
-                    border: 'none', // 移除按钮间的边框
+                    border: 'none',
                     '&.Mui-selected': {
-                      zIndex: 1, // 确保选中的按钮覆盖未选中的按钮边框
+                      zIndex: 1,
                       border: '1.8px solid',
                       borderColor: 'secondary.dark',
                       bgcolor: 'secondary.main',
                       color: 'white',
                       '&:hover': {
-                        // 当选中的按钮被悬停时
-                        bgcolor: 'secondary.light', // 改变背景颜色为更亮的色调
-                        color: 'black', // 文本颜色变为黑色
+                        bgcolor: 'secondary.light',
+                        color: 'black',
                       },
                     },
                   },

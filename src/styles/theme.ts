@@ -16,15 +16,6 @@ export const theme = createTheme({
     error: {
       main: '#b32d1b',
     },
-    // warning: {
-    //   main: green[500],
-    // },
-    // info: {
-    //   main: green[500],
-    // },
-    // success: {
-    //   main: green[500],
-    // },
   },
   typography: {
     fontFamily: '@fontsource/source-code-pro',
@@ -69,17 +60,17 @@ export const theme = createTheme({
         containedPrimary: {
           color: '#fff',
           '&:hover': {
-            backgroundColor: '#80CADA', // Your desired hover color
+            backgroundColor: '#80CADA',
           },
         },
         outlinedPrimary: {
           '&:hover': {
-            borderColor: '#80CADA', // Adjust border color for outlined buttons
+            borderColor: '#80CADA',
           },
         },
         textPrimary: {
           '&:hover': {
-            color: '#80CADA', // Set hover color for text buttons
+            color: '#80CADA',
           },
         },
       },

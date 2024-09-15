@@ -2,7 +2,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import { QuestionDetailWrapper } from './QuestionDetail.styled';
 import {
   Avatar,
   AvatarGroup,
@@ -73,7 +72,7 @@ const QuestionDetail: React.FC = () => {
       toast.success('Unsent the appreciation successfully');
     } else {
       setSelectedAppreciationAnswerId(answer.answerId);
-      setIsThankDialogOpen(true); // open dialog
+      setIsThankDialogOpen(true);
     }
   };
 

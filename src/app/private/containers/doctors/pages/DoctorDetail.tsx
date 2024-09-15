@@ -45,11 +45,11 @@ const getValidDateRange = () => {
   const today = dayjs().local();
 
   let start = today.startOf('month');
-  let end = today.endOf('month').add(1, 'day'); // add 1 day to include the end date
+  let end = today.endOf('month').add(1, 'day');
 
   if (today.date() >= 28) {
     start = today.add(1, 'day');
-    end = today.add(1, 'month').endOf('month').add(1, 'day'); // add 1 day to include the end date;
+    end = today.add(1, 'month').endOf('month').add(1, 'day');
   }
 
   const validStartDate = start.format('YYYY-MM-DD');
@@ -357,20 +357,19 @@ const DoctorDetail: React.FC = () => {
                   exclusive
                   onChange={handleTimeSlotTypeChange}
                   sx={{
-                    border: '1px solid', // 为整个组添加外边框
+                    border: '1px solid',
                     borderColor: 'secondary.dark',
                     '& .MuiToggleButton-root': {
-                      border: 'none', // 移除按钮间的边框
+                      border: 'none',
                       '&.Mui-selected': {
-                        zIndex: 1, // 确保选中的按钮覆盖未选中的按钮边框
+                        zIndex: 1,
                         border: '1.8px solid',
                         borderColor: 'secondary.dark',
                         bgcolor: 'secondary.main',
                         color: 'white',
                         '&:hover': {
-                          // 当选中的按钮被悬停时
-                          bgcolor: 'secondary.light', // 改变背景颜色为更亮的色调
-                          color: 'black', // 文本颜色变为黑色
+                          bgcolor: 'secondary.light',
+                          color: 'black',
                         },
                       },
                     },

@@ -25,7 +25,7 @@ export interface IHealthGoalBloodPressureResultItem {
 }
 
 export interface IHealthGoalResultItem {
-  currentValue: number | null; // fetch the latest records
+  currentValue: number | null;
   goalAchieved: boolean;
   currentValueDate: Date;
 }

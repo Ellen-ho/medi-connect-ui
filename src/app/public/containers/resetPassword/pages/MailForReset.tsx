@@ -57,7 +57,7 @@ const MailForReset: React.FC = () => {
       email: data.email,
     };
 
-    const response = await createPasswordChangeMail(payload); //要打後端api跟到resend頁
+    const response = await createPasswordChangeMail(payload);
     if (response.success) {
       setIsSent(true);
       setUserEmail(data.email);

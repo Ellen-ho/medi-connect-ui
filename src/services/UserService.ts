@@ -134,7 +134,7 @@ export const getOAuthAccessToken = async (): Promise<ILoginResponse> => {
   return response.data;
 };
 
-export const uploadAvatar = async (
+export const editUserAvatar = async (
   imageFile: File,
 ): Promise<IUploadAvatarImageResponse> => {
   const formData = new FormData();

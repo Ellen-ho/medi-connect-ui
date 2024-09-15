@@ -103,7 +103,7 @@ const DoctorProfileDetail: React.FC = () => {
     remove: languagesSpokenRemove,
   } = useFieldArray({
     control,
-    name: 'languagesSpoken', // unique name for your Field Array
+    name: 'languagesSpoken',
   });
 
   const {
@@ -112,7 +112,7 @@ const DoctorProfileDetail: React.FC = () => {
     remove: educationRemove,
   } = useFieldArray({
     control,
-    name: 'education', // unique name for your Field Array
+    name: 'education',
   });
 
   const {
@@ -121,7 +121,7 @@ const DoctorProfileDetail: React.FC = () => {
     remove: awardsRemove,
   } = useFieldArray({
     control,
-    name: 'awards', // unique name for your Field Array
+    name: 'awards',
   });
 
   const {
@@ -130,7 +130,7 @@ const DoctorProfileDetail: React.FC = () => {
     remove: affiliationsRemove,
   } = useFieldArray({
     control,
-    name: 'affiliations', // unique name for your Field Array
+    name: 'affiliations',
   });
 
   const onEditProfile = async (data: IDoctorForm) => {
@@ -260,8 +260,6 @@ const DoctorProfileDetail: React.FC = () => {
                         />
                       </IconButton>
                     </Box>
-                    {/* Hidden input to hold the imageUrl */}
-                    {/* <ImageUploadComponent onImageUpload={handleImageUpload} /> */}
                   </RowItem>
                   <RowItem label={'First Name'}>
                     <TextField

@@ -17,7 +17,7 @@ const HomeHeader: React.FC = () => {
             width: '100%',
             background: `url(${consultUrl}) no-repeat top`,
             backgroundSize: 'contain',
-            height: { xs: '200px', sm: '300px', md: '450px' }, // 800 * 457
+            height: { xs: '200px', sm: '300px', md: '450px' },
           }}
         ></Box>
         <Typography

@@ -94,8 +94,8 @@ const ProfileDetail: React.FC = () => {
     append: medicalHistoryAppend,
     remove: medicalHistoryRemove,
   } = useFieldArray({
-    control, // control props comes from useForm (optional: if you are using FormContext)
-    name: 'medicalHistory', // unique name for your Field Array
+    control,
+    name: 'medicalHistory',
   });
 
   const {
@@ -103,8 +103,8 @@ const ProfileDetail: React.FC = () => {
     append: familyHistoryAppend,
     remove: familyHistoryRemove,
   } = useFieldArray({
-    control, // control props comes from useForm (optional: if you are using FormContext)
-    name: 'familyHistory', // unique name for your Field Array
+    control,
+    name: 'familyHistory',
   });
 
   const {
@@ -112,8 +112,8 @@ const ProfileDetail: React.FC = () => {
     append: medicineUsageAppend,
     remove: medicineUsageRemove,
   } = useFieldArray({
-    control, // control props comes from useForm (optional: if you are using FormContext)
-    name: 'medicineUsage', // unique name for your Field Array
+    control,
+    name: 'medicineUsage',
   });
 
   const onEditProfile = async (data: IPatient) => {
@@ -220,8 +220,6 @@ const ProfileDetail: React.FC = () => {
                       />
                     </IconButton>
                   </Box>
-                  {/* Hidden input to hold the imageUrl */}
-                  {/* <ImageUploadComponent onImageUpload={handleImageUpload} /> */}
                 </RowItem>
                 <RowItem label={'First Name'}>
                   <TextField
