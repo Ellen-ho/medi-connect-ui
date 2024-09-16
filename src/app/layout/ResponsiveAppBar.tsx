@@ -84,7 +84,7 @@ const ResponsiveAppBar: React.FC = () => {
     dispatch({
       type: 'LOG_OUT',
     });
-    navigate('/signin');
+    navigate('/');
   };
 
   const handlePageClick = (link: string) => {

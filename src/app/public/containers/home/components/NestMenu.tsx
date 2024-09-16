@@ -7,6 +7,7 @@ import {
   List,
   ListItemButton,
   Popover,
+  Link,
 } from '@mui/material';
 
 const NestedMenu: React.FC = () => {
@@ -25,7 +26,7 @@ const NestedMenu: React.FC = () => {
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <Button onClick={toggleHealthKnowledge} sx={{ color: 'white' }}>
-        Health Knowledge
+        Knowledge
       </Button>
       <Popover
         open={Boolean(openHealthKnowledge)}
@@ -41,16 +42,18 @@ const NestedMenu: React.FC = () => {
         }}
       >
         <List component="nav" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>Blog</ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            Health Matrix Data Types
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>Life Style Data Types</ListItemButton>
+          <Link href="/article/health-matrix" underline="none" sx={{ pl: 4 }}>
+            <ListItemButton>Health Matrix Data Types</ListItemButton>
+          </Link>
+          <Link href="/article/life-style" underline="none" sx={{ pl: 4 }}>
+            <ListItemButton>Life Style Data Types</ListItemButton>
+          </Link>
         </List>
       </Popover>
 
       <Button onClick={toggleAboutUs} sx={{ color: 'white' }}>
-        About Us
+        <span style={{ marginRight: '3px' }}>About</span>
+        <span>Us</span>
       </Button>
       <Popover
         open={Boolean(openAboutUs)}
@@ -66,8 +69,12 @@ const NestedMenu: React.FC = () => {
         }}
       >
         <List component="nav" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>Who We Are</ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>Contact Us</ListItemButton>
+          <Link href="/team" underline="none" sx={{ pl: 4 }}>
+            <ListItemButton>Who We Are</ListItemButton>
+          </Link>
+          <Link href="/signup-doctor" underline="none" sx={{ pl: 4 }}>
+            <ListItemButton>Join as a Doctor</ListItemButton>
+          </Link>
         </List>
       </Popover>
     </div>
