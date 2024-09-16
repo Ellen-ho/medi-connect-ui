@@ -5,9 +5,9 @@ import { AuthProvider } from './context/AuthProvider';
 import 'normalize.css';
 import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import '@fontsource/source-code-pro'; // Defaults to weight 400
-import '@fontsource/source-code-pro/400.css'; // Specify weight
-import '@fontsource/source-code-pro/400-italic.css'; // Specify weight and style
+import '@fontsource/source-code-pro';
+import '@fontsource/source-code-pro/400.css';
+import '@fontsource/source-code-pro/400-italic.css';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from './styles/theme';
 import { NotificationProvider } from './context/NotificationProvider';

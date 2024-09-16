@@ -46,7 +46,9 @@ interface ISingUpCard {
   title?: string;
 }
 
-const SignUpCard: React.FC<ISingUpCard> = ({ title = 'User Sign up' }) => {
+const SignUpDoctorCard: React.FC<ISingUpCard> = ({
+  title = 'Doctor Sign up',
+}) => {
   const navigate = useNavigate();
   const {
     register,
@@ -61,7 +63,7 @@ const SignUpCard: React.FC<ISingUpCard> = ({ title = 'User Sign up' }) => {
       displayName: data.displayName,
       email: data.email,
       password: data.password,
-      role: UserRoleType.PATIENT,
+      role: UserRoleType.DOCTOR,
     };
 
     const response = await signupUser(payload);
@@ -117,7 +119,7 @@ const SignUpCard: React.FC<ISingUpCard> = ({ title = 'User Sign up' }) => {
             variant="body2"
             sx={{ fontSize: '1.25rem', fontWeight: 'bold' }}
           >
-            Role: User
+            Role: Doctor
           </Typography>
           <FormControlLabel
             control={<Checkbox name="confirm" color="primary" />}
@@ -140,7 +142,7 @@ const SignUpCard: React.FC<ISingUpCard> = ({ title = 'User Sign up' }) => {
             <Button type="submit" variant="contained" color="primary">
               Sign Up
             </Button>
-            <Button variant="text" onClick={() => navigate('/signin')}>
+            <Button variant="text" onClick={() => navigate('/signin-doctor')}>
               Sign In
             </Button>
           </ButtonAreaWrapper>
@@ -150,4 +152,4 @@ const SignUpCard: React.FC<ISingUpCard> = ({ title = 'User Sign up' }) => {
   );
 };
 
-export default SignUpCard;
+export default SignUpDoctorCard;

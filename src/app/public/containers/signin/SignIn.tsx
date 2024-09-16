@@ -90,7 +90,7 @@ const SignIn: React.FC = () => {
               component="div"
               align="center"
             >
-              <PersonPinIcon sx={{ fontSize: 50, color: '#777' }} />
+              User Sign In
             </Typography>
             <FormWrapper onSubmit={handleSubmit(onSignIn)}>
               <TextField
@@ -148,7 +148,7 @@ const SignIn: React.FC = () => {
                   Forgot Password
                 </Button>
               </Grid>
-              <Divider />
+              {/* <Divider />
               <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Button
                   onClick={handleDoctorSignInCLick}
@@ -158,7 +158,7 @@ const SignIn: React.FC = () => {
                 >
                   Are you doctor?
                 </Button>
-              </Box>
+              </Box> */}
             </FormWrapper>
           </CardContent>
         </Card>
