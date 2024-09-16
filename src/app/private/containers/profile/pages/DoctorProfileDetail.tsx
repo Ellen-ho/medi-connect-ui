@@ -20,7 +20,6 @@ import timezone from 'dayjs/plugin/timezone';
 import useSWR from 'swr';
 import toast from 'react-hot-toast';
 import {
-  createDoctorProfile,
   editDoctorProfile,
   getDoctorProfile,
 } from '../../../../../services/DoctorServices';
@@ -144,11 +143,8 @@ const DoctorProfileDetail: React.FC = () => {
     };
 
     let response;
-    if (hasProfile) {
-      response = await editDoctorProfile(payload);
-    } else {
-      response = await createDoctorProfile(payload);
-    }
+
+    response = await editDoctorProfile(payload);
 
     dispatch({
       type: 'UPDATE_PROFILE',
@@ -392,14 +388,14 @@ const DoctorProfileDetail: React.FC = () => {
                 title={'Languages Spoken'}
                 titleRightElement={
                   <Tooltip title={'Add new item'} placement="top">
-                    <IconButton>
-                      <AddCircleOutlineIcon
-                        onClick={() =>
-                          languagesSpokenAppend({
-                            name: '',
-                          })
-                        }
-                      />
+                    <IconButton
+                      onClick={() =>
+                        languagesSpokenAppend({
+                          name: '',
+                        })
+                      }
+                    >
+                      <AddCircleOutlineIcon />
                     </IconButton>
                   </Tooltip>
                 }
@@ -427,10 +423,11 @@ const DoctorProfileDetail: React.FC = () => {
                             }}
                           />
                           <Tooltip title={'Delete the item'} placement="top">
-                            <IconButton color={'error'}>
-                              <DeleteForeverIcon
-                                onClick={() => languagesSpokenRemove(index)}
-                              />
+                            <IconButton
+                              color={'error'}
+                              onClick={() => languagesSpokenRemove(index)}
+                            >
+                              <DeleteForeverIcon />
                             </IconButton>
                           </Tooltip>
                         </Box>
@@ -447,14 +444,14 @@ const DoctorProfileDetail: React.FC = () => {
                 title={'Education'}
                 titleRightElement={
                   <Tooltip title={'Add new item'} placement="top">
-                    <IconButton>
-                      <AddCircleOutlineIcon
-                        onClick={() =>
-                          educationAppend({
-                            name: '',
-                          })
-                        }
-                      />
+                    <IconButton
+                      onClick={() =>
+                        educationAppend({
+                          name: '',
+                        })
+                      }
+                    >
+                      <AddCircleOutlineIcon />
                     </IconButton>
                   </Tooltip>
                 }
@@ -485,10 +482,11 @@ const DoctorProfileDetail: React.FC = () => {
                             }}
                           />
                           <Tooltip title={'Delete the item'} placement="top">
-                            <IconButton color={'error'}>
-                              <DeleteForeverIcon
-                                onClick={() => educationRemove(index)}
-                              />
+                            <IconButton
+                              color={'error'}
+                              onClick={() => educationRemove(index)}
+                            >
+                              <DeleteForeverIcon />
                             </IconButton>
                           </Tooltip>
                         </Box>
@@ -505,14 +503,14 @@ const DoctorProfileDetail: React.FC = () => {
                 title={'Awards'}
                 titleRightElement={
                   <Tooltip title={'Add new item'} placement="top">
-                    <IconButton>
-                      <AddCircleOutlineIcon
-                        onClick={() =>
-                          awardsAppend({
-                            name: '',
-                          })
-                        }
-                      />
+                    <IconButton
+                      onClick={() =>
+                        awardsAppend({
+                          name: '',
+                        })
+                      }
+                    >
+                      <AddCircleOutlineIcon />
                     </IconButton>
                   </Tooltip>
                 }
@@ -543,10 +541,11 @@ const DoctorProfileDetail: React.FC = () => {
                             }}
                           />
                           <Tooltip title={'Delete the item'} placement="top">
-                            <IconButton color={'error'}>
-                              <DeleteForeverIcon
-                                onClick={() => awardsRemove(index)}
-                              />
+                            <IconButton
+                              color={'error'}
+                              onClick={() => awardsRemove(index)}
+                            >
+                              <DeleteForeverIcon />
                             </IconButton>
                           </Tooltip>
                         </Box>
@@ -563,14 +562,14 @@ const DoctorProfileDetail: React.FC = () => {
                 title={'Affiliations'}
                 titleRightElement={
                   <Tooltip title={'Add new item'} placement="top">
-                    <IconButton>
-                      <AddCircleOutlineIcon
-                        onClick={() =>
-                          affiliationsAppend({
-                            name: '',
-                          })
-                        }
-                      />
+                    <IconButton
+                      onClick={() =>
+                        affiliationsAppend({
+                          name: '',
+                        })
+                      }
+                    >
+                      <AddCircleOutlineIcon />
                     </IconButton>
                   </Tooltip>
                 }
@@ -601,10 +600,11 @@ const DoctorProfileDetail: React.FC = () => {
                             }}
                           />
                           <Tooltip title={'Delete the item'} placement="top">
-                            <IconButton color={'error'}>
-                              <DeleteForeverIcon
-                                onClick={() => affiliationsRemove(index)}
-                              />
+                            <IconButton
+                              color={'error'}
+                              onClick={() => affiliationsRemove(index)}
+                            >
+                              <DeleteForeverIcon />
                             </IconButton>
                           </Tooltip>
                         </Box>
