@@ -8,10 +8,17 @@ import HomeLandingLayout from '../../../layout/HomeLandingLayout';
 const Home: React.FC = () => {
   const { state } = useContext(AuthContext);
   const isLoggedIn = state.isLoggedIn;
+  const hasProfile = state.hasProfile;
 
-  return isLoggedIn ? (
-    <Navigate to="/home" />
-  ) : (
+  if (isLoggedIn) {
+    if (hasProfile) {
+      return <Navigate to="/home" replace />;
+    } else {
+      return <Navigate to="/profile" replace />;
+    }
+  }
+
+  return (
     <HomeLandingLayout>
       <HomeLanding />
     </HomeLandingLayout>
