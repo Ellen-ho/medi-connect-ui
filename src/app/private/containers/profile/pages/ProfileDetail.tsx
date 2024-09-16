@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import useSWR from 'swr';
 import {
-  createPatientProfile,
   editPatientProfile,
   getPatientProfile,
 } from '../../../../../services/PatientService';
@@ -123,11 +122,8 @@ const ProfileDetail: React.FC = () => {
     };
 
     let response;
-    if (hasProfile) {
-      response = await editPatientProfile(payload);
-    } else {
-      response = await createPatientProfile(payload);
-    }
+
+    response = await editPatientProfile(payload);
 
     dispatch({
       type: 'UPDATE_PROFILE',
@@ -318,15 +314,15 @@ const ProfileDetail: React.FC = () => {
                 title={'Medical History'}
                 titleRightElement={
                   <Tooltip title={'Add new item'} placement="top">
-                    <IconButton>
-                      <AddCircleOutlineIcon
-                        onClick={() =>
-                          medicalHistoryAppend({
-                            diagnosis: PersonalDiagnosisType.OTHER,
-                            diagnosisDetails: '',
-                          })
-                        }
-                      />
+                    <IconButton
+                      onClick={() =>
+                        medicalHistoryAppend({
+                          diagnosis: PersonalDiagnosisType.OTHER,
+                          diagnosisDetails: '',
+                        })
+                      }
+                    >
+                      <AddCircleOutlineIcon />
                     </IconButton>
                   </Tooltip>
                 }
@@ -392,10 +388,11 @@ const ProfileDetail: React.FC = () => {
                             )}
                           />
                           <Tooltip title={'Delete the item'} placement="top">
-                            <IconButton color={'error'}>
-                              <DeleteForeverIcon
-                                onClick={() => medicalHistoryRemove(index)}
-                              />
+                            <IconButton
+                              color={'error'}
+                              onClick={() => medicineUsageRemove(index)}
+                            >
+                              <DeleteForeverIcon />
                             </IconButton>
                           </Tooltip>
                         </Box>
@@ -411,16 +408,15 @@ const ProfileDetail: React.FC = () => {
                 title={'Family History'}
                 titleRightElement={
                   <Tooltip title={'Add new item'} placement="top">
-                    <IconButton>
-                      <AddCircleOutlineIcon
-                        onClick={() =>
-                          familyHistoryAppend({
-                            diagnosis: FamilyDiagnosisType.OTHER,
-                            diagnosisDetails: '',
-                            relationship: '',
-                          })
-                        }
-                      />
+                    <IconButton
+                      onClick={() =>
+                        medicalHistoryAppend({
+                          diagnosis: PersonalDiagnosisType.OTHER,
+                          diagnosisDetails: '',
+                        })
+                      }
+                    >
+                      <AddCircleOutlineIcon />
                     </IconButton>
                   </Tooltip>
                 }
@@ -492,10 +488,11 @@ const ProfileDetail: React.FC = () => {
                             {...register(`familyHistory.${index}.relationship`)}
                           />
                           <Tooltip title={'Delete the item'} placement="top">
-                            <IconButton color={'error'}>
-                              <DeleteForeverIcon
-                                onClick={() => familyHistoryRemove(index)}
-                              />
+                            <IconButton
+                              color={'error'}
+                              onClick={() => familyHistoryRemove(index)}
+                            >
+                              <DeleteForeverIcon />
                             </IconButton>
                           </Tooltip>
                         </Box>
@@ -511,18 +508,18 @@ const ProfileDetail: React.FC = () => {
                 title={'Medicince Usage'}
                 titleRightElement={
                   <Tooltip title={'Add new item'} placement="top">
-                    <IconButton>
-                      <AddCircleOutlineIcon
-                        onClick={() =>
-                          medicineUsageAppend({
-                            medicineName: '',
-                            medicineDosage: 0,
-                            medicineUnit: MedicineUnitType.MILLIGRAM,
-                            medicineTime: MedicineTimeType.OTHER,
-                            medicineFrequency: MedicineFrequencyType.OTHER,
-                          })
-                        }
-                      />
+                    <IconButton
+                      onClick={() =>
+                        medicineUsageAppend({
+                          medicineName: '',
+                          medicineDosage: 0,
+                          medicineUnit: MedicineUnitType.MILLIGRAM,
+                          medicineTime: MedicineTimeType.OTHER,
+                          medicineFrequency: MedicineFrequencyType.OTHER,
+                        })
+                      }
+                    >
+                      <AddCircleOutlineIcon />
                     </IconButton>
                   </Tooltip>
                 }
@@ -692,10 +689,11 @@ const ProfileDetail: React.FC = () => {
                           </Box>
 
                           <Tooltip title={'Delete the item'} placement="top">
-                            <IconButton color={'error'}>
-                              <DeleteForeverIcon
-                                onClick={() => medicineUsageRemove(index)}
-                              />
+                            <IconButton
+                              color={'error'}
+                              onClick={() => medicineUsageRemove(index)}
+                            >
+                              <DeleteForeverIcon />
                             </IconButton>
                           </Tooltip>
                         </Box>

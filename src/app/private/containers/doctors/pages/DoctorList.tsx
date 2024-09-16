@@ -1,6 +1,6 @@
 import PrimaryPageTop from '../../../../layout/PrimaryPageTop';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import { getDoctors } from '../../../../../services/DoctorServices';
+import { getDoctorList } from '../../../../../services/DoctorServices';
 import { useState } from 'react';
 import DoctorCard from '../components/DoctorCard';
 import useSWR from 'swr';
@@ -24,9 +24,9 @@ const DoctorList: React.FC = () => {
     MedicalSpecialtyType | 'All'
   >('All');
   const { data, isLoading } = useSWR(
-    `getDoctors?q=${page}${selectedSpecialty}`,
+    `getDoctorList?q=${page}${selectedSpecialty}`,
     () =>
-      getDoctors({
+      getDoctorList({
         query: {
           limit: 9,
           page: page,

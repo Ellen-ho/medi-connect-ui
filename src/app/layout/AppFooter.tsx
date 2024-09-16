@@ -3,11 +3,11 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
 import { Divider } from '@mui/material';
 import { mq } from '../../styles/media-query';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import { FaMedium } from 'react-icons/fa';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 function AppFooter() {
   const currentYear = new Date().getFullYear();
@@ -68,7 +68,7 @@ function AppFooter() {
                   Product
                 </Typography>
                 <Link
-                  href="#"
+                  href="/"
                   variant="body2"
                   display="block"
                   color="primary"
@@ -88,18 +88,6 @@ function AppFooter() {
                 >
                   Health Knowledge
                 </Typography>
-                <Link
-                  href="#"
-                  variant="body2"
-                  display="block"
-                  color="primary"
-                  underline="none"
-                  fontWeight="bold"
-                  fontSize={15}
-                  sx={{ marginBottom: 2 }}
-                >
-                  Our Blog
-                </Link>
                 <Link
                   href="/article/health-matrix"
                   variant="body2"
@@ -146,7 +134,7 @@ function AppFooter() {
                   Who We Are
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/signup-doctor"
                   variant="body2"
                   display="block"
                   color="primary"
@@ -154,7 +142,7 @@ function AppFooter() {
                   fontWeight="bold"
                   fontSize={15}
                 >
-                  Contact Us
+                  Join as a Doctor
                 </Link>
               </Box>
             </Box>
@@ -186,9 +174,19 @@ function AppFooter() {
               gap: '10px',
             }}
           >
-            <FacebookIcon />
-            <TwitterIcon />
-            <InstagramIcon />
+            <Link
+              href="https://github.com/Ellen-ho/medi-connect-api"
+              target="_blank"
+              rel="noopener"
+            >
+              <GitHubIcon sx={{ color: 'white', fontSize: 30 }} />
+            </Link>
+            <Link href="" target="_blank" rel="noopener">
+              <FaMedium style={{ color: 'white', fontSize: '30px' }} />
+            </Link>
+            <Link href="" target="_blank" rel="noopener">
+              <LinkedInIcon sx={{ color: 'white', fontSize: 30 }} />
+            </Link>
           </Box>
           <Box
             sx={{

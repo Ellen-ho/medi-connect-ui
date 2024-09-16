@@ -79,7 +79,7 @@ const SignInDoctor: React.FC = () => {
               component="div"
               align="center"
             >
-              <PersonPinIcon sx={{ fontSize: 50, color: '#777' }} />
+              Doctor Sign In
             </Typography>
             <FormWrapper onSubmit={handleSubmit(onSignIn)}>
               <TextField
@@ -102,19 +102,13 @@ const SignInDoctor: React.FC = () => {
                 <Button type="submit" variant="contained" color="primary">
                   Sign In
                 </Button>
-              </ButtonAreaWrapper>
-              <Grid
-                container
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Button variant="text" onClick={() => navigate('/signup')}>
+                <Button
+                  variant="text"
+                  onClick={() => navigate('/signup-doctor')}
+                >
                   Sign Up
                 </Button>
-                <Button variant="text" onClick={() => navigate('/input-email')}>
-                  Forgot Password
-                </Button>
-              </Grid>
+              </ButtonAreaWrapper>
             </FormWrapper>
           </CardContent>
         </Card>

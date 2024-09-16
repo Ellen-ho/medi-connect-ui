@@ -24,6 +24,7 @@ import SignInDoctor from './app/public/containers/signin-doctor/SignInDoctor';
 import LoadingComponent from './components/loading/Loading';
 import Article from './app/public/containers/article/Article';
 import TeamLanding from './app/public/containers/home/page/TeamLanding';
+import SignUpDoctor from './app/public/containers/signup/SignUpDoctor';
 
 const App: React.FC = () => {
   const isLoading = useInitAuth();
@@ -51,6 +52,7 @@ const App: React.FC = () => {
         <Route element={<SignIn />} path="/signin" />
         <Route element={<SignInDoctor />} path="/signin-doctor" />
         <Route element={<SignUp />} path="/signup" />
+        <Route element={<SignUpDoctor />} path="/signup-doctor" />
         <Route element={<MailForReset />} path="/input-email" />
         <Route element={<PasswordReset />} path="/reset-password" />
       </Route>

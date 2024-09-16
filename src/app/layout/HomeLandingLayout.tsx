@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import AppFooter from './AppFooter';
 import MainContent from './MainContent.styled';
 import ResponsiveAppBar from './ResponsiveAppBar';
@@ -9,7 +10,9 @@ const HomeLandingLayout: React.FC<IHomeLandingLayoutProps> = ({ children }) => {
   return (
     <>
       <ResponsiveAppBar />
-      <MainContent padding={'0'}>{children}</MainContent>
+      <Box sx={{ mb: '3rem' }}>
+        <MainContent padding={'0'}>{children}</MainContent>
+      </Box>
       <AppFooter />
     </>
   );

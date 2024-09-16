@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-  Avatar,
-  Button,
-  Paper,
-  Box,
-} from '@mui/material';
+import { Typography, Paper, Box } from '@mui/material';
 import DoctorCarousel from '../components/DoctorCarousel';
 import MissionCard from '../components/MissionCard';
 import HomeLandingLayout from '../../../../layout/HomeLandingLayout';

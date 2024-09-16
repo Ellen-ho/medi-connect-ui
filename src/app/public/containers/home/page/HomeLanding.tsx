@@ -6,7 +6,6 @@ import goalUrl from '/src/assets/home_icon_goal.png';
 import consultUrl from '/src/assets/home_icon_consult.png';
 import HomeJoin from '../components/HomeJoin';
 import HomeFaq from '../components/HomeFaq';
-import DoctorCarousel from '../components/DoctorCarousel';
 import { mq } from '../../../../../styles/media-query';
 
 const homeFeatureList = [
@@ -64,7 +63,7 @@ const HomeLanding: React.FC = () => {
               sx={mq({
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
+                alignItems: 'stretch',
                 gap: '30px',
                 width: ['90%', '90%', '70%'],
               })}
@@ -78,10 +77,20 @@ const HomeLanding: React.FC = () => {
               ))}
             </Box>
           </Box>
-          <DoctorCarousel />
-          <HomeJoin />
-          <HomeFaq />
-          <Divider sx={{ my: '1.5rem' }} />
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box
+              sx={mq({
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'stretch',
+                gap: '30px',
+                width: ['90%', '90%', '70%'],
+              })}
+            >
+              <HomeJoin />
+              <HomeFaq />
+            </Box>
+          </Box>
         </Box>
       </Box>
     </>

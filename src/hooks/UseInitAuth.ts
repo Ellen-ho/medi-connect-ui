@@ -1,10 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { getAuthFromCache } from '../utils/getAuthFromCache';
+import { UserRoleType } from '../types/Users';
+import { useNavigate } from 'react-router-dom';
 
 const useInitAuth = () => {
   const { dispatch } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const initializeAuth = async () => {
@@ -27,6 +30,18 @@ const useInitAuth = () => {
             hasProfile: cachedAuth.hasProfile as boolean,
           },
         });
+
+        if (cachedAuth.currentUser !== null) {
+          if (!cachedAuth.hasProfile) {
+            if (cachedAuth.currentUser.role === UserRoleType.DOCTOR) {
+              navigate('/profile/doctor', { replace: true });
+            }
+          } else if (cachedAuth.currentUser.role === UserRoleType.PATIENT) {
+            navigate('/profile', { replace: true });
+          }
+        } else {
+          navigate('/home', { replace: true });
+        }
       } else {
         dispatch({
           type: 'LOG_OUT',

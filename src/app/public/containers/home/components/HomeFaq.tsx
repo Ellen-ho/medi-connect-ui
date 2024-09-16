@@ -35,7 +35,7 @@ const faqs: FaqItem[] = [
       'At Medi Connect, we have licensed doctors who have undergone extensive medical training. Each holds a nationally recognized medical diploma and brings years of practical experience to their role. Our physicians specialize in various fields, offering a diverse range of expertise. Detailed profiles for each doctor are available on MediConnect, providing comprehensive insights into their backgrounds.',
   },
   {
-    question: 'What kind of health assistance can I receive on MediConnect?',
+    question: 'What kind of health assistance can I receive on Medi Connect?',
     answer:
       'Medi Connect offers two primary types of records—Health Matrix and Lifestyle—which enable users to effortlessly track their daily health data. The platform analyzes your health status using data collected over a consecutive 14-day period. Should your health be deemed critical, we will prompt you to seek further medical examination. For those with suboptimal health, we customize health goals tailored to individual needs. You can discuss these with your doctor in person or ask questions on the platform. Additionally, you can schedule online consultations with our physicians, helping you achieve your health goals more consistently.',
   },
