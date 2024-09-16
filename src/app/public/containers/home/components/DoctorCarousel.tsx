@@ -3,74 +3,8 @@ import Slider from 'react-slick';
 import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import doctor1Url from '/src/assets/doctor1.webp';
-
-const doctors = [
-  {
-    id: '1',
-    avatar: doctor1Url,
-    firstName: 'A',
-    lastName: 'Do',
-    specialties: ['Cardiology', 'Pediatrics'],
-    gender: 'Male',
-  },
-  {
-    id: '2',
-    avatar: 'https://via.placeholder.com/150',
-    firstName: 'B',
-    lastName: 'Do',
-    specialties: ['Dermatology'],
-    gender: 'Female',
-  },
-  {
-    id: '3',
-    avatar: 'https://via.placeholder.com/150',
-    firstName: 'C',
-    lastName: 'Do',
-    specialties: ['Neurology'],
-    gender: 'Female',
-  },
-  {
-    id: '4',
-    avatar: 'https://via.placeholder.com/150',
-    firstName: 'D',
-    lastName: 'Do',
-    specialties: ['Cardiology', 'Pediatrics'],
-    gender: 'Male',
-  },
-  {
-    id: '5',
-    avatar: 'https://via.placeholder.com/150',
-    firstName: 'E',
-    lastName: 'Do',
-    specialties: ['Dermatology'],
-    gender: 'Female',
-  },
-  {
-    id: '6',
-    avatar: 'https://via.placeholder.com/150',
-    firstName: 'F',
-    lastName: 'Do',
-    specialties: ['Neurology'],
-    gender: 'Female',
-  },
-  {
-    id: '7',
-    avatar: 'https://via.placeholder.com/150',
-    firstName: 'G',
-    lastName: 'Do',
-    specialties: ['Dermatology'],
-    gender: 'Female',
-  },
-  {
-    id: '8',
-    avatar: 'https://via.placeholder.com/150',
-    firstName: 'H',
-    lastName: 'Do',
-    specialties: ['Neurology'],
-    gender: 'Female',
-  },
-];
+import useSWR from 'swr';
+import { getDoctors } from '../../../../../services/ShareService';
 
 interface ArrowProps {
   className?: string;
@@ -143,6 +77,9 @@ const settings = {
 };
 
 const DoctorCarousel: React.FC = () => {
+  const { data, isLoading } = useSWR('getDoctors', () => getDoctors());
+  const formatText = (text: string) => text.replace(/_/g, ' ');
+
   return (
     <div className="slider-container" style={{ margin: '50px 0' }}>
       <Typography
@@ -152,9 +89,8 @@ const DoctorCarousel: React.FC = () => {
         Our medical team
       </Typography>
       <Slider {...settings}>
-        {doctors.map((doctor, index) => (
+        {data?.doctorData.map((doctor) => (
           <div key={doctor.id} style={{ margin: '2px 5px' }}>
-            {' '}
             <Card
               style={{
                 margin: 'auto',
@@ -162,7 +98,9 @@ const DoctorCarousel: React.FC = () => {
                 maxWidth: '500px',
                 height: '300px',
                 boxSizing: 'border-box',
-                backgroundColor: ['#E4F9E8', '#FFFEF5', '#FFF5F5'][index % 3],
+                backgroundColor: ['#E4F9E8', '#FFFEF5', '#FFF5F5'][
+                  Math.floor(Math.random() * 3)
+                ],
                 display: 'flex',
                 flexDirection: 'column',
               }}
@@ -177,7 +115,7 @@ const DoctorCarousel: React.FC = () => {
                   margin: '10px auto 0',
                   flex: '0 0 auto',
                 }}
-                image={doctor.avatar}
+                image={doctor.avatar || 'https://via.placeholder.com/150'}
                 alt={`${doctor.firstName} ${doctor.lastName}`}
               />
               <CardContent
@@ -192,10 +130,14 @@ const DoctorCarousel: React.FC = () => {
                 }}
               >
                 <Typography gutterBottom variant="h5" component="div">
-                  {doctor.firstName} {doctor.lastName}
+                  {formatText(doctor.firstName)} {formatText(doctor.lastName)}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Specialties: {doctor.specialties.join(', ')}
+                  {doctor.specialties?.length > 0
+                    ? doctor.specialties
+                        .map((specialty) => formatText(specialty))
+                        .join(', ')
+                    : 'No specialties available'}
                 </Typography>
               </CardContent>
             </Card>

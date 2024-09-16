@@ -2,14 +2,6 @@ import queryString from 'query-string';
 import { IPatient } from '../types/Patients';
 import api from './ApiService';
 
-// interface ICreatePatientProfileRequest extends IPatient {}
-
-// interface ICreatePatientProfileResponse extends IPatient {
-//   id: string;
-//   createdAt: Date;
-//   updatedAt: Date;
-// }
-
 export interface IEditPatientProfileRequest extends IPatient {}
 
 interface IEditPatientProfileResponse extends IPatient {
@@ -29,16 +21,6 @@ interface IGetPatientProfileResponse extends IPatient {
   createdAt: Date;
   updatedAt: Date;
 }
-
-// export const createPatientProfile = async (
-//   data: ICreatePatientProfileRequest,
-// ): Promise<ICreatePatientProfileResponse> => {
-//   const response = await api.post<ICreatePatientProfileResponse>(
-//     '/patients/profile',
-//     data,
-//   );
-//   return response.data;
-// };
 
 export const editPatientProfile = async (
   data: IEditPatientProfileRequest,

@@ -3,26 +3,6 @@ import { IAddress, IDoctor } from '../types/Doctors';
 import { GenderType, MedicalSpecialtyType } from '../types/Share';
 import api from './ApiService';
 
-// interface ICreateDoctorProfileRequest extends IDoctor {}
-
-// interface ICreateDoctorProfileResponse {
-//   id: string;
-//   avatar: string | null;
-//   firstName: string;
-//   lastName: string;
-//   gender: GenderType;
-//   aboutMe: string;
-//   languagesSpoken: string[];
-//   specialties: MedicalSpecialtyType[];
-//   careerStartDate: Date;
-//   officePracticalLocation: IAddress;
-//   education: string[];
-//   awards: string[] | null;
-//   affiliations: string[] | null;
-//   createdAt: Date;
-//   updatedAt: Date;
-// }
-
 interface IEditDoctorProfileRequest extends IDoctor {}
 
 interface IEditDoctorProfileResponse extends IDoctor {
@@ -85,16 +65,6 @@ export interface IGetDoctorListResponse {
     next: number;
   };
 }
-
-// export const createDoctorProfile = async (
-//   data: ICreateDoctorProfileRequest,
-// ): Promise<ICreateDoctorProfileResponse> => {
-//   const response = await api.post<ICreateDoctorProfileResponse>(
-//     '/doctors/profile',
-//     data,
-//   );
-//   return response.data;
-// };
 
 export const editDoctorProfile = async (
   data: IEditDoctorProfileRequest,
