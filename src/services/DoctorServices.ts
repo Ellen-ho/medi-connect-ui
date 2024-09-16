@@ -3,25 +3,25 @@ import { IAddress, IDoctor } from '../types/Doctors';
 import { GenderType, MedicalSpecialtyType } from '../types/Share';
 import api from './ApiService';
 
-interface ICreateDoctorProfileRequest extends IDoctor {}
+// interface ICreateDoctorProfileRequest extends IDoctor {}
 
-interface ICreateDoctorProfileResponse {
-  id: string;
-  avatar: string | null;
-  firstName: string;
-  lastName: string;
-  gender: GenderType;
-  aboutMe: string;
-  languagesSpoken: string[];
-  specialties: MedicalSpecialtyType[];
-  careerStartDate: Date;
-  officePracticalLocation: IAddress;
-  education: string[];
-  awards: string[] | null;
-  affiliations: string[] | null;
-  createdAt: Date;
-  updatedAt: Date;
-}
+// interface ICreateDoctorProfileResponse {
+//   id: string;
+//   avatar: string | null;
+//   firstName: string;
+//   lastName: string;
+//   gender: GenderType;
+//   aboutMe: string;
+//   languagesSpoken: string[];
+//   specialties: MedicalSpecialtyType[];
+//   careerStartDate: Date;
+//   officePracticalLocation: IAddress;
+//   education: string[];
+//   awards: string[] | null;
+//   affiliations: string[] | null;
+//   createdAt: Date;
+//   updatedAt: Date;
+// }
 
 interface IEditDoctorProfileRequest extends IDoctor {}
 
@@ -67,8 +67,7 @@ export interface IGetDoctorItem {
   lastName: string;
   specialties: MedicalSpecialtyType[];
 }
-
-interface IGetDoctorsRequest {
+interface IGetDoctorListRequest {
   query: {
     page: number;
     limit: number;
@@ -76,7 +75,7 @@ interface IGetDoctorsRequest {
   };
 }
 
-export interface IGetDoctorsResponse {
+export interface IGetDoctorListResponse {
   data: Array<IGetDoctorItem>;
   pagination: {
     pages: number[];
@@ -87,15 +86,15 @@ export interface IGetDoctorsResponse {
   };
 }
 
-export const createDoctorProfile = async (
-  data: ICreateDoctorProfileRequest,
-): Promise<ICreateDoctorProfileResponse> => {
-  const response = await api.post<ICreateDoctorProfileResponse>(
-    '/doctors/profile',
-    data,
-  );
-  return response.data;
-};
+// export const createDoctorProfile = async (
+//   data: ICreateDoctorProfileRequest,
+// ): Promise<ICreateDoctorProfileResponse> => {
+//   const response = await api.post<ICreateDoctorProfileResponse>(
+//     '/doctors/profile',
+//     data,
+//   );
+//   return response.data;
+// };
 
 export const editDoctorProfile = async (
   data: IEditDoctorProfileRequest,
@@ -125,10 +124,10 @@ export const getDoctorStatistic = async (
   return response.data;
 };
 
-export const getDoctors = async (
-  data: IGetDoctorsRequest,
-): Promise<IGetDoctorsResponse> => {
+export const getDoctorList = async (
+  data: IGetDoctorListRequest,
+): Promise<IGetDoctorListResponse> => {
   const queries = queryString.stringify(data.query);
-  const response = await api.get<IGetDoctorsResponse>(`/doctors?${queries}`);
+  const response = await api.get<IGetDoctorListResponse>(`/doctors?${queries}`);
   return response.data;
 };
