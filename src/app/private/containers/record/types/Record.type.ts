@@ -16,7 +16,7 @@ import {
 
 type FieldType = 'text' | 'number' | 'date' | 'datetime-local' | 'select';
 
-interface IField {
+export interface IField {
   id: string;
   name: string;
   type: FieldType;
