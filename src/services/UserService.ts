@@ -105,7 +105,7 @@ export const loginUser = async (
   return response.data;
 };
 
-export const signupUser = async (
+export const registerNewUser = async (
   data: ISignupRequest,
 ): Promise<ISignupResponse> => {
   const response = await api.post<ISignupResponse>('/users', data);

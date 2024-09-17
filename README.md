@@ -9,14 +9,11 @@
 <br>
 <br>
 <p align="center">
-  <a href="https://medi-connect-ui.vercel.app">Join Hands for an Empowering Journey to Health and Vitality!</a>
+  <a href="https://medi-connect-ui.vercel.app">Join Medi Connect!</a>
   <a href="https://github.com/Ellen-ho/medi-connect-api#seeder">(test account)</a>
 </p>
 
 <br>
-
-> [!NOTE]  
-> Facebook authentication works fine in local development mode, but due to recent changes in Meta for Developers, using Facebook OAuth now requires the product to be officially launched and pass business verification. Since Medi-Connect is a side project, the Facebook authentication feature is currently not functioning as expected on production.
 
 ## Table of contents
 
@@ -78,7 +75,7 @@ Recognizing physicians' constraints on time and presence, the platform aids in g
 As a patient member, you can...
 
 1. Sign up for a Medi-Connect account to embark on your journey towards a healthier lifestyle.
-2. Sign in using your registered email and password, or alternatively, you can also log in with your Facebook account. (**Facebook authentication works fine in local development mode, but due to recent changes in Meta for Developers, using Facebook OAuth now requires the product to be officially launched and pass business verification. Since Medi-Connect is a side project, the Facebook authentication feature is currently not functioning as expected on production**)
+2. Sign in using your registered email and password, or alternatively, you can also log in with your Facebook account.
 3. Create your personal profile in order to commence the use of other services on the plant.
 4. Edit your account or your personal profile.
 5. Add your health records, with the platform offering seven categories of health record classifications, including blood pressure, blood sugar, glycated hemoglobin, sleep, exercise, diet, and weight.
@@ -97,6 +94,7 @@ As a patient member, you can...
 18. Receive the health goal plan sent by the platform when you have maintained records for two consecutive weeks.
 19. Accept the health goal plan and commence your plan accordingly.
 20. Decline the health goal plan provided by the platform.
+21. Click "Forgot Password" if you forget your password, and follow the link sent to your email to reset your password.
 
 ### Doctor
 
@@ -117,12 +115,7 @@ As a doctor member, you can...
 13. View the profile, records, and goals of the patient who has scheduled an appointment with you when the appointment status is "upcoming."
 14. Receive the Google Meet link for the respective appointment 22 hours prior to the scheduled appointment time.
 15. View the number of agreements and expressions of gratitude received for each of your responses.
-
-## Todos
-
-1. Elaborate the doctor's sign-up procedure by incorporating more comprehensive steps, including the submission of educational credentials and medical certificates.
-2. Modify the image uploading process for users to store images on other cloud storage service.
-3. Integrate additional social features, like doctors being able to share specialized articles to educate patients about different medical disciplines, and enabling patients to interact and motivate each other through mutual communication.
+16. Click "Forgot Password" if you forget your password, and follow the link sent to your email to reset your password.
 
 ## Local development
 

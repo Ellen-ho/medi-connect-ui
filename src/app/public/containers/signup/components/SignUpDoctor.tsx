@@ -16,7 +16,7 @@ import {
   Typography,
   Link,
 } from '@mui/material';
-import { signupUser } from '../../../../../services/UserService';
+import { registerNewUser } from '../../../../../services/UserService';
 import { FormWrapper } from '../../../../../components/form/Index.styled';
 import { ButtonAreaWrapper } from '../../../../layout/CommonWrapper.styled';
 import { UserRoleType } from '../../../../../types/Users';
@@ -26,7 +26,6 @@ interface ISignUpFormInputs {
   email: string;
   password: string;
   confirmPassword: string;
-  role: string;
 }
 
 const schema = yup
@@ -38,7 +37,6 @@ const schema = yup
       .string()
       .oneOf([yup.ref('password')], 'Passwords must match')
       .required('Confirm Password is required'),
-    role: yup.string().required(),
   })
   .required();
 
@@ -66,7 +64,7 @@ const SignUpDoctorCard: React.FC<ISingUpCard> = ({
       role: UserRoleType.DOCTOR,
     };
 
-    const response = await signupUser(payload);
+    const response = await registerNewUser(payload);
     navigate('/signin');
   };
 
