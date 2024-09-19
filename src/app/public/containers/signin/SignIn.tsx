@@ -75,10 +75,6 @@ const SignIn: React.FC = () => {
     window.open(`${APP_SERVER_URL}/api/auth/facebook`, '_self');
   };
 
-  const handleDoctorSignInCLick = () => {
-    navigate('/signin-doctor');
-  };
-
   return (
     <PrimaryPageContent>
       <SignInWrapper>
@@ -97,14 +93,17 @@ const SignIn: React.FC = () => {
                 label="Email"
                 type="email"
                 size="small"
+                defaultValue="john@gmail.com"
                 {...register('email')}
                 error={!!errors.email}
                 helperText={<>{errors.email?.message}</>}
               />
+
               <TextField
                 label="Password"
                 type="password"
                 size="small"
+                defaultValue="12345678"
                 {...register('password')}
                 error={!!errors.password}
                 helperText={<>{errors.password?.message}</>}
