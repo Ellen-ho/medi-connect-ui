@@ -181,7 +181,11 @@ function AppFooter() {
             >
               <GitHubIcon sx={{ color: 'white', fontSize: 30 }} />
             </Link>
-            <Link href="" target="_blank" rel="noopener">
+            <Link
+              href="https://medium.com/@ellen31725"
+              target="_blank"
+              rel="noopener"
+            >
               <FaMedium style={{ color: 'white', fontSize: '30px' }} />
             </Link>
             <Link href="" target="_blank" rel="noopener">
