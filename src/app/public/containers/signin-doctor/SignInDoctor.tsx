@@ -8,16 +8,13 @@ import * as yup from 'yup';
 import PrimaryPageContent from '../../../layout/PrimaryPageContent';
 import { SignInWrapper } from './SignIn.styled';
 import {
-  Box,
   Button,
   Card,
   CardContent,
-  Grid,
   TextField,
   Typography,
 } from '@mui/material';
 import { FormWrapper } from '../../../../components/form/Index.styled';
-import PersonPinIcon from '@mui/icons-material/PersonPin';
 import { ButtonAreaWrapper } from '../../../layout/CommonWrapper.styled';
 
 interface ISignInFormInputs {
@@ -42,6 +39,10 @@ const SignInDoctor: React.FC = () => {
     formState: { errors },
   } = useForm<ISignInFormInputs>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      email: 'jim@gmail.com',
+      password: '12345678',
+    },
   });
 
   const onSignIn = async (data: ISignInFormInputs) => {
