@@ -5,9 +5,6 @@ import Link from '@mui/material/Link';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import { Divider } from '@mui/material';
 import { mq } from '../../styles/media-query';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import { FaMedium } from 'react-icons/fa';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 function AppFooter() {
   const currentYear = new Date().getFullYear();
@@ -165,33 +162,6 @@ function AppFooter() {
             gap: '15px',
           }}
         >
-          <Box
-            sx={{
-              display: 'flex',
-
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '10px',
-            }}
-          >
-            <Link
-              href="https://github.com/Ellen-ho/medi-connect-api"
-              target="_blank"
-              rel="noopener"
-            >
-              <GitHubIcon sx={{ color: 'white', fontSize: 30 }} />
-            </Link>
-            <Link
-              href="https://medium.com/@ellen31725"
-              target="_blank"
-              rel="noopener"
-            >
-              <FaMedium style={{ color: 'white', fontSize: '30px' }} />
-            </Link>
-            <Link href="" target="_blank" rel="noopener">
-              <LinkedInIcon sx={{ color: 'white', fontSize: 30 }} />
-            </Link>
-          </Box>
           <Box
             sx={{
               display: 'flex',
