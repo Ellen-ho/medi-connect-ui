@@ -170,10 +170,10 @@ function AppFooter() {
               gap: '20px',
             }}
           >
-            <Link href="#" underline="hover">
+            <Link href="/terms" underline="hover">
               Terms
             </Link>
-            <Link href="#" underline="hover">
+            <Link href="/privacy" underline="hover">
               Privacy
             </Link>
           </Box>

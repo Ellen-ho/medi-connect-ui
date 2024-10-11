@@ -25,6 +25,8 @@ import LoadingComponent from './components/loading/Loading';
 import Article from './app/public/containers/article/Article';
 import TeamLanding from './app/public/containers/home/page/TeamLanding';
 import SignUpDoctor from './app/public/containers/signup/SignUpDoctor';
+import Term from './app/layout/Term';
+import Privacy from './app/layout/Privacy';
 
 const App: React.FC = () => {
   const isLoading = useInitAuth();
@@ -59,6 +61,8 @@ const App: React.FC = () => {
       <Route element={<Article />} path="/article/*" />
       <Route element={<TeamLanding />} path="/team" />
       <Route element={<Home />} path="/" />
+      <Route element={<Term />} path="/terms" />
+      <Route element={<Privacy />} path="/privacy" />
       <Route element={<NotFound />} path="" />
     </Routes>
   );
