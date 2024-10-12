@@ -52,10 +52,22 @@ const RecordCalendar: React.FC<IRecordCalendarProps> = ({
   }, [events]);
 
   const handleDatesSet = (dateInfo: DatesSetArg) => {
-    const startDate = dayjs(dateInfo.start).format('YYYY-MM-DD');
-    const endDate = dayjs(dateInfo.end).subtract(1, 'day').format('YYYY-MM-DD');
-    dateRangeChangeCallback(startDate, endDate);
+    const today = dayjs();
+    const currentStartDate = dayjs(dateInfo.start)
+      .startOf('month')
+      .format('YYYY-MM-DD');
+    let currentEndDate = dayjs(dateInfo.end)
+      .subtract(1, 'day')
+      .endOf('month')
+      .format('YYYY-MM-DD');
+
+    if (dayjs(currentEndDate).isAfter(today)) {
+      currentEndDate = today.format('YYYY-MM-DD');
+    }
+
+    dateRangeChangeCallback(currentStartDate, currentEndDate);
   };
+
   return (
     <>
       <Box marginBottom={'1rem'}>
