@@ -72,8 +72,6 @@ const QuestionList: React.FC = () => {
   };
 
   const handleClickViewAnswer = () => navigate('/question/answer');
-  console.log(showMyQuestion);
-  console.log(askerId);
   const { data } = useSWR(
     `getQuestions?q=${page}?q=${searchKeyword}?q=${selectedSpecialty}q=${showMyQuestion}`,
     () =>

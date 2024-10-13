@@ -79,8 +79,6 @@ const DoctorAppointmentList: React.FC<IDoctorAppointmentListProps> = ({
     },
   );
 
-  console.log(data);
-
   return (
     <>
       <BasicCard title={'Upcoming'}>
