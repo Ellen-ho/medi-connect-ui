@@ -1,10 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import FullCalendar from '@fullcalendar/react';
-import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { DatesSetArg, EventSourceInput } from '@fullcalendar/core';
 import dayjs from 'dayjs';
-import { getCurrentMonthDateRange } from '../../../../../utils/getCurrentMonthDateRange';
 import { Box } from '@mui/material';
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded';
 
@@ -51,22 +49,17 @@ const RecordCalendar: React.FC<IRecordCalendarProps> = ({
     return getCalendarEventFormat(events);
   }, [events]);
 
-  const handleDatesSet = (dateInfo: DatesSetArg) => {
-    const today = dayjs();
-    const currentStartDate = dayjs(dateInfo.start)
-      .startOf('month')
-      .format('YYYY-MM-DD');
-    let currentEndDate = dayjs(dateInfo.end)
-      .subtract(1, 'day')
-      .endOf('month')
-      .format('YYYY-MM-DD');
+  const handleDatesSet = useCallback(
+    (dateInfo: DatesSetArg) => {
+      requestAnimationFrame(() => {
+        const currentStartDate = dayjs(dateInfo.startStr).format('YYYY-MM-DD');
+        const currentEndDate = dayjs(dateInfo.endStr).format('YYYY-MM-DD');
 
-    if (dayjs(currentEndDate).isAfter(today)) {
-      currentEndDate = today.format('YYYY-MM-DD');
-    }
-
-    dateRangeChangeCallback(currentStartDate, currentEndDate);
-  };
+        dateRangeChangeCallback(currentStartDate, currentEndDate);
+      });
+    },
+    [dateRangeChangeCallback],
+  );
 
   return (
     <>
@@ -77,20 +70,22 @@ const RecordCalendar: React.FC<IRecordCalendarProps> = ({
         </Box>
       </Box>
       <FullCalendar
-        plugins={[timeGridPlugin, dayGridPlugin]}
+        plugins={[dayGridPlugin]}
         initialView="dayGridMonth"
-        initialDate={new Date()}
         validRange={{
+          start: '2023-01-01',
           end: new Date(),
         }}
         headerToolbar={{
           left: 'prev,next',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek',
+          right: 'dayGridMonth',
         }}
         events={fullCalendarEvents}
         eventClick={(info) => {
-          eventClickCallback(info.event.id);
+          requestAnimationFrame(() => {
+            eventClickCallback(info.event.id);
+          });
         }}
         datesSet={handleDatesSet}
       />

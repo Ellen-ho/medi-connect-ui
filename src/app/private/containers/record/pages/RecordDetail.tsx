@@ -50,7 +50,6 @@ const RecordDetail: React.FC = () => {
                   typeId !== undefined
                     ? getUnitForField(typeId, key)
                     : undefined;
-                console.log(unit);
                 if (key === 'id' || key === 'updatedAt') {
                   return null;
                 }

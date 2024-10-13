@@ -1,4 +1,4 @@
-import { Button, Pagination, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
 import { useContext, useState } from 'react';
@@ -53,15 +53,28 @@ const RecordList: React.FC = () => {
     }
   };
 
-  const { data } = useSWR('getRecords', () =>
-    getRecords({
-      urlPath: typeId as string,
-      query: {
-        targetPatientId: (targetPatientId || state.patientId) as string,
-        startDate: dateRange.startDate,
-        endDate: dateRange.endDate,
-      },
-    }),
+  const queryKey = JSON.stringify({
+    targetPatientId: targetPatientId || state.patientId,
+    startDate: dateRange.startDate,
+    endDate: dateRange.endDate,
+  });
+
+  const { data } = useSWR(
+    queryKey,
+    () =>
+      getRecords({
+        urlPath: typeId as string,
+        query: {
+          targetPatientId: (targetPatientId || state.patientId) as string,
+          startDate: dateRange.startDate,
+          endDate: dateRange.endDate,
+        },
+      }),
+    {
+      dedupingInterval: 5000,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    },
   );
 
   const recordData = data?.recordsData;
