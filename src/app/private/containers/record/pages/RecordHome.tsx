@@ -24,7 +24,7 @@ const RecordHome: React.FC = () => {
         <CommonWrapper>
           <PrimaryPageTop pageTitle="Records" />
           {recordCategories.map((category) => (
-            <Box>
+            <Box key={category.title}>
               <Typography
                 gutterBottom
                 variant="h6"

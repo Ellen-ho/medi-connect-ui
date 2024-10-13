@@ -331,6 +331,7 @@ const ProfileDetail: React.FC = () => {
                   {medicalHistoryFields &&
                     medicalHistoryFields.map((history, index) => (
                       <RowItem
+                        key={history.id || index}
                         label={`#${index + 1}`}
                         rightElementSx={{ flexBasis: '90%' }}
                       >
@@ -425,6 +426,7 @@ const ProfileDetail: React.FC = () => {
                   {familyHistoryFields &&
                     familyHistoryFields.map((history, index) => (
                       <RowItem
+                        key={history.id || index}
                         label={`#${index + 1}`}
                         rightElementSx={{ flexBasis: '90%' }}
                       >
@@ -528,6 +530,7 @@ const ProfileDetail: React.FC = () => {
                   {medicineUsageFields &&
                     medicineUsageFields.map((usage, index) => (
                       <RowItem
+                        key={usage.id || index}
                         label={`#${index + 1}`}
                         rightElementSx={{ flexBasis: '90%' }}
                       >
