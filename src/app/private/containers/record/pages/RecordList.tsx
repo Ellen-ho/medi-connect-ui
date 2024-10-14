@@ -1,7 +1,7 @@
-import { Button } from '@mui/material';
+import React, { useContext, useState, useCallback, useMemo } from 'react';
+import { Button, CircularProgress } from '@mui/material';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import PrimaryPageContent from '../../../../layout/PrimaryPageContent';
-import { useContext, useState } from 'react';
 import { getRecordCategory } from '../helpers/getRecordCategory';
 import SecondaryPageTop from '../../../../layout/SecondaryPageTop';
 import { getRecords } from '../../../../../services/RecordService';
@@ -20,98 +20,123 @@ const RecordList: React.FC = () => {
   const [searchParams] = useSearchParams();
   const targetPatientId = searchParams.get('targetPatientId');
 
-  const { currentStartDate, currentEndDate } = getCurrentMonthDateRange(
-    new Date(),
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const { currentStartDate, currentEndDate } = useMemo(
+    () => getCurrentMonthDateRange(currentDate),
+    [currentDate],
   );
-  const [dateRange, setDateRange] = useState<{
-    startDate: string;
-    endDate: string;
-  }>({
-    startDate: currentStartDate,
-    endDate: currentEndDate,
-  });
 
   const navigate = useNavigate();
 
-  const handleNewRecord = () => {
+  const handleNewRecord = useCallback(() => {
     navigate(`/record/${recordCategory?.urlPath}/new`);
-  };
+  }, [navigate, recordCategory]);
 
-  const handleClickRecord = (recordId: string) => {
-    navigate({
-      pathname: `/record/${recordCategory?.urlPath}/${recordId}`,
-      search: isDoctor ? `?targetPatientId=${targetPatientId}` : '',
-    });
-  };
-
-  const handleDateRangeChange = (startDate: string, endDate: string) => {
-    if (startDate !== dateRange.startDate || endDate !== dateRange.endDate) {
-      setDateRange({
-        startDate,
-        endDate,
+  const handleClickRecord = useCallback(
+    (recordId: string) => {
+      navigate({
+        pathname: `/record/${recordCategory?.urlPath}/${recordId}`,
+        search: isDoctor ? `?targetPatientId=${targetPatientId}` : '',
       });
-    }
-  };
+    },
+    [navigate, recordCategory, isDoctor, targetPatientId],
+  );
 
-  const queryKey = JSON.stringify({
-    targetPatientId: targetPatientId || state.patientId,
-    startDate: dateRange.startDate,
-    endDate: dateRange.endDate,
-  });
+  const handleDateChange = useCallback((date: Date) => {
+    setCurrentDate(date);
+  }, []);
 
-  const { data } = useSWR(
+  const queryKey = useMemo(
+    () =>
+      JSON.stringify({
+        targetPatientId: targetPatientId || state.patientId,
+        startDate: currentStartDate,
+        endDate: currentEndDate,
+      }),
+    [targetPatientId, state.patientId, currentStartDate, currentEndDate],
+  );
+
+  const { data, error, isValidating } = useSWR(
     queryKey,
     () =>
       getRecords({
         urlPath: typeId as string,
         query: {
           targetPatientId: (targetPatientId || state.patientId) as string,
-          startDate: dateRange.startDate,
-          endDate: dateRange.endDate,
+          startDate: currentStartDate,
+          endDate: currentEndDate,
         },
       }),
     {
       dedupingInterval: 5000,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
+      keepPreviousData: true,
     },
   );
 
-  const recordData = data?.recordsData;
+  const recordData = data?.recordsData || [];
 
   return (
-    <>
-      <PrimaryPageContent>
-        <CommonWrapper>
-          <SecondaryPageTop
-            onBack={() =>
-              navigate({
-                pathname: '/record',
-                search: targetPatientId
-                  ? `?targetPatientId=${targetPatientId}`
-                  : '',
-              })
-            }
-            rightElement={
-              !isDoctor && (
-                <Button onClick={handleNewRecord} variant="contained">
-                  Add Record
-                </Button>
-              )
-            }
-          />
-          {recordData ? (
-            <RecordCalendar
-              events={recordData}
-              eventClickCallback={handleClickRecord}
-              dateRangeChangeCallback={handleDateRangeChange}
-            />
-          ) : (
+    <PrimaryPageContent>
+      <CommonWrapper>
+        <SecondaryPageTop
+          onBack={() =>
+            navigate({
+              pathname: '/record',
+              search: targetPatientId
+                ? `?targetPatientId=${targetPatientId}`
+                : '',
+            })
+          }
+          rightElement={
+            !isDoctor && (
+              <Button onClick={handleNewRecord} variant="contained">
+                Add Record
+              </Button>
+            )
+          }
+        />
+        <div
+          style={{
+            position: 'relative',
+            minHeight: '600px',
+            transition: 'all 0.3s ease-in-out',
+          }}
+        >
+          {error ? (
             <NoDataFound />
+          ) : (
+            <>
+              {isValidating && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    background: 'rgba(255, 255, 255, 0.7)',
+                    zIndex: 1,
+                  }}
+                >
+                  <CircularProgress />
+                </div>
+              )}
+              <RecordCalendar
+                events={recordData}
+                eventClickCallback={handleClickRecord}
+                onDateChange={handleDateChange}
+                currentDate={currentDate}
+              />
+            </>
           )}
-        </CommonWrapper>
-      </PrimaryPageContent>
-    </>
+        </div>
+      </CommonWrapper>
+    </PrimaryPageContent>
   );
 };
 
