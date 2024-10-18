@@ -32,12 +32,12 @@ const useInitAuth = () => {
         });
 
         if (cachedAuth.currentUser !== null) {
-          if (!cachedAuth.hasProfile) {
+          if (cachedAuth.hasProfile === false) {
             if (cachedAuth.currentUser.role === UserRoleType.DOCTOR) {
               navigate('/profile/doctor', { replace: true });
+            } else if (cachedAuth.currentUser.role === UserRoleType.PATIENT) {
+              navigate('/profile', { replace: true });
             }
-          } else if (cachedAuth.currentUser.role === UserRoleType.PATIENT) {
-            navigate('/profile', { replace: true });
           }
         } else {
           navigate('/home', { replace: true });
