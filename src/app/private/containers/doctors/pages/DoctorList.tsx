@@ -132,7 +132,7 @@ const DoctorList: React.FC = () => {
           {data &&
             data.data.map((doctor) => (
               <Grid item xs={12} sm={6} md={4} lg={4} key={doctor.id}>
-                <DoctorCard data={doctor} />
+                <DoctorCard key={doctor.id} data={doctor} />
               </Grid>
             ))}
         </Grid>
