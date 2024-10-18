@@ -29,7 +29,7 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
     resolver: yupResolver(subCategoryMeta.formSchema),
   });
 
-  const onCreateQuestion = async (data: unknown) => {
+  const onCreateRecord = async (data: unknown) => {
     const payload = data;
     const createRecordService = subCategoryMeta.createRecordService();
     await createRecordService(payload);
@@ -38,7 +38,7 @@ const CreateRecordForm: React.FC<ICreateRecordFormProps> = ({
   };
 
   return (
-    <FormWrapper onSubmit={handleSubmit(onCreateQuestion)}>
+    <FormWrapper onSubmit={handleSubmit(onCreateRecord)}>
       {subCategoryMeta.fields.map((field) => (
         <FormControl key={field.id}>
           {field.type === 'select' ? (
