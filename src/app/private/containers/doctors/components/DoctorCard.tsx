@@ -75,11 +75,19 @@ const DoctorCard: React.FC<IDoctorCard> = ({ data }) => {
             Dr. {data.firstName} {data.lastName}
           </Typography>
           <Box>
-            <Typography variant="body1" sx={{ textAlign: 'center' }}>
-              {data.specialties.map((v) => (
-                <Chip label={toSentenceCaseFormat(v)} sx={{ m: '.1rem' }} />
+            <Typography
+              variant="body1"
+              component="div"
+              sx={{ textAlign: 'center' }}
+            >
+              {data.specialties.map((v, index) => (
+                <Chip
+                  key={index}
+                  label={toSentenceCaseFormat(v)}
+                  sx={{ m: '.1rem' }}
+                />
               ))}
-            </Typography>{' '}
+            </Typography>
           </Box>
         </Box>
         <Box
