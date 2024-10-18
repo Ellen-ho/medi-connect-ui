@@ -24,7 +24,7 @@ const SearchBar: FC<ISearchBarProps> = ({ onSearch }) => {
     <Input
       sx={{ margin: '10px' }}
       value={searchKeyword}
-      placeholder="Search…"
+      placeholder="Keyword & hit Enter"
       onChange={handleInputChange}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
